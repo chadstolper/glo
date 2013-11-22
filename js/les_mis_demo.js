@@ -13,6 +13,7 @@ var xscale, yscale
 var transition_duration = 2000
 
 var force
+var substrates
 
 
 var width = 700
@@ -69,15 +70,9 @@ d3.csv("data/LesMis/nodes.csv",function(nodes){
       .linkDistance(75)
       .size([width,height])
 
-    xscale = d3.scale.linear()
-      .range([0,width])
-      .domain([0,d3.max(graph.nodes.map(function(d){return d.betweenness_centrality; }))])
-      .nice()
+    
 
-     yscale = d3.scale.linear()
-      .range([height,0])
-      .domain([0,d3.max(graph.nodes.map(function(d){return d.degree; }))])
-      .nice()
+     
 
   })
 })
@@ -102,7 +97,8 @@ var force_directed = function(){
         .data(graph.nodes)
       .enter().append("circle")
         .classed("node",true)
-        .attr("r", function(d){ return d.degree; })
+        // .attr("r", function(d){ return d.degree; })
+        .attr("r",5)
         .attr("fill", function(d){ return color(d.modularity_class); })
 
     node.append("title")
@@ -127,11 +123,18 @@ var hide_links = function(){
   link.style("visibility","hidden")
 }
 
+var show_links = function(){
+  link.style("visibility","visible")
+}
+
 
 var transition_x = function(){
   mlgo_buttons.attr("disabled","true")
 
-  
+  xscale = d3.scale.linear()
+      .range([0,width])
+      .domain([0,d3.max(graph.nodes.map(function(d){return d.betweenness_centrality; }))])
+      .nice()
 
 
   node.transition().duration(transition_duration)
@@ -153,6 +156,10 @@ var transition_x = function(){
 var transition_y = function(){
   mlgo_buttons.attr("disabled","true")
  
+  yscale = d3.scale.linear()
+      .range([height,0])
+      .domain([0,d3.max(graph.nodes.map(function(d){return d.degree; }))])
+      .nice()
 
   node.transition().duration(transition_duration)
     .attr("cy",function(d){
@@ -190,12 +197,66 @@ var draw_y_axis = function(){
     .call(yaxis)
 }
 
+var substrate = function(){
+  if(!substrates){
+    substrates = d3.nest()
+      .key(function(d){return d.modularity_class})
+      .entries(graph.nodes)
+  }
+  return substrates
+}
+
+var substrate_on_y = function(){
+
+  var substrates = substrate()
+
+  yscale = d3.scale.ordinal()
+    .domain(substrates.map(function(d){return d.key; }))
+    .rangePoints([height,0],1.0)
+
+  node.transition().duration(transition_duration)
+    .attr("cy",function(d){
+      d.y = yscale(d.modularity_class)
+      return d.y
+    })
+    .each("end",function(){
+      mlgo_buttons.attr("disabled",null)
+    })
+
+  link.transition().duration(transition_duration)
+    .attr("y1", function(d) { return d.source.y; })
+    .attr("y2", function(d) { return d.target.y; });
+}
+
+var scatter_on_x = function(){
+  var substrates = substrate()
+
+  substrates.forEach(function(category){
+    category.xscale = d3.scale.ordinal()
+      .domain(category.values.map(function(d){return d.id}))
+      .rangePoints([0,width],1.0)
+    category.values.forEach(function(d){
+      d.x = category.xscale(d.id)
+    })
+  })
+
+  node.transition().duration(transition_duration)
+    .attr("cx",function(d){ return d.x })
+
+  link.transition().duration(transition_duration)
+    .attr("x1", function(d) { return d.source.x; })
+    .attr("x2", function(d) { return d.target.x; })
+
+
+}
+
 // force_directed = function(){}
 // var hide_links = function(){}
 // var transition_x = function(){}
 // var draw_x_axis = function(){}
 // var transition_y = function(){}
 // var draw_y_axis = function(){}
+// var show_links = function(){}
 var finished = function(){
   mlgo.attr("disabled","true")
 }
@@ -210,6 +271,9 @@ var mlgo_steps = [
   {f:draw_x_axis, label:"Draw X Axis", disabled:true},
   {f:transition_y, label:"Transition Y by Degree", disabled:true},
   {f:draw_y_axis, label:"Draw Y Axis", disabled:true},
+  {f:show_links, label:"Show Links", disabled:true},
+  {f:substrate_on_y, label:"Substrate by Category", disabled:true},
+  {f:scatter_on_x, label:"Scatter on X", disabled:true},
   // {f:finished, label:"Finished"}
   ]
 
