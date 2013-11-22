@@ -1,4 +1,4 @@
-Source,Target,Type,Id,Label,Weight
+source,target,type,id,label,weight
 1,0,Undirected,0,,1.0
 2,0,Undirected,1,,8.0
 3,0,Undirected,2,,10.0

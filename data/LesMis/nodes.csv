@@ -1,4 +1,4 @@
-Id,Label,Modularity Class,Degree,Weighted Degree,Eccentricity,Closeness Centrality,Betweenness Centrality,Authority,Hub,PageRank,Component ID,Clustering Coefficient,Number of triangles,Eigenvector Centrality
+id,label,modularity_class,degree,weighted_degree,eccentricity,closeness_centrality,betweenness_centrality,authority,hub,page_rank,component_id,clustering_coefficient,number_of_triangles,eigenvector_centrality
 0,Myriel,0,10,31.0,4.0,2.3289473684210527,504.0,0.01880342,0.01880342,0.04282173904060684,0,0.06666666666666667,3,0.12589774854449567
 1,Napoleon,0,1,1.0,5.0,3.3157894736842106,0.0,0.0034188034,0.0034188034,0.005584292636474749,0,0.0,0,0.013644880522103907
 2,MlleBaptistine,0,3,17.0,4.0,2.4210526315789473,0.0,0.006837607,0.006837607,0.01027959384537412,0,1.0,3,0.11188607125816913
