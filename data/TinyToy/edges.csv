@@ -1,0 +1,7 @@
+source,target,type,id,label,weight
+1,0,Directed,0,,1.0
+2,0,Directed,1,,8.0
+3,0,Directed,2,,10.0
+3,2,Directed,3,,6.0
+4,0,Directed,4,,1.0
+0,4,Directed,4,,1.0

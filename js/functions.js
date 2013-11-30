@@ -11,11 +11,35 @@ var force_directed = function(){
       .links(graph.edges)
       .start()
 
+    // link = linkg.selectAll(".link")
+    //     .data(graph.edges)
+    //   .enter().append("line")
+    //     .classed("link",true)
+    //     .style("stroke-width", function(d) { return Math.sqrt(d.weight); });
+
+    //http://stackoverflow.com/questions/11368339/drawing-multiple-edges-between-two-nodes-with-d3
+    // Per-type markers, as they don't inherit styles.
+    svg.append("svg:defs").selectAll("marker")
+        .data(["suit", "licensing", "resolved"])
+      .enter().append("svg:marker")
+        .attr("id", String)
+        .attr("viewBox", "0 -5 10 10")
+        .attr("refX", 15)
+        .attr("refY", -1.5)
+        .attr("markerWidth", 6)
+        .attr("markerHeight", 6)
+        .attr("orient", "auto")
+      .append("svg:path")
+        .attr("d", "M0,-5L10,0L0,5");
+
     link = linkg.selectAll(".link")
         .data(graph.edges)
-      .enter().append("line")
+      .enter().append("svg:path")
         .classed("link",true)
         .style("stroke-width", function(d) { return Math.sqrt(d.weight); });
+        // .attr("class", function(d) { return "link " + d.type; })
+        // .attr("marker-end", function(d) { return "url(#" + d.type + ")"; });
+
 
     node = nodeg.selectAll(".node")
         .data(graph.nodes)
@@ -23,19 +47,24 @@ var force_directed = function(){
         .classed("node",true)
         .attr("r", function(d){ return d.degree; })
         // .attr("r",5)
+        // .attr("r",function(d,i){return (i+1)*2})
         .attr("fill", function(d){ return color(d.modularity_class); })
 
     node.append("title")
       .text(function(d){ return d.label; })
 
     force.on("tick", function(){
-      link.attr("x1", function(d) { return d.source.x; })
-        .attr("y1", function(d) { return d.source.y; })
-        .attr("x2", function(d) { return d.target.x; })
-        .attr("y2", function(d) { return d.target.y; });
+      // link.attr("x1", function(d) { return d.source.x; })
+      //   .attr("y1", function(d) { return d.source.y; })
+      //   .attr("x2", function(d) { return d.target.x; })
+      //   .attr("y2", function(d) { return d.target.y; });
+
+    
+
+      link.call(link_function)
 
       node.attr("cx", function(d) { return d.x; })
-        .attr("cy", function(d) { return d.y; });
+          .attr("cy", function(d) { return d.y; });
     })
 
     force.on("end",function(){
@@ -70,10 +99,7 @@ var transition_x = function(){
       mlgo_buttons.attr("disabled",null)
     })
 
-  link.transition().duration(transition_duration)
-    .attr("x1", function(d) { return d.source.x; })
-    .attr("x2", function(d) { return d.target.x; })
-
+  update_links()
 }
 
 
@@ -94,9 +120,7 @@ var transition_y = function(){
       mlgo_buttons.attr("disabled",null)
     })
 
-  link.transition().duration(transition_duration)
-    .attr("y1", function(d) { return d.source.y; })
-    .attr("y2", function(d) { return d.target.y; });
+  update_links()
 }
 
 var draw_x_axis = function(){
@@ -147,9 +171,7 @@ var substrate_on_y = function(){
       mlgo_buttons.attr("disabled",null)
     })
 
-  link.transition().duration(transition_duration)
-    .attr("y1", function(d) { return d.source.y; })
-    .attr("y2", function(d) { return d.target.y; });
+  update_links()
 }
 
 var scatter_on_x = function(){
@@ -167,11 +189,78 @@ var scatter_on_x = function(){
   node.transition().duration(transition_duration)
     .attr("cx",function(d){ return d.x })
 
+  update_links()
+
+
+}
+
+var update_links = function(){
+  // link.attr("x1", function(d) { return d.source.x; })
+  //   .attr("y1", function(d) { return d.source.y; })
+  //   .attr("x2", function(d) { return d.target.x; })
+  //   .attr("y2", function(d) { return d.target.y; });
+
   link.transition().duration(transition_duration)
-    .attr("x1", function(d) { return d.source.x; })
-    .attr("x2", function(d) { return d.target.x; })
+    .call(link_function)
+}
+
+var link_function = function(selection){
+  var ry = 150
+  var rx = 110
+
+  // selection.attr("d", function(d) {
+  //   var dx = d.target.x - d.source.x,
+  //       dy = d.target.y - d.source.y,
+  //       dr = 150;// /d.linknum;  //linknum is defined above
+  //   return "M" + d.source.x + "," + d.source.y + "A" + rx + "," + ry + " 0 0,1 " + d.target.x + "," + d.target.y;
+  // });
+
+  var hscale = d3.scale.linear()
+        .range([2,10])
+        .domain([0,width])
 
 
+
+  selection.attr("d", function(d) {
+    var p = "M"+ d.source.x + "," + d.source.y
+
+
+    //control point
+    // var max_r = height / substrate().length / 2
+    var max_r = 10
+    
+    var cx = (d.target.x + d.source.x)/2
+    var cy = (d.target.y + d.source.y)/2
+    // var dist = Math.sqrt((cx*cx)+(cy*cy))
+    var dist = Math.abs(d.target.x-d.source.x)+Math.abs(d.target.y-d.source.y)
+    // var h = max_r * (dist/width)
+    var h = hscale(dist)
+    var rise = Math.abs(d.target.y-d.source.y)
+    var run = Math.abs(d.target.x-d.source.x)
+    var dx, dy
+    
+    dx = (rise/(rise+run))*h
+    dy = -(run/(rise+run))*h
+    
+    //Curve up or curve down
+    var direction
+    if(d.target.y==d.source.y){
+      direction = (d.target.x<d.source.y)?1:-1;
+    }else{
+      direction = (d.target.y<d.source.y)?1:-1;
+    }
+
+    dy = dy*direction
+
+    var cx_prime = cx + (dx*h)
+    var cy_prime = cy + (dy*h)
+    
+    p += "Q"+cx_prime+","+cy_prime+" "
+    p += d.target.x+","+d.target.y
+
+
+    return p
+  });
 }
 
 // force_directed = function(){}

@@ -33,11 +33,13 @@ var linkg = chart.append("g")
 var nodeg = chart.append("g")
 
 
+var source = "LesMis"
+// var source = "TinyToy"
 
 
 //Load Data
-d3.csv("data/LesMis/nodes.csv",function(nodes){
-  d3.csv("data/LesMis/edges.csv",function(edges){
+d3.csv("data/"+source+"/nodes.csv",function(nodes){
+  d3.csv("data/"+source+"/edges.csv",function(edges){
     nodes.forEach(function(d){
       d.id = +d.id
       d.modularity_class = +d.modularity_class
@@ -55,7 +57,7 @@ d3.csv("data/LesMis/nodes.csv",function(nodes){
       d.eigenvector_centrality = +d.eigenvector_centrality
     })
     edges.forEach(function(d){
-      console.log(d)
+      // console.log(d)
       d.source = +d.source
       d.target = +d.target
       // d.type = +d.type
