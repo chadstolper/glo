@@ -33,7 +33,7 @@ var force_directed = function(){
         .attr("d", "M0,-5L10,0L0,5");
 
     link = linkg.selectAll(".link")
-        .data(graph.edges)
+        .data(graph.edges, function(d){return d.id})
       .enter().append("svg:path")
         .classed("link",true)
         .style("stroke-width", function(d) { return Math.sqrt(d.weight); });
@@ -42,14 +42,19 @@ var force_directed = function(){
 
 
     node = nodeg.selectAll(".node")
-        .data(graph.nodes)
+        .data(graph.nodes, function(d){return d.id})
       .enter().append("circle")
         .classed("node",true)
         .attr("r", function(d){ return d.degree; })
         // .attr("r",5)
         // .attr("r",function(d,i){return (i+1)*2})
-        .attr("fill", function(d){ return color(d.modularity_class); })
-
+        .attr("fill", function(d){ return d3.rgb(color(d.modularity_class)).darker(); })
+        .on("mouseover",function(d){
+          d3.select(this).attr("fill",function(d){ return color(d.modularity_class); })
+        })
+        .on("mouseout",function(d){
+          d3.select(this).attr("fill", function(d){ return d3.rgb(color(d.modularity_class)).darker(); })
+        })
     node.append("title")
       .text(function(d){ return d.label; })
 
@@ -68,16 +73,77 @@ var force_directed = function(){
     })
 
     force.on("end",function(){
+      graph.nodes.forEach(function(d){
+        d.in_edges = []
+        d.out_edges = []
+      })
+      graph.edges.forEach(function(d){
+        d.target.in_edges.push(d)
+        d.source.out_edges.push(d)
+        d.visibility = true
+      })
       mlgo_buttons.attr("disabled",null)
+
     })
 }
 
 var hide_links = function(){
-  link.style("visibility","hidden")
+  // link.style("visibility","hidden")
+  graph.edges.forEach(function(d){
+    d.visibility = false
+  })
+  node
+    .on("mouseover",function(d){
+      d3.select(this).attr("fill",function(d){ return color(d.modularity_class); })
+    })
+    .on("mouseout",function(d){
+      d3.select(this).attr("fill", function(d){ return d3.rgb(color(d.modularity_class)).darker(); })
+    })
+  update_links()
 }
 
 var show_links = function(){
-  link.style("visibility","visible")
+  // link.style("visibility","visible")
+  graph.edges.forEach(function(d){
+    d.visibility = true
+  })
+  node
+    .on("mouseover",function(d){
+      d3.select(this).attr("fill",function(d){ return color(d.modularity_class); })
+    })
+    .on("mouseout",function(d){
+      d3.select(this).attr("fill", function(d){ return d3.rgb(color(d.modularity_class)).darker(); })
+    })
+  update_links()
+}
+
+var show_selected_links = function(){
+  // link.style("visibility","hidden")
+  graph.edges.forEach(function(d){
+    d.visibility = false
+  })
+  node.on('mouseover',function(d){
+    d3.select(this).attr("fill",function(d){ return color(d.modularity_class); })
+    d.in_edges.forEach(function(e){
+      e.visibility = true
+    })
+    d.out_edges.forEach(function(e){
+      e.visibility = true
+    })
+    update_links()
+  })
+  node.on("mouseout",function(d){
+    d3.select(this).attr("fill", function(d){ return d3.rgb(color(d.modularity_class)).darker(); })
+    d.in_edges.forEach(function(e){
+      e.visibility = false
+    })
+    d.out_edges.forEach(function(e){
+      e.visibility = false
+    })
+    update_links()
+  })
+  update_links()
+ 
 }
 
 
@@ -202,11 +268,12 @@ var update_links = function(){
 
   link.transition().duration(transition_duration)
     .call(link_function)
+    .style("visibility",function(d){
+      return d.visibility?"visible":"hidden"
+    })
 }
 
 var link_function = function(selection){
-  var ry = 150
-  var rx = 110
 
   // selection.attr("d", function(d) {
   //   var dx = d.target.x - d.source.x,
@@ -244,11 +311,12 @@ var link_function = function(selection){
     
     //Curve up or curve down
     var direction
-    if(d.target.y==d.source.y){
-      direction = (d.target.x<d.source.y)?1:-1;
-    }else{
-      direction = (d.target.y<d.source.y)?1:-1;
-    }
+    // if(d.target.y==d.source.y){
+    //   direction = (d.target.x<d.source.y)?1:-1;
+    // }else{
+    //   direction = (d.target.y<d.source.y)?1:-1;
+    // }
+    direction = (d.target.id<d.source.id)?1:-1;
 
     dy = dy*direction
 
@@ -262,6 +330,9 @@ var link_function = function(selection){
     return p
   });
 }
+
+
+
 
 // force_directed = function(){}
 // var hide_links = function(){}
