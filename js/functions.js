@@ -1,4 +1,4 @@
-var force_directed = function(){
+var initialize_force_directed = function(){
   mlgo_buttons.attr("disabled","true")
   
   force = d3.layout.force()
@@ -85,6 +85,27 @@ var force_directed = function(){
       mlgo_buttons.attr("disabled",null)
 
     })
+}
+
+var force_directed =function(){
+  force
+    .nodes(graph.nodes)
+      .links(graph.edges)
+    .on("tick", function(){
+      // link.attr("x1", function(d) { return d.source.x; })
+      //   .attr("y1", function(d) { return d.source.y; })
+      //   .attr("x2", function(d) { return d.target.x; })
+      //   .attr("y2", function(d) { return d.target.y; });
+
+    
+
+      link.call(link_function)
+
+      node.attr("cx", function(d) { return d.x; })
+          .attr("cy", function(d) { return d.y; });
+    })
+    .on("end",null)
+     .resume()
 }
 
 var hide_links = function(){

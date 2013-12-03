@@ -1,7 +1,7 @@
 //The Button
 var mlgo_index = 0
 var mlgo_steps = [
-  {f:force_directed, label:"Force-Directed", disabled:false},
+  {f:initialize_force_directed, label:"Initialize", disabled:false},
   {f:hide_links, label:"Hide Links", disabled:true},
   {f:transition_x, label:"Transition X by Betweenness Centrality", disabled:true},
   {f:draw_x_axis, label:"Draw X Axis", disabled:true},
@@ -13,6 +13,7 @@ var mlgo_steps = [
   {f:show_selected_links, label:"Show Select Links", disabled:true},
   {f:hide_x_axis, label:"Hide X Axis", disabled:true},
   {f:hide_y_axis, label:"Hide Y Axis", disabled:true},
+  {f:force_directed, label:"Force-Directed", disabled:true},
   
   // {f:finished, label:"Finished"}
   ]
