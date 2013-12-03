@@ -200,6 +200,10 @@ var draw_x_axis = function(){
     .call(xaxis)
 }
 
+var hide_x_axis = function(){
+  $(svg.select(".x.axis").node()).remove()
+}
+
 var draw_y_axis = function(){
   var yaxis = d3.svg.axis()
     .scale(yscale)
@@ -209,6 +213,10 @@ var draw_y_axis = function(){
     .attr("class","y axis")
     .attr("transform","translate("+(xbuffer-20)+","+ybuffer+")")
     .call(yaxis)
+}
+
+var hide_y_axis = function(){
+  $(svg.select(".y.axis").node()).remove()
 }
 
 var substrate = function(){
@@ -330,6 +338,7 @@ var link_function = function(selection){
     return p
   });
 }
+
 
 
 

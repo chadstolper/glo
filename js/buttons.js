@@ -11,6 +11,9 @@ var mlgo_steps = [
   {f:substrate_on_y, label:"Substrate by Category", disabled:true},
   {f:scatter_on_x, label:"Scatter on X", disabled:true},
   {f:show_selected_links, label:"Show Select Links", disabled:true},
+  {f:hide_x_axis, label:"Hide X Axis", disabled:true},
+  {f:hide_y_axis, label:"Hide Y Axis", disabled:true},
+  
   // {f:finished, label:"Finished"}
   ]
 
