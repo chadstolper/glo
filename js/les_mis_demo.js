@@ -15,6 +15,9 @@ var transition_duration = 2000
 var force
 var substrates
 
+var modes = {
+  edges: "curved", //"straight","circle"
+}
 
 var width = 700
 var height = 500

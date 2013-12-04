@@ -289,12 +289,18 @@ var scatter_on_x = function(){
 
 }
 
-var update_links = function(){
-  // link.attr("x1", function(d) { return d.source.x; })
-  //   .attr("y1", function(d) { return d.source.y; })
-  //   .attr("x2", function(d) { return d.target.x; })
-  //   .attr("y2", function(d) { return d.target.y; });
 
+var size_nodes_by_degree = function(){
+  node.transition().duration(transition_duration)
+    .attr("r",function(d){return d.degree; })
+}
+
+var size_nodes_by_constant = function(){
+  node.transition().duration(transition_duration)
+    .attr("r", 5)
+}
+
+var update_links = function(){
   link.transition().duration(transition_duration)
     .call(link_function)
     .style("visibility",function(d){
@@ -303,61 +309,13 @@ var update_links = function(){
 }
 
 var link_function = function(selection){
-
-  // selection.attr("d", function(d) {
-  //   var dx = d.target.x - d.source.x,
-  //       dy = d.target.y - d.source.y,
-  //       dr = 150;// /d.linknum;  //linknum is defined above
-  //   return "M" + d.source.x + "," + d.source.y + "A" + rx + "," + ry + " 0 0,1 " + d.target.x + "," + d.target.y;
-  // });
-
-  var hscale = d3.scale.linear()
-        .range([2,10])
-        .domain([0,width])
-
-
-
-  selection.attr("d", function(d) {
-    var p = "M"+ d.source.x + "," + d.source.y
-
-
-    //control point
-    // var max_r = height / substrate().length / 2
-    var max_r = 10
-    
-    var cx = (d.target.x + d.source.x)/2
-    var cy = (d.target.y + d.source.y)/2
-    // var dist = Math.sqrt((cx*cx)+(cy*cy))
-    var dist = Math.abs(d.target.x-d.source.x)+Math.abs(d.target.y-d.source.y)
-    // var h = max_r * (dist/width)
-    var h = hscale(dist)
-    var rise = Math.abs(d.target.y-d.source.y)
-    var run = Math.abs(d.target.x-d.source.x)
-    var dx, dy
-    
-    dx = (rise/(rise+run))*h
-    dy = -(run/(rise+run))*h
-    
-    //Curve up or curve down
-    var direction
-    // if(d.target.y==d.source.y){
-    //   direction = (d.target.x<d.source.y)?1:-1;
-    // }else{
-    //   direction = (d.target.y<d.source.y)?1:-1;
-    // }
-    direction = (d.target.id<d.source.id)?1:-1;
-
-    dy = dy*direction
-
-    var cx_prime = cx + (dx*h)
-    var cy_prime = cy + (dy*h)
-    
-    p += "Q"+cx_prime+","+cy_prime+" "
-    p += d.target.x+","+d.target.y
-
-
-    return p
-  });
+  if(modes.edges=="curved"){
+    selection.call(curved_edges)
+  }else if (modes.edges=="straight"){
+    selection.call(straight_edges)
+  }else if (modes.edges=="circle"){
+    selection.call(circle_edges)
+  }
 }
 
 
