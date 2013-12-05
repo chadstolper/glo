@@ -24,6 +24,7 @@ var height = 500
 var xbuffer = 50
 var ybuffer = 50
 var color = d3.scale.category10()
+var link_r = 7
 
 var svg = d3.select("#canvas").append("svg")
     .attr("width",width+2*xbuffer)

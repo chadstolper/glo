@@ -45,7 +45,7 @@ var initialize_force_directed = function(){
         .data(graph.nodes, function(d){return d.id})
       .enter().append("circle")
         .classed("node",true)
-        .attr("r", function(d){ return d.degree; })
+        .attr("r", function(d){ return d.degree+2; })
         // .attr("r",5)
         // .attr("r",function(d,i){return (i+1)*2})
         .attr("fill", function(d){ return d3.rgb(color(d.modularity_class)).darker(); })
@@ -292,7 +292,7 @@ var scatter_on_x = function(){
 
 var size_nodes_by_degree = function(){
   node.transition().duration(transition_duration)
-    .attr("r",function(d){return d.degree; })
+    .attr("r",function(d){return d.degree+2; })
 }
 
 var size_nodes_by_constant = function(){
@@ -300,23 +300,12 @@ var size_nodes_by_constant = function(){
     .attr("r", 5)
 }
 
-var update_links = function(){
-  link.transition().duration(transition_duration)
-    .call(link_function)
-    .style("visibility",function(d){
-      return d.visibility?"visible":"hidden"
-    })
-}
 
-var link_function = function(selection){
-  if(modes.edges=="curved"){
-    selection.call(curved_edges)
-  }else if (modes.edges=="straight"){
-    selection.call(straight_edges)
-  }else if (modes.edges=="circle"){
-    selection.call(circle_edges)
-  }
-}
+
+
+
+
+
 
 
 

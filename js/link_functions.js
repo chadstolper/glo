@@ -1,6 +1,8 @@
+
+
 var hscale = d3.scale.linear()
-        .range([3,12])
-        .domain([0,width])
+  .range([3,12])
+  .domain([0,width])
 
 var curved_edges = function(selection){
   selection.attr("d", function(d) {
@@ -40,15 +42,15 @@ var curved_edges = function(selection){
 
 var circle_edges = function(selection){
   selection.attr("d",function(d){
-    var p = "M"+(d.target.x-r)+","+d.source.y+" "
-        p+= "A"+r+","+r+" " //radii
+    var p = "M"+(d.target.x-link_r)+","+d.source.y+" "
+        p+= "A"+link_r+","+link_r+" " //radii
         p+= "0 " //rotation
         p+= "1,1 " //flags
-        p+= (d.target.x+r)+","+d.source.y+" "
-        p+= "A"+r+","+r+" " //radii
+        p+= (d.target.x+link_r)+","+d.source.y+" "
+        p+= "A"+link_r+","+link_r+" " //radii
         p+= "0 " //rotation
         p+= "0,1 " //flags
-        p+= (d.target.x-r)+","+d.source.y
+        p+= (d.target.x-link_r)+","+d.source.y
         return p
   });
 }
@@ -69,25 +71,157 @@ var straight_edges = function(selection){
   });
 }
 
-var curved_to_circle = function(selection){
-  selection.transition().duration(transition_duration/2)
-    .attr("d",function(){
-      var p = "M"+ d.target.x + "," + d.source.y
-          p += "Q"+d.target.x+","+d.source.y+" "
-          p += d.target.x+","+d.source.y
+var line_to_circle = function(selection){
+  modes.edges = "circle"
+  selection
+    .transition().duration(transition_duration/2).ease("cubic-in")
+      .attr("d",function(d){
+        var p = "M"+ d.target.x + "," + d.source.y
+            p += "Q"+d.target.x+","+d.source.y+" "
+            p += d.target.x+","+d.source.y
           return p
-    })
-    .transition().duration(transition_duration/2)
-      .attr("d",function(){
-        var p = "M"+d.target.x+","+d.source.y+" "
-            p+= "A"+0+","+0+" " //radii
-            p+= "0 " //rotation
-            p+= "1,1 " //flags
-            p+= d.target.x+","+d.source.y+" "
-            p+= "A"+0+","+0+" " //radii
-            p+= "0 " //rotation
-            p+= "0,1 " //flags
-            p+= d.target.x+","+d.source.y+" "
-            return p
       })
+    .transition().delay(transition_duration/2+1).duration(0)
+      .attr("d",function(d){
+          var p = "M"+d.target.x+","+d.source.y+" "
+              p+= "A"+0+","+0+" " //radii
+              p+= "0 " //rotation
+              p+= "1,1 " //flags
+              p+= d.target.x+","+d.source.y+" "
+              p+= "A"+0+","+0+" " //radii
+              p+= "0 " //rotation
+              p+= "0,1 " //flags
+              p+= d.target.x+","+d.source.y+" "
+            return p
+        })
+        .style("fill","#999")
+    .transition().delay(transition_duration+3).duration(transition_duration/2).ease("cubic-out")
+      .call(circle_edges)
 }
+
+
+var circle_to_curved = function(selection){
+  modes.edges = "curved"
+  selection.transition().duration(transition_duration/2)
+    .attr("d",function(d){
+      var p = "M"+d.target.x+","+d.source.y+" "
+          p+= "A"+0+","+0+" " //radii
+          p+= "0 " //rotation
+          p+= "1,1 " //flags
+          p+= d.target.x+","+d.source.y+" "
+          p+= "A"+0+","+0+" " //radii
+          p+= "0 " //rotation
+          p+= "0,1 " //flags
+          p+= d.target.x+","+d.source.y+" "
+        return p
+    })
+    .transition().delay(transition_duration/2+1).duration(0)
+      .attr("d",function(d){
+        var p = "M"+ d.target.x + "," + d.source.y
+            p += "Q"+d.target.x+","+d.source.y+" "
+            p += d.target.x+","+d.source.y
+          return p
+      })
+      .style("fill",null)
+    .transition().delay(transition_duration+3).duration(transition_duration/2)
+      .call(curved_edges)
+}
+
+var circle_to_straight = function(selection){
+  modes.edges = "straight"
+  selection.transition().duration(transition_duration/2)
+    .attr("d",function(d){
+      var p = "M"+d.target.x+","+d.source.y+" "
+          p+= "A"+0+","+0+" " //radii
+          p+= "0 " //rotation
+          p+= "1,1 " //flags
+          p+= d.target.x+","+d.source.y+" "
+          p+= "A"+0+","+0+" " //radii
+          p+= "0 " //rotation
+          p+= "0,1 " //flags
+          p+= d.target.x+","+d.source.y+" "
+        return p
+    })
+    .transition().delay(transition_duration/2+1).duration(0)
+      .attr("d",function(d){
+        var p = "M"+ d.target.x + "," + d.source.y
+            p += "Q"+d.target.x+","+d.source.y+" "
+            p += d.target.x+","+d.source.y
+          return p
+      })
+      .style("fill",null)
+    .transition().delay(transition_duration+3).duration(transition_duration/2)
+      .call(straight_edges)
+}
+
+var curved_to_straight = function(selection){
+  modes.edges = "straight"
+  selection.transition().duration(transition_duration)
+    .call(straight_edges)
+}
+
+var straight_to_curved = function(selection){
+  modes.edges = "curved"
+  selection.transition().duration(transition_duration)
+    .call(curved_edges)
+}
+
+
+
+
+var transition_links_to_curved = function(){
+  if(modes.edges=="curved"){
+    //Pass
+  }else if (modes.edges=="straight"){
+    link.call(straight_to_curved)
+  }else if (modes.edges=="circle"){
+    link.call(circle_to_curved)
+  }
+
+}
+
+var transition_links_to_circle = function(){
+  if(modes.edges=="curved"){
+    link.call(line_to_circle)
+  }else if (modes.edges=="straight"){
+    link.call(line_to_circle)
+  }else if (modes.edges=="circle"){
+    //Pass
+  }
+}
+
+var transition_links_to_straight = function(){
+  if(modes.edges=="curved"){
+    link.call(curved_to_straight)
+  }else if (modes.edges=="straight"){
+    //Pass
+  }else if (modes.edges=="circle"){
+    link.call(circle_to_straight)
+  }
+}
+
+
+
+var update_links = function(){
+  link.transition().duration(transition_duration)
+    .call(link_function)
+    .style("visibility",function(d){
+      return d.visibility?"visible":"hidden"
+    })
+}
+
+var link_function = function(selection){
+  if(modes.edges=="curved"){
+    selection.call(curved_edges)
+  }else if (modes.edges=="straight"){
+    selection.call(straight_edges)
+  }else if (modes.edges=="circle"){
+    selection.call(circle_edges)
+  }
+}
+
+
+
+
+
+
