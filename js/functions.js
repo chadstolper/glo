@@ -182,7 +182,7 @@ var transition_x = function(){
       d.x = xscale(d.betweenness_centrality)
       return d.x
     })
-    .each("end",function(){
+    .each("end",function(d){
       mlgo_buttons.attr("disabled",null)
     })
 
