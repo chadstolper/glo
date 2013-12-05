@@ -5,8 +5,9 @@
 }
 
 .link {
+  opacity: .45;
   stroke: #999;
-  stroke-opacity: .6;
+  stroke-opacity: .45;
 }
 
 

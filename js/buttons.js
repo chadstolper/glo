@@ -14,6 +14,11 @@ var mlgo_steps = [
   {f:hide_x_axis, label:"Hide X Axis", disabled:true},
   {f:hide_y_axis, label:"Hide Y Axis", disabled:true},
   {f:force_directed, label:"Force-Directed", disabled:true},
+  {f:size_nodes_by_degree, label:"Size Nodes by Degree", disabled:true},
+  {f:size_nodes_by_constant, label:"Size Nodes by Constant", disabled:true},
+  {f:transition_links_to_circle, label:"Links to Circles", disabled:true},
+  {f:transition_links_to_curved, label:"Links to Curved", disabled:true},
+  {f:transition_links_to_straight, label:"Links to Straight", disabled:true},
   
   // {f:finished, label:"Finished"}
   ]
