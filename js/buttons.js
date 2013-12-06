@@ -19,6 +19,16 @@ var mlgo_steps = [
   {f:transition_links_to_circle, label:"Links to Circles", disabled:true},
   {f:transition_links_to_curved, label:"Links to Curved", disabled:true},
   {f:transition_links_to_straight, label:"Links to Straight", disabled:true},
+  {f:clone_nodes, label:"Stamp Clones of Nodes", disabled:true},
+  {f:remove_clones, label:"Remove Clones", disabled:true},
+  {f:evenly_position_on_x, label:"Evenly Position on X", disabled:true},
+  {f:evenly_position_on_y, label:"Evenly Position on Y", disabled:true},
+  {f:position_y_top, label:"Position Y Top", disabled:true},
+  {f:position_y_middle, label:"Position Y Middle", disabled:true},
+  {f:position_y_bottom, label:"Position Y Bottom", disabled:true},
+  {f:position_x_left, label:"Position X Left", disabled:true},
+  {f:position_x_center, label:"Position X Center", disabled:true},
+  {f:position_x_right, label:"Position X Right", disabled:true},
   
   // {f:finished, label:"Finished"}
   ]

@@ -6,18 +6,17 @@ var hscale = d3.scale.linear()
 
 var curved_edges = function(selection){
   selection.attr("d", function(d) {
-    var p = "M"+ d.source.x + "," + d.source.y
-
+    var p = "M"+ d.startx() + "," + d.starty()
 
     //control point
     var max_r = 10
     
-    var cx = (d.target.x + d.source.x)/2
-    var cy = (d.target.y + d.source.y)/2
-    var dist = Math.abs(d.target.x-d.source.x)+Math.abs(d.target.y-d.source.y)
+    var cx = (d.endx() + d.startx())/2
+    var cy = (d.endy() + d.starty())/2
+    var dist = Math.abs(d.endx()-d.startx())+Math.abs(d.endy()-d.starty())
     var h = hscale(dist)
-    var rise = Math.abs(d.target.y-d.source.y)
-    var run = Math.abs(d.target.x-d.source.x)
+    var rise = Math.abs(d.endy()-d.starty())
+    var run = Math.abs(d.endx()-d.startx())
     var dx, dy
     
     dx = (rise/(rise+run))*h
@@ -33,7 +32,7 @@ var curved_edges = function(selection){
     var cy_prime = cy + (dy*h)
     
     p += "Q"+cx_prime+","+cy_prime+" "
-    p += d.target.x+","+d.target.y
+    p += d.endx()+","+d.endy()
 
 
     return p
@@ -42,29 +41,29 @@ var curved_edges = function(selection){
 
 var circle_edges = function(selection){
   selection.attr("d",function(d){
-    var p = "M"+(d.target.x-link_r)+","+d.source.y+" "
+    var p = "M"+(d.endx()-link_r)+","+d.starty()+" "
         p+= "A"+link_r+","+link_r+" " //radii
         p+= "0 " //rotation
         p+= "1,1 " //flags
-        p+= (d.target.x+link_r)+","+d.source.y+" "
+        p+= (d.endx()+link_r)+","+d.starty()+" "
         p+= "A"+link_r+","+link_r+" " //radii
         p+= "0 " //rotation
         p+= "0,1 " //flags
-        p+= (d.target.x-link_r)+","+d.source.y
+        p+= (d.endx()-link_r)+","+d.starty()
         return p
   });
 }
 
 var straight_edges = function(selection){
   selection.attr("d", function(d) {
-    var p = "M"+ d.source.x + "," + d.source.y
+    var p = "M"+ d.startx() + "," + d.starty()
 
     //control point
-    var cx = (d.target.x + d.source.x)/2
-    var cy = (d.target.y + d.source.y)/2
+    var cx = (d.endx() + d.startx())/2
+    var cy = (d.endy() + d.starty())/2
     
     p += "Q"+cx+","+cy+" "
-    p += d.target.x+","+d.target.y
+    p += d.endx()+","+d.endy()
 
 
     return p
@@ -76,22 +75,22 @@ var line_to_circle = function(selection){
   selection
     .transition().duration(transition_duration/2).ease("cubic-in")
       .attr("d",function(d){
-        var p = "M"+ d.target.x + "," + d.source.y
-            p += "Q"+d.target.x+","+d.source.y+" "
-            p += d.target.x+","+d.source.y
+        var p = "M"+ d.endx() + "," + d.starty()
+            p += "Q"+d.endx()+","+d.starty()+" "
+            p += d.endx()+","+d.starty()
           return p
       })
     .transition().delay(transition_duration/2+1).duration(0)
       .attr("d",function(d){
-          var p = "M"+d.target.x+","+d.source.y+" "
+          var p = "M"+d.endx()+","+d.starty()+" "
               p+= "A"+0+","+0+" " //radii
               p+= "0 " //rotation
               p+= "1,1 " //flags
-              p+= d.target.x+","+d.source.y+" "
+              p+= d.endx()+","+d.starty()+" "
               p+= "A"+0+","+0+" " //radii
               p+= "0 " //rotation
               p+= "0,1 " //flags
-              p+= d.target.x+","+d.source.y+" "
+              p+= d.endx()+","+d.starty()+" "
             return p
         })
         .style("fill","#999")
@@ -104,22 +103,22 @@ var circle_to_curved = function(selection){
   modes.edges = "curved"
   selection.transition().duration(transition_duration/2)
     .attr("d",function(d){
-      var p = "M"+d.target.x+","+d.source.y+" "
+      var p = "M"+d.endx()+","+d.starty()+" "
           p+= "A"+0+","+0+" " //radii
           p+= "0 " //rotation
           p+= "1,1 " //flags
-          p+= d.target.x+","+d.source.y+" "
+          p+= d.endx()+","+d.starty()+" "
           p+= "A"+0+","+0+" " //radii
           p+= "0 " //rotation
           p+= "0,1 " //flags
-          p+= d.target.x+","+d.source.y+" "
+          p+= d.endx()+","+d.starty()+" "
         return p
     })
     .transition().delay(transition_duration/2+1).duration(0)
       .attr("d",function(d){
-        var p = "M"+ d.target.x + "," + d.source.y
-            p += "Q"+d.target.x+","+d.source.y+" "
-            p += d.target.x+","+d.source.y
+        var p = "M"+ d.endx() + "," + d.starty()
+            p += "Q"+d.endx()+","+d.starty()+" "
+            p += d.endx()+","+d.starty()
           return p
       })
       .style("fill",null)
@@ -131,22 +130,22 @@ var circle_to_straight = function(selection){
   modes.edges = "straight"
   selection.transition().duration(transition_duration/2)
     .attr("d",function(d){
-      var p = "M"+d.target.x+","+d.source.y+" "
+      var p = "M"+d.endx()+","+d.starty()+" "
           p+= "A"+0+","+0+" " //radii
           p+= "0 " //rotation
           p+= "1,1 " //flags
-          p+= d.target.x+","+d.source.y+" "
+          p+= d.endx()+","+d.starty()+" "
           p+= "A"+0+","+0+" " //radii
           p+= "0 " //rotation
           p+= "0,1 " //flags
-          p+= d.target.x+","+d.source.y+" "
+          p+= d.endx()+","+d.starty()+" "
         return p
     })
     .transition().delay(transition_duration/2+1).duration(0)
       .attr("d",function(d){
-        var p = "M"+ d.target.x + "," + d.source.y
-            p += "Q"+d.target.x+","+d.source.y+" "
-            p += d.target.x+","+d.source.y
+        var p = "M"+ d.endx() + "," + d.starty()
+            p += "Q"+d.endx()+","+d.starty()+" "
+            p += d.endx()+","+d.starty()
           return p
       })
       .style("fill",null)

@@ -59,12 +59,18 @@ var initialize_force_directed = function(){
       .text(function(d){ return d.label; })
 
     force.on("tick", function(){
-      // link.attr("x1", function(d) { return d.source.x; })
-      //   .attr("y1", function(d) { return d.source.y; })
-      //   .attr("x2", function(d) { return d.target.x; })
-      //   .attr("y2", function(d) { return d.target.y; });
 
-    
+      //This is SUPER ugly,
+      //but likely the only effective way to do it
+      //since it has to be after the source/target
+      //mappings but before link_function is called
+      //the first time
+      link.each(function(d){
+        d.startx = function(){ return (this.source.clonex)?this.source.clonex:this.source.x; }
+        d.starty = function(){ return (this.source.cloney)?this.source.cloney:this.source.y; }
+        d.endx = function(){ return this.target.x; }
+        d.endy = function(){ return this.target.y; }
+      })
 
       link.call(link_function)
 
@@ -81,6 +87,7 @@ var initialize_force_directed = function(){
         d.target.in_edges.push(d)
         d.source.out_edges.push(d)
         d.visibility = true
+
       })
       mlgo_buttons.attr("disabled",null)
 
@@ -113,14 +120,19 @@ var hide_links = function(){
   graph.edges.forEach(function(d){
     d.visibility = false
   })
-  node
+  node.call(hide_links_node_callbacks)
+  if(nodeclone) nodeclone.call(hide_links_node_callbacks)
+  update_links()
+}
+
+var hide_links_node_callbacks = function(selection){
+  selection
     .on("mouseover",function(d){
       d3.select(this).attr("fill",function(d){ return color(d.modularity_class); })
     })
     .on("mouseout",function(d){
       d3.select(this).attr("fill", function(d){ return d3.rgb(color(d.modularity_class)).darker(); })
     })
-  update_links()
 }
 
 var show_links = function(){
@@ -128,14 +140,19 @@ var show_links = function(){
   graph.edges.forEach(function(d){
     d.visibility = true
   })
-  node
+  node.call(show_links_node_callbacks)
+  if(nodeclone) nodeclone.call(show_links_node_callbacks)
+  update_links()
+}
+
+var show_links_node_callbacks = function(selection){
+  selection
     .on("mouseover",function(d){
       d3.select(this).attr("fill",function(d){ return color(d.modularity_class); })
     })
     .on("mouseout",function(d){
       d3.select(this).attr("fill", function(d){ return d3.rgb(color(d.modularity_class)).darker(); })
     })
-  update_links()
 }
 
 var show_selected_links = function(){
@@ -143,28 +160,33 @@ var show_selected_links = function(){
   graph.edges.forEach(function(d){
     d.visibility = false
   })
-  node.on('mouseover',function(d){
-    d3.select(this).attr("fill",function(d){ return color(d.modularity_class); })
-    d.in_edges.forEach(function(e){
-      e.visibility = true
-    })
-    d.out_edges.forEach(function(e){
-      e.visibility = true
-    })
-    update_links()
-  })
-  node.on("mouseout",function(d){
-    d3.select(this).attr("fill", function(d){ return d3.rgb(color(d.modularity_class)).darker(); })
-    d.in_edges.forEach(function(e){
-      e.visibility = false
-    })
-    d.out_edges.forEach(function(e){
-      e.visibility = false
-    })
-    update_links()
-  })
+  node.call(show_selected_links_node_callbacks)
+  if(nodeclone) nodeclone.call(show_selected_links_node_callbacks)
   update_links()
- 
+}
+
+var show_selected_links_node_callbacks = function(selection){
+  selection
+    .on('mouseover',function(d){
+      d3.select(this).attr("fill",function(d){ return color(d.modularity_class); })
+      d.in_edges.forEach(function(e){
+        e.visibility = true
+      })
+      d.out_edges.forEach(function(e){
+        e.visibility = true
+      })
+      update_links()
+    })
+    .on("mouseout",function(d){
+      d3.select(this).attr("fill", function(d){ return d3.rgb(color(d.modularity_class)).darker(); })
+      d.in_edges.forEach(function(e){
+        e.visibility = false
+      })
+      d.out_edges.forEach(function(e){
+        e.visibility = false
+      })
+      update_links()
+    })
 }
 
 
@@ -285,19 +307,24 @@ var scatter_on_x = function(){
     .attr("cx",function(d){ return d.x })
 
   update_links()
-
-
 }
 
 
 var size_nodes_by_degree = function(){
+  modes.node_r = "degree"
   node.transition().duration(transition_duration)
+    .attr("r",function(d){return d.degree+2; })
+  if(nodeclone) nodeclone.transition().duration(transition_duration)
     .attr("r",function(d){return d.degree+2; })
 }
 
 var size_nodes_by_constant = function(){
+  modes.node_r = "constant"
   node.transition().duration(transition_duration)
-    .attr("r", 5)
+    .attr("r", node_r_constant)
+  if(nodeclone) nodeclone.transition().duration(transition_duration)
+    .attr("r", node_r_constant)
+  
 }
 
 
