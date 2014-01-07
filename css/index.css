@@ -5,8 +5,9 @@
 }
 
 .link {
-  opacity: .45;
-  stroke: #999;
+  opacity: .8;
+  /*stroke: #999;*/
+  stroke: black;
   stroke-opacity: .45;
 }
 
@@ -31,6 +32,6 @@
 /*Curved Edges*/
 path.link {
   fill: none;
-  stroke: #999;
+  /*stroke: #999;*/
   stroke-width: 1.5px;
 }
