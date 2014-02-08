@@ -1,5 +1,6 @@
 var graph = {}
 var node, nodeclone, link
+var node_generations = {}
 var xscale, yscale
 var transition_duration = 2000
 
@@ -9,6 +10,8 @@ var substrates
 var modes = {
   edges: "straight",//"curved", //"straight","circle"
   node_r: "degree", //"constant"
+  active_generation: 0,
+  generation: 0,
 }
 
 var width = 650

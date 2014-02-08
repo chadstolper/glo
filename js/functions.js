@@ -41,10 +41,11 @@ var initialize_force_directed = function(){
         // .attr("marker-end", function(d) { return "url(#" + d.type + ")"; });
 
 
-    node = nodeg.selectAll(".node")
+    node_generations[0] = node = nodeg.selectAll(".node.generation-0")
         .data(graph.nodes, function(d){return d.id})
       .enter().append("circle")
         .classed("node",true)
+        .classed("generation-0",true)
         .attr("r", function(d){ return d.degree+2; })
         // .attr("r",5)
         // .attr("r",function(d,i){return (i+1)*2})
@@ -74,8 +75,8 @@ var initialize_force_directed = function(){
 
       link.call(link_function)
 
-      node.attr("cx", function(d) { return d.x; })
-          .attr("cy", function(d) { return d.y; });
+      node.attr("cx", function(d) { d.x_list[modes.active_generation]= d.x; return d.x_list[modes.active_generation]; })
+          .attr("cy", function(d) { d.y_list[modes.active_generation] = d.y; return d.y_list[modes.active_generation]; });
     })
 
     force.on("end",function(){
@@ -108,8 +109,8 @@ var force_directed =function(){
 
       link.call(link_function)
 
-      node.attr("cx", function(d) { return d.x; })
-          .attr("cy", function(d) { return d.y; });
+      node.attr("cx", function(d) { return d.x_list[modes.active_generation]; })
+          .attr("cy", function(d) { return d.y_list[modes.active_generation]; });
     })
     .on("end",null)
      .resume()
@@ -201,8 +202,8 @@ var transition_x = function(){
 
   node.transition().duration(transition_duration)
     .attr("cx",function(d){
-      d.x = xscale(d.betweenness_centrality)
-      return d.x
+      d.x_list[modes.active_generation] = xscale(d.betweenness_centrality)
+      return d.x_list[modes.active_generation]
     })
     .each("end",function(d){
       mlgo_buttons.attr("disabled",null)
@@ -222,8 +223,8 @@ var transition_y = function(){
 
   node.transition().duration(transition_duration)
     .attr("cy",function(d){
-      d.y = yscale(d.degree)
-      return d.y
+      d.y_list[modes.active_generation] = yscale(d.degree)
+      return d.y_list[modes.active_generation]
     })
     .each("end",function(){
       mlgo_buttons.attr("disabled",null)
@@ -281,8 +282,8 @@ var substrate_on_y = function(){
 
   node.transition().duration(transition_duration)
     .attr("cy",function(d){
-      d.y = yscale(d.modularity_class)
-      return d.y
+      d.y_list[modes.active_generation] = yscale(d.modularity_class)
+      return d.y_list[modes.active_generation]
     })
     .each("end",function(){
       mlgo_buttons.attr("disabled",null)
@@ -299,12 +300,12 @@ var scatter_on_x = function(){
       .domain(category.values.map(function(d){return d.id}))
       .rangePoints([0,width],1.0)
     category.values.forEach(function(d){
-      d.x = category.xscale(d.id)
+      d.x_list[modes.active_generation] = category.xscale(d.id)
     })
   })
 
   node.transition().duration(transition_duration)
-    .attr("cx",function(d){ return d.x })
+    .attr("cx",function(d){ return d.x_list[modes.active_generation] })
 
   update_links()
 }
@@ -326,6 +327,8 @@ var size_nodes_by_constant = function(){
     .attr("r", node_r_constant)
   
 }
+
+
 
 
 

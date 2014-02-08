@@ -5,7 +5,7 @@ var mlgo_steps = [
   {f:size_nodes_by_constant, label:"Size Nodes by Constant", disabled:true},
   {f:evenly_position_on_y, label:"Evenly Position on Y", disabled:true},
   {f:position_x_left, label:"Position X Left", disabled:true},
-  {f:clone_nodes, label:"Stamp Clones of Nodes", disabled:true},
+  {f:clone_active_set, label:"Clone Active Set", disabled:true},
   {f:evenly_position_on_x, label:"Evenly Position on X", disabled:true},
   {f:position_y_bottom, label:"Position Y Bottom", disabled:true},
   {f:transition_links_to_circle, label:"Links to Circles", disabled:true},
@@ -30,6 +30,10 @@ var mlgo_steps = [
   {f:position_x_center, label:"Position X Center", disabled:true},
   {f:position_x_right, label:"Position X Right", disabled:true},
   {f:force_directed, label:"Force-Directed", disabled:true},
+  
+  {f:select_generation_0, label:"Select Primary Nodes", disabled:true},
+  {f:select_generation_1, label:"Select Generation 1 Nodes", disabled:true},
+  {f:select_generation_2, label:"Select Generation 2 Nodes", disabled:true},
   
   // {f:finished, label:"Finished"}
   ]

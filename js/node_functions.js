@@ -1,11 +1,12 @@
-var clone_nodes = function(){
+var clone_active_set = function(){
   //Stamps a copy of the current position
   //of the nodes.
-  nodeclone = nodeg.selectAll(".node.clone")
+  modes.generation+=1
+  node_generations[modes.generation] = nodeclone = nodeg.selectAll(".node.generation-"+modes.generation)
       .data(graph.nodes, function(d){return d.id})
     .enter().append("circle")
       .classed("node",true)
-      .classed("clone",true)
+      .classed("generation-"+modes.generation,true)
       .attr("r",function(d){
         if(modes.node_r=="constant"){
           return node_r_constant
@@ -25,22 +26,46 @@ var clone_nodes = function(){
       .text(function(d){ return d.label; })
 
   nodeclone
-    .attr("cx", function(d) { d.clonex = d.x+0; return d.clonex; })
-    .attr("cy", function(d) { d.cloney = d.y+0; return d.cloney; });
+    .each(function(d){ d.x_list[modes.generation] = d.x_list[modes.active_generation]})
+    .each(function(d){ d.y_list[modes.generation] = d.y_list[modes.active_generation]})
+    
+
+
+  modes.active_generation = modes.generation
+  node = nodeclone
+
+  node
+    .attr("cx", function(d) { return d.x_list[modes.active_generation]; })
+    .attr("cy", function(d) { return d.y_list[modes.active_generation]; });
 
 }
 
 var remove_clones = function(){
-  if(!nodeclone){ return; }
-  nodeclone.each(function(d){
-    d.clonex = null
-    d.cloney = null
-  })
-  nodeclone.remove()
-  nodeclone = null
-  link.transition().duration(transition_duration)
-    .call(link_function)
+  select_generation_0()
+  modes.generation = 0
+  
 }
+
+
+
+//Select Generations
+var select_generation_0 = function(){
+  modes.active_generation = 0
+  node = node_generations[modes.active_generation]
+
+}
+
+var select_generation_1 = function(){
+  modes.active_generation = 1
+  node = node_generations[modes.active_generation]
+}
+
+var select_generation_2 = function(){
+  modes.active_generation = 2
+  node = node_generations[modes.active_generation]
+}
+
+
 
 
 var evenly_position_on_x = function(){
@@ -49,11 +74,11 @@ var evenly_position_on_x = function(){
     .rangePoints([0,width])
 
   node.each(function(d){
-    d.x = xscale(d.id)
+    d.x_list[modes.active_generation] = xscale(d.id)
   })
 
   node.transition().duration(transition_duration)
-    .attr("cx",function(d){ return d.x })
+    .attr("cx",function(d){ return d.x_list[modes.active_generation] })
 
   update_links()
 }
@@ -64,11 +89,11 @@ var evenly_position_on_y = function(){
     .rangePoints([0,height])
 
   node.each(function(d){
-    d.y = yscale(d.id)
+    d.y_list[modes.active_generation] = yscale(d.id)
   })
 
   node.transition().duration(transition_duration)
-    .attr("cy",function(d){ return d.y })
+    .attr("cy",function(d){ return d.y_list[modes.active_generation] })
 
   update_links()
 }
@@ -79,11 +104,11 @@ var position_y_top = function(){
   }
 
   node.each(function(d){
-    d.y = yscale(d.id)
+    d.y_list[modes.active_generation] = yscale(d.id)
   })
 
   node.transition().duration(transition_duration)
-    .attr("cy",function(d){ return d.y })
+    .attr("cy",function(d){ return d.y_list[modes.active_generation] })
 
   update_links()
 }
@@ -94,11 +119,11 @@ var position_y_middle = function(){
   }
 
   node.each(function(d){
-    d.y = yscale(d.id)
+    d.y_list[modes.active_generation] = yscale(d.id)
   })
 
   node.transition().duration(transition_duration)
-    .attr("cy",function(d){ return d.y })
+    .attr("cy",function(d){ return d.y_list[modes.active_generation] })
 
   update_links()
 }
@@ -109,11 +134,11 @@ var position_y_bottom = function(){
   }
 
   node.each(function(d){
-    d.y = yscale(d.id)
+    d.y_list[modes.active_generation] = yscale(d.id)
   })
 
   node.transition().duration(transition_duration)
-    .attr("cy",function(d){ return d.y })
+    .attr("cy",function(d){ return d.y_list[modes.active_generation] })
 
   update_links()
 }
@@ -125,11 +150,11 @@ var position_x_left = function(){
   }
 
   node.each(function(d){
-    d.x = xscale(d.id)
+    d.x_list[modes.active_generation] = xscale(d.id)
   })
 
   node.transition().duration(transition_duration)
-    .attr("cx",function(d){ return d.x })
+    .attr("cx",function(d){ return d.x_list[modes.active_generation] })
 
   update_links()
 }
@@ -140,11 +165,11 @@ var position_x_center = function(){
   }
 
   node.each(function(d){
-    d.x = xscale(d.id)
+    d.x_list[modes.active_generation] = xscale(d.id)
   })
 
   node.transition().duration(transition_duration)
-    .attr("cx",function(d){ return d.x })
+    .attr("cx",function(d){ return d.x_list[modes.active_generation] })
 
   update_links()
 }
@@ -155,11 +180,11 @@ var position_x_right = function(){
   }
 
   node.each(function(d){
-    d.x = xscale(d.id)
+    d.x_list[modes.active_generation] = xscale(d.id)
   })
 
   node.transition().duration(transition_duration)
-    .attr("cx",function(d){ return d.x })
+    .attr("cx",function(d){ return d.x_list[modes.active_generation] })
 
   update_links()
 }

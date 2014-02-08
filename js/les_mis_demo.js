@@ -32,6 +32,8 @@ d3.csv("data/"+source+"/nodes.csv",function(nodes){
       d.clustering_coefficient = +d.clustering_coefficient
       d.number_of_triangles = +d.number_of_triangles
       d.eigenvector_centrality = +d.eigenvector_centrality
+      d.x_list = {}
+      d.y_list = {}
     })
     edges.forEach(function(d){
       // console.log(d)
