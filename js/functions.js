@@ -57,10 +57,11 @@ var initialize_force_directed = function(){
         .attr("nodeid", function(d){return d.id})
         .attr("r",function(d){
           if(modes.node_r=="constant"){
-            return node_r_constant
+            d.r_list[0] = node_r_constant
           }else if(modes.node_r=="degree"){
-            return d.degree+2
+            d.r_list[0]  = d.degree+2
           }
+          return d.r_list[0]
         })
         .attr("fill", function(d){ return d3.rgb(color(d.modularity_class)).darker(); })
         .on("mouseover",function(d){
