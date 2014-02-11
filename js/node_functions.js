@@ -2,11 +2,12 @@ var clone_active_set = function(){
   //Stamps a copy of the current position
   //of the nodes.
   modes.generation+=1
-  node_generations[modes.generation] = nodeclone = nodeg.selectAll(".node.generation-"+modes.generation)
+  node_generations[modes.generation] = nodeclone = nodeg.selectAll(".node[generation='"+modes.generation+"']")
       .data(graph.nodes, function(d){return d.id})
     .enter().append("circle")
       .classed("node",true)
-      .classed("generation-"+modes.generation,true)
+      .attr("generation",modes.generation)
+      .attr("nodeid", function(d){return d.id})
       .attr("r",function(d){
         if(modes.node_r=="constant"){
           return node_r_constant

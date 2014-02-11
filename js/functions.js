@@ -36,16 +36,25 @@ var initialize_force_directed = function(){
         .data(graph.edges, function(d){return d.id})
       .enter().append("svg:path")
         .classed("link",true)
-        .style("stroke-width", function(d) { return Math.sqrt(d.weight); });
+        .style("stroke-width", function(d) { return Math.sqrt(d.weight); })
         // .attr("class", function(d) { return "link " + d.type; })
         // .attr("marker-end", function(d) { return "url(#" + d.type + ")"; });
+        .on("mouseover",function(d){
+          d3.select('.node[generation="'+modes.source_generation+'"][nodeid="'+d.source.id+'"]').attr("fill", color(d.source.modularity_class) )
+          d3.select('.node[generation="'+modes.target_generation+'"][nodeid="'+d.target.id+'"]').attr("fill", color(d.target.modularity_class) )
+        })
+        .on("mouseout",function(d){
+          d3.select('.node[generation="'+modes.source_generation+'"][nodeid="'+d.source.id+'"]').attr("fill", d3.rgb(color(d.source.modularity_class)).darker() )
+          d3.select('.node[generation="'+modes.target_generation+'"][nodeid="'+d.target.id+'"]').attr("fill", d3.rgb(color(d.target.modularity_class)).darker() )
+        
+        })
 
-
-    node_generations[0] = node = nodeg.selectAll(".node.generation-0")
+    node_generations[0] = node = nodeg.selectAll(".node[generation='0']")
         .data(graph.nodes, function(d){return d.id})
       .enter().append("circle")
         .classed("node",true)
-        .classed("generation-0",true)
+        .attr("generation",0)
+        .attr("nodeid", function(d){return d.id})
         .attr("r", function(d){ return d.degree+2; })
         // .attr("r",5)
         // .attr("r",function(d,i){return (i+1)*2})
