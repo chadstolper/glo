@@ -36,18 +36,32 @@ var initialize_force_directed = function(){
         .data(graph.edges, function(d){return d.id})
       .enter().append("svg:path")
         .classed("link",true)
-        .style("stroke-width", function(d) { return Math.sqrt(d.weight); });
+        .style("stroke-width", function(d) { return Math.sqrt(d.weight); })
         // .attr("class", function(d) { return "link " + d.type; })
         // .attr("marker-end", function(d) { return "url(#" + d.type + ")"; });
+        .on("mouseover",function(d){
+          d3.select('.node[generation="'+modes.source_generation+'"][nodeid="'+d.source.id+'"]').attr("fill", color(d.source.modularity_class) )
+          d3.select('.node[generation="'+modes.target_generation+'"][nodeid="'+d.target.id+'"]').attr("fill", color(d.target.modularity_class) )
+        })
+        .on("mouseout",function(d){
+          d3.select('.node[generation="'+modes.source_generation+'"][nodeid="'+d.source.id+'"]').attr("fill", d3.rgb(color(d.source.modularity_class)).darker() )
+          d3.select('.node[generation="'+modes.target_generation+'"][nodeid="'+d.target.id+'"]').attr("fill", d3.rgb(color(d.target.modularity_class)).darker() )
+        
+        })
 
-
-    node = nodeg.selectAll(".node")
+    node_generations[0] = node = nodeg.selectAll(".node[generation='0']")
         .data(graph.nodes, function(d){return d.id})
       .enter().append("circle")
         .classed("node",true)
-        .attr("r", function(d){ return d.degree+2; })
-        // .attr("r",5)
-        // .attr("r",function(d,i){return (i+1)*2})
+        .attr("generation",0)
+        .attr("nodeid", function(d){return d.id})
+        .attr("r",function(d){
+          if(modes.node_r=="constant"){
+            return node_r_constant
+          }else if(modes.node_r=="degree"){
+            return d.degree+2
+          }
+        })
         .attr("fill", function(d){ return d3.rgb(color(d.modularity_class)).darker(); })
         .on("mouseover",function(d){
           d3.select(this).attr("fill",function(d){ return color(d.modularity_class); })
@@ -66,16 +80,18 @@ var initialize_force_directed = function(){
       //mappings but before link_function is called
       //the first time
       link.each(function(d){
-        d.startx = function(){ return (this.source.clonex)?this.source.clonex:this.source.x; }
-        d.starty = function(){ return (this.source.cloney)?this.source.cloney:this.source.y; }
-        d.endx = function(){ return this.target.x; }
-        d.endy = function(){ return this.target.y; }
+        d.startx = function(){ return this.source.x_list[modes.source_generation]; }
+        d.starty = function(){ return this.source.y_list[modes.source_generation]; }
+        d.endx = function(){ return this.target.x_list[modes.target_generation]; }
+        d.endy = function(){ return this.target.y_list[modes.target_generation]; }
       })
 
+
+      node.attr("cx", function(d) { d.x_list[modes.active_generation]= d.x; return d.x_list[modes.active_generation]; })
+          .attr("cy", function(d) { d.y_list[modes.active_generation] = d.y; return d.y_list[modes.active_generation]; });
+      
       link.call(link_function)
 
-      node.attr("cx", function(d) { return d.x; })
-          .attr("cy", function(d) { return d.y; });
     })
 
     force.on("end",function(){
@@ -95,6 +111,12 @@ var initialize_force_directed = function(){
 }
 
 var force_directed =function(){
+
+  graph.nodes.forEach(function(d){
+    d.x = d.x_list[modes.active_generation]
+    d.y = d.y_list[modes.active_generation]
+  })
+
   force
     .nodes(graph.nodes)
       .links(graph.edges)
@@ -106,10 +128,13 @@ var force_directed =function(){
 
     
 
+      
+
+      node.attr("cx", function(d) { d.x_list[modes.active_generation]= d.x; return d.x_list[modes.active_generation]; })
+          .attr("cy", function(d) { d.y_list[modes.active_generation] = d.y; return d.y_list[modes.active_generation]; });
+      
       link.call(link_function)
 
-      node.attr("cx", function(d) { return d.x; })
-          .attr("cy", function(d) { return d.y; });
     })
     .on("end",null)
      .resume()
@@ -201,8 +226,8 @@ var transition_x = function(){
 
   node.transition().duration(transition_duration)
     .attr("cx",function(d){
-      d.x = xscale(d.betweenness_centrality)
-      return d.x
+      d.x_list[modes.active_generation] = xscale(d.betweenness_centrality)
+      return d.x_list[modes.active_generation]
     })
     .each("end",function(d){
       mlgo_buttons.attr("disabled",null)
@@ -222,8 +247,8 @@ var transition_y = function(){
 
   node.transition().duration(transition_duration)
     .attr("cy",function(d){
-      d.y = yscale(d.degree)
-      return d.y
+      d.y_list[modes.active_generation] = yscale(d.degree)
+      return d.y_list[modes.active_generation]
     })
     .each("end",function(){
       mlgo_buttons.attr("disabled",null)
@@ -281,8 +306,8 @@ var substrate_on_y = function(){
 
   node.transition().duration(transition_duration)
     .attr("cy",function(d){
-      d.y = yscale(d.modularity_class)
-      return d.y
+      d.y_list[modes.active_generation] = yscale(d.modularity_class)
+      return d.y_list[modes.active_generation]
     })
     .each("end",function(){
       mlgo_buttons.attr("disabled",null)
@@ -299,12 +324,12 @@ var scatter_on_x = function(){
       .domain(category.values.map(function(d){return d.id}))
       .rangePoints([0,width],1.0)
     category.values.forEach(function(d){
-      d.x = category.xscale(d.id)
+      d.x_list[modes.active_generation] = category.xscale(d.id)
     })
   })
 
   node.transition().duration(transition_duration)
-    .attr("cx",function(d){ return d.x })
+    .attr("cx",function(d){ return d.x_list[modes.active_generation] })
 
   update_links()
 }
@@ -326,6 +351,8 @@ var size_nodes_by_constant = function(){
     .attr("r", node_r_constant)
   
 }
+
+
 
 
 
