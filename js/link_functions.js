@@ -1,5 +1,48 @@
 
 
+var set_source_generation = function(gen){
+  modes.source_generation = gen
+  update_links()
+}
+
+var set_source_generation = function(gen){
+  modes.source_generation = gen
+  update_links()
+}
+
+var set_target_generation = function(gen){
+  modes.target_generation = gen
+  update_links()
+}
+
+var set_source_generation_0 = function(){
+  set_source_generation(0)
+}
+
+var set_source_generation_1 = function(){
+  set_source_generation(1)
+}
+
+var set_source_generation_2 = function(){
+  set_source_generation(2)
+}
+
+var set_target_generation_0 = function(){
+  set_target_generation(0)
+}
+
+var set_target_generation_1 = function(){
+  set_target_generation(1)
+}
+
+var set_target_generation_2 = function(){
+  set_target_generation(2)
+}
+
+
+
+
+
 var hscale = d3.scale.linear()
   .range([3,12])
   .domain([0,width])

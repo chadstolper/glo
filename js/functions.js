@@ -67,16 +67,18 @@ var initialize_force_directed = function(){
       //mappings but before link_function is called
       //the first time
       link.each(function(d){
-        d.startx = function(){ return (this.source.clonex)?this.source.clonex:this.source.x; }
-        d.starty = function(){ return (this.source.cloney)?this.source.cloney:this.source.y; }
-        d.endx = function(){ return this.target.x; }
-        d.endy = function(){ return this.target.y; }
+        d.startx = function(){ return this.source.x_list[modes.source_generation]; }
+        d.starty = function(){ return this.source.y_list[modes.source_generation]; }
+        d.endx = function(){ return this.target.x_list[modes.target_generation]; }
+        d.endy = function(){ return this.target.y_list[modes.target_generation]; }
       })
 
-      link.call(link_function)
 
       node.attr("cx", function(d) { d.x_list[modes.active_generation]= d.x; return d.x_list[modes.active_generation]; })
           .attr("cy", function(d) { d.y_list[modes.active_generation] = d.y; return d.y_list[modes.active_generation]; });
+      
+      link.call(link_function)
+
     })
 
     force.on("end",function(){

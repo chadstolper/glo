@@ -15,12 +15,12 @@ var clone_active_set = function(){
         }
       })
       .attr("fill", function(d){ return d3.rgb(color(d.modularity_class)).darker(); })
-        .on("mouseover",function(d){
-          d3.select(this).attr("fill",function(d){ return color(d.modularity_class); })
-        })
-        .on("mouseout",function(d){
-          d3.select(this).attr("fill", function(d){ return d3.rgb(color(d.modularity_class)).darker(); })
-        })
+      .on("mouseover",function(d){
+        d3.select(this).attr("fill",function(d){ return color(d.modularity_class); })
+      })
+      .on("mouseout",function(d){
+        d3.select(this).attr("fill", function(d){ return d3.rgb(color(d.modularity_class)).darker(); })
+      })
 
   nodeclone.append("title")
       .text(function(d){ return d.label; })
@@ -49,20 +49,21 @@ var remove_clones = function(){
 
 
 //Select Generations
-var select_generation_0 = function(){
-  modes.active_generation = 0
+var select_generation = function(gen){
+  modes.active_generation = gen
   node = node_generations[modes.active_generation]
+}
 
+var select_generation_0 = function(){
+  select_generation(0)
 }
 
 var select_generation_1 = function(){
-  modes.active_generation = 1
-  node = node_generations[modes.active_generation]
+  select_generation(1)
 }
 
 var select_generation_2 = function(){
-  modes.active_generation = 2
-  node = node_generations[modes.active_generation]
+  select_generation(2)
 }
 
 
