@@ -111,6 +111,12 @@ var initialize_force_directed = function(){
 }
 
 var force_directed =function(){
+
+  graph.nodes.forEach(function(d){
+    d.x = d.x_list[modes.active_generation]
+    d.y = d.y_list[modes.active_generation]
+  })
+
   force
     .nodes(graph.nodes)
       .links(graph.edges)
@@ -122,10 +128,13 @@ var force_directed =function(){
 
     
 
+      
+
+      node.attr("cx", function(d) { d.x_list[modes.active_generation]= d.x; return d.x_list[modes.active_generation]; })
+          .attr("cy", function(d) { d.y_list[modes.active_generation] = d.y; return d.y_list[modes.active_generation]; });
+      
       link.call(link_function)
 
-      node.attr("cx", function(d) { return d.x_list[modes.active_generation]; })
-          .attr("cy", function(d) { return d.y_list[modes.active_generation]; });
     })
     .on("end",null)
      .resume()
