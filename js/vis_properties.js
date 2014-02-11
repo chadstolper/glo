@@ -9,7 +9,7 @@ var substrates
 
 var modes = {
   edges: "straight",//"curved", //"straight","circle"
-  node_r: "degree", //"constant"
+  node_r: "constant", //"degree", //"constant"
   active_generation: 0,
   source_generation: 0,
   target_generation: 0,

@@ -41,10 +41,25 @@ var clone_active_set = function(){
 
 }
 
-var remove_clones = function(){
-  select_generation_0()
-  modes.generation = 0
-  
+var remove_generation = function(gen){
+  if(gen==0){ return; } //cannot remove primary nodes
+  if(gen==modes.active_generation){
+    select_generation(0) //select primary nodes
+    to_remove = node_generations[gen]
+    node_generations[gen] = null
+    to_remove.remove()
+  }
+  if(gen==modes.source_generation){
+    modes.source_generation = 0
+  }
+  if(gen==modes.target_generation){
+    modes.target_generation = 0
+  }
+  update_links()
+}
+
+var remove_generation_1 = function(){
+  remove_generation(1)
 }
 
 

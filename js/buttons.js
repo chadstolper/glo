@@ -43,7 +43,7 @@ var mlgo_steps = [
 
 
   {f:clone_active_set, label:"Clone Active Set"},
-  {f:remove_clones, label:"Remove Clones"},
+  {f:remove_generation_1, label:"Remove Generation 1"},
 
   
   

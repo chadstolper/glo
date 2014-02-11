@@ -55,9 +55,13 @@ var initialize_force_directed = function(){
         .classed("node",true)
         .attr("generation",0)
         .attr("nodeid", function(d){return d.id})
-        .attr("r", function(d){ return d.degree+2; })
-        // .attr("r",5)
-        // .attr("r",function(d,i){return (i+1)*2})
+        .attr("r",function(d){
+          if(modes.node_r=="constant"){
+            return node_r_constant
+          }else if(modes.node_r=="degree"){
+            return d.degree+2
+          }
+        })
         .attr("fill", function(d){ return d3.rgb(color(d.modularity_class)).darker(); })
         .on("mouseover",function(d){
           d3.select(this).attr("fill",function(d){ return color(d.modularity_class); })
