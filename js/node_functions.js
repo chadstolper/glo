@@ -9,12 +9,9 @@ var clone_active_set = function(){
       .attr("generation",modes.generation)
       .attr("nodeid", function(d){return d.id})
       .attr("r",function(d){
-        if(modes.node_r=="constant"){
-          return node_r_constant
-        }else if(modes.node_r=="degree"){
-          return d.degree+2
-        }
-      })
+          d.r_list[modes.generation] = d.r_list[modes.active_generation]
+          return d.r_list[modes.generation]
+        })
       .attr("fill", function(d){ return d3.rgb(color(d.modularity_class)).darker(); })
       .on("mouseover",function(d){
         d3.select(this).attr("fill",function(d){ return color(d.modularity_class); })

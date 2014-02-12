@@ -34,6 +34,7 @@ d3.csv("data/"+source+"/nodes.csv",function(nodes){
       d.eigenvector_centrality = +d.eigenvector_centrality
       d.x_list = {}
       d.y_list = {}
+      d.r_list = {}
     })
     edges.forEach(function(d){
       // console.log(d)
