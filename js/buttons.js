@@ -2,6 +2,11 @@
 var mlgo_index = 0
 var mlgo_steps = [
   {f:initialize_force_directed, label:"Initialize"},
+  {f:transition_x_by_degree, label:"Position X by Degree"},
+  {f:substrate_on_y, label:"Substrate on Y by Category"},
+  {f:aggregate_nodes_by_degree_and_category, label:"Aggregate by Degree and Category"},
+
+
   {f:force_directed, label:"Force-Directed"},
 
 
@@ -16,10 +21,9 @@ var mlgo_steps = [
   {f:position_y_middle, label:"Position Y Middle"},
   {f:position_y_bottom, label:"Position Y Bottom"},
 
-  {f:transition_x, label:"Position X Relatively by Betweenness Centrality"},
+  {f:transition_x_by_betweenness, label:"Position X Relatively by Betweenness Centrality"},
   {f:transition_y, label:"Position Y Relatively by Degree"},
 
-  {f:substrate_on_y, label:"Substrate on Y by Category"},
   {f:scatter_on_x, label:"Scatter on X within Substrates"},
 
 
@@ -59,6 +63,7 @@ var mlgo_steps = [
   {f:set_target_generation_0, label:"Target Generation 0"},
   {f:set_target_generation_1, label:"Target Generation 1"},
   {f:set_target_generation_2, label:"Target Generation 2"},
+  
   // {f:finished, label:"Finished"}
   ]
 

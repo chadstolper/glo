@@ -1,3 +1,87 @@
+var aggregate_nodes = function(prop1,prop2){
+    modes.generation+=1
+    var aggregates = {}
+    for (var node in graph.nodes){
+      node = graph.nodes[node]
+      var p1 = node[prop1]
+      var p2 = node[prop2]
+      if(!aggregates[p1+","+p2]){
+        aggregates[p1+","+p2] = []
+      }
+      aggregates[p1+","+p2].push(node)
+      console.log(p1,p2)
+    }
+    console.log(aggregates)
+    var aggregates_list = []
+    for(var key in aggregates){
+      aggregates_list.push(aggregates[key])
+    }
+    var agg_nodes = []
+    var i = 0
+    for (var agg in aggregates_list){
+      agg = aggregates_list[agg]
+      agg_node = {}
+      agg_node.id = "agg"+modes.generation+"i"+i
+      i++
+      agg_node.x_list = {}
+      agg_node.y_list = {}
+      agg_node.r_list = {}
+      agg_node.nodes = agg
+      agg_node.count = agg.length
+      agg_node.degree = agg[0].degree
+      agg_node.modularity_class = agg[0].modularity_class
+      //currently only can size by count
+      //we'll need some non-graph-based properties
+      agg_node.x_list[modes.generation] = xscale(agg_node[prop1])
+      agg_node.y_list[modes.generation] = yscale(agg_node[prop2])
+      agg_node.r_list[modes.generation] = agg_node.count*5
+      agg_nodes.push(agg_node)
+    }
+    console.log(agg_nodes)
+    node_generations[modes.generation] = agg_glyphs = nodeg.selectAll(".node[generation='"+modes.generation+"']")
+      .data(agg_nodes, function(d){return d.id})
+    .enter().append("circle")
+      .classed("node",true)
+      .classed("aggregate",true)
+      .attr("generation",modes.generation)
+      .attr("nodeid", function(d){return d.id})
+      .attr("r",0)
+      .attr("fill", function(d){ return d3.rgb(color(d.modularity_class)).darker(); })
+      .on("mouseover",function(d){
+        d3.select(this).attr("fill",function(d){ return color(d.modularity_class); })
+      })
+      .on("mouseout",function(d){
+        d3.select(this).attr("fill", function(d){ return d3.rgb(color(d.modularity_class)).darker(); })
+      })
+
+  agg_glyphs.append("title")
+      .text(function(d){ return d.label; })
+
+  node_generations[modes.active_generation]
+    .each(function(d){
+      d.r_list[modes.active_generation] = 0
+    })
+    .transition().duration(transition_duration)
+      .attr("r",0)
+
+  modes.active_generation = modes.generation
+  node = agg_glyphs
+
+  node
+    .attr("cx", function(d) { return d.x_list[modes.active_generation]; })
+    .attr("cy", function(d) { return d.y_list[modes.active_generation]; });
+  
+  node.transition().duration(transition_duration)
+    .attr("r",function(d){
+      return d.r_list[modes.generation]
+    })
+
+}
+
+var aggregate_nodes_by_degree_and_category = function(){
+  aggregate_nodes("degree","modularity_class")
+}
+
 var clone_active_set = function(){
   //Stamps a copy of the current position
   //of the nodes.

@@ -2,10 +2,12 @@ var graph = {}
 var node, nodeclone, link
 var node_generations = {}
 var xscale, yscale
+var xprop, yprop
 var transition_duration = 2000
 
 var force
 var substrates
+
 
 var modes = {
   edges: "straight",//"curved", //"straight","circle"

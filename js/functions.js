@@ -216,7 +216,7 @@ var show_selected_links_node_callbacks = function(selection){
 }
 
 
-var transition_x = function(){
+var transition_x_by_betweenness = function(){
   mlgo_buttons.attr("disabled","true")
 
   xscale = d3.scale.linear()
@@ -228,6 +228,27 @@ var transition_x = function(){
   node.transition().duration(transition_duration)
     .attr("cx",function(d){
       d.x_list[modes.active_generation] = xscale(d.betweenness_centrality)
+      return d.x_list[modes.active_generation]
+    })
+    .each("end",function(d){
+      mlgo_buttons.attr("disabled",null)
+    })
+
+  update_links()
+}
+
+var transition_x_by_degree = function(){
+  mlgo_buttons.attr("disabled","true")
+
+  xscale = d3.scale.linear()
+      .range([0,width])
+      .domain([0,d3.max(graph.nodes.map(function(d){return d.degree; }))])
+      .nice()
+
+
+  node.transition().duration(transition_duration)
+    .attr("cx",function(d){
+      d.x_list[modes.active_generation] = xscale(d.degree)
       return d.x_list[modes.active_generation]
     })
     .each("end",function(d){
