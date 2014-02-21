@@ -258,6 +258,21 @@ var transition_x_by_degree = function(){
   update_links()
 }
 
+var transition_x_by_gender = function(){
+  xscale = d3.scale.ordinal()
+    .rangeBands([0,width])
+    .domain(['F','M'])
+    // .domain(graph.nodes.map(function(d){return d.gender}))
+
+
+node.transition().duration(transition_duration)
+  .attr("cx",function(d){
+    d.x_list[modes.active_generation] = xscale(d.gender)
+    return d.x_list[modes.active_generation]
+  })
+
+  update_links()
+}
 
 var transition_y = function(){
   mlgo_buttons.attr("disabled","true")

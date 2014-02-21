@@ -9,9 +9,9 @@ var aggregate_nodes = function(prop1,prop2){
         aggregates[p1+","+p2] = []
       }
       aggregates[p1+","+p2].push(node)
-      console.log(p1,p2)
+      // console.log(p1,p2)
     }
-    console.log(aggregates)
+    // console.log(aggregates)
     var aggregates_list = []
     for(var key in aggregates){
       aggregates_list.push(aggregates[key])
@@ -30,6 +30,7 @@ var aggregate_nodes = function(prop1,prop2){
       agg_node.count = agg.length
       agg_node.degree = agg[0].degree
       agg_node.modularity_class = agg[0].modularity_class
+      agg_node.gender = agg[0].gender
       //currently only can size by count
       //we'll need some non-graph-based properties
       agg_node.x_list[modes.generation] = xscale(agg_node[prop1])
@@ -37,7 +38,7 @@ var aggregate_nodes = function(prop1,prop2){
       agg_node.r_list[modes.generation] = agg_node.count*5
       agg_nodes.push(agg_node)
     }
-    console.log(agg_nodes)
+    // console.log(agg_nodes)
     node_generations[modes.generation] = agg_glyphs = nodeg.selectAll(".node[generation='"+modes.generation+"']")
       .data(agg_nodes, function(d){return d.id})
     .enter().append("circle")
@@ -78,8 +79,8 @@ var aggregate_nodes = function(prop1,prop2){
 
 }
 
-var aggregate_nodes_by_degree_and_category = function(){
-  aggregate_nodes("degree","modularity_class")
+var aggregate_nodes_by_gender_and_category = function(){
+  aggregate_nodes("gender","modularity_class")
 }
 
 var clone_active_set = function(){

@@ -3,8 +3,9 @@ var mlgo_index = 0
 var mlgo_steps = [
   {f:initialize_force_directed, label:"Initialize"},
   {f:transition_x_by_degree, label:"Position X by Degree"},
+  {f:transition_x_by_gender, label:"Position X by Gender"},
   {f:substrate_on_y, label:"Substrate on Y by Category"},
-  {f:aggregate_nodes_by_degree_and_category, label:"Aggregate by Degree and Category"},
+  {f:aggregate_nodes_by_gender_and_category, label:"Aggregate by Gender and Category"},
 
 
   {f:force_directed, label:"Force-Directed"},
