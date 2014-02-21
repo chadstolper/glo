@@ -84,11 +84,11 @@ var aggregate_nodes = function(prop1,prop2){
 var deaggregate_nodes = function(agg_gen){
   try{
     if(node_generations[agg_gen].data()[0].id.indexOf("agg")!=0){
-      console.log("nope, not aggregate")
+      // console.log("nope, not aggregate")
       return
     }else{
-      console.log("yep, aggregate")
-      modes.active_generation = agg_generations[agg_gen]
+      // console.log("yep, aggregate")
+      modes.active_generation = agg_generations[agg_gen].source_gen
       node_generations[agg_gen]
         .transition().duration(transition_duration)
           .attr("r",0)
@@ -104,7 +104,7 @@ var deaggregate_nodes = function(agg_gen){
 
     }
   }catch(err){
-    console.log("nope, not aggregate")
+    // console.log("nope, not aggregate")
   }
 }
 
