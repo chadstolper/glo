@@ -6,7 +6,8 @@ var mlgo_steps = [
   {f:transition_x_by_gender, label:"Position X by Gender"},
   {f:substrate_on_y, label:"Substrate on Y by Category"},
   {f:aggregate_nodes_by_gender_and_category, label:"Aggregate by Gender and Category"},
-
+  {f:deaggregate_0, label:"Deaggregate 0"},
+  {f:deaggregate_1, label:"Deaggregate 1"},
 
   {f:force_directed, label:"Force-Directed"},
 

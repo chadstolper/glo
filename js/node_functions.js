@@ -59,12 +59,14 @@ var aggregate_nodes = function(prop1,prop2){
       .text(function(d){ return d.label; })
 
   node_generations[modes.active_generation]
-    .each(function(d){
-      d.r_list[modes.active_generation] = 0
-    })
+    // .each(function(d){
+    //   d.r_list[modes.active_generation] = 0
+    // })
     .transition().duration(transition_duration)
       .attr("r",0)
 
+  agg_generations[modes.generation] = {}
+  agg_generations[modes.generation].source_gen = modes.active_generation
   modes.active_generation = modes.generation
   node = agg_glyphs
 
@@ -77,6 +79,41 @@ var aggregate_nodes = function(prop1,prop2){
       return d.r_list[modes.generation]
     })
 
+}
+
+var deaggregate_nodes = function(agg_gen){
+  try{
+    if(node_generations[agg_gen].data()[0].id.indexOf("agg")!=0){
+      console.log("nope, not aggregate")
+      return
+    }else{
+      console.log("yep, aggregate")
+      modes.active_generation = agg_generations[agg_gen]
+      node_generations[agg_gen]
+        .transition().duration(transition_duration)
+          .attr("r",0)
+        .remove()
+
+      node_generations[modes.active_generation]
+        .transition().duration(transition_duration)
+          .attr("r",function(d){return d.r_list[modes.active_generation]})
+
+      node_generations[agg_gen] = null
+      agg_generations[agg_gen] = null
+
+
+    }
+  }catch(err){
+    console.log("nope, not aggregate")
+  }
+}
+
+var deaggregate_0 = function(){
+  deaggregate_nodes(0)
+}
+
+var deaggregate_1 = function(){
+  deaggregate_nodes(1)
 }
 
 var aggregate_nodes_by_gender_and_category = function(){
