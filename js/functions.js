@@ -32,11 +32,12 @@ var initialize_force_directed = function(){
       .append("svg:path")
         .attr("d", "M0,-5L10,0L0,5");
 
-    link = linkg.selectAll(".link")
+    link = link_generations[0] = linkg.selectAll(".link[generation='0']")
         .data(graph.edges, function(d){return d.id})
       .enter().append("svg:path")
         .classed("link",true)
-        .style("stroke-width", function(d) { return Math.sqrt(d.weight); })
+        .attr("generation",0)
+        .attr("stroke-width", function(d) { return Math.sqrt(d.weight); })
         // .attr("class", function(d) { return "link " + d.type; })
         // .attr("marker-end", function(d) { return "url(#" + d.type + ")"; });
         .on("mouseover",function(d){
@@ -138,7 +139,7 @@ var force_directed =function(){
 
     })
     .on("end",null)
-     .resume()
+    .resume()
 }
 
 var hide_links = function(){
@@ -246,7 +247,7 @@ var transition_x_by_degree = function(){
       .nice()
 
 
-  node.transition().duration(transition_duration)
+  node_generations[modes.active_generation].transition().duration(transition_duration)
     .attr("cx",function(d){
       d.x_list[modes.active_generation] = xscale(d.degree)
       return d.x_list[modes.active_generation]
@@ -260,12 +261,12 @@ var transition_x_by_degree = function(){
 
 var transition_x_by_gender = function(){
   xscale = d3.scale.ordinal()
-    .rangeBands([0,width])
+    .rangePoints([0,width],1)
     .domain(['F','M'])
     // .domain(graph.nodes.map(function(d){return d.gender}))
 
 
-node.transition().duration(transition_duration)
+node_generations[modes.active_generation].transition().duration(transition_duration)
   .attr("cx",function(d){
     d.x_list[modes.active_generation] = xscale(d.gender)
     return d.x_list[modes.active_generation]
@@ -282,7 +283,7 @@ var transition_y = function(){
       .domain([0,d3.max(graph.nodes.map(function(d){return d.degree; }))])
       .nice()
 
-  node.transition().duration(transition_duration)
+  node_generations[modes.active_generation].transition().duration(transition_duration)
     .attr("cy",function(d){
       d.y_list[modes.active_generation] = yscale(d.degree)
       return d.y_list[modes.active_generation]
@@ -341,7 +342,7 @@ var substrate_on_y = function(){
     .domain(substrates.map(function(d){return d.key; }))
     .rangePoints([height,0],1.0)
 
-  node.transition().duration(transition_duration)
+  node_generations[modes.active_generation].transition().duration(transition_duration)
     .attr("cy",function(d){
       d.y_list[modes.active_generation] = yscale(d.modularity_class)
       return d.y_list[modes.active_generation]
@@ -365,7 +366,7 @@ var scatter_on_x = function(){
     })
   })
 
-  node.transition().duration(transition_duration)
+  node_generations[modes.active_generation].transition().duration(transition_duration)
     .attr("cx",function(d){ return d.x_list[modes.active_generation] })
 
   update_links()
@@ -374,17 +375,14 @@ var scatter_on_x = function(){
 
 var size_nodes_by_degree = function(){
   modes.node_r = "degree"
-  node.transition().duration(transition_duration)
+  node_generations[modes.active_generation].transition().duration(transition_duration)
     .attr("r",function(d){return d.degree+2; })
-  if(nodeclone) nodeclone.transition().duration(transition_duration)
-    .attr("r",function(d){return d.degree+2; })
+ 
 }
 
 var size_nodes_by_constant = function(){
   modes.node_r = "constant"
-  node.transition().duration(transition_duration)
-    .attr("r", node_r_constant)
-  if(nodeclone) nodeclone.transition().duration(transition_duration)
+  node_generations[modes.active_generation].transition().duration(transition_duration)
     .attr("r", node_r_constant)
   
 }

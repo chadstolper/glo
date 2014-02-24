@@ -1,10 +1,11 @@
 var graph = {}
 var node, nodeclone, link
 var node_generations = {}
+var link_generations = {}
 var agg_generations = {}
 var xscale, yscale
 var xprop, yprop
-var transition_duration = 2000
+var transition_duration = 200
 
 var force
 var substrates
@@ -16,7 +17,14 @@ var modes = {
   active_generation: 0,
   source_generation: 0,
   target_generation: 0,
+  link_generation: 0,
+  active_link_generation: 0,
   generation: 0,
+  link_generation: 0,
+}
+
+var node_data = function(){
+  return node_generations[modes.active_generation].data()
 }
 
 var width = 650

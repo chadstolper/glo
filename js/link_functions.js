@@ -215,18 +215,18 @@ var transition_links_to_curved = function(){
   if(modes.edges=="curved"){
     //Pass
   }else if (modes.edges=="straight"){
-    link.call(straight_to_curved)
+    link_generations[modes.active_link_generation].call(straight_to_curved)
   }else if (modes.edges=="circle"){
-    link.call(circle_to_curved)
+    link_generations[modes.active_link_generation].call(circle_to_curved)
   }
 
 }
 
 var transition_links_to_circle = function(){
   if(modes.edges=="curved"){
-    link.call(line_to_circle)
+    link_generations[modes.active_link_generation].call(line_to_circle)
   }else if (modes.edges=="straight"){
-    link.call(line_to_circle)
+    link_generations[modes.active_link_generation].call(line_to_circle)
   }else if (modes.edges=="circle"){
     //Pass
   }
@@ -234,18 +234,18 @@ var transition_links_to_circle = function(){
 
 var transition_links_to_straight = function(){
   if(modes.edges=="curved"){
-    link.call(curved_to_straight)
+    link_generations[modes.active_link_generation].call(curved_to_straight)
   }else if (modes.edges=="straight"){
     //Pass
   }else if (modes.edges=="circle"){
-    link.call(circle_to_straight)
+    link_generations[modes.active_link_generation].call(circle_to_straight)
   }
 }
 
 
 
 var update_links = function(){
-  link.transition().duration(transition_duration)
+  link_generations[modes.active_link_generation].transition().duration(transition_duration)
     .call(link_function)
     .style("visibility",function(d){
       return d.visibility?"visible":"hidden"
@@ -261,6 +261,7 @@ var link_function = function(selection){
     selection.call(circle_edges)
   }
 }
+
 
 
 

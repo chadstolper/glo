@@ -1,7 +1,10 @@
 //The Button
+
+
+
 var mlgo_index = 0
 var mlgo_steps = [
-  {f:initialize_force_directed, label:"Initialize"},
+  // {f:initialize_force_directed, label:"Initialize"},
   {f:transition_x_by_degree, label:"Position X by Degree"},
   {f:transition_x_by_gender, label:"Position X by Gender"},
   {f:substrate_on_y, label:"Substrate on Y by Category"},
