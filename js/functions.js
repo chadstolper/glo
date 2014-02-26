@@ -184,11 +184,10 @@ var show_links_node_callbacks = function(selection){
 
 var show_selected_links = function(){
   // link.style("visibility","hidden")
-  graph.edges.forEach(function(d){
+  link_generations[modes.active_link_generation].each(function(d){
     d.visibility = false
   })
-  node.call(show_selected_links_node_callbacks)
-  if(nodeclone) nodeclone.call(show_selected_links_node_callbacks)
+  node_generations[modes.active_generation].call(show_selected_links_node_callbacks)
   update_links()
 }
 
@@ -196,6 +195,7 @@ var show_selected_links_node_callbacks = function(selection){
   selection
     .on('mouseover',function(d){
       d3.select(this).attr("fill",function(d){ return color(d.modularity_class); })
+      console.log(d)
       d.in_edges.forEach(function(e){
         e.visibility = true
       })
@@ -218,7 +218,6 @@ var show_selected_links_node_callbacks = function(selection){
 
 
 var transition_x_by_betweenness = function(){
-  mlgo_buttons.attr("disabled","true")
 
   xscale = d3.scale.linear()
       .range([0,width])
@@ -238,7 +237,6 @@ var transition_x_by_betweenness = function(){
 }
 
 var transition_x_by_degree = function(){
-  mlgo_buttons.attr("disabled","true")
 
   xscale = d3.scale.linear()
       .range([0,width])
@@ -278,7 +276,6 @@ var transition_x_by_gender = function(){
 }
 
 var transition_y = function(){
-  mlgo_buttons.attr("disabled","true")
  
   yscale = d3.scale.linear()
       .range([height,0])

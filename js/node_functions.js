@@ -24,6 +24,8 @@ var aggregate_nodes = function(prop1,prop2){
       agg_node.x_list = {}
       agg_node.y_list = {}
       agg_node.r_list = {}
+      agg_node.in_edges = []
+      agg_node.out_edges = []
       agg_node.nodes = agg
       agg_node.count = agg.length
       agg_node.degree = agg[0].degree
@@ -52,7 +54,9 @@ var aggregate_nodes = function(prop1,prop2){
         var ea = edge_aggregates[p1s+","+p2s+","+p1t+","+p2t] = {}
         ea.edge_list = []
         ea.source = agg_nodes_dict[p1s+","+p2s]
+        ea.source.out_edges.push(ea)
         ea.target = agg_nodes_dict[p1t+","+p2t]
+        ea.target.in_edges.push(ea)
         ea.id = ++i
       }
       edge_aggregates[p1s+","+p2s+","+p1t+","+p2t].edge_list.push(edge)
