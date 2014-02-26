@@ -226,14 +226,13 @@ var transition_x_by_betweenness = function(){
       .nice()
 
 
-  node.transition().duration(transition_duration)
+  node_generations[modes.active_generation].transition().duration(transition_duration)
     .attr("cx",function(d){
       d.x_list[modes.active_generation] = xscale(d.betweenness_centrality)
       return d.x_list[modes.active_generation]
     })
-    .each("end",function(d){
-      mlgo_buttons.attr("disabled",null)
-    })
+
+  update_rolled_up()
 
   update_links()
 }
@@ -252,9 +251,10 @@ var transition_x_by_degree = function(){
       d.x_list[modes.active_generation] = xscale(d.degree)
       return d.x_list[modes.active_generation]
     })
-    .each("end",function(d){
-      mlgo_buttons.attr("disabled",null)
-    })
+
+  update_rolled_up()
+  
+
 
   update_links()
 }
@@ -266,11 +266,13 @@ var transition_x_by_gender = function(){
     // .domain(graph.nodes.map(function(d){return d.gender}))
 
 
-node_generations[modes.active_generation].transition().duration(transition_duration)
-  .attr("cx",function(d){
-    d.x_list[modes.active_generation] = xscale(d.gender)
-    return d.x_list[modes.active_generation]
-  })
+  node_generations[modes.active_generation].transition().duration(transition_duration)
+    .attr("cx",function(d){
+      d.x_list[modes.active_generation] = xscale(d.gender)
+      return d.x_list[modes.active_generation]
+    })
+
+  update_rolled_up()
 
   update_links()
 }
@@ -288,9 +290,8 @@ var transition_y = function(){
       d.y_list[modes.active_generation] = yscale(d.degree)
       return d.y_list[modes.active_generation]
     })
-    .each("end",function(){
-      mlgo_buttons.attr("disabled",null)
-    })
+  
+  update_rolled_up()
 
   update_links()
 }
@@ -347,9 +348,8 @@ var substrate_on_y = function(){
       d.y_list[modes.active_generation] = yscale(d.modularity_class)
       return d.y_list[modes.active_generation]
     })
-    .each("end",function(){
-      mlgo_buttons.attr("disabled",null)
-    })
+  
+  update_rolled_up()
 
   update_links()
 }
@@ -368,6 +368,8 @@ var scatter_on_x = function(){
 
   node_generations[modes.active_generation].transition().duration(transition_duration)
     .attr("cx",function(d){ return d.x_list[modes.active_generation] })
+
+  update_rolled_up()
 
   update_links()
 }
@@ -390,7 +392,20 @@ var size_nodes_by_constant = function(){
 
 
 
-
+var update_rolled_up = function(){
+  if(activeGenIsAggregate()){
+    node_generations[modes.active_generation]
+      .each(function(d){
+        d.nodes.forEach(function(n){
+          n.x_list[agg_generations[modes.active_generation].source_gen] = d.x_list[modes.active_generation]
+          n.y_list[agg_generations[modes.active_generation].source_gen] = d.y_list[modes.active_generation]
+        })
+      })
+    node_generations[agg_generations[modes.active_generation].source_gen]
+      .attr("cx",function(d){return d.x_list[agg_generations[modes.active_generation].source_gen]})
+      .attr("cy",function(d){return d.y_list[agg_generations[modes.active_generation].source_gen]})
+  }
+}
 
 
 

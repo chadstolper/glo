@@ -136,7 +136,7 @@ var line_to_circle = function(selection){
               p+= d.endx()+","+d.starty()+" "
             return p
         })
-        .style("fill","#999")
+        // .style("fill","#999")
     .transition().delay(transition_duration+3).duration(transition_duration/2).ease("cubic-out")
       .call(circle_edges)
 }
@@ -164,7 +164,7 @@ var circle_to_curved = function(selection){
             p += d.endx()+","+d.starty()
           return p
       })
-      .style("fill",null)
+      // .style("fill",null)
     .transition().delay(transition_duration+3).duration(transition_duration/2)
       .call(curved_edges)
 }
@@ -191,7 +191,7 @@ var circle_to_straight = function(selection){
             p += d.endx()+","+d.starty()
           return p
       })
-      .style("fill",null)
+      // .style("fill",null)
     .transition().delay(transition_duration+3).duration(transition_duration/2)
       .call(straight_edges)
 }
@@ -250,6 +250,14 @@ var update_links = function(){
     .style("visibility",function(d){
       return d.visibility?"visible":"hidden"
     })
+
+  if(activeGenIsAggregate()){
+    link_generations[agg_generations[modes.active_generation].source_link_gen]
+      .call(link_function)
+      .style("visibility",function(d){
+        return d.visibility?"visible":"hidden"
+      })
+  }
 }
 
 var link_function = function(selection){

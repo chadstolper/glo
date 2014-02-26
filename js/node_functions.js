@@ -298,6 +298,8 @@ var evenly_position_on_x = function(){
   node_generations[modes.active_generation].transition().duration(transition_duration)
     .attr("cx",function(d){ return d.x_list[modes.active_generation] })
 
+  update_rolled_up()
+
   update_links()
 }
 
@@ -312,6 +314,8 @@ var evenly_position_on_y = function(){
 
   node_generations[modes.active_generation].transition().duration(transition_duration)
     .attr("cy",function(d){ return d.y_list[modes.active_generation] })
+
+  update_rolled_up()
 
   update_links()
 }
@@ -328,6 +332,8 @@ var position_y_top = function(){
   node_generations[modes.active_generation].transition().duration(transition_duration)
     .attr("cy",function(d){ return d.y_list[modes.active_generation] })
 
+  update_rolled_up()
+
   update_links()
 }
 
@@ -343,6 +349,8 @@ var position_y_middle = function(){
   node_generations[modes.active_generation].transition().duration(transition_duration)
     .attr("cy",function(d){ return d.y_list[modes.active_generation] })
 
+  update_rolled_up()
+
   update_links()
 }
 
@@ -357,6 +365,9 @@ var position_y_bottom = function(){
 
   node_generations[modes.active_generation].transition().duration(transition_duration)
     .attr("cy",function(d){ return d.y_list[modes.active_generation] })
+
+
+  update_rolled_up()
 
   update_links()
 }
@@ -374,6 +385,8 @@ var position_x_left = function(){
   node_generations[modes.active_generation].transition().duration(transition_duration)
     .attr("cx",function(d){ return d.x_list[modes.active_generation] })
 
+  update_rolled_up()
+
   update_links()
 }
 
@@ -389,6 +402,8 @@ var position_x_center = function(){
   node_generations[modes.active_generation].transition().duration(transition_duration)
     .attr("cx",function(d){ return d.x_list[modes.active_generation] })
 
+  update_rolled_up()
+
   update_links()
 }
 
@@ -403,6 +418,8 @@ var position_x_right = function(){
 
   node_generations[modes.active_generation].transition().duration(transition_duration)
     .attr("cx",function(d){ return d.x_list[modes.active_generation] })
+
+  update_rolled_up()
 
   update_links()
 }

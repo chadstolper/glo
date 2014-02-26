@@ -27,12 +27,19 @@ var node_data = function(){
   return node_generations[modes.active_generation].data()
 }
 
+var activeGenIsAggregate = function(){
+  if(agg_generations[modes.active_generation]){
+    return true
+  }
+  return false
+}
+
 var width = 650
 var height = 500
 var xbuffer = 50
 var ybuffer = 50
 var color = d3.scale.category10()
-var link_r = 4
+var link_r = 2
 var node_r_constant = 8
 
 var svg = d3.select("#canvas").append("svg")
