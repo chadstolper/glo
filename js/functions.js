@@ -20,17 +20,20 @@ var initialize_force_directed = function(){
     //http://stackoverflow.com/questions/11368339/drawing-multiple-edges-between-two-nodes-with-d3
     // Per-type markers, as they don't inherit styles.
     svg.append("svg:defs").selectAll("marker")
-        .data(["suit", "licensing", "resolved"])
+        .data(["arrow"])
       .enter().append("svg:marker")
-        .attr("id", String)
+        .attr("id", "arrow")
         .attr("viewBox", "0 -5 10 10")
-        .attr("refX", 15)
-        .attr("refY", -1.5)
+        .attr("refX", 10)
+        .attr("refY", 0)
         .attr("markerWidth", 6)
         .attr("markerHeight", 6)
         .attr("orient", "auto")
+        .attr("fill","none")
+        .attr("stroke","black")
+        .attr("opacity",0.45)
       .append("svg:path")
-        .attr("d", "M0,-5L10,0L0,5");
+        .attr("d", "M0,-2L5,0L0,2");
 
     link = link_generations[0] = linkg.selectAll(".link[generation='0']")
         .data(graph.edges, function(d){return d.id})
@@ -39,7 +42,7 @@ var initialize_force_directed = function(){
         .attr("generation",0)
         .attr("stroke-width", function(d) { return Math.sqrt(d.weight); })
         // .attr("class", function(d) { return "link " + d.type; })
-        // .attr("marker-end", function(d) { return "url(#" + d.type + ")"; });
+        .attr("marker-end", function(d) { return "url(#arrow)"; })
         .on("mouseover",function(d){
           d3.select('.node[generation="'+modes.source_generation+'"][nodeid="'+d.source.id+'"]').attr("fill", color(d.source.modularity_class) )
           d3.select('.node[generation="'+modes.target_generation+'"][nodeid="'+d.target.id+'"]').attr("fill", color(d.target.modularity_class) )

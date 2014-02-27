@@ -58,6 +58,7 @@ var aggregate_nodes = function(prop1,prop2){
         ea.target = agg_nodes_dict[p1t+","+p2t]
         ea.target.in_edges.push(ea)
         ea.id = ++i
+     
       }
       edge_aggregates[p1s+","+p2s+","+p1t+","+p2t].edge_list.push(edge)
     }
@@ -102,7 +103,15 @@ var aggregate_nodes = function(prop1,prop2){
         .data(edge_aggregates_list, function(d){return d.id})
   agg_links.enter().append("svg:path")
         .classed("link",true)
+        .each(function(d){
+          d.startx = function(){ return this.source.x_list[modes.source_generation]; }
+          d.starty = function(){ return this.source.y_list[modes.source_generation]; }
+          d.endx = function(){ return this.target.x_list[modes.target_generation]; }
+          d.endy = function(){ return this.target.y_list[modes.target_generation]; }
+          d.visibility = true
+        })
         .attr("generation",modes.link_generation)
+
         .attr("stroke-width", 0)
         .on("mouseover",function(d){
           d3.select('.node[generation="'+modes.source_generation+'"][nodeid="'+d.source.id+'"]').attr("fill", color(d.source.modularity_class) )
@@ -112,13 +121,13 @@ var aggregate_nodes = function(prop1,prop2){
           d3.select('.node[generation="'+modes.source_generation+'"][nodeid="'+d.source.id+'"]').attr("fill", d3.rgb(color(d.source.modularity_class)).darker() )
           d3.select('.node[generation="'+modes.target_generation+'"][nodeid="'+d.target.id+'"]').attr("fill", d3.rgb(color(d.target.modularity_class)).darker() )
         })
-        .each(function(d){
-          d.startx = function(){ return this.source.x_list[modes.source_generation]; }
-          d.starty = function(){ return this.source.y_list[modes.source_generation]; }
-          d.endx = function(){ return this.target.x_list[modes.target_generation]; }
-          d.endy = function(){ return this.target.y_list[modes.target_generation]; }
-          d.visibility = true
+        .attr("marker-end", function(d) {
+          if(d.startx()==d.endx() && d.starty()==d.endy()){
+            return null
+          }
+          return "url(#arrow)";
         })
+        
 
   link_generations[modes.active_link_generation]
     .transition().duration(transition_duration)

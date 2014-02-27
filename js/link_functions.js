@@ -67,9 +67,14 @@ var curved_edges = function(selection){
     
     //Curve up or curve down
     var direction
-    direction = (d.target.id<d.source.id)?1:-1;
+    var ydir = (d.startx()<d.endx())?1:-1
+    dy *= ydir
+    var xdir = (d.starty()<d.endy())?1:-1
+    dx *= xdir
+    // direction = (d.target.id<d.source.id)?1:-1;
 
-    dy = dy*direction
+    // dy = dy*(direction)
+    // dx = dx*(direction)
 
     var cx_prime = cx + (dx*h)
     var cy_prime = cy + (dy*h)
