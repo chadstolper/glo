@@ -111,7 +111,6 @@ var aggregate_nodes = function(prop1,prop2){
           d.visibility = true
         })
         .attr("generation",modes.link_generation)
-
         .attr("stroke-width", 0)
         .on("mouseover",function(d){
           d3.select('.node[generation="'+modes.source_generation+'"][nodeid="'+d.source.id+'"]').attr("fill", color(d.source.modularity_class) )
@@ -121,12 +120,7 @@ var aggregate_nodes = function(prop1,prop2){
           d3.select('.node[generation="'+modes.source_generation+'"][nodeid="'+d.source.id+'"]').attr("fill", d3.rgb(color(d.source.modularity_class)).darker() )
           d3.select('.node[generation="'+modes.target_generation+'"][nodeid="'+d.target.id+'"]').attr("fill", d3.rgb(color(d.target.modularity_class)).darker() )
         })
-        .attr("marker-end", function(d) {
-          if(d.startx()==d.endx() && d.starty()==d.endy()){
-            return null
-          }
-          return "url(#arrow)";
-        })
+        
         
 
   link_generations[modes.active_link_generation]
@@ -160,7 +154,13 @@ var aggregate_nodes = function(prop1,prop2){
   link.transition().duration(transition_duration)
     .attr("stroke-width", function(d) { return Math.sqrt(d.weight); })
     .call(link_function) //instead of update_links to prevent stacked transitions
-
+    .attr("marker-end", function(d) {
+          if(d.startx()==d.endx() && d.starty()==d.endy()){
+            console.log((d.startx(),d.endx(),d.starty(),d.endy()))
+            return null
+          }
+          return "url(#arrow)";
+        })
 }
 
 var deaggregate_nodes = function(agg_gen){

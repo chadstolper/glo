@@ -44,7 +44,7 @@ var set_target_generation_2 = function(){
 
 
 var hscale = d3.scale.linear()
-  .range([3,12])
+  .range([3,max_link_curve_r])
   .domain([0,width])
 
 var curved_edges = function(selection){
@@ -52,7 +52,6 @@ var curved_edges = function(selection){
     var p = "M"+ d.startx() + "," + d.starty()
 
     //control point
-    var max_r = 10
     
     var cx = (d.endx() + d.startx())/2
     var cy = (d.endy() + d.starty())/2
@@ -273,6 +272,22 @@ var link_function = function(selection){
   }else if (modes.edges=="circle"){
     selection.call(circle_edges)
   }
+
+  selection.style("stroke",function(d){
+    if(d.endx()<d.startx()){
+      if(d.endy()<d.starty()){
+        return "url(#nxny)"
+      }else{
+        return "url(#nxpy)"
+      }
+    }else{
+      if(d.endy()<d.starty()){
+        return "url(#pxny)"
+      }else{
+        return "url(#pxpy)"
+      }
+    }
+  })
 }
 
 

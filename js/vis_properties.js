@@ -12,7 +12,7 @@ var substrates
 
 
 var modes = {
-  edges: "curved",//"straight",//"curved", //"straight","circle"
+  edges: "straight",//"curved", //"straight","circle"
   node_r: "constant", //"degree", //"constant"
   active_generation: 0,
   source_generation: 0,
@@ -37,12 +37,13 @@ var activeGenIsAggregate = function(){
   return false
 }
 
-var width = 650
+var width = 850
 var height = 500
 var xbuffer = 50
 var ybuffer = 50
 var color = d3.scale.category10()
 var link_r = 2
+var max_link_curve_r = 20
 var node_r_constant = 8
 
 var svg = d3.select("#canvas").append("svg")

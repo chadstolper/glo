@@ -19,12 +19,12 @@ var initialize_force_directed = function(){
 
     //http://stackoverflow.com/questions/11368339/drawing-multiple-edges-between-two-nodes-with-d3
     // Per-type markers, as they don't inherit styles.
-    svg.append("svg:defs").selectAll("marker")
-        .data(["arrow"])
-      .enter().append("svg:marker")
+    var defs = svg.append("svg:defs")
+
+      defs.append("svg:marker")
         .attr("id", "arrow")
         .attr("viewBox", "0 -5 10 10")
-        .attr("refX", 10)
+        .attr("refX", 5)
         .attr("refY", 0)
         .attr("markerWidth", 6)
         .attr("markerHeight", 6)
@@ -33,7 +33,72 @@ var initialize_force_directed = function(){
         .attr("stroke","black")
         .attr("opacity",0.45)
       .append("svg:path")
-        .attr("d", "M0,-2L5,0L0,2");
+        .attr("d", "M0,-1L4,0L0,1");
+
+      var grad = defs.append("svg:linearGradient")
+          .attr("id","nxny")
+          .attr("x1","0%")
+          .attr("x2","100%")
+          .attr("y1","0%")
+          .attr("y2","100%")
+        grad.append("stop")
+          .attr("offset","0%")
+          .style("stop-opacity",0.0)
+          .style("stop-color","black")
+        grad.append("stop")
+          .attr("offset","100%")
+          .style("stop-opacity",0.95)
+          .style("stop-color","black")
+
+      var grad = defs.append("svg:linearGradient")
+          .attr("id","nxpy")
+          .attr("x1","0%")
+          .attr("x2","100%")
+          .attr("y1","100%")
+          .attr("y2","0%")
+        grad.append("stop")
+          .attr("offset","0%")
+          .style("stop-opacity",0.0)
+          .style("stop-color","black")
+        grad.append("stop")
+          .attr("offset","100%")
+          .style("stop-opacity",0.95)
+          .style("stop-color","black")
+
+      var grad = defs.append("svg:linearGradient")
+          .attr("id","pxny")
+          .attr("x1","100%")
+          .attr("x2","0%")
+          .attr("y1","0%")
+          .attr("y2","100%")
+        grad.append("stop")
+          .attr("offset","0%")
+          .style("stop-opacity",0.0)
+          .style("stop-color","black")
+        grad.append("stop")
+          .attr("offset","100%")
+          .style("stop-opacity",0.95)
+          .style("stop-color","black")
+
+      var grad = defs.append("svg:linearGradient")
+          .attr("id","pxpy")
+          .attr("x1","100%")
+          .attr("x2","0%")
+          .attr("y1","100%")
+          .attr("y2","0%")
+        grad.append("stop")
+          .attr("offset","0%")
+          .style("stop-opacity",0.0)
+          .style("stop-color","black")
+        // grad.append("stop")
+        //   .attr("offset","25%")
+        //   .style("stop-opacity",0.0)
+        //   .style("stop-color","black")
+        grad.append("stop")
+          .attr("offset","100%")
+          .style("stop-opacity",0.95)
+          .style("stop-color","black")
+
 
     link = link_generations[0] = linkg.selectAll(".link[generation='0']")
         .data(graph.edges, function(d){return d.id})
@@ -42,7 +107,8 @@ var initialize_force_directed = function(){
         .attr("generation",0)
         .attr("stroke-width", function(d) { return Math.sqrt(d.weight); })
         // .attr("class", function(d) { return "link " + d.type; })
-        .attr("marker-end", function(d) { return "url(#arrow)"; })
+        // .attr("marker-end", function(d) { return "url(#arrow)"; })
+
         .on("mouseover",function(d){
           d3.select('.node[generation="'+modes.source_generation+'"][nodeid="'+d.source.id+'"]').attr("fill", color(d.source.modularity_class) )
           d3.select('.node[generation="'+modes.target_generation+'"][nodeid="'+d.target.id+'"]').attr("fill", color(d.target.modularity_class) )
@@ -84,17 +150,21 @@ var initialize_force_directed = function(){
       //since it has to be after the source/target
       //mappings but before link_function is called
       //the first time
-      link.each(function(d){
-        d.startx = function(){ return this.source.x_list[modes.source_generation]; }
-        d.starty = function(){ return this.source.y_list[modes.source_generation]; }
-        d.endx = function(){ return this.target.x_list[modes.target_generation]; }
-        d.endy = function(){ return this.target.y_list[modes.target_generation]; }
-      })
+      link
+        .each(function(d){
+          d.startx = function(){ return this.source.x_list[modes.source_generation]; }
+          d.starty = function(){ return this.source.y_list[modes.source_generation]; }
+          d.endx = function(){ return this.target.x_list[modes.target_generation]; }
+          d.endy = function(){ return this.target.y_list[modes.target_generation]; }
+        })
+        
 
 
       node.attr("cx", function(d) { d.x_list[modes.active_generation]= d.x; return d.x_list[modes.active_generation]; })
-          .attr("cy", function(d) { d.y_list[modes.active_generation] = d.y; return d.y_list[modes.active_generation]; });
-      
+          .attr("cy", function(d) { d.y_list[modes.active_generation] = d.y; return d.y_list[modes.active_generation]; })
+          
+
+
       link.call(link_function)
 
     })
