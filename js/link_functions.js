@@ -252,11 +252,11 @@ var update_links = function(){
     })
 
   if(activeGenIsAggregate()){
-    link_generations[agg_generations[modes.active_generation].source_link_gen]
-      .call(link_function)
-      .style("visibility",function(d){
-        return d.visibility?"visible":"hidden"
-      })
+    // link_generations[agg_generations[modes.active_generation].source_link_gen]
+    //   .call(link_function)
+    //   .style("visibility",function(d){
+    //     return d.visibility?"visible":"hidden"
+    //   })
   }
 }
 

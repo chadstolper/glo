@@ -114,32 +114,38 @@ var initialize_force_directed = function(){
 
 var force_directed =function(){
 
-  graph.nodes.forEach(function(d){
+  node_data().forEach(function(d){
     d.x = d.x_list[modes.active_generation]
     d.y = d.y_list[modes.active_generation]
   })
 
   force
-    .nodes(graph.nodes)
-      .links(graph.edges)
+    .nodes(node_data())
+    .links(link_data())
     .on("tick", function(){
-      // link.attr("x1", function(d) { return d.source.x; })
-      //   .attr("y1", function(d) { return d.source.y; })
-      //   .attr("x2", function(d) { return d.target.x; })
-      //   .attr("y2", function(d) { return d.target.y; });
+      link_generations[modes.active_link_generation]
+        .attr("x1", function(d) { return d.source.x; })
+        .attr("y1", function(d) { return d.source.y; })
+        .attr("x2", function(d) { return d.target.x; })
+        .attr("y2", function(d) { return d.target.y; });
 
     
 
       
 
-      node.attr("cx", function(d) { d.x_list[modes.active_generation]= d.x; return d.x_list[modes.active_generation]; })
-          .attr("cy", function(d) { d.y_list[modes.active_generation] = d.y; return d.y_list[modes.active_generation]; });
+      node_generations[modes.active_generation]
+        .attr("cx", function(d) { d.x_list[modes.active_generation] = d.x; return d.x_list[modes.active_generation]; })
+        .attr("cy", function(d) { d.y_list[modes.active_generation] = d.y; return d.y_list[modes.active_generation]; });
       
-      link.call(link_function)
+      link_generations[modes.active_link_generation].call(link_function)
+
+      
+      // update_links()
 
     })
-    .on("end",null)
-    .resume()
+    .on("end",update_rolled_up())
+    // .resume()
+    .start()
 }
 
 var hide_links = function(){
@@ -195,7 +201,6 @@ var show_selected_links_node_callbacks = function(selection){
   selection
     .on('mouseover',function(d){
       d3.select(this).attr("fill",function(d){ return color(d.modularity_class); })
-      console.log(d)
       d.in_edges.forEach(function(e){
         e.visibility = true
       })

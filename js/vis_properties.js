@@ -26,6 +26,9 @@ var modes = {
 var node_data = function(){
   return node_generations[modes.active_generation].data()
 }
+var link_data = function(){
+  return link_generations[modes.active_link_generation].data()
+}
 
 var activeGenIsAggregate = function(){
   if(agg_generations[modes.active_generation]){

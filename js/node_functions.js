@@ -33,15 +33,15 @@ var aggregate_nodes = function(prop1,prop2){
       agg_node.gender = agg[0].gender
       //currently only can size by count
       //we'll need some non-graph-based properties
-      agg_node.x_list[modes.generation] = xscale(agg_node[prop1])
-      agg_node.y_list[modes.generation] = yscale(agg_node[prop2])
+      // agg_node.x_list[modes.generation] = xscale(agg_node[prop1])
+      agg_node.x_list[modes.generation] = d3.mean(agg_node.nodes.map(function(d){return d.x_list[modes.active_generation]}))
+      // agg_node.y_list[modes.generation] = yscale(agg_node[prop2])
+      agg_node.y_list[modes.generation] = d3.mean(agg_node.nodes.map(function(d){return d.y_list[modes.active_generation]}))
       agg_node.r_list[modes.generation] = agg_node.count*5
       agg_nodes.push(agg_node)
       agg_nodes_dict[id] = agg_node
     }
     
-    console.log(agg_nodes_dict)
-
     //Edges Time!
     var edge_aggregates = {}
     for(var edge in graph.edges){
@@ -183,10 +183,10 @@ var deaggregate_nodes = function(agg_gen){
       agg_generations[agg_gen] = null
 
       link_generations[modes.active_link_generation]
+        .call(link_function) //instead of update_links to prevent stacked transitions
         .transition().duration(transition_duration)
           .attr("stroke-width", function(d) { return Math.sqrt(d.weight); })
-          .call(link_function) //instead of update_links to prevent stacked transitions
-
+          
       // update_links()
     }
   }catch(err){
