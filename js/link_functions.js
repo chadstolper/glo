@@ -274,6 +274,20 @@ var link_function = function(selection){
   }
 
   selection.style("stroke",function(d){
+    if(d.endx()==d.startx()){
+      if(d.endy()<d.starty()){
+        return "url(#up)"
+      }else{
+        return "url(#down)"
+      }
+    }
+    if(d.endy()==d.starty()){
+       if(d.endx()<d.startx()){
+        return "url(#right)"
+      }else{
+        return "url(#left)"
+      }
+    }
     if(d.endx()<d.startx()){
       if(d.endy()<d.starty()){
         return "url(#nxny)"
