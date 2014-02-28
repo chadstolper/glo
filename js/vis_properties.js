@@ -43,7 +43,7 @@ var xbuffer = 50
 var ybuffer = 50
 var color = d3.scale.category10()
 var link_r = 2
-var max_link_curve_r = 20
+var max_link_curve_r = 15
 var node_r_constant = 8
 
 var svg = d3.select("#canvas").append("svg")

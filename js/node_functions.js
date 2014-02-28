@@ -154,13 +154,13 @@ var aggregate_nodes = function(prop1,prop2){
   link.transition().duration(transition_duration)
     .attr("stroke-width", function(d) { return Math.sqrt(d.weight); })
     .call(link_function) //instead of update_links to prevent stacked transitions
-    .attr("marker-end", function(d) {
-          if(d.startx()==d.endx() && d.starty()==d.endy()){
-            console.log((d.startx(),d.endx(),d.starty(),d.endy()))
-            return null
-          }
-          return "url(#arrow)";
-        })
+    // .attr("marker-end", function(d) {
+    //       if(d.startx()==d.endx() && d.starty()==d.endy()){
+    //         console.log((d.startx(),d.endx(),d.starty(),d.endy()))
+    //         return null
+    //       }
+    //       return "url(#arrow)";
+    //     })
 }
 
 var deaggregate_nodes = function(agg_gen){
