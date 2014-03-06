@@ -7,8 +7,11 @@ var xscale, yscale
 var xprop, yprop
 var transition_duration = 200
 
+
+var y_substrates
+var x_substrates
+
 var force
-var substrates
 
 
 var modes = {

@@ -7,7 +7,7 @@ var mlgo_steps = [
   // {f:initialize_force_directed, label:"Initialize"},
   {f:transition_x_by_degree, label:"Position X by Degree"},
   {f:transition_x_by_gender, label:"Position X by Gender"},
-  {f:substrate_on_y, label:"Substrate on Y by Category"},
+  {f:position_y_by_modularity_class, label:"Substrate on Y by Category"},
   {f:aggregate_nodes_by_gender_and_category, label:"Aggregate by Gender and Category"},
   {f:deaggregate_0, label:"Deaggregate 0"},
   {f:deaggregate_1, label:"Deaggregate 1"},
@@ -27,9 +27,10 @@ var mlgo_steps = [
   {f:position_y_bottom, label:"Position Y Bottom"},
 
   {f:transition_x_by_betweenness, label:"Position X Relatively by Betweenness Centrality"},
-  {f:transition_y, label:"Position Y Relatively by Degree"},
+  {f:transition_y_by_degree, label:"Position Y Relatively by Degree"},
 
   {f:scatter_on_x, label:"Scatter on X within Substrates"},
+  {f:scatter_on_y, label:"Scatter on Y within Substrates"},
 
 
   {f:draw_x_axis, label:"Draw X Axis"},

@@ -355,81 +355,95 @@ var show_selected_links_node_callbacks = function(selection){
 }
 
 
-var transition_x_by_betweenness = function(){
+function is_number(n) {
+  //http://stackoverflow.com/questions/18082/validate-numbers-in-javascript-isnumeric
+  return !isNaN(parseFloat(n)) && isFinite(n);
+}
 
-  xscale = d3.scale.linear()
-      .range([0,width])
-      .domain([0,d3.max(graph.nodes.map(function(d){return d.betweenness_centrality; }))])
-      .nice()
+var position_x_by_property = function(prop){
+  if(is_number(node_data()[0][prop])){
+    set_xscale_by_quantitative_property(prop)
+  }else{
+    set_xscale_by_nominal_property(prop)
+  }
 
 
   node_generations[modes.active_generation].transition().duration(transition_duration)
     .attr("cx",function(d){
-      d.x_list[modes.active_generation] = xscale(d.betweenness_centrality)
+      d.x_list[modes.active_generation] = xscale(d[prop])
       return d.x_list[modes.active_generation]
     })
 
   update_rolled_up()
-
   update_links()
+}
+
+var set_xscale_by_quantitative_property = function(prop){
+  xscale = d3.scale.linear()
+      .range([0,width])
+      .domain([0,d3.max(graph.nodes.map(function(d){return d[prop]; }))])
+      .nice()
+}
+
+var set_xscale_by_nominal_property = function(prop){
+  substrate_on_x(prop)
+}
+
+var transition_x_by_betweenness = function(){
+  position_x_by_property("betweenness_centrality")
 }
 
 var transition_x_by_degree = function(){
-
-  xscale = d3.scale.linear()
-      .range([0,width])
-      .domain([0,d3.max(graph.nodes.map(function(d){return d.degree; }))])
-      .nice()
-
-
-  node_generations[modes.active_generation].transition().duration(transition_duration)
-    .attr("cx",function(d){
-      d.x_list[modes.active_generation] = xscale(d.degree)
-      return d.x_list[modes.active_generation]
-    })
-
-  update_rolled_up()
-  
-
-
-  update_links()
+  position_x_by_property("degree")
 }
 
 var transition_x_by_gender = function(){
-  xscale = d3.scale.ordinal()
-    .rangePoints([0,width],1)
-    .domain(['F','M'])
-    // .domain(graph.nodes.map(function(d){return d.gender}))
-
-
-  node_generations[modes.active_generation].transition().duration(transition_duration)
-    .attr("cx",function(d){
-      d.x_list[modes.active_generation] = xscale(d.gender)
-      return d.x_list[modes.active_generation]
-    })
-
-  update_rolled_up()
-
-  update_links()
+  position_x_by_property("gender")
 }
 
-var transition_y = function(){
- 
-  yscale = d3.scale.linear()
-      .range([height,0])
-      .domain([0,d3.max(graph.nodes.map(function(d){return d.degree; }))])
-      .nice()
+
+var position_y_by_property = function(prop){
+  if(is_number(node_data()[0][prop])){
+    set_yscale_by_quantitative_property(prop)
+  }else{
+    set_yscale_by_nominal_property(prop)
+  }
+
 
   node_generations[modes.active_generation].transition().duration(transition_duration)
     .attr("cy",function(d){
-      d.y_list[modes.active_generation] = yscale(d.degree)
+      d.y_list[modes.active_generation] = yscale(d[prop])
       return d.y_list[modes.active_generation]
     })
-  
-  update_rolled_up()
 
+  update_rolled_up()
   update_links()
 }
+
+var set_yscale_by_quantitative_property = function(prop){
+  yscale = d3.scale.linear()
+      .range([0,height])
+      .domain([0,d3.max(graph.nodes.map(function(d){return d[prop]; }))])
+      .nice()
+}
+
+var set_yscale_by_nominal_property = function(prop){
+  substrate_on_y(prop)
+}
+
+var transition_y_by_betweenness = function(){
+  position_y_by_property("betweenness_centrality")
+}
+
+var transition_y_by_degree = function(){
+  position_y_by_property("degree")
+}
+
+var transition_y_by_gender = function(){
+  position_y_by_property("gender")
+}
+
+
 
 var draw_x_axis = function(){
   var xaxis = d3.svg.axis()
@@ -461,38 +475,65 @@ var hide_y_axis = function(){
   $(svg.select(".y.axis").node()).remove()
 }
 
-var substrate = function(){
-  if(!substrates){
-    substrates = d3.nest()
-      .key(function(d){return d.modularity_class})
-      .entries(graph.nodes)
-  }
-  return substrates
+
+
+
+var y_substrate = function(prop){
+  y_substrates = d3.nest()
+      .key(function(d){return d[prop]})
+      .entries(node_data())
+  return y_substrates
 }
 
-var substrate_on_y = function(){
+var x_substrate = function(prop){
+  x_substrates = d3.nest()
+      .key(function(d){return d[prop]})
+      .entries(node_data())
+  return x_substrates
+}
 
-  var substrates = substrate()
+var substrate_on_y = function(prop){
+  y_substrate(prop)
 
   yscale = d3.scale.ordinal()
-    .domain(substrates.map(function(d){return d.key; }))
+    .domain(y_substrates.map(function(d){return d.key; }))
     .rangePoints([height,0],1.0)
 
   node_generations[modes.active_generation].transition().duration(transition_duration)
     .attr("cy",function(d){
-      d.y_list[modes.active_generation] = yscale(d.modularity_class)
+      d.y_list[modes.active_generation] = yscale(d[prop])
       return d.y_list[modes.active_generation]
     })
   
   update_rolled_up()
-
   update_links()
 }
 
-var scatter_on_x = function(){
-  var substrates = substrate()
+var substrate_on_x = function(prop){
+  x_substrate(prop)
 
-  substrates.forEach(function(category){
+  xscale = d3.scale.ordinal()
+    .domain(x_substrates.map(function(d){return d.key; }))
+    .rangePoints([width,0],1.0)
+
+  node_generations[modes.active_generation].transition().duration(transition_duration)
+    .attr("cx",function(d){
+      d.x_list[modes.active_generation] = xscale(d[prop])
+      return d.x_list[modes.active_generation]
+    })
+  
+  update_rolled_up()
+  update_links()
+}
+
+
+var scatter_on_x = function(){
+  if(!y_substrates){
+    evenly_position_on_x()
+    return;
+  }
+
+  y_substrates.forEach(function(category){
     category.xscale = d3.scale.ordinal()
       .domain(category.values.map(function(d){return d.id}))
       .rangePoints([0,width],1.0)
@@ -505,8 +546,34 @@ var scatter_on_x = function(){
     .attr("cx",function(d){ return d.x_list[modes.active_generation] })
 
   update_rolled_up()
-
   update_links()
+}
+
+var scatter_on_y = function(){
+  if(!x_substrates){
+    evenly_position_on_y()
+    return;
+  }
+
+  x_substrates.forEach(function(category){
+    category.yscale = d3.scale.ordinal()
+      .domain(category.values.map(function(d){return d.id}))
+      .rangePoints([0,height],1.0)
+    category.values.forEach(function(d){
+      d.y_list[modes.active_generation] = category.yscale(d.id)
+    })
+  })
+
+  node_generations[modes.active_generation].transition().duration(transition_duration)
+    .attr("cy",function(d){ return d.y_list[modes.active_generation] })
+
+  update_rolled_up()
+  update_links()
+}
+
+
+var position_y_by_modularity_class = function(){
+  substrate_on_y("modularity_class")
 }
 
 
