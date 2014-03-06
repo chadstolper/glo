@@ -578,17 +578,31 @@ var position_y_by_modularity_class = function(){
 
 
 var size_nodes_by_degree = function(){
-  modes.node_r = "degree"
   node_generations[modes.active_generation].transition().duration(transition_duration)
-    .attr("r",function(d){return d.degree+2; })
+    .attr("r", function(d){
+      d.r_list[modes.active_generation] = d.degree+2
+      return d.r_list[modes.active_generation]
+    })
  
 }
 
 var size_nodes_by_constant = function(){
-  modes.node_r = "constant"
   node_generations[modes.active_generation].transition().duration(transition_duration)
-    .attr("r", node_r_constant)
-  
+    .attr("r", function(d){
+      d.r_list[modes.active_generation] = node_r_constant
+      return d.r_list[modes.active_generation]
+    })
+}
+
+var size_nodes_by_count = function(){
+  if(!agg_generations[modes.active_generation]){
+    return;
+  }
+  node_generations[modes.active_generation].transition().duration(transition_duration)
+    .attr("r", function(d){
+      d.r_list[modes.active_generation] = d.count*3
+      return d.r_list[modes.active_generation]
+    })
 }
 
 

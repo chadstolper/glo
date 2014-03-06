@@ -41,7 +41,7 @@ var mlgo_steps = [
 
   {f:size_nodes_by_constant, label:"Size Nodes by Constant"},
   {f:size_nodes_by_degree, label:"Size Nodes by Degree"},
-
+  {f:size_nodes_by_count, label:"Size Nodes by Count"},
 
   {f:transition_links_to_straight, label:"Links to Straight"},
   {f:transition_links_to_curved, label:"Links to Curved"},

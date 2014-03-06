@@ -37,7 +37,7 @@ var aggregate_nodes = function(prop1,prop2){
       agg_node.x_list[modes.generation] = d3.mean(agg_node.nodes.map(function(d){return d.x_list[modes.active_generation]}))
       // agg_node.y_list[modes.generation] = yscale(agg_node[prop2])
       agg_node.y_list[modes.generation] = d3.mean(agg_node.nodes.map(function(d){return d.y_list[modes.active_generation]}))
-      agg_node.r_list[modes.generation] = agg_node.count*5
+      agg_node.r_list[modes.generation] = agg_node.count*3
       agg_nodes.push(agg_node)
       agg_nodes_dict[id] = agg_node
     }
@@ -131,9 +131,18 @@ var aggregate_nodes = function(prop1,prop2){
   agg_generations[modes.generation].source_gen = modes.active_generation
   agg_generations[modes.generation].source_link_gen = modes.active_link_generation
   agg_generations[modes.generation].link_gen = modes.link_generation
+  
+  if(modes.source_generation == modes.active_generation){
+    modes.source_generation = modes.generation
+  }
+  if(modes.target_generation == modes.active_generation){
+    modes.target_generation = modes.generation
+  }
+
   modes.active_generation = modes.generation
-  modes.source_generation = modes.generation
-  modes.target_generation = modes.generation
+
+
+
   modes.active_link_generation = modes.link_generation
   node = agg_glyphs
   link = agg_links
@@ -172,8 +181,14 @@ var deaggregate_nodes = function(agg_gen){
       // console.log("yep, aggregate")
       modes.active_generation = agg_generations[agg_gen].source_gen
       modes.active_link_generation = agg_generations[agg_gen].source_link_gen
-      modes.source_generation = modes.active_generation
-      modes.target_generation = modes.active_generation
+      
+      if(modes.source_generation == agg_gen){
+        modes.source_generation = modes.active_generation
+      }
+      if(modes.target_generation == agg_gen){
+        modes.target_generation = modes.active_generation
+      }
+
       node_generations[agg_gen]
         .transition().duration(transition_duration)
           .attr("r",0)
