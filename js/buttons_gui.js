@@ -55,7 +55,7 @@ var grouped_steps = [
 
 //Cloning
   {
-  name: "Aggregation",
+  name: "Cloning",
   data:   
   [
     {f:clone_nodes, label:"Stamp Clones of Nodes", disabled:true},
@@ -77,11 +77,6 @@ var grouped_steps = [
   }
 ];
 
-var mlgo_steps = [
-  
-  // {f:finished, label:"Finished"}
-  ]
-
 
 accordion_groups = d3.select("#buttons")
     .selectAll(".button_group")
@@ -100,8 +95,10 @@ var button_groups = accordion_groups.insert("div").classed("button_group",true);
 var mlgo_buttons = button_groups.selectAll(".step")
     .data(function(d){return d.data})
     .enter()
-    .append("button")
+    .append("div")
     .text(function(d){return d.label; })
+    .classed("btn",true)
+    .classed("btn-default",true)    
     .on("click",function(d,i){
       d.f()
       d.disabled = true
