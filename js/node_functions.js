@@ -358,8 +358,8 @@ var aggregate_by_modularity_class = function(){
 }
 
 var deaggregate_nodes = function(agg_gen){
-  try{
-    if(node_generations[agg_gen].data()[0].id.indexOf("agg")!=0){
+  // try{
+    if(!agg_generations[agg_gen]){
       // console.log("nope, not aggregate")
       return
     }else{
@@ -368,40 +368,50 @@ var deaggregate_nodes = function(agg_gen){
       modes.active_generation = agg_generations[agg_gen].source_gen
       modes.active_link_generation = agg_generations[agg_gen].source_link_gen
       
+      var active_source = false
+      var active_target = false
       if(modes.source_generation == agg_gen){
         modes.source_generation = modes.active_generation
+        active_source = true
+
       }
       if(modes.target_generation == agg_gen){
         modes.target_generation = modes.active_generation
+        active_target = true
       }
 
       node_generations[agg_gen]
         .transition().duration(transition_duration)
           .attr("r",0)
         .remove()
-      link_generations[agg_generations[agg_gen].link_gen]
-        .transition().duration(transition_duration)
-          .attr("stroke-width",0)
-        .remove()
+
+      if(active_source==true || active_target==true){
+        link_generations[agg_generations[agg_gen].link_gen]
+          .transition().duration(transition_duration)
+            .attr("stroke-width",0)
+          .remove()
+        // link_generations[agg_generations[agg_gen].link_gen] = null
+      }
 
       node_generations[modes.active_generation]
         .transition().duration(transition_duration)
           .attr("r",function(d){return d.r_list[modes.active_generation]})
 
-      link_generations[agg_generations[agg_gen].link_gen] = null
       node_generations[agg_gen] = null
       agg_generations[agg_gen] = null
 
-      link_generations[modes.active_link_generation]
-        .call(link_function) //instead of update_links to prevent stacked transitions
-        .transition().duration(transition_duration)
-          .attr("stroke-width", function(d) { return Math.sqrt(d.weight); })
-          
-      // update_links()
+      if(active_source==true || active_target==true){
+        // console.log("activating links...")
+        link_generations[modes.active_link_generation]
+          .call(link_function) //instead of update_links to prevent stacked transitions
+          .transition().duration(transition_duration)
+            .attr("stroke-width", function(d) { return Math.sqrt(d.weight); })
+      }
     }
-  }catch(err){
+  // }catch(err){
+    // throw err
     // console.log("nope, not aggregate")
-  }
+  // }
 }
 
 var deaggregate_0 = function(){

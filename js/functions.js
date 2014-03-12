@@ -613,6 +613,8 @@ var update_rolled_up = function(){
     node_generations[modes.active_generation]
       .each(function(d){
         d.nodes.forEach(function(n){
+          n.x_list[modes.active_generation] = d.x_list[modes.active_generation]
+          n.y_list[modes.active_generation] = d.y_list[modes.active_generation]
           n.x_list[agg_generations[modes.active_generation].source_gen] = d.x_list[modes.active_generation]
           n.y_list[agg_generations[modes.active_generation].source_gen] = d.y_list[modes.active_generation]
         })

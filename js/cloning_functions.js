@@ -12,11 +12,6 @@ var clone_generation = function(gen){
       .attr("nodeid", function(d){return d.id})
       .attr("r",function(d){
           d.r_list[newgen] = d.r_list[gen]
-          // if(agg_generations[gen]){
-          //   d.nodes.forEach(function(k){
-          //     k.r_list[newgen] = d.r_list[newgen]
-          //   })
-          // }
           return d.r_list[newgen]
         })
       .attr("fill", function(d){ return d3.rgb(color(d.modularity_class)).darker(); })
