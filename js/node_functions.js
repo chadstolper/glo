@@ -416,62 +416,7 @@ var aggregate_nodes_by_gender_and_category = function(){
   aggregate_nodes("gender","modularity_class")
 }
 
-var clone_active_set = function(){
-  //Stamps a copy of the current position
-  //of the nodes.
-  modes.generation+=1
-  node_generations[modes.generation] = nodeclone = nodeg.selectAll(".node[generation='"+modes.generation+"']")
-      .data(node_data(), function(d){return d.id})
-    .enter().append("circle")
-      .classed("node",true)
-      .attr("generation",modes.generation)
-      .attr("nodeid", function(d){return d.id})
-      .attr("r",function(d){
-          d.r_list[modes.generation] = d.r_list[modes.active_generation]
-          if(agg_generations[modes.active_generation]){
-            d.nodes.forEach(function(k){
-              k.r_list[modes.generation] = d.r_list[modes.active_generation]
-            })
-          }
-          return d.r_list[modes.generation]
-        })
-      .attr("fill", function(d){ return d3.rgb(color(d.modularity_class)).darker(); })
-      .on("mouseover",function(d){
-        d3.select(this).attr("fill",function(d){ return color(d.modularity_class); })
-      })
-      .on("mouseout",function(d){
-        d3.select(this).attr("fill", function(d){ return d3.rgb(color(d.modularity_class)).darker(); })
-      })
 
-  nodeclone.append("title")
-      .text(function(d){ return d.label; })
-
-  nodeclone
-    .each(function(d){
-      d.x_list[modes.generation] = d.x_list[modes.active_generation]
-      d.y_list[modes.generation] = d.y_list[modes.active_generation]
-      if(agg_generations[modes.active_generation]){
-        d.nodes.forEach(function(k){
-          k.x_list[modes.generation] = d.x_list[modes.active_generation]
-          k.y_list[modes.generation] = d.y_list[modes.active_generation]
-        })
-      }
-    })
-    
-
-  if(agg_generations[modes.active_generation]){
-    agg_generations[modes.generation] = agg_generations[modes.active_generation]
-  }
-
-  modes.active_generation = modes.generation
-  node = nodeclone
-
-  node
-    .attr("cx", function(d) {return d.x_list[modes.active_generation]; })
-    .attr("cy", function(d) { return d.y_list[modes.active_generation]; })
-    
-
-}
 
 var remove_generation = function(gen){
   if(gen==0){ return; } //cannot remove primary nodes
