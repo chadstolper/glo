@@ -5,7 +5,7 @@ var link_generations = {}
 var agg_generations = {}
 var xscale, yscale
 var xprop, yprop
-var transition_duration = 200
+var transition_duration = 50
 
 
 var y_substrates

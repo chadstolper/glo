@@ -9,6 +9,7 @@ var mlgo_steps = [
   {f:transition_x_by_gender, label:"Position X by Gender"},
   {f:position_y_by_modularity_class, label:"Substrate on Y by Category"},
   {f:aggregate_nodes_by_gender_and_category, label:"Aggregate by Gender and Category"},
+  {f:aggregate_by_modularity_class, label:"Aggregate by Category"},
   {f:deaggregate_0, label:"Deaggregate 0"},
   {f:deaggregate_1, label:"Deaggregate 1"},
 

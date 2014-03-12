@@ -381,7 +381,7 @@ var position_x_by_property = function(prop){
 var set_xscale_by_quantitative_property = function(prop){
   xscale = d3.scale.linear()
       .range([0,width])
-      .domain([0,d3.max(graph.nodes.map(function(d){return d[prop]; }))])
+      .domain([0,d3.max(node_data().map(function(d){return d[prop]; }))])
       .nice()
 }
 
@@ -422,8 +422,8 @@ var position_y_by_property = function(prop){
 
 var set_yscale_by_quantitative_property = function(prop){
   yscale = d3.scale.linear()
-      .range([0,height])
-      .domain([0,d3.max(graph.nodes.map(function(d){return d[prop]; }))])
+      .range([height,0])
+      .domain([0,d3.max(node_data().map(function(d){return d[prop]; }))])
       .nice()
 }
 
