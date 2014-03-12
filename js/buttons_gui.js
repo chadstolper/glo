@@ -79,7 +79,7 @@ var grouped_steps = [
 
 
 accordion_groups = d3.select("#buttons")
-    .selectAll(".button_group")
+    .selectAll(".button-group")
     .data(grouped_steps)
     .enter(function(d){
       console.log(d);
@@ -88,8 +88,8 @@ accordion_groups = d3.select("#buttons")
     // .classed("accordion_group",true);
 
 var title_groups = accordion_groups.append("h3").text(function(d){return d.name;});
-var button_groups = accordion_groups.insert("div").classed("button_group",true);
-// d3.selectAll(".button_group").insert("h3",".button_group").text("group!");
+var button_groups = accordion_groups.insert("div").classed("button-group",true);
+// d3.selectAll(".button-group").insert("h3",".button-group").text("group!");
 
 
 var mlgo_buttons = button_groups.selectAll(".step")

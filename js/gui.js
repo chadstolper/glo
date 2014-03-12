@@ -1,17 +1,63 @@
 var history = [];
 
-$("#history").append("<ul id=\"history-list\"></ul>")
+
+//----------history items--------------
+// $("#history").append("<div id=\"history-list\"></div>")
 $("#buttons").accordion();
-$(".btn").draggable({helper: "clone" });
+$(".button-group > .btn").draggable({helper: "clone" });
 
 $("#history-panel").droppable({
     drop: function (event, ui) {
     	console.log("dropped!");
-    	$("<div></div>").text(ui.draggable.text()).appendTo("#history-list");
+    	var newListedAction = $("<div></div>").text(ui.draggable.text());
+
     	//console.log(ui.draggable);
     	ui.draggable.click();
-    	var text = ui.draggable.text();
-    	history.push(text);
-    	//console.log(history);
+    	history.push(ui.draggable);
+    	console.log(history);
+    	newListedAction.click(function(){
+    		$(this).toggleClass("selected");
+    	});
+
+    	newListedAction.appendTo("#history")
     }
 });
+
+//----------control button-----------
+$("#delete-btn").click(function(){
+	console.log("clicked del");
+
+    var newHistory = [];
+    $(".selected").each(function(index){
+        var selectedItem = $(this);
+        console.log(selectedItem.text());
+        $.each(history, function(i,v){
+            if (v.text()==selectedItem.text()){
+                return false;
+            }
+            newHistory.push(selectedItem);
+        })
+    });
+    history = newHistory;
+    console.log(history);
+	
+    $(".selected").hide('slow', function(){ this.remove(); });
+
+    //reapply all the not deleted actions
+
+});
+
+
+$("#snapshot-btn").click(function(){
+    $("#canvas")
+        .children(":first")
+        .clone()
+        .attr("width",150)
+        .attr("height","100%")
+        .attr("class","snapshot")        
+        .appendTo("#snapshot")
+        .children(":first")
+        .attr("transform","scale(0.2) translate(50,50)") 
+
+});
+

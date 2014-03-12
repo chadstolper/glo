@@ -7,10 +7,54 @@ body
 	border: 1px solid black;
 }
 
-.btn{
+.button-group {
+	padding: 0 0 0 0;
+}
+
+.button-group .btn{
 	font-size: inherit;
+	display: block;
 }
 
 .glo-col{
 	height: 90%;
+}
+
+#control{
+	width: 100%;
+}
+
+#snapshot{
+	height: 20%;
+}
+
+.snapshot{
+	border: 1px solid black;
+}
+
+#canvas{
+	height: 80%;
+}
+
+#history-panel{
+	padding: 0;
+}
+	
+#control{
+	text-align: center;
+	padding-top: 15px;
+}
+
+#history div{
+	font-size: 14px;
+	border-top: 1px solid #DDDDDD;
+	border-bottom: 1px solid #DDDDDD;
+	list-style-type: none;
+	text-align: center;
+	padding: 15px 0 15px 0;
+	cursor: pointer;
+}
+
+#history > .selected{
+	background-color: #EEEEEE;
 }
