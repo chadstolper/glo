@@ -44,7 +44,7 @@ var set_target_generation_2 = function(){
 
 
 var hscale = d3.scale.linear()
-  .range([3,12])
+  .range([3,max_link_curve_r])
   .domain([0,width])
 
 var curved_edges = function(selection){
@@ -52,7 +52,6 @@ var curved_edges = function(selection){
     var p = "M"+ d.startx() + "," + d.starty()
 
     //control point
-    var max_r = 10
     
     var cx = (d.endx() + d.startx())/2
     var cy = (d.endy() + d.starty())/2
@@ -67,9 +66,14 @@ var curved_edges = function(selection){
     
     //Curve up or curve down
     var direction
-    direction = (d.target.id<d.source.id)?1:-1;
+    var ydir = (d.startx()<d.endx())?1:-1
+    dy *= ydir
+    var xdir = (d.starty()<d.endy())?1:-1
+    dx *= xdir
+    // direction = (d.target.id<d.source.id)?1:-1;
 
-    dy = dy*direction
+    // dy = dy*(direction)
+    // dx = dx*(direction)
 
     var cx_prime = cx + (dx*h)
     var cy_prime = cy + (dy*h)
@@ -136,7 +140,7 @@ var line_to_circle = function(selection){
               p+= d.endx()+","+d.starty()+" "
             return p
         })
-        .style("fill","#999")
+        // .style("fill","#999")
     .transition().delay(transition_duration+3).duration(transition_duration/2).ease("cubic-out")
       .call(circle_edges)
 }
@@ -164,7 +168,7 @@ var circle_to_curved = function(selection){
             p += d.endx()+","+d.starty()
           return p
       })
-      .style("fill",null)
+      // .style("fill",null)
     .transition().delay(transition_duration+3).duration(transition_duration/2)
       .call(curved_edges)
 }
@@ -191,7 +195,7 @@ var circle_to_straight = function(selection){
             p += d.endx()+","+d.starty()
           return p
       })
-      .style("fill",null)
+      // .style("fill",null)
     .transition().delay(transition_duration+3).duration(transition_duration/2)
       .call(straight_edges)
 }
@@ -215,18 +219,18 @@ var transition_links_to_curved = function(){
   if(modes.edges=="curved"){
     //Pass
   }else if (modes.edges=="straight"){
-    link.call(straight_to_curved)
+    link_generations[modes.active_link_generation].call(straight_to_curved)
   }else if (modes.edges=="circle"){
-    link.call(circle_to_curved)
+    link_generations[modes.active_link_generation].call(circle_to_curved)
   }
 
 }
 
 var transition_links_to_circle = function(){
   if(modes.edges=="curved"){
-    link.call(line_to_circle)
+    link_generations[modes.active_link_generation].call(line_to_circle)
   }else if (modes.edges=="straight"){
-    link.call(line_to_circle)
+    link_generations[modes.active_link_generation].call(line_to_circle)
   }else if (modes.edges=="circle"){
     //Pass
   }
@@ -234,22 +238,30 @@ var transition_links_to_circle = function(){
 
 var transition_links_to_straight = function(){
   if(modes.edges=="curved"){
-    link.call(curved_to_straight)
+    link_generations[modes.active_link_generation].call(curved_to_straight)
   }else if (modes.edges=="straight"){
     //Pass
   }else if (modes.edges=="circle"){
-    link.call(circle_to_straight)
+    link_generations[modes.active_link_generation].call(circle_to_straight)
   }
 }
 
 
 
 var update_links = function(){
-  link.transition().duration(transition_duration)
+  link_generations[modes.active_link_generation].transition().duration(transition_duration)
     .call(link_function)
     .style("visibility",function(d){
       return d.visibility?"visible":"hidden"
     })
+
+  if(activeGenIsAggregate()){
+    // link_generations[agg_generations[modes.active_generation].source_link_gen]
+    //   .call(link_function)
+    //   .style("visibility",function(d){
+    //     return d.visibility?"visible":"hidden"
+    //   })
+  }
 }
 
 var link_function = function(selection){
@@ -260,7 +272,38 @@ var link_function = function(selection){
   }else if (modes.edges=="circle"){
     selection.call(circle_edges)
   }
+
+  selection.style("stroke",function(d){
+    if(d.endx()==d.startx()){
+      if(d.endy()<d.starty()){
+        return "url(#up)"
+      }else{
+        return "url(#down)"
+      }
+    }
+    if(d.endy()==d.starty()){
+       if(d.endx()<d.startx()){
+        return "url(#right)"
+      }else{
+        return "url(#left)"
+      }
+    }
+    if(d.endx()<d.startx()){
+      if(d.endy()<d.starty()){
+        return "url(#nxny)"
+      }else{
+        return "url(#nxpy)"
+      }
+    }else{
+      if(d.endy()<d.starty()){
+        return "url(#pxny)"
+      }else{
+        return "url(#pxpy)"
+      }
+    }
+  })
 }
+
 
 
 

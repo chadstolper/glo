@@ -1,11 +1,18 @@
 var graph = {}
 var node, nodeclone, link
 var node_generations = {}
+var link_generations = {}
+var agg_generations = {}
 var xscale, yscale
-var transition_duration = 2000
+var xprop, yprop
+var transition_duration = 500
+
+
+var y_substrates
+var x_substrates
 
 var force
-var substrates
+
 
 var modes = {
   edges: "straight",//"curved", //"straight","circle"
@@ -13,15 +20,33 @@ var modes = {
   active_generation: 0,
   source_generation: 0,
   target_generation: 0,
+  link_generation: 0,
+  active_link_generation: 0,
   generation: 0,
+  link_generation: 0,
 }
 
-var width = 650
+var node_data = function(){
+  return node_generations[modes.active_generation].data()
+}
+var link_data = function(){
+  return link_generations[modes.active_link_generation].data()
+}
+
+var activeGenIsAggregate = function(){
+  if(agg_generations[modes.active_generation]){
+    return true
+  }
+  return false
+}
+
+var width = 850
 var height = 500
 var xbuffer = 50
 var ybuffer = 50
 var color = d3.scale.category10()
-var link_r = 4
+var link_r = 2
+var max_link_curve_r = 15
 var node_r_constant = 8
 
 var svg = d3.select("#canvas").append("svg")

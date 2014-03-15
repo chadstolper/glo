@@ -10,6 +10,7 @@
 
 
 
+// var source = "PivotGraph"
 var source = "LesMis"
 // var source = "TinyToy"
 
@@ -48,6 +49,7 @@ d3.csv("data/"+source+"/nodes.csv",function(nodes){
     graph.nodes = nodes
     graph.edges = edges
 
+    initialize_force_directed()
   })
 })
 

@@ -1,7 +1,18 @@
 //The Button
+
+
+
 var mlgo_index = 0
 var mlgo_steps = [
-  {f:initialize_force_directed, label:"Initialize"},
+  // {f:initialize_force_directed, label:"Initialize"},
+  {f:transition_x_by_degree, label:"Position X by Degree"},
+  {f:transition_x_by_gender, label:"Position X by Gender"},
+  {f:position_y_by_modularity_class, label:"Substrate on Y by Category"},
+  {f:aggregate_nodes_by_gender_and_category, label:"Aggregate by Gender and Category"},
+  {f:aggregate_by_modularity_class, label:"Aggregate by Category"},
+  {f:deaggregate_0, label:"Deaggregate 0"},
+  {f:deaggregate_1, label:"Deaggregate 1"},
+
   {f:force_directed, label:"Force-Directed"},
 
 
@@ -16,11 +27,11 @@ var mlgo_steps = [
   {f:position_y_middle, label:"Position Y Middle"},
   {f:position_y_bottom, label:"Position Y Bottom"},
 
-  {f:transition_x, label:"Position X Relatively by Betweenness Centrality"},
-  {f:transition_y, label:"Position Y Relatively by Degree"},
+  {f:transition_x_by_betweenness, label:"Position X Relatively by Betweenness Centrality"},
+  {f:transition_y_by_degree, label:"Position Y Relatively by Degree"},
 
-  {f:substrate_on_y, label:"Substrate on Y by Category"},
   {f:scatter_on_x, label:"Scatter on X within Substrates"},
+  {f:scatter_on_y, label:"Scatter on Y within Substrates"},
 
 
   {f:draw_x_axis, label:"Draw X Axis"},
@@ -31,7 +42,7 @@ var mlgo_steps = [
 
   {f:size_nodes_by_constant, label:"Size Nodes by Constant"},
   {f:size_nodes_by_degree, label:"Size Nodes by Degree"},
-
+  {f:size_nodes_by_count, label:"Size Nodes by Count"},
 
   {f:transition_links_to_straight, label:"Links to Straight"},
   {f:transition_links_to_curved, label:"Links to Curved"},
@@ -59,6 +70,7 @@ var mlgo_steps = [
   {f:set_target_generation_0, label:"Target Generation 0"},
   {f:set_target_generation_1, label:"Target Generation 1"},
   {f:set_target_generation_2, label:"Target Generation 2"},
+  
   // {f:finished, label:"Finished"}
   ]
 
@@ -74,7 +86,7 @@ var mlgo_buttons = d3.select("#buttons").selectAll(".glo")
 
 // update_buttons()
 
-function update_buttons(){
-  d3.select("#buttons").selectAll(".glo")
-    .attr("disabled",function(d){return (d.disabled==true)?"true":null;})
-}
+// function update_buttons(){
+//   d3.select("#buttons").selectAll(".glo")
+//     .attr("disabled",function(d){return (d.disabled==true)?"true":null;})
+// }
