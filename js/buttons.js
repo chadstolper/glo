@@ -86,7 +86,7 @@ var mlgo_buttons = d3.select("#buttons").selectAll(".glo")
 
 // update_buttons()
 
-function update_buttons(){
-  d3.select("#buttons").selectAll(".glo")
-    .attr("disabled",function(d){return (d.disabled==true)?"true":null;})
-}
+// function update_buttons(){
+//   d3.select("#buttons").selectAll(".glo")
+//     .attr("disabled",function(d){return (d.disabled==true)?"true":null;})
+// }
