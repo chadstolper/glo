@@ -1,0 +1,73 @@
+<html>
+  <head>
+    <title>GLO&ndash;STCK</title>
+    <script src="lib/d3/d3.v3.js" charset="utf-8"></script>
+    <script src="lib/jquery/jquery-1.10.2.js"></script>
+
+    <link rel="stylesheet" href="css/index.css"></link>
+
+  	<!-- Below is for GUI -->
+    <!-- Latest compiled and minified CSS -->
+    <link rel="stylesheet" href="//ajax.googleapis.com/ajax/libs/jqueryui/1.10.4/themes/smoothness/jquery-ui.css" />
+  	<link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css">
+  	<link rel="stylesheet" type="text/css" href="css/gui.css">
+
+  </head>
+  <body>
+
+    <h1>GLO&ndash;STiCK: Graph-Level Operations&ndash;a System of Transitions to Create Knowledge</h1>
+    <div class="row">
+	    <!-- <button id="mlgo">Step</button> -->
+	    <div id="buttons" class="col-xs-2 col-sm-2 col-md-2 col-lg-2 gui-component glo-col"></div>
+      <div id="history-panel" class="col-xs-2 col-sm-2 col-md-2 col-lg-2 gui-component glo-col">
+        <div class="row">
+          <div id="control" class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+            <span id = "back-btn" class="btn btn-default"><span class="glyphicon glyphicon-arrow-left"></span></span>
+            <span id = "forward-btn" class="btn btn-default"><span class="glyphicon glyphicon-arrow-right"></span></span>
+            <span id = "save-btn" class="btn btn-default"><span class="glyphicon glyphicon-floppy-disk"></span></span>
+            <span id = "snapshot-btn" class="btn btn-default"><span class="glyphicon glyphicon-camera"></span></span>
+            <span id = "delete-btn" class="btn btn-default"><span class="glyphicon glyphicon-trash"></span></span>
+          </div>
+        </div>
+        <hr>
+        <div class="row">
+          <div id="history" class="col-xs-12 col-sm-12 col-md-12 col-lg-12"></div>
+        </div>
+      </div>
+
+      <div class="col-xs-8 col-sm-8 col-md-8 col-lg-8 glo-col">
+        <div class="row">
+          <div id="canvas" class="col-xs-12 col-sm-12 col-md-12 col-lg-12 gui-component"></div>
+        </div>
+        <div class="row">
+          <div id="snapshot" class="col-xs-12 col-sm-12 col-md-12 col-lg-12 gui-component">
+          </div>
+        </div>
+      </div>
+    </div>
+
+
+    <script src="js/vis_properties.js"></script>
+    <script src="js/les_mis_demo.js"></script>
+    <script src="js/functions.js"></script>
+    <script src="js/node_functions.js"></script>
+    <script src="js/link_functions.js"></script>
+    <script src="js/buttons_gui.js"></script>
+    <script src="//ajax.googleapis.com/ajax/libs/jqueryui/1.10.4/jquery-ui.min.js"></script>
+    <script type="text/javascript" src="js/gui.js"></script>
+
+
+<!-- 
+    <script src="js/vis_properties.js"></script>
+    <script src="js/les_mis_demo.js"></script>
+    <script src="js/functions.js"></script>
+    <script src="js/node_functions.js"></script>
+    <script src="js/link_functions.js"></script>
+    <script src="js/buttons.js"></script>
+ -->
+
+	<!-- For GUI -->
+	<!-- Latest compiled and minified JavaScript -->
+	<script src="//netdna.bootstrapcdn.com/bootstrap/3.1.1/js/bootstrap.min.js"></script>
+  </body>
+</html>
