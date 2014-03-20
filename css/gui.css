@@ -27,13 +27,13 @@ body
 
 #snapshot{
 	height: 20%;
+	white-space: nowrap;
+	overflow-x: scroll;
+	overflow-y: hidden;
 }
 
 .snapshot{
 	border: 1px solid black;
-	white-space: nowrap;
-	overflow-x: scroll;
-	overflow-y: hidden;
 }
 
 #canvas{
