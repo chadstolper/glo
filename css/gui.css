@@ -31,6 +31,9 @@ body
 
 .snapshot{
 	border: 1px solid black;
+	white-space: nowrap;
+	overflow-x: scroll;
+	overflow-y: hidden;
 }
 
 #canvas{
