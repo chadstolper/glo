@@ -61,3 +61,4 @@ $("#snapshot-btn").click(function(){
 
 });
 
+// $("svg").attr("height","%100");

@@ -14,6 +14,7 @@ body
 .button-group .btn{
 	font-size: inherit;
 	display: block;
+    white-space: normal;
 }
 
 .glo-col{
@@ -35,6 +36,14 @@ body
 #canvas{
 	height: 80%;
 }
+
+#canvas > svg{
+	height: 100%;
+    width: 100%;
+    margin: 0;
+    padding: 0;
+}
+
 
 #history-panel{
 	padding: 0;

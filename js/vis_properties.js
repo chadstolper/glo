@@ -41,7 +41,7 @@ var activeGenIsAggregate = function(){
 }
 
 var width = 850
-var height = 500
+var height = 400
 var xbuffer = 50
 var ybuffer = 50
 var color = d3.scale.category10()
