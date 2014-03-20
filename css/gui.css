@@ -17,6 +17,12 @@ body
     white-space: normal;
 }
 
+.delete-x{
+	position: absolute;
+	left: 88%;
+	top: 1%;	
+}
+
 .glo-col{
 	height: 90%;
 }
@@ -63,7 +69,7 @@ body
 	overflow:scroll;	
 }
 
-#history div{
+#history > div{
 	font-size: 14px;
 	border-top: 1px solid #DDDDDD;
 	border-bottom: 1px solid #DDDDDD;

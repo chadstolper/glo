@@ -9,8 +9,11 @@ $(".button-group > .btn").draggable({helper: "clone" });
 $("#history-panel").droppable({
     drop: function (event, ui) {
     	console.log("dropped!");
-    	var newListedAction = $("<div></div>").text(ui.draggable.text());
-
+    	var newListedAction = $("<div></div>").text(ui.draggable.text()).append("<div class=\"delete-x glyphicon glyphicon-remove\"></div>");;
+        $(newListedAction).children(".delete-x").click(function(){
+            newListedAction.click();
+            $("#delete-btn").click();
+        });
     	//console.log(ui.draggable);
     	ui.draggable.click();
     	history.push(ui.draggable);
@@ -60,5 +63,6 @@ $("#snapshot-btn").click(function(){
         .attr("transform","scale(0.2) translate(50,50)") 
 
 });
+
 
 // $("svg").attr("height","%100");
