@@ -281,6 +281,12 @@ var force_directed =function(){
     .start()
 }
 
+var force_directed_stop_immediately = function(){
+   force_directed();
+   for (var i = 0; i < 100; ++i) force.tick();
+   force.stop();
+}
+
 var hide_links = function(){
   // link.style("visibility","hidden")
   graph.edges.forEach(function(d){
