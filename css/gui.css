@@ -18,9 +18,9 @@ body
 }
 
 .delete-x{
-	position: absolute;
-	left: 88%;
-	top: 1%;	
+	position: relative;
+/*	left: 88%;
+	top: 1%;	*/
 }
 
 .glo-col{

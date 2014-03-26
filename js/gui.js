@@ -10,7 +10,8 @@ $("#history-panel").droppable({
     drop: function (event, ui) {
     	console.log("dropped!");
     	var newListedAction = $("<div></div>").text(ui.draggable.text()).append("<div class=\"delete-x glyphicon glyphicon-remove\"></div>");;
-        $(newListedAction).children(".delete-x").click(function(){
+        $(newListedAction).children(".delete-x")
+            .click(function(){
             newListedAction.click();
             $("#delete-btn").click();
         });
@@ -46,6 +47,11 @@ $("#delete-btn").click(function(){
 	
     $(".selected").hide('slow', function(){ this.remove(); });
 
+    //try to do reversing
+    force_directed();
+    for (var i = 0; i < history.length; i++) {
+        history[i].click();
+    }
     //reapply all the not deleted actions
 
 });
