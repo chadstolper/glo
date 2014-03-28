@@ -1,5 +1,42 @@
+/* known problem:
+@when reapply history, functions are not executed in sequence.
+    -tried JQuery deferred, not working perfectly, need to research more.
+
+*/
 //----------define history behavior--------------
 var history = [];
+
+var reapplyHistory = function(){
+    // //reapply new history
+    // var chain = function(){
+    //     var d = $.Deferred();
+    //     force_directed_stop_immediately();
+    //     d.resolve();
+    //     return d.promise();
+    // };
+
+    // chain = chain();
+    
+    // for (i = 0; i < history.length; i++) {
+    //     setTimeout(function(){
+    //         chain = chain.pipe(history[i].func);
+    //     },100);
+    // }
+//-------------above used JQuery Defer
+    console.log(history);
+
+    var workerWrapper = function(i){
+        setTimeout(function(){
+            // console.log(i);
+            history[i].func();
+        },1000*i);
+    };
+
+    force_directed_stop_immediately();
+    for (i = 0; i < history.length; i++) {
+        workerWrapper(i);
+    }
+}
 
 //-------------UI stuff-------------------
 $("#buttons").accordion();
@@ -22,24 +59,28 @@ $("#history-panel").droppable({
             .click(function(){
                 var selectedItem = $(this.parentNode);
                 $.each(history,function(index,value){
-                    console.log(selectedItem.text()+" "+history[index].name);
+                    //console.log(selectedItem.text()+" "+history[index].name);
                     if (selectedItem.text()==history[index].name){
                         history.splice(index,1);
-                        console.log(index);
+                        //console.log(index);
                         return false;
                     }
                 });
                 $(this.parentNode).hide('slow', function(){ this.remove(); });
-                force_directed_stop_immediately()
-                for (i = 0; i < history.length; i++) {
-                    history[i].func();
-                }
+                
+                reapplyHistory();
             });
 
 
     	var histItem = {};
         histItem.name = ui.draggable.text();
-        histItem.func = function(){ui.draggable.click()};
+        //use jquery deferred to make sure functions are executed in sequence
+        histItem.func = function(){
+            // var d = $.Deferred();
+            ui.draggable.click();
+            // d.resolve();
+            // return d.promise();
+        };
         histItem.func();
     	history.push(histItem);
 
@@ -61,13 +102,7 @@ $("#delete-btn").click(function(){
     console.log(history.length);
 	
     $(".selected").hide('slow', function(){ this.remove(); });
-
-    //reapply new history
-    //force_directed();
-    force_directed_stop_immediately()
-    for (i = 0; i < history.length; i++) {
-        history[i].func();
-    }
+    reapplyHistory();
 });
 
 
