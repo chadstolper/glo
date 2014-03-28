@@ -9,7 +9,7 @@ body
 }
 
 .gui-component {
-	border: 1px solid black;
+	border: 1px solid #ccc;
 }
 
 .button-group {
@@ -64,13 +64,13 @@ body
 }
 	
 #control{
-	height: 10%;
+	height: 60px;
 	text-align: center;
 	padding-top: 15px;
 }
 
 #history {
-	height: 90%;
+	
 	overflow:scroll;	
 }
 
@@ -91,4 +91,30 @@ body
 #history > .disabled{
 	background-color: #AAAAAA;
 	color: #CCCCCC;
+}
+
+#views {
+	width: 1500px;
+	height: 800px;
+}
+#buttons {
+	border: 0;
+	width: 240px;
+	margin-right: 7px;
+}
+#history-panel{
+	width: 210px;
+	margin-right: 7px;
+}
+#canvas {
+	width: 760px;
+	height: 610px;
+	border: 10px solid #ccc;
+}
+.button-group {
+	padding: 0;
+}
+.btn {
+	margin-bottom: 2px;
+
 }
