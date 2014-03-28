@@ -24,16 +24,22 @@ var reapplyHistory = function(){
     // }
 //-------------above used JQuery Defer
     console.log(history);
+    //clean disable and then reapply
+    d3.selectAll(".disabled")
+        .classed("disabled",false);
 
+    var histKeeper = history;
+    history = [];
     var workerWrapper = function(i){
         setTimeout(function(){
             // console.log(i);
-            history[i].func();
+            histKeeper[i].func();
+            history.push(histKeeper[i]);
         },1000*i);
     };
 
     force_directed_stop_immediately();
-    for (i = 0; i < history.length; i++) {
+    for (i = 0; i < histKeeper.length; i++) {
         workerWrapper(i);
     }
 }

@@ -6,20 +6,21 @@ var grouped_steps = [
   {
     name: "Position Nodes",
     data: [
-      {f:evenly_position_on_x, label:"Evenly Position on X"},
-      {f:evenly_position_on_y, label:"Evenly Position on Y"},
-      {f:position_x_left, label:"Position X Left"},
-      {f:position_x_center, label:"Position X Center"},
-      {f:position_x_right, label:"Position X Right"},
-      {f:position_y_top, label:"Position Y Top"},
-      {f:position_y_middle, label:"Position Y Middle"},
-      {f:position_y_bottom, label:"Position Y Bottom"},
-      {f:transition_x_by_betweenness, label:"Position X Relatively by Betweenness Centrality"},
-      {f:transition_y_by_degree, label:"Position Y Relatively by Degree"},
-      {f:transition_x_by_gender, label:"Position X by Gender"},
-      {f:scatter_on_x, label:"Scatter on X"},
-      {f:position_y_by_modularity_class, label:"Substrate on Y by Category"},
-      {f:force_directed, label:"Force-Directed"}
+    //node_position_x for position node x
+      {f:evenly_position_on_x, label:"Evenly Position on X", type: ["node_position_x"]},
+      {f:evenly_position_on_y, label:"Evenly Position on Y", type: ["node_position_y"]},
+      {f:position_x_left, label:"Position X Left", type: ["node_position_x"]},
+      {f:position_x_center, label:"Position X Center", type: ["node_position_x"]},
+      {f:position_x_right, label:"Position X Right", type: ["node_position_x"]},
+      {f:position_y_top, label:"Position Y Top", type: ["node_position_y"]},
+      {f:position_y_middle, label:"Position Y Middle", type: ["node_position_y"]},
+      {f:position_y_bottom, label:"Position Y Bottom", type: ["node_position_y"]},
+      {f:transition_x_by_betweenness, label:"Position X Relatively by Betweenness Centrality", type: ["node_position_x"]},
+      {f:transition_y_by_degree, label:"Position Y Relatively by Degree", type: ["node_position_y"]},
+      {f:transition_x_by_gender, label:"Position X by Gender", type: ["node_position_x"]},
+      {f:scatter_on_x, label:"Scatter on X", type: ["node_position_x"]},
+      {f:position_y_by_modularity_class, label:"Substrate on Y by Category", type: ["node_position_y"]},
+      {f:force_directed, label:"Force-Directed", type: ["node_position_x","node_position_y"]}
     ]
   },
 
@@ -27,23 +28,23 @@ var grouped_steps = [
   {
     name: "Node Properties",
     data:[
-      {f:size_nodes_by_constant, label:"Size Nodes by Constant"},
-      {f:size_nodes_by_degree, label:"Size Nodes by Degree"},
-      {f:size_nodes_by_count, label:"Size Nodes by Count"},
+      {f:size_nodes_by_constant, label:"Size Nodes by Constant", type: ["node_size"]},
+      {f:size_nodes_by_degree, label:"Size Nodes by Degree", type: ["node_size"]},
+      {f:size_nodes_by_count, label:"Size Nodes by Count", type: ["node_size"]},
     ]
   },
 
 
 //edges
-{
+  {
     name: "Edges",
     data:[
-      {f:show_selected_links, label:"Show Select Links"},
-      {f:show_links, label:"Show Links"},
-      {f:hide_links, label:"Hide Links"},
-      {f:transition_links_to_circle, label:"Links to Circles"},
-      {f:transition_links_to_straight, label:"Links to Straight"},
-      {f:transition_links_to_curved, label:"Links to Curved"}
+      {f:show_selected_links, label:"Show Select Links", type: ["show_edge"]},
+      {f:show_links, label:"Show Links", type: ["show_edge"]},
+      {f:hide_links, label:"Hide Links", type: ["show_edge"]},
+      {f:transition_links_to_circle, label:"Links to Circles", type: ["edge_shape"]},
+      {f:transition_links_to_straight, label:"Links to Straight", type: ["edge_shape"]},
+      {f:transition_links_to_curved, label:"Links to Curved", type: ["edge_shape"]}
     ]
   },
 
@@ -53,10 +54,10 @@ var grouped_steps = [
   {
     name: "Aggregation",
     data:[
-      {f:aggregate_nodes_by_gender_and_category, label:"Aggregate by Gender and Category"},
-      {f:aggregate_by_modularity_class, label:"Aggregate by Category"},
-      {f:deaggregate_0, label:"Deaggregate 0"},
-      {f:deaggregate_1, label:"Deaggregate 1"},
+      {f:aggregate_nodes_by_gender_and_category, label:"Aggregate by Gender and Category", type: ["aggregation"]},
+      {f:aggregate_by_modularity_class, label:"Aggregate by Category", type: ["aggregation"]},
+      {f:deaggregate_0, label:"Deaggregate 0", type: ["deaggregation_0"]},
+      {f:deaggregate_1, label:"Deaggregate 1", type: ["deaggregation_1"]},
     ]   
   },
 
@@ -65,8 +66,8 @@ var grouped_steps = [
   name: "Cloning",
   data:   
   [
-    {f:clone_active_set, label:"Clone Active Set"},
-    {f:remove_generation_1, label:"Remove Generation 1"},
+    {f:clone_active_set, label:"Clone Active Set", type: ["clone"]},
+    {f:remove_generation_1, label:"Remove Generation 1", type: ["remove_clone"]},
   ]
   },
 
@@ -75,14 +76,25 @@ var grouped_steps = [
   name: "Others",
   data:   
   [
-    {f:draw_x_axis, label:"Draw X Axis"},
-    {f:draw_y_axis, label:"Draw Y Axis"},
-    {f:hide_x_axis, label:"Hide X Axis"},
-    {f:hide_y_axis, label:"Hide Y Axis"}
+    {f:draw_x_axis, label:"Draw X Axis", type: ["show_x_axis"]},
+    {f:draw_y_axis, label:"Draw Y Axis", type: ["show_y_axis"]},
+    {f:hide_x_axis, label:"Hide X Axis", type: ["show_x_axis"]},
+    {f:hide_y_axis, label:"Hide Y Axis", type: ["show_y_axis"]}
   ]
   }
 ];
 
+
+var nameToTypeDictionary = {};
+for (var i=0;i<grouped_steps.length;i++){
+  for (var j=0;j<grouped_steps[i].data.length;j++){
+    // console.log(grouped_steps[i].data[j].label);
+    
+    nameToTypeDictionary[grouped_steps[i].data[j].label] = grouped_steps[i].data[j].type;
+
+    // console.log(nameToTypeDictionary[grouped_steps[i].data[j].label]);
+  }
+}
 
 accordion_groups = d3.select("#buttons")
     .selectAll(".button-group")
@@ -104,9 +116,26 @@ var mlgo_buttons = button_groups.selectAll(".step")
     .append("div")
     .text(function(d){return d.label; })
     .classed("btn",true)
-    .classed("btn-default",true)    
-    .on("click",function(d,i){
-      d.f()
+    .classed("btn-default",true)
+    .classed("step",true)      
+    .on("click",function(d){
+      d.f();
+      for (var i=0;i<d.type.length;i++){
+        var newType = d.type[i];
+        d3.selectAll(".history-item")
+          .filter(function(d,i){
+            return i<history.length;
+          })
+          .classed("disabled",function(d,i){
+            //console.log("prev array"+d.type);
+            if (nameToTypeDictionary[d3.select(this).text()]==newType){
+              return true;
+            }else{
+              return d3.select(this).classed("disabled");
+            }
+          });
+
+      }
       // d.disabled = true
       // update_buttons()
     })

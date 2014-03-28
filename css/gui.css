@@ -87,3 +87,8 @@ body
 #history > .selected{
 	background-color: #EEEEEE;
 }
+
+#history > .disabled{
+	background-color: #AAAAAA;
+	color: #CCCCCC;
+}
