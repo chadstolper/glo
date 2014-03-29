@@ -18,7 +18,7 @@ var grouped_steps = [
       {f:transition_x_by_betweenness, label:"Position X Relatively by Betweenness Centrality", type: ["node_position_x"]},
       {f:transition_y_by_degree, label:"Position Y Relatively by Degree", type: ["node_position_y"]},
       {f:transition_x_by_gender, label:"Substrate on X by Gender", type: ["node_position_x"]},
-      {f:scatter_on_x, label:"Scatter on X", type: ["node_position_x"]},
+      {f:scatter_on_x, label:"Scatter Nodes on X", type: ["node_position_x"]},
       {f:position_y_by_modularity_class, label:"Substrate on Y by Category", type: ["node_position_y"]},
       {f:force_directed, label:"Apply Force-Directed Algorithm", type: ["node_position_x","node_position_y"]}
     ]
