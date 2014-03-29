@@ -16,7 +16,7 @@ var force
 
 var modes = {
   edges: "straight",//"curved", //"straight","circle"
-  node_r: "constant", //"degree", //"constant"
+  node_r: "degree", //"degree", //"constant"
   active_generation: 0,
   source_generation: 0,
   target_generation: 0,
