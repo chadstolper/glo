@@ -40,7 +40,7 @@ var activeGenIsAggregate = function(){
   return false
 }
 
-var width = 640
+var width = 610
 var height = 490
 var xbuffer = 50
 var ybuffer = 50
