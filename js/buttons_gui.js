@@ -4,49 +4,43 @@ var mlgo_index = 0
 var grouped_steps = [
 //Position Nodes
   {
-    name: "Position Nodes",
+    name: "Positioning Nodes",
     data: [
     //node_position_x for position node x
-      {f:evenly_position_on_x, label:"Evenly Position on X", type: ["node_position_x"]},
-      {f:evenly_position_on_y, label:"Evenly Position on Y", type: ["node_position_y"]},
-      {f:position_x_left, label:"Position X Left", type: ["node_position_x"]},
-      {f:position_x_center, label:"Position X Center", type: ["node_position_x"]},
-      {f:position_x_right, label:"Position X Right", type: ["node_position_x"]},
-      {f:position_y_top, label:"Position Y Top", type: ["node_position_y"]},
-      {f:position_y_middle, label:"Position Y Middle", type: ["node_position_y"]},
-      {f:position_y_bottom, label:"Position Y Bottom", type: ["node_position_y"]},
+      {f:evenly_position_on_x, label:"Distribute Nodes on X", type: ["node_position_x"]},
+      {f:evenly_position_on_y, label:"Distribute Nodes on Y", type: ["node_position_y"]},
+      {f:position_x_left, label:"Align X Left", type: ["node_position_x"]},
+      {f:position_x_center, label:"Align X Center", type: ["node_position_x"]},
+      {f:position_x_right, label:"Align X Right", type: ["node_position_x"]},
+      {f:position_y_top, label:"Align Y Top", type: ["node_position_y"]},
+      {f:position_y_middle, label:"Align Y Middle", type: ["node_position_y"]},
+      {f:position_y_bottom, label:"Align Y Bottom", type: ["node_position_y"]},
       {f:transition_x_by_betweenness, label:"Position X Relatively by Betweenness Centrality", type: ["node_position_x"]},
       {f:transition_y_by_degree, label:"Position Y Relatively by Degree", type: ["node_position_y"]},
-      {f:transition_x_by_gender, label:"Position X by Gender", type: ["node_position_x"]},
+      {f:transition_x_by_gender, label:"Substrate on X by Gender", type: ["node_position_x"]},
       {f:scatter_on_x, label:"Scatter on X", type: ["node_position_x"]},
       {f:position_y_by_modularity_class, label:"Substrate on Y by Category", type: ["node_position_y"]},
-      {f:force_directed, label:"Force-Directed", type: ["node_position_x","node_position_y"]}
+      {f:force_directed, label:"Apply Force-Directed Algorithm", type: ["node_position_x","node_position_y"]}
     ]
   },
 
 //Node Properties
   {
-    name: "Node Properties",
+    name: "Modifying Element Properties",
     data:[
       {f:size_nodes_by_constant, label:"Size Nodes by Constant", type: ["node_size"]},
       {f:size_nodes_by_degree, label:"Size Nodes by Degree", type: ["node_size"]},
       {f:size_nodes_by_count, label:"Size Nodes by Count", type: ["node_size"]},
-    ]
-  },
-
-
-//edges
-  {
-    name: "Edges",
-    data:[
+      {f:show_links, label:"Show All Links", type: ["show_edge"]},
       {f:show_selected_links, label:"Show Select Links", type: ["show_edge"]},
-      {f:show_links, label:"Show Links", type: ["show_edge"]},
       {f:hide_links, label:"Hide Links", type: ["show_edge"]},
-      {f:transition_links_to_circle, label:"Links to Circles", type: ["edge_shape"]},
       {f:transition_links_to_straight, label:"Links to Straight", type: ["edge_shape"]},
-      {f:transition_links_to_curved, label:"Links to Curved", type: ["edge_shape"]}
+      {f:transition_links_to_curved, label:"Links to Curved", type: ["edge_shape"]},
+      {f:transition_links_to_circle, label:"Links to Circles", type: ["edge_shape"]},
+
     ]
   },
+
 
 
 
@@ -102,11 +96,11 @@ var grouped_steps = [
 
 //Others
  {
-  name: "Others",
+  name: "Modifying Display Properties",
   data:   
   [
-    {f:draw_x_axis, label:"Draw X Axis", type: ["show_x_axis"]},
-    {f:draw_y_axis, label:"Draw Y Axis", type: ["show_y_axis"]},
+    {f:draw_x_axis, label:"Show X Axis", type: ["show_x_axis"]},
+    {f:draw_y_axis, label:"Show Y Axis", type: ["show_y_axis"]},
     {f:hide_x_axis, label:"Hide X Axis", type: ["show_x_axis"]},
     {f:hide_y_axis, label:"Hide Y Axis", type: ["show_y_axis"]}
   ]
