@@ -484,6 +484,7 @@ var evenly_position_on_x = function(){
   node_generations[modes.active_generation].transition().duration(transition_duration)
     .attr("cx",function(d){ return d.x_list[modes.active_generation] })
 
+  update_axes()
   update_rolled_up()
 
   update_links()
@@ -501,15 +502,19 @@ var evenly_position_on_y = function(){
   node_generations[modes.active_generation].transition().duration(transition_duration)
     .attr("cy",function(d){ return d.y_list[modes.active_generation] })
 
+  update_axes()
   update_rolled_up()
 
   update_links()
 }
 
 var position_y_top = function(){
-  yscale = function(d){
-    return 0-0.5*ybuffer;
-  }
+  // yscale = function(d){
+  //   return 0-0.5*ybuffer;
+  // }
+
+  yscale = d3.scale.linear()
+    .range([0-0.5*ybuffer,0-0.5*ybuffer])
 
   node_generations[modes.active_generation].each(function(d){
     d.y_list[modes.active_generation] = yscale(d.id)
@@ -518,15 +523,19 @@ var position_y_top = function(){
   node_generations[modes.active_generation].transition().duration(transition_duration)
     .attr("cy",function(d){ return d.y_list[modes.active_generation] })
 
+  update_axes()
   update_rolled_up()
 
   update_links()
 }
 
 var position_y_middle = function(){
-  yscale = function(d){
-    return height/2;
-  }
+  // yscale = function(d){
+  //   return height/2;
+  // }
+
+  yscale = d3.scale.linear()
+    .range([height/2,height/2])
 
   node_generations[modes.active_generation].each(function(d){
     d.y_list[modes.active_generation] = yscale(d.id)
@@ -535,15 +544,19 @@ var position_y_middle = function(){
   node_generations[modes.active_generation].transition().duration(transition_duration)
     .attr("cy",function(d){ return d.y_list[modes.active_generation] })
 
+  update_axes()
   update_rolled_up()
 
   update_links()
 }
 
 var position_y_bottom = function(){
-  yscale = function(d){
-    return height+0.5*ybuffer;
-  }
+  // yscale = function(d){
+  //   return height+0.5*ybuffer;
+  // }
+
+  yscale = d3.scale.linear()
+    .range([height+0.5*ybuffer,height+0.5*ybuffer])
 
   node_generations[modes.active_generation].each(function(d){
     d.y_list[modes.active_generation] = yscale(d.id)
@@ -553,6 +566,7 @@ var position_y_bottom = function(){
     .attr("cy",function(d){ return d.y_list[modes.active_generation] })
 
 
+  update_axes()
   update_rolled_up()
 
   update_links()
@@ -564,6 +578,10 @@ var position_x_left = function(){
     return 0-0.5*xbuffer;
   }
 
+  xscale = d3.scale.linear()
+    .range([0-0.5*xbuffer,0-0.5*xbuffer])
+
+
   node_generations[modes.active_generation].each(function(d){
     d.x_list[modes.active_generation] = xscale(d.id)
   })
@@ -571,15 +589,19 @@ var position_x_left = function(){
   node_generations[modes.active_generation].transition().duration(transition_duration)
     .attr("cx",function(d){ return d.x_list[modes.active_generation] })
 
+  update_axes()
   update_rolled_up()
 
   update_links()
 }
 
 var position_x_center = function(){
-  xscale = function(d){
-    return width/2;
-  }
+  // xscale = function(d){
+  //   return width/2;
+  // }
+
+  xscale = d3.scale.linear()
+    .range([width/2,width/2])
 
   node_generations[modes.active_generation].each(function(d){
     d.x_list[modes.active_generation] = xscale(d.id)
@@ -588,15 +610,19 @@ var position_x_center = function(){
   node_generations[modes.active_generation].transition().duration(transition_duration)
     .attr("cx",function(d){ return d.x_list[modes.active_generation] })
 
+  update_axes()
   update_rolled_up()
 
   update_links()
 }
 
 var position_x_right = function(){
-  xscale = function(d){
-    return width+0.5*xbuffer;
-  }
+  // xscale = function(d){
+  //   return width+0.5*xbuffer;
+  // }
+
+  xscale = d3.scale.linear()
+    .range([width+0.5*xbuffer,width+0.5*xbuffer])
 
   node_generations[modes.active_generation].each(function(d){
     d.x_list[modes.active_generation] = xscale(d.id)
@@ -605,6 +631,7 @@ var position_x_right = function(){
   node_generations[modes.active_generation].transition().duration(transition_duration)
     .attr("cx",function(d){ return d.x_list[modes.active_generation] })
 
+  update_axes()
   update_rolled_up()
 
   update_links()

@@ -40,8 +40,8 @@ var activeGenIsAggregate = function(){
   return false
 }
 
-var width = 650
-var height = 500
+var width = 640
+var height = 490
 var xbuffer = 50
 var ybuffer = 50
 var color = d3.scale.category10()
@@ -49,12 +49,24 @@ var link_r = 2
 var max_link_curve_r = 15
 var node_r_constant = 8
 
+var xaxis = false
+var yaxis = false
+
 var svg = d3.select("#canvas").append("svg")
     .attr("width",width+(2*xbuffer))
     .attr("height",height+(2*ybuffer))
 
 var chart = svg.append("g")
   .attr("transform","translate("+xbuffer+","+ybuffer+")")
+
+var x_axis_g = svg.append("g")
+    .attr("class","x axis")
+    .attr("transform","translate("+xbuffer+","+ (height+ybuffer+20) + ")")
+
+var y_axis_g = svg.append("g")
+  .attr("class","y axis")
+  .attr("transform","translate("+(xbuffer-20)+","+ybuffer+")")
+
 
 var linkg = chart.append("g")
 var nodeg = chart.append("g")

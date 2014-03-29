@@ -380,6 +380,7 @@ var position_x_by_property = function(prop){
       return d.x_list[modes.active_generation]
     })
 
+  update_axes()
   update_rolled_up()
   update_links()
 }
@@ -422,6 +423,7 @@ var position_y_by_property = function(prop){
       return d.y_list[modes.active_generation]
     })
 
+  update_axes()
   update_rolled_up()
   update_links()
 }
@@ -452,33 +454,37 @@ var transition_y_by_gender = function(){
 
 
 var draw_x_axis = function(){
-  var xaxis = d3.svg.axis()
+  xaxis = d3.svg.axis()
     .scale(xscale)
     .orient("bottom")
 
-  svg.append("g")
-    .attr("class","x axis")
-    .attr("transform","translate("+xbuffer+","+ (height+ybuffer) + ")")
-    .call(xaxis)
+  try{
+    x_axis_g.call(xaxis)
+  }catch(err){
+    $(svg.select(".x.axis").node()).empty()
+  }
 }
 
 var hide_x_axis = function(){
-  $(svg.select(".x.axis").node()).remove()
+  $(svg.select(".x.axis").node()).empty()
+  xaxis = false
 }
 
 var draw_y_axis = function(){
-  var yaxis = d3.svg.axis()
+  yaxis = d3.svg.axis()
     .scale(yscale)
     .orient("left")
 
-  svg.append("g")
-    .attr("class","y axis")
-    .attr("transform","translate("+(xbuffer-20)+","+ybuffer+")")
-    .call(yaxis)
+  try{
+    y_axis_g.call(yaxis)
+  }catch(err){
+    $(svg.select(".y.axis").node()).empty()
+  }
 }
 
 var hide_y_axis = function(){
-  $(svg.select(".y.axis").node()).remove()
+  $(svg.select(".y.axis").node()).empty()
+  yaxis = false
 }
 
 
@@ -511,6 +517,7 @@ var substrate_on_y = function(prop){
       return d.y_list[modes.active_generation]
     })
   
+  update_axes()
   update_rolled_up()
   update_links()
 }
@@ -528,6 +535,7 @@ var substrate_on_x = function(prop){
       return d.x_list[modes.active_generation]
     })
   
+  update_axes()
   update_rolled_up()
   update_links()
 }
@@ -551,6 +559,7 @@ var scatter_on_x = function(){
   node_generations[modes.active_generation].transition().duration(transition_duration)
     .attr("cx",function(d){ return d.x_list[modes.active_generation] })
 
+  update_axes()
   update_rolled_up()
   update_links()
 }
@@ -573,6 +582,7 @@ var scatter_on_y = function(){
   node_generations[modes.active_generation].transition().duration(transition_duration)
     .attr("cy",function(d){ return d.y_list[modes.active_generation] })
 
+  update_axes()
   update_rolled_up()
   update_links()
 }
@@ -633,7 +643,15 @@ var update_rolled_up = function(){
 
 
 
+var update_axes = function(){
+  if(xaxis){
+    draw_x_axis()
+  }
 
+  if(yaxis){
+    draw_y_axis()
+  }
+}
 
 
 

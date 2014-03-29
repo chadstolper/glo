@@ -59,8 +59,8 @@ body
 }
 
 #canvas > svg{
-	height: 100%;
-    width: 100%;
+	/*height: 100%;*/
+    /*width: 100%;*/
     margin: 0;
     padding: 0;
 }
@@ -125,6 +125,7 @@ body
 	width: 760px;
 	height: 610px;
 	border: 10px solid #ccc;
+	padding: 0px;
 }
 
 #button-panel-title {
