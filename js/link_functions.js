@@ -18,27 +18,47 @@ var set_target_generation = function(gen){
 var set_source_generation_0 = function(){
   set_source_generation(0)
 }
-
 var set_source_generation_1 = function(){
   set_source_generation(1)
 }
-
 var set_source_generation_2 = function(){
   set_source_generation(2)
 }
+var set_source_generation_3 = function(){
+  set_source_generation(3)
+}
+var set_source_generation_4 = function(){
+  set_source_generation(4)
+}
+var set_source_generation_5 = function(){
+  set_source_generation(5)
+}
+var set_source_generation_6 = function(){
+  set_source_generation(6)
+}
+
 
 var set_target_generation_0 = function(){
   set_target_generation(0)
 }
-
 var set_target_generation_1 = function(){
   set_target_generation(1)
 }
-
 var set_target_generation_2 = function(){
   set_target_generation(2)
 }
-
+var set_target_generation_3 = function(){
+  set_target_generation(3)
+}
+var set_target_generation_4 = function(){
+  set_target_generation(4)
+}
+var set_target_generation_5 = function(){
+  set_target_generation(5)
+}
+var set_target_generation_6 = function(){
+  set_target_generation(6)
+}
 
 
 
