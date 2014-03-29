@@ -42,24 +42,6 @@ var grouped_steps = [
   },
 
 
-
-
-//aggregation
-  {
-    name: "Aggregation",
-    data:[
-      {f:aggregate_nodes_by_gender_and_category, label:"Aggregate by Gender and Category", type: ["aggregation"]},
-      {f:aggregate_by_modularity_class, label:"Aggregate by Category", type: ["aggregation"]},
-      {f:deaggregate_0, label:"Deaggregate Generation 0", type: ["deaggregation_0"]},
-      {f:deaggregate_1, label:"Deaggregate Geneartion 1", type: ["deaggregation_1"]},
-      {f:deaggregate_2, label:"Deaggregate Generation 2", type: ["deaggregation_2"]},
-      {f:deaggregate_3, label:"Deaggregate Generation 3", type: ["deaggregation_3"]},
-      // {f:deaggregate_4, label:"Deaggregate Generation 4", type: ["deaggregation_4"]},
-      // {f:deaggregate_5, label:"Deaggregate Generation 5", type: ["deaggregation_5"]},
-      // {f:deaggregate_6, label:"Deaggregate Generation 6", type: ["deaggregation_6"]},
-    ]   
-  },
-
 //Cloning
   {
   name: "Cloning",
@@ -67,6 +49,11 @@ var grouped_steps = [
   [
 
     {f:clone_active_set, label:"Clone Active Set", type: ["clone"]},
+    
+    {f:select_generation_0, label:"Select Generation 0", type:["select_gen_0"]},
+    {f:select_generation_1, label:"Select Generation 1", type:["select_gen_1"]},
+    {f:select_generation_2, label:"Select Generation 2", type:["select_gen_2"]},
+    {f:select_generation_3, label:"Select Generation 3", type:["select_gen_3"]},
     
     {f:set_source_generation_0, label:"Set Source Generation 0", type:["source_gen"]},
     {f:set_source_generation_1, label:"Set Source Generation 1", type:["source_gen"]},
@@ -93,6 +80,26 @@ var grouped_steps = [
 
   ]
   },
+
+
+
+//aggregation
+  {
+    name: "Aggregation",
+    data:[
+      {f:aggregate_nodes_by_gender_and_category, label:"Aggregate by Gender and Category", type: ["aggregation"]},
+      {f:aggregate_by_modularity_class, label:"Aggregate by Category", type: ["aggregation"]},
+      {f:deaggregate_0, label:"Deaggregate Generation 0", type: ["deaggregation_0"]},
+      {f:deaggregate_1, label:"Deaggregate Geneartion 1", type: ["deaggregation_1"]},
+      {f:deaggregate_2, label:"Deaggregate Generation 2", type: ["deaggregation_2"]},
+      {f:deaggregate_3, label:"Deaggregate Generation 3", type: ["deaggregation_3"]},
+      // {f:deaggregate_4, label:"Deaggregate Generation 4", type: ["deaggregation_4"]},
+      // {f:deaggregate_5, label:"Deaggregate Generation 5", type: ["deaggregation_5"]},
+      // {f:deaggregate_6, label:"Deaggregate Generation 6", type: ["deaggregation_6"]},
+    ]   
+  },
+
+
 
 //Others
  {

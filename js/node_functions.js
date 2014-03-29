@@ -510,6 +510,10 @@ var select_generation_2 = function(){
   select_generation(2)
 }
 
+var select_generation_3 = function(){
+  select_generation(3)
+}
+
 
 
 
