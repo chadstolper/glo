@@ -1,10 +1,10 @@
 h1{
 	font-family: 'Nothing You Could Do', cursive;
 	font-size: 20pt;
-	border-bottom: 2px solid #9af;
-	margin: 20px 0 10px 15px;
+	border-bottom: 2px solid #99e;
+	margin: 20px 15px 8px 15px;
 	padding: 0 0 3px 5px;
-	width: 1500px;
+	width: 1160px;
 }
 h1 strong {
 	font-size: 24pt;
@@ -19,14 +19,99 @@ body
 	border: 1px solid #ccc;
 }
 
-.button-group {
-	padding: 0 0 0 0;
+#views {
+	width: 1350px;
+	height: 756px;
+	margin: 4px 0 15px 15px;
+	position: relative;
+}
+#button-panel {
+	border: 0;
+	width: 180px;
+	height: 100%;
+	margin-right: 10px;
+	position: relative;
+	border: 1px solid #bbb;
+	padding: 0;
+}
+#history-panel{
+	width: 210px;
+	height: 100%;
+	margin-right: 10px;
+	padding: 0;
+	border: 1px solid #bbb;
+}
+#canvas {
+	width: 750px;
+	height: 600px;
+	border: 5px solid #ccc;
+}
+#snapshot{
+	white-space: nowrap;
+	overflow-x: scroll;
+	overflow-y: hidden;
+	width: 750px;
+	height: 150px;
+	margin-top: 5px;
+	border: 1px solid #bbb;
 }
 
+#button-panel-title {
+}
+#history-panel-title {
+}
+<<<<<<< HEAD
+
+#canvas > svg{
+	/*height: 100%;*/
+    /*width: 100%;*/
+    margin: 0;
+    padding: 0;
+=======
+.panel-title {
+	background-color: #559;
+	height: 22px;
+	color: #fff;
+	text-align: left;
+	font-size: 12px;
+	font-weight: bold;
+	padding: 4px 5px 0 15px;
+>>>>>>> FETCH_HEAD
+}
+
+#button {
+	border: 0;
+	width: 100%;
+}
 .button-group .btn{
 	font-size: inherit;
 	display: block;
     white-space: normal;
+}
+.ui-accordion-header {
+	background-color: #44c;
+}
+.ui-accordion-content {
+	padding: 0;
+}
+.btn {
+	margin-bottom: 2px;
+	background-color: #f9f9f9;
+	text-align: left;
+}
+
+#control{
+	width: 100%;
+	height: 50px;
+	text-align: center;
+	padding-top: 10px;
+}
+#control .btn {
+	width: 36px;
+}
+
+#history-panel hr{
+	margin: 0 0 5px 0;
 }
 
 .delete-x{
@@ -39,46 +124,8 @@ body
 	height: 90%;
 }
 
-#control{
-	width: 100%;
-}
-
-#snapshot{
-	height: 20%;
-	white-space: nowrap;
-	overflow-x: scroll;
-	overflow-y: hidden;
-}
-
-.snapshot{
-	border: 1px solid black;
-}
-
-#canvas{
-	height: 80%;
-}
-
-#canvas > svg{
-	/*height: 100%;*/
-    /*width: 100%;*/
-    margin: 0;
-    padding: 0;
-}
-
-
-#history-panel{
-	padding: 0;
-}
-	
-#control{
-	height: 60px;
-	text-align: center;
-	padding-top: 15px;
-}
-
 #history {
-	
-	overflow:scroll;	
+	/*overflow:scroll;*/
 }
 
 #history > div{
@@ -87,12 +134,16 @@ body
 	border-bottom: 1px solid #DDDDDD;
 	list-style-type: none;
 	text-align: center;
-	padding: 15px 0 15px 0;
+	padding: 12px 0 12px 0;
+	margin: 0;
 	cursor: pointer;
+	background-color: #f9f9f9;
 }
 
 #history > .selected{
-	background-color: #EEEEEE;
+	background-color: #eee;
+	font-weight: bold;
+	border-color: #77a;
 }
 
 #history > .disabled{
@@ -100,6 +151,7 @@ body
 	color: #CCCCCC;
 }
 
+<<<<<<< HEAD
 #views {
 	width: 1500px;
 	height: 800px;
@@ -152,4 +204,11 @@ body
 	margin-bottom: 2px;
 	background-color: #f9f9f9;
 	text-align: left;
+=======
+#canvas > svg{
+	height: 100%;
+    width: 100%;
+    margin: 0;
+    padding: 0;
+>>>>>>> FETCH_HEAD
 }
