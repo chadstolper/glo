@@ -204,11 +204,10 @@ body
 	margin-bottom: 2px;
 	background-color: #f9f9f9;
 	text-align: left;
-=======
+}
 #canvas > svg{
-	height: 100%;
+    height: 100%;
     width: 100%;
     margin: 0;
     padding: 0;
->>>>>>> FETCH_HEAD
 }
