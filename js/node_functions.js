@@ -422,6 +422,27 @@ var deaggregate_1 = function(){
   deaggregate_nodes(1)
 }
 
+var deaggregate_2 = function(){
+  deaggregate_nodes(2)
+}
+
+var deaggregate_3 = function(){
+  deaggregate_nodes(3)
+}
+
+var deaggregate_4 = function(){
+  deaggregate_nodes(4)
+}
+
+var deaggregate_5 = function(){
+  deaggregate_nodes(5)
+}
+
+var deaggregate_6 = function(){
+  deaggregate_nodes(6)
+}
+
+
 var aggregate_nodes_by_gender_and_category = function(){
   aggregate_nodes("gender","modularity_class")
 }
@@ -447,6 +468,26 @@ var remove_generation = function(gen){
 
 var remove_generation_1 = function(){
   remove_generation(1)
+}
+
+var remove_generation_2 = function(){
+  remove_generation(2)
+}
+
+var remove_generation_3 = function(){
+  remove_generation(3)
+}
+
+var remove_generation_4 = function(){
+  remove_generation(4)
+}
+
+var remove_generation_5 = function(){
+  remove_generation(5)
+}
+
+var remove_generation_6 = function(){
+  remove_generation(6)
 }
 
 

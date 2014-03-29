@@ -58,6 +58,11 @@ var grouped_steps = [
       {f:aggregate_by_modularity_class, label:"Aggregate by Category", type: ["aggregation"]},
       {f:deaggregate_0, label:"Deaggregate 0", type: ["deaggregation_0"]},
       {f:deaggregate_1, label:"Deaggregate 1", type: ["deaggregation_1"]},
+      {f:deaggregate_2, label:"Deaggregate 2", type: ["deaggregation_2"]},
+      {f:deaggregate_3, label:"Deaggregate 3", type: ["deaggregation_3"]},
+      {f:deaggregate_4, label:"Deaggregate 4", type: ["deaggregation_4"]},
+      {f:deaggregate_5, label:"Deaggregate 5", type: ["deaggregation_5"]},
+      {f:deaggregate_6, label:"Deaggregate 6", type: ["deaggregation_6"]},
     ]   
   },
 
@@ -67,7 +72,13 @@ var grouped_steps = [
   data:   
   [
     {f:clone_active_set, label:"Clone Active Set", type: ["clone"]},
-    {f:remove_generation_1, label:"Remove Generation 1", type: ["remove_clone"]},
+    {f:remove_generation_1, label:"Remove Generation 1", type: ["remove_clone_1"]},
+    {f:remove_generation_2, label:"Remove Generation 2", type: ["remove_clone_2"]},
+    {f:remove_generation_3, label:"Remove Generation 3", type: ["remove_clone_3"]},
+    {f:remove_generation_4, label:"Remove Generation 4", type: ["remove_clone_4"]},
+    {f:remove_generation_5, label:"Remove Generation 5", type: ["remove_clone_5"]},
+    {f:remove_generation_6, label:"Remove Generation 6", type: ["remove_clone_6"]},
+
   ]
   },
 
