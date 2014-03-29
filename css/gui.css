@@ -60,14 +60,6 @@ body
 }
 #history-panel-title {
 }
-<<<<<<< HEAD
-
-#canvas > svg{
-	/*height: 100%;*/
-    /*width: 100%;*/
-    margin: 0;
-    padding: 0;
-=======
 .panel-title {
 	background-color: #559;
 	height: 22px;
@@ -76,7 +68,6 @@ body
 	font-size: 12px;
 	font-weight: bold;
 	padding: 4px 5px 0 15px;
->>>>>>> FETCH_HEAD
 }
 
 #button {
@@ -151,62 +142,8 @@ body
 	color: #CCCCCC;
 }
 
-<<<<<<< HEAD
-#views {
-	width: 1500px;
-	height: 800px;
-	margin: 4px 0 0 15px;
-}
-#button-panel {
-	border: 0;
-	width: 220px;
-	margin-right: 4px;
-	position: relative;
-}
-#button {
-	border: 0;
-	width: 220px;
-	
-	
-}
-#history-panel{
-	width: 230px;
-	margin-right: 12px;
-}
-#canvas {
-	width: 760px;
-	height: 610px;
-	border: 10px solid #ccc;
-	padding: 0px;
-}
-
-#button-panel-title {
-	background-color: #559;
-	height: 22px;
-	color: #fff;
-	text-align: center;
-	padding-top: 4px;
-}
-#history-panel-title {
-	background-color: #559;
-	height: 22px;
-	color: #fff;
-	text-align: center;
-	padding-top: 4px;
-}
-.ui-accordion-header {
-	background-color: #44c;
-}
-.ui-accordion-content {
-	padding: 0;
-}
-.btn {
-	margin-bottom: 2px;
-	background-color: #f9f9f9;
-	text-align: left;
-}
 #canvas > svg{
-    height: 100%;
+	height: 100%;
     width: 100%;
     margin: 0;
     padding: 0;
