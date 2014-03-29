@@ -47,6 +47,7 @@ var reapplyHistory = function(){
 //-------------UI stuff-------------------
 $("#buttons").accordion();
 $(".button-group > .btn").draggable({helper: "clone" });
+$(".ui-accordion-content").css("padding","2px"); 
 
 
 
