@@ -148,3 +148,7 @@ body
     margin: 0;
     padding: 0;
 }
+
+.snapshot:hover{
+	border: 1px solid black;
+}

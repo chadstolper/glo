@@ -5,6 +5,8 @@
 */
 //----------define history behavior--------------
 var history = [];
+var snapshotHistory = [];
+var snapshotCounter = 0;
 
 var reapplyHistory = function(){
     // //reapply new history
@@ -114,16 +116,39 @@ $("#delete-btn").click(function(){
 
 
 $("#snapshot-btn").click(function(){
-    $("#canvas")
+    newSnapshot = $("#canvas")
         .children(":first")
         .clone()
         .attr("width",150)
-        .attr("height","100%")
-        .attr("class","snapshot")        
-        .appendTo("#snapshot")
+        .attr("height","98%")
+        .attr("class","snapshot")
+        .attr("snapshot-count",snapshotCounter)
+        //click snapshot to restore data
+        .on("click",function(){
+            console.log(snapshotHistory[$(this).attr("snapshot-count")]);
+            //restore SVG
+            $("#canvas").html("");
+            $(this) //the svg
+                .clone()
+                .attr("width",710)
+                .attr("height",590)
+                //try to use $.removeClass()
+                .attr("class","")
+                .removeAttr("snapshot-count")
+                .appendTo("#canvas")
+                .children(":first")
+                .attr("transform","translate(50,50)");
+            console.log($(this));
+            
+            $("#history").html(snapshotHistory[$(this).attr("snapshot-count")]);
+        });
+    newSnapshot.appendTo("#snapshot")
         .children(":first")
-        .attr("transform","scale(0.2) translate(50,50)") 
+        .attr("transform","scale(0.2) translate(50,50)");
 
+    snapshotHistory[snapshotCounter]=$("#history").html();
+
+    snapshotCounter++;
 });
 
 
