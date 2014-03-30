@@ -7,8 +7,8 @@ var grouped_steps = [
     name: "Positioning Nodes",
     data: [
     //node_position_x for position node x
-      {f:evenly_position_on_x, label:"Distribute Nodes on X", type: ["node_position_x"]},
-      {f:evenly_position_on_y, label:"Distribute Nodes on Y", type: ["node_position_y"]},
+      {f:distribute_on_x_by_modularity_class, label:"Distribute Nodes on X by Category", type: ["node_position_x"]},
+      {f:distribute_on_y_by_modularity_class, label:"Distribute Nodes on Y by Category", type: ["node_position_y"]},
       {f:position_x_left, label:"Align X Left", type: ["node_position_x"]},
       {f:position_x_center, label:"Align X Center", type: ["node_position_x"]},
       {f:position_x_right, label:"Align X Right", type: ["node_position_x"]},
