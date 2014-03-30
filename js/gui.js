@@ -40,8 +40,16 @@ var reapplyHistory = function(){
         },1000*i);
     };
 
+
+    //remove all cloned and aggregate nodes
+    deaggregate_3();
+    deaggregate_2();
+    deaggregate_1();
+    remove_generation_3();
+    remove_generation_2();
+    remove_generation_1();
     force_directed_stop_immediately();
-    for (i = 0; i < histKeeper.length; i++) {
+    for (var i = 0; i < histKeeper.length; i++) {
         workerWrapper(i);
     }
 }
