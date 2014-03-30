@@ -56,13 +56,13 @@ $(".ui-accordion-content").css("padding","2px");
 $("#history-panel").droppable({
     drop: function (event, ui) {
     	var newListedHistItem = $("<div></div>")
-            .addClass("history-item")
-            .text(ui.draggable.text())
-            .append("<div class=\"delete-x glyphicon glyphicon-remove\"></div>")
+            .addClass("history-item");
+        newListedHistItem.append("<div class=\"delete-x glyphicon glyphicon-remove\"></div>")
             .click(function(){
                 $(this).toggleClass("selected");
             })
             .appendTo("#history");
+        newListedHistItem.append("<div>"+ui.draggable.text()+"</div>");
 
         $(newListedHistItem).children(".delete-x")
             .click(function(){

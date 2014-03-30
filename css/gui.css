@@ -129,6 +129,7 @@ body
 	margin: 0;
 	cursor: pointer;
 	background-color: #f9f9f9;
+	height: 60px;
 }
 
 #history > .selected{
