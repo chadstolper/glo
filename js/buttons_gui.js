@@ -158,7 +158,8 @@ var mlgo_buttons = button_groups.selectAll(".step")
           })
           .classed("disabled",function(d,i){
             //console.log("prev array"+d.type);
-            if (nameToTypeDictionary[d3.select(this).text()]==newType){
+            if (nameToTypeDictionary[d3.select(this).text()]==newType 
+              && d3.select(this).attr("active-gen") == modes.active_generation){
               return true;
             }else{
               return d3.select(this).classed("disabled");

@@ -64,7 +64,8 @@ $(".ui-accordion-content").css("padding","2px");
 $("#history-panel").droppable({
     drop: function (event, ui) {
     	var newListedHistItem = $("<div></div>")
-            .addClass("history-item");
+            .addClass("history-item")
+            .attr("active-gen",modes.active_generation);
         newListedHistItem.append("<div class=\"delete-x glyphicon glyphicon-remove\"></div>")
             .click(function(){
                 $(this).toggleClass("selected");
