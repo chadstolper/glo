@@ -48,7 +48,7 @@ var grouped_steps = [
   data:   
   [
 
-    {f:clone_active_set, label:"Clone Active Set", type: ["clone"]},
+    {f:clone_active_set, label:"Clone Active Generation", type: ["clone"]},
     
     {f:select_generation_0, label:"Select Generation 0", type:["select_gen_0"]},
     {f:select_generation_1, label:"Select Generation 1", type:["select_gen_1"]},
