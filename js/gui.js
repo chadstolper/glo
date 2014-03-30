@@ -137,14 +137,22 @@ $("#snapshot-btn").click(function(){
                 .removeAttr("snapshot-count")
                 .appendTo("#canvas")
                 .children(":first")
-                .attr("transform","translate(50,50)");
+                .attr("transform","translate(50,50)")
+                .next()
+                .attr("transform","translate(50,560)")
+                .next()
+                .attr("transform","translate(30,50)");
             console.log($(this));
             
             $("#history").html(snapshotHistory[$(this).attr("snapshot-count")]);
         });
     newSnapshot.appendTo("#snapshot")
         .children(":first")
-        .attr("transform","scale(0.2) translate(50,50)");
+        .attr("transform","scale(0.2) translate(50,50)")
+        .next()
+        .attr("transform","scale(0.2) translate(50,560)")
+        .next()
+        .attr("transform","scale(0.2) translate(30,50)");
 
     snapshotHistory[snapshotCounter]=$("#history").html();
 
