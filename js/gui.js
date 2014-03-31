@@ -71,7 +71,7 @@ $("#history-panel").droppable({
                 $(this).toggleClass("selected");
             })
             .appendTo("#history");
-        newListedHistItem.append("<div>"+ui.draggable.text()+"</div>");
+        newListedHistItem.append("<div class=\"glotext\">"+ui.draggable.text()+"</div>");
 
         $(newListedHistItem).children(".delete-x")
             .click(function(){
@@ -101,6 +101,8 @@ $("#history-panel").droppable({
         };
         histItem.func();
     	history.push(histItem);
+		
+		$("#history").scrollTop($("#history")[0].scrollHeight);
 
     }
 });
@@ -129,7 +131,7 @@ $("#snapshot-btn").click(function(){
         .children(":first")
         .clone()
         .attr("width",150)
-        .attr("height","98%")
+        .attr("height","95%")
         .attr("class","snapshot")
         .attr("snapshot-count",snapshotCounter)
         //click snapshot to restore data
@@ -166,6 +168,8 @@ $("#snapshot-btn").click(function(){
     snapshotHistory[snapshotCounter]=$("#history").html();
 
     snapshotCounter++;
+	
+	$("#snapshot").scrollLeft($("#snapshot")[0].scrollWidth);
 });
 
 
