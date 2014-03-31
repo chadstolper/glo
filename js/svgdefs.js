@@ -1,7 +1,9 @@
 //http://stackoverflow.com/questions/11368339/drawing-multiple-edges-between-two-nodes-with-d3
   // Per-type markers, as they don't inherit styles.
-  var defs = d3.select("#defs").append("svg:defs")
-
+  var defs = d3.select("#defns")
+    .attr("width",width+(2*xbuffer))
+    .attr("height",height+(2*ybuffer))
+    .append("svg:defs")
       defs.append("svg:marker")
         .attr("id", "arrow")
         .attr("viewBox", "0 -5 10 10")
