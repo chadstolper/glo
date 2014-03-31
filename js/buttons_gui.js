@@ -7,19 +7,21 @@ var grouped_steps = [
     name: "Positioning Nodes",
     data: [
     //node_position_x for position node x
-      {f:distribute_on_x_by_modularity_class, label:"Distribute Nodes on X by Category", type: ["node_position_x"]},
-      {f:distribute_on_y_by_modularity_class, label:"Distribute Nodes on Y by Category", type: ["node_position_y"]},
-      {f:position_x_left, label:"Align X Left", type: ["node_position_x"]},
-      {f:position_x_center, label:"Align X Center", type: ["node_position_x"]},
-      {f:position_x_right, label:"Align X Right", type: ["node_position_x"]},
-      {f:position_y_top, label:"Align Y Top", type: ["node_position_y"]},
-      {f:position_y_middle, label:"Align Y Middle", type: ["node_position_y"]},
-      {f:position_y_bottom, label:"Align Y Bottom", type: ["node_position_y"]},
-      {f:transition_x_by_betweenness, label:"Position X Relatively by Betweenness Centrality", type: ["node_position_x"]},
-      {f:transition_y_by_degree, label:"Position Y Relatively by Degree", type: ["node_position_y"]},
+      {f:position_x_left, label:"Align Left", type: ["node_position_x"]},
+      {f:position_x_center, label:"Align Center", type: ["node_position_x"]},
+      {f:position_x_right, label:"Align Right", type: ["node_position_x"]},
+      {f:position_y_top, label:"Align Top", type: ["node_position_y"]},
+      {f:position_y_middle, label:"Align Middle", type: ["node_position_y"]},
+      {f:position_y_bottom, label:"Align Bottom", type: ["node_position_y"]},
+      {f:evenly_position_on_x, label:"Evenly Distribute on X", type: ["node_position_x"]},
+      {f:evenly_position_on_y, label:"Evenly Distribute on Y", type: ["node_position_y"]},
+      {f:distribute_on_x_by_modularity_class, label:"Evenly Distribute on X by Category", type: ["node_position_x"]},
+      {f:distribute_on_y_by_modularity_class, label:"Evenly Distribute on Y by Category", type: ["node_position_y"]},
       {f:transition_x_by_gender, label:"Substrate on X by Gender", type: ["node_position_x"]},
-      {f:scatter_on_x, label:"Scatter Nodes on X", type: ["node_position_x"]},
       {f:position_y_by_modularity_class, label:"Substrate on Y by Category", type: ["node_position_y"]},
+      {f:scatter_on_x, label:"Evenly Distribute on x Within Substrates", type: ["node_position_x"]},
+      {f:transition_x_by_betweenness, label:"Position on X Relatively by Betweenness Centrality", type: ["node_position_x"]},
+      {f:transition_y_by_degree, label:"Position on Y Relatively by Degree", type: ["node_position_y"]},
       {f:force_directed, label:"Apply Force-Directed Algorithm", type: ["node_position_x","node_position_y"]}
     ]
   },
@@ -55,6 +57,13 @@ var grouped_steps = [
     {f:select_generation_2, label:"Select Generation 2", type:["select_gen_2"]},
     {f:select_generation_3, label:"Select Generation 3", type:["select_gen_3"]},
     
+    {f:remove_generation_1, label:"Remove Generation 1", type: ["remove_clone_1"]},
+    {f:remove_generation_2, label:"Remove Generation 2", type: ["remove_clone_2"]},
+    {f:remove_generation_3, label:"Remove Generation 3", type: ["remove_clone_3"]},
+    // {f:remove_generation_4, label:"Remove Generation 4", type: ["remove_clone_4"]},
+    // {f:remove_generation_5, label:"Remove Generation 5", type: ["remove_clone_5"]},
+    // {f:remove_generation_6, label:"Remove Generation 6", type: ["remove_clone_6"]},
+
     {f:set_source_generation_0, label:"Set Source Generation 0", type:["source_gen"]},
     {f:set_source_generation_1, label:"Set Source Generation 1", type:["source_gen"]},
     {f:set_source_generation_2, label:"Set Source Generation 2", type:["source_gen"]},
@@ -71,12 +80,6 @@ var grouped_steps = [
     // {f:set_target_generation_5, label:"Set Target Generation 5", type:["target_gen"]},
     // {f:set_target_generation_6, label:"Set Target Generation 6", type:["target_gen"]},
     
-    {f:remove_generation_1, label:"Remove Generation 1", type: ["remove_clone_1"]},
-    {f:remove_generation_2, label:"Remove Generation 2", type: ["remove_clone_2"]},
-    {f:remove_generation_3, label:"Remove Generation 3", type: ["remove_clone_3"]},
-    // {f:remove_generation_4, label:"Remove Generation 4", type: ["remove_clone_4"]},
-    // {f:remove_generation_5, label:"Remove Generation 5", type: ["remove_clone_5"]},
-    // {f:remove_generation_6, label:"Remove Generation 6", type: ["remove_clone_6"]},
 
   ]
   },
@@ -87,8 +90,8 @@ var grouped_steps = [
   {
     name: "Aggregation",
     data:[
-      {f:aggregate_nodes_by_gender_and_category, label:"Aggregate by Gender and Category", type: ["aggregation"]},
       {f:aggregate_by_modularity_class, label:"Aggregate by Category", type: ["aggregation"]},
+      {f:aggregate_nodes_by_gender_and_category, label:"Aggregate by Gender and Category", type: ["aggregation"]},
       {f:deaggregate_0, label:"Deaggregate Generation 0", type: ["deaggregation_0"]},
       {f:deaggregate_1, label:"Deaggregate Geneartion 1", type: ["deaggregation_1"]},
       {f:deaggregate_2, label:"Deaggregate Generation 2", type: ["deaggregation_2"]},
