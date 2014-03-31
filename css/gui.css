@@ -15,10 +15,6 @@ body
 	font-size: 1em;
 }
 
-div.row {
-	width: 98%;
-}
-
 .gui-component {
 	border: 1px solid #ccc;
 }
