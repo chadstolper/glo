@@ -144,7 +144,7 @@ var aggregate_nodes = function(prop1,prop2){
     modes.target_generation = modes.generation
   }
 
-  modes.active_generation = modes.generation
+  select_generation(modes.generation)
 
 
 
@@ -320,7 +320,7 @@ var aggregate_nodes_by_property = function(prop1){
     modes.target_generation = modes.generation
   }
 
-  modes.active_generation = modes.generation
+  select_generation(modes.generation)
 
 
 
@@ -365,7 +365,7 @@ var deaggregate_nodes = function(agg_gen){
     }else{
       update_rolled_up()
       // console.log("yep, aggregate")
-      modes.active_generation = agg_generations[agg_gen].source_gen
+      select_generation(agg_generations[agg_gen].source_gen)
       modes.active_link_generation = agg_generations[agg_gen].source_link_gen
       
       var active_source = false
@@ -494,8 +494,13 @@ var remove_generation_6 = function(){
 
 //Select Generations
 var select_generation = function(gen){
+  console.log("selecting "+gen)
   modes.active_generation = gen
   node = node_generations[modes.active_generation]
+  nodeg.selectAll("[generation='"+modes.active_generation+"']")
+    .classed("active",true)
+  nodeg.selectAll(":not([generation='"+modes.active_generation+"'])")
+    .classed("active",false)
 }
 
 var select_generation_0 = function(){

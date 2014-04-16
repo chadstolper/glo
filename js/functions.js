@@ -100,6 +100,7 @@ var initialize_force_directed = function(){
         d.visibility = true
 
       })
+      select_generation(0)
       mlgo_buttons.attr("disabled",null)
 
     })

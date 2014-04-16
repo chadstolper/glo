@@ -57,7 +57,7 @@ var clone_active_set = function(){
   
   var newgen = clone_generation(modes.active_generation)
 
-  modes.active_generation = newgen
+  select_generation(newgen)
 
   node_generations[modes.active_generation]
     .attr("cx", function(d) {return d.x_list[modes.active_generation]; })
