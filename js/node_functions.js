@@ -85,7 +85,7 @@ var aggregate_nodes = function(prop1,prop2){
     .enter().append("circle")
       .classed("node",true)
       .classed("aggregate",true)
-      .attr("generation",modes.generation)
+      .classed("gen-"+modes.generation,true)
       .attr("nodeid", function(d){return d.id})
       .attr("r",0)
       .attr("fill", function(d){ return d3.rgb(color(d.modularity_class)).darker(); })
@@ -118,12 +118,12 @@ var aggregate_nodes = function(prop1,prop2){
         .attr("generation",modes.link_generation)
         .attr("stroke-width", 0)
         .on("mouseover",function(d){
-          d3.select('.node[generation="'+modes.source_generation+'"][nodeid="'+d.source.id+'"]').attr("fill", color(d.source.modularity_class) )
-          d3.select('.node[generation="'+modes.target_generation+'"][nodeid="'+d.target.id+'"]').attr("fill", color(d.target.modularity_class) )
+          d3.select('.node.gen-'+modes.source_generation+'[nodeid="'+d.source.id+'"]').attr("fill", color(d.source.modularity_class) )
+          d3.select('.node.gen-'+modes.target_generation+'[nodeid="'+d.target.id+'"]').attr("fill", color(d.target.modularity_class) )
         })
         .on("mouseout",function(d){
-          d3.select('.node[generation="'+modes.source_generation+'"][nodeid="'+d.source.id+'"]').attr("fill", d3.rgb(color(d.source.modularity_class)).darker() )
-          d3.select('.node[generation="'+modes.target_generation+'"][nodeid="'+d.target.id+'"]').attr("fill", d3.rgb(color(d.target.modularity_class)).darker() )
+          d3.select('.node.gen-'+modes.source_generation+'[nodeid="'+d.source.id+'"]').attr("fill", d3.rgb(color(d.source.modularity_class)).darker() )
+          d3.select('.node.gen-'+modes.target_generation+'[nodeid="'+d.target.id+'"]').attr("fill", d3.rgb(color(d.target.modularity_class)).darker() )
         })
         
         
@@ -261,7 +261,7 @@ var aggregate_nodes_by_property = function(prop1){
     .enter().append("circle")
       .classed("node",true)
       .classed("aggregate",true)
-      .attr("generation",modes.generation)
+      .classed("gen-"+modes.generation,true)
       .attr("nodeid", function(d){return d.id})
       .attr("r",0)
       .attr("fill", function(d){ return d3.rgb(color(d.modularity_class)).darker(); })
@@ -291,7 +291,7 @@ var aggregate_nodes_by_property = function(prop1){
           d.endy = function(){ return this.target.y_list[modes.target_generation]; }
           d.visibility = true
         })
-        .attr("generation",modes.link_generation)
+        .classed("gen-"+modes.generation,true)
         .attr("stroke-width", 0)
         .on("mouseover",function(d){
           d3.select('.node[generation="'+modes.source_generation+'"][nodeid="'+d.source.id+'"]').attr("fill", color(d.source.modularity_class) )
@@ -497,9 +497,9 @@ var select_generation = function(gen){
   console.log("selecting "+gen)
   modes.active_generation = gen
   node = node_generations[modes.active_generation]
-  nodeg.selectAll("[generation='"+modes.active_generation+"']")
+  nodeg.selectAll(".gen-"+modes.active_generation)
     .classed("active",true)
-  nodeg.selectAll(":not([generation='"+modes.active_generation+"'])")
+  nodeg.selectAll(":not(.gen-"+modes.active_generation+")")
     .classed("active",false)
 }
 

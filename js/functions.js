@@ -30,20 +30,20 @@ var initialize_force_directed = function(){
         // .attr("marker-end", function(d) { return "url(#arrow)"; })
 
         .on("mouseover",function(d){
-          d3.select('.node[generation="'+modes.source_generation+'"][nodeid="'+d.source.id+'"]').attr("fill", color(d.source.modularity_class) )
-          d3.select('.node[generation="'+modes.target_generation+'"][nodeid="'+d.target.id+'"]').attr("fill", color(d.target.modularity_class) )
+          d3.select('.node.gen-'+modes.source_generation+'[nodeid="'+d.source.id+'"]').attr("fill", color(d.source.modularity_class) )
+          d3.select('.node.gen-'+modes.target_generation+'[nodeid="'+d.target.id+'"]').attr("fill", color(d.target.modularity_class) )
         })
         .on("mouseout",function(d){
-          d3.select('.node[generation="'+modes.source_generation+'"][nodeid="'+d.source.id+'"]').attr("fill", d3.rgb(color(d.source.modularity_class)).darker() )
-          d3.select('.node[generation="'+modes.target_generation+'"][nodeid="'+d.target.id+'"]').attr("fill", d3.rgb(color(d.target.modularity_class)).darker() )
+          d3.select('.node.gen-'+modes.source_generation+'[nodeid="'+d.source.id+'"]').attr("fill", d3.rgb(color(d.source.modularity_class)).darker() )
+          d3.select('.node.gen-'+modes.target_generation+'[nodeid="'+d.target.id+'"]').attr("fill", d3.rgb(color(d.target.modularity_class)).darker() )
         
         })
 
-    node_generations[0] = node = nodeg.selectAll(".node[generation='0']")
+    node_generations[0] = node = nodeg.selectAll(".node.gen-0")
         .data(graph.nodes, function(d){return d.id})
       .enter().append("circle")
         .classed("node",true)
-        .attr("generation",0)
+        .classed("gen-"+0,true)
         .attr("nodeid", function(d){return d.id})
         .attr("r",function(d){
           if(modes.node_r=="constant"){

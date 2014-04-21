@@ -4,11 +4,11 @@ var clone_generation = function(gen){
   modes.generation+=1
   var newgen = modes.generation
 
-  node_generations[newgen] = nodeclone = nodeg.selectAll(".node[generation='"+newgen+"']")
+  node_generations[newgen] = nodeclone = nodeg.selectAll(".node.gen-"+newgen+"")
       .data(node_generations[gen].data(), function(d){return d.id})
     .enter().append("circle")
       .classed("node",true)
-      .attr("generation",newgen)
+      .classed("gen-"+newgen,true)
       .attr("nodeid", function(d){return d.id})
       .attr("r",function(d){
           d.r_list[newgen] = d.r_list[gen]
