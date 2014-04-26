@@ -20,6 +20,9 @@ var select_subgraph = function(id_gen_pairs){
 
   select_generation(newgen)
 
+  var sgen = subgraph_generations[newgen] = {}
+  sgen[pairs] = id_gen_pairs
+  
 
 }
 

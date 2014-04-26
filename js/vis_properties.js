@@ -3,6 +3,7 @@ var node, nodeclone, link
 var node_generations = {}
 var link_generations = {}
 var agg_generations = {}
+var subgraph_generations = {}
 var xscale, yscale
 var xprop, yprop
 var transition_duration = 500
