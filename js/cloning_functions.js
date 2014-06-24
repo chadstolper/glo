@@ -29,10 +29,14 @@ var clone_generation = function(gen){
     .each(function(d){
       d.x_list[newgen] = d.x_list[gen]
       d.y_list[newgen] = d.y_list[gen]
+      d.radius_list[newgen] = d.radius_list[gen]
+      d.theta_list[newgen] = d.theta_list[gen]
       if(agg_generations[gen]){
         d.nodes.forEach(function(k){
           k.x_list[newgen] = d.x_list[gen]
           k.y_list[newgen] = d.y_list[gen]
+          k.radius_list[newgen] = d.radius_list[gen]
+          k.theta_list[newgen] = d.theta_list[gen]
         })
       }
     })

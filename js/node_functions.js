@@ -24,6 +24,8 @@ var aggregate_nodes = function(prop1,prop2){
       agg_node.x_list = {}
       agg_node.y_list = {}
       agg_node.r_list = {}
+      agg_node.radius_list = {}
+      agg_node.theta_list = {}
       agg_node.in_edges = []
       agg_node.out_edges = []
       agg_node.nodes = agg
@@ -38,6 +40,8 @@ var aggregate_nodes = function(prop1,prop2){
       // agg_node.y_list[modes.generation] = yscale(agg_node[prop2])
       agg_node.y_list[modes.generation] = d3.mean(agg_node.nodes.map(function(d){return d.y_list[modes.active_generation]}))
       agg_node.r_list[modes.generation] = agg_node.count*3
+      agg_node.radius_list[modes.generation] = d3.mean(agg_node.nodes.map(function(d){return d.radius_list[modes.active_generation]}))
+      agg_node.theta_list[modes.generation] = d3.mean(agg_node.nodes.map(function(d){return d.theta_list[modes.active_generation]}))
       agg_nodes.push(agg_node)
       agg_nodes_dict[id] = agg_node
 

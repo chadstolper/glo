@@ -53,6 +53,10 @@ var initialize_force_directed = function(){
           }
           return d.r_list[0]
         })
+        .each(function(d){
+          d.radius_list[0] = Math.min(width,height)*.45
+          d.theta_list[0] = 0
+        })
         .attr("fill", function(d){ return d3.rgb(color(d.modularity_class)).darker(); })
         .on("mouseover",function(d){
           d3.select(this).attr("fill",function(d){ return color(d.modularity_class); })
