@@ -55,7 +55,7 @@ var initialize_force_directed = function(){
         })
         .each(function(d){
           d.radius_list[0] = Math.min(width,height)*.45
-          d.theta_list[0] = 0
+          d.theta_list[0] = Math.PI/2
         })
         .attr("fill", function(d){ return d3.rgb(color(d.modularity_class)).darker(); })
         .on("mouseover",function(d){
