@@ -121,7 +121,7 @@ var substrate_on_radius = function(prop){
 
   radius_scale = d3.scale.ordinal()
     .domain(radius_substrates.map(function(d){return d.key; }))
-    .range([20,.6*Math.min(width,height)])
+    .rangeBands([20,.6*Math.min(width,height)])
 }
 
 
