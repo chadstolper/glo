@@ -64,7 +64,9 @@ var position_radius_by_constant = function(){
 
 
 var position_radius_by_property = function(prop) {
-  if(is_number(node_data()[0][prop])){
+  if(prop=="modularity_class" || prop=="generation"){
+    set_radius_scale_by_nominal_property(prop)
+  }else if(is_number(node_data()[0][prop])){
     set_radius_scale_by_quantitative_property(prop)
   }else{
     set_radius_scale_by_nominal_property(prop)
@@ -98,7 +100,13 @@ var set_radius_scale_by_quantitative_property = function(prop){
 }
 
 var set_radius_scale_by_nominal_property = function(prop){
-  substrate_on_radius(prop)
+  if(prop=="generation"){
+    radius_scale = d3.scale.linear()
+      .domain([0,1])
+      .range([20,.6*Math.min(width,height)])
+  }else{
+    substrate_on_radius(prop)
+  }
 }
 
 var radius_substrate = function(prop){

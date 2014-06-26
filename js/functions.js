@@ -232,7 +232,9 @@ function is_number(n) {
 }
 
 var position_x_by_property = function(prop){
-  if(is_number(node_data()[0][prop])){
+  if(prop=="modularity_class" || prop=="generation"){
+    set_xscale_by_nominal_property(prop)
+  }else if(is_number(node_data()[0][prop])){
     set_xscale_by_quantitative_property(prop)
   }else{
     set_xscale_by_nominal_property(prop)
@@ -258,7 +260,14 @@ var set_xscale_by_quantitative_property = function(prop){
 }
 
 var set_xscale_by_nominal_property = function(prop){
-  substrate_on_x(prop)
+  if(prop=="generation"){
+    xscale = d3.scale.linear()
+      .domain([0,1])
+      .range([0,width])
+      .nice()
+  }else{
+    substrate_on_x(prop)
+  }
 }
 
 var transition_x_by_betweenness = function(){
@@ -275,7 +284,9 @@ var transition_x_by_gender = function(){
 
 
 var position_y_by_property = function(prop){
-  if(is_number(node_data()[0][prop])){
+  if(prop=="modularity_class" || prop=="generation"){
+    set_yscale_by_nominal_property(prop)
+  }else if(is_number(node_data()[0][prop])){
     set_yscale_by_quantitative_property(prop)
   }else{
     set_yscale_by_nominal_property(prop)
@@ -301,7 +312,13 @@ var set_yscale_by_quantitative_property = function(prop){
 }
 
 var set_yscale_by_nominal_property = function(prop){
-  substrate_on_y(prop)
+  if(prop=="generation"){
+    yscale = d3.scale.linear()
+      .domain([0,1])
+      .range([height,0])
+  }else{
+    substrate_on_y(prop)
+  }
 }
 
 var transition_y_by_betweenness = function(){
