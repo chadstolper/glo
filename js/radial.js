@@ -1,5 +1,5 @@
 var evenly_position_nodes_radially_by_property = function (prop) {
-    node_data().sort(function(a,b){
+  node_data().sort(function(a,b){
     var val = a[prop]-b[prop]
     if (val==0){
       return a.id-b.id
@@ -92,7 +92,7 @@ var position_radius_by_property = function(prop) {
 
 var set_radius_scale_by_quantitative_property = function(prop){
   radius_scale = d3.scale.linear()
-      .range([20,.49*Math.min(width,height)])
+      .range([20,.6*Math.min(width,height)])
       .domain([0,d3.max(node_data().map(function(d){return d[prop]; }))])
       .nice()
 }
@@ -113,7 +113,7 @@ var substrate_on_radius = function(prop){
 
   radius_scale = d3.scale.ordinal()
     .domain(radius_substrates.map(function(d){return d.key; }))
-    .range([20,.49*Math.min(width,height)])
+    .range([20,.6*Math.min(width,height)])
 }
 
 
@@ -151,7 +151,9 @@ var position_theta_by_constant = function(){
 
 
 var position_theta_by_property = function(prop) {
-  if(is_number(node_data()[0][prop])){
+  if(prop=="modularity_class" || prop=="generation"){
+    set_theta_scale_by_nominal_property(prop)
+  }else if(is_number(node_data()[0][prop])){
     set_theta_scale_by_quantitative_property(prop)
   }else{
     set_theta_scale_by_nominal_property(prop)
@@ -191,7 +193,13 @@ var set_theta_scale_by_quantitative_property = function(prop){
 }
 
 var set_theta_scale_by_nominal_property = function(prop){
-  substrate_on_theta(prop)
+  if(prop=="generation"){
+    theta_scale = d3.scale.linear()
+      .domain([0,1])
+      .range([3*Math.PI/2,7*Math.PI/2])
+  }else{
+    substrate_on_theta(prop)
+  }
 }
 
 var theta_substrate = function(prop){

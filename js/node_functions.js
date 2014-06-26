@@ -501,6 +501,9 @@ var select_generation = function(gen){
   console.log("selecting "+gen)
   modes.active_generation = gen
   node = node_generations[modes.active_generation]
+  node.each(function(d){
+    d.generation = generation_index(modes.active_generation)
+  })
   nodeg.selectAll(".gen-"+modes.active_generation)
     .classed("active",true)
   nodeg.selectAll(":not(.gen-"+modes.active_generation+")")
