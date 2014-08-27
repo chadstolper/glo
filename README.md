@@ -14,13 +14,14 @@ by Charles D. Stolper, Minsuk (Brian) Kahng, Zhiyuan (Jerry) Lin, Florian Foerst
 
 ### To run with Chrome:
 * Using command line:
-
-    python -m SimpleHTTPServer 8000 
-    (8000 will be your port number. You can use any.)
-
+```
+python -m SimpleHTTPServer 8000 
+(8000 will be your port number. You can use any.)
+```
 * Open Chrome:
-
-    http://localhost:8000/gui.html
+```
+http://localhost:8000/gui.html
+```
 
 ### To run with Firefox:
 * Just open the file gui.html with Firefox.
@@ -30,14 +31,14 @@ by Charles D. Stolper, Minsuk (Brian) Kahng, Zhiyuan (Jerry) Lin, Florian Foerst
 ## How to apply your graph data
 * creating a directory in the directory data/
 * place two csv files into the directory you just created
-* 
-    nodes.csv: modularity_class
-    edges.csv: source, target,
-    
+```
+nodes.csv: a list of node with some attributes (e.g. modularity_class, degree)
+edges.csv: a list of directed edges (edges list format: source, target)
+```
 * Replace the line 14 of the file js/les_mis_demo.js by 
-
-    var source = “YOUR_DIRECTORY_NAME”
-
+```
+var source = “YOUR_DIRECTORY_NAME”
+```
 
 ## Notes
 * Since all the computations are performed in client-side, we recommend to use graphs up to 1000 nodes.
