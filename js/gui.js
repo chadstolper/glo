@@ -4,7 +4,7 @@
 
 */
 //----------define history behavior--------------
-var history = [];
+var gloHistory = [];
 var snapshotHistory = [];
 var snapshotCounter = 0;
 
@@ -19,24 +19,24 @@ var reapplyHistory = function(){
 
     // chain = chain();
     
-    // for (i = 0; i < history.length; i++) {
+    // for (i = 0; i < gloHistory.length; i++) {
     //     setTimeout(function(){
-    //         chain = chain.pipe(history[i].func);
+    //         chain = chain.pipe(gloHistory[i].func);
     //     },100);
     // }
 //-------------above used JQuery Defer
-    console.log(history);
+    console.log(gloHistory);
     //clean disable and then reapply
     d3.selectAll(".disabled")
         .classed("disabled",false);
 
-    var histKeeper = history;
-    history = [];
+    var histKeeper = gloHistory;
+    gloHistory = [];
     var workerWrapper = function(i){
         setTimeout(function(){
             // console.log(i);
             histKeeper[i].func();
-            history.push(histKeeper[i]);
+            gloHistory.push(histKeeper[i]);
         },1000*i);
     };
 
@@ -76,10 +76,10 @@ $("#history-panel").droppable({
         $(newListedHistItem).children(".delete-x")
             .click(function(){
                 var selectedItem = $(this.parentNode);
-                $.each(history,function(index,value){
-                    //console.log(selectedItem.text()+" "+history[index].name);
-                    if (selectedItem.text()==history[index].name){
-                        history.splice(index,1);
+                $.each(gloHistory,function(index,value){
+                    //console.log(selectedItem.text()+" "+gloHistory[index].name);
+                    if (selectedItem.text()==gloHistory[index].name){
+                        gloHistory.splice(index,1);
                         //console.log(index);
                         return false;
                     }
@@ -100,7 +100,7 @@ $("#history-panel").droppable({
             // return d.promise();
         };
         histItem.func();
-    	history.push(histItem);
+    	gloHistory.push(histItem);
 		
 		$("#history").scrollTop($("#history")[0].scrollHeight);
 
@@ -115,11 +115,11 @@ $("#delete-btn").click(function(){
     $(".history-item").each(function(index,value){
         var selectedItem = $(this);
         if (!selectedItem.hasClass("selected")){
-            newHistory.push(history[index]);
+            newHistory.push(gloHistory[index]);
         }
     });
-    history = newHistory;
-    console.log(history.length);
+    gloHistory = newHistory;
+    console.log(gloHistory.length);
 	
     $(".selected").hide('slow', function(){ this.remove(); });
     reapplyHistory();
