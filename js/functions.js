@@ -30,20 +30,20 @@ var initialize_force_directed = function(){
         // .attr("marker-end", function(d) { return "url(#arrow)"; })
 
         .on("mouseover",function(d){
-          d3.select('.node[generation="'+modes.source_generation+'"][nodeid="'+d.source.id+'"]').attr("fill", color(d.source.modularity_class) )
-          d3.select('.node[generation="'+modes.target_generation+'"][nodeid="'+d.target.id+'"]').attr("fill", color(d.target.modularity_class) )
+          d3.select('.node.gen-'+modes.source_generation+'[nodeid="'+d.source.id+'"]').attr("fill", color(d.source.modularity_class) )
+          d3.select('.node.gen-'+modes.target_generation+'[nodeid="'+d.target.id+'"]').attr("fill", color(d.target.modularity_class) )
         })
         .on("mouseout",function(d){
-          d3.select('.node[generation="'+modes.source_generation+'"][nodeid="'+d.source.id+'"]').attr("fill", d3.rgb(color(d.source.modularity_class)).darker() )
-          d3.select('.node[generation="'+modes.target_generation+'"][nodeid="'+d.target.id+'"]').attr("fill", d3.rgb(color(d.target.modularity_class)).darker() )
+          d3.select('.node.gen-'+modes.source_generation+'[nodeid="'+d.source.id+'"]').attr("fill", d3.rgb(color(d.source.modularity_class)).darker() )
+          d3.select('.node.gen-'+modes.target_generation+'[nodeid="'+d.target.id+'"]').attr("fill", d3.rgb(color(d.target.modularity_class)).darker() )
         
         })
 
-    node_generations[0] = node = nodeg.selectAll(".node[generation='0']")
+    node_generations[0] = node = nodeg.selectAll(".node.gen-0")
         .data(graph.nodes, function(d){return d.id})
       .enter().append("circle")
         .classed("node",true)
-        .attr("generation",0)
+        .classed("gen-"+0,true)
         .attr("nodeid", function(d){return d.id})
         .attr("r",function(d){
           if(modes.node_r=="constant"){
@@ -52,6 +52,10 @@ var initialize_force_directed = function(){
             d.r_list[0]  = d.degree+2
           }
           return d.r_list[0]
+        })
+        .each(function(d){
+          d.radius_list[0] = Math.min(width,height)*.45
+          d.theta_list[0] = Math.PI/2
         })
         .attr("fill", function(d){ return d3.rgb(color(d.modularity_class)).darker(); })
         .on("mouseover",function(d){
@@ -100,6 +104,7 @@ var initialize_force_directed = function(){
         d.visibility = true
 
       })
+      select_generation(0)
       mlgo_buttons.attr("disabled",null)
 
     })
@@ -227,7 +232,9 @@ function is_number(n) {
 }
 
 var position_x_by_property = function(prop){
-  if(is_number(node_data()[0][prop])){
+  if(prop=="modularity_class" || prop=="generation"){
+    set_xscale_by_nominal_property(prop)
+  }else if(is_number(node_data()[0][prop])){
     set_xscale_by_quantitative_property(prop)
   }else{
     set_xscale_by_nominal_property(prop)
@@ -253,7 +260,14 @@ var set_xscale_by_quantitative_property = function(prop){
 }
 
 var set_xscale_by_nominal_property = function(prop){
-  substrate_on_x(prop)
+  if(prop=="generation"){
+    xscale = d3.scale.linear()
+      .domain([0,1])
+      .range([0,width])
+      .nice()
+  }else{
+    substrate_on_x(prop)
+  }
 }
 
 var transition_x_by_betweenness = function(){
@@ -270,7 +284,9 @@ var transition_x_by_gender = function(){
 
 
 var position_y_by_property = function(prop){
-  if(is_number(node_data()[0][prop])){
+  if(prop=="modularity_class" || prop=="generation"){
+    set_yscale_by_nominal_property(prop)
+  }else if(is_number(node_data()[0][prop])){
     set_yscale_by_quantitative_property(prop)
   }else{
     set_yscale_by_nominal_property(prop)
@@ -296,7 +312,13 @@ var set_yscale_by_quantitative_property = function(prop){
 }
 
 var set_yscale_by_nominal_property = function(prop){
-  substrate_on_y(prop)
+  if(prop=="generation"){
+    yscale = d3.scale.linear()
+      .domain([0,1])
+      .range([height,0])
+  }else{
+    substrate_on_y(prop)
+  }
 }
 
 var transition_y_by_betweenness = function(){

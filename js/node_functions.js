@@ -24,6 +24,8 @@ var aggregate_nodes = function(prop1,prop2){
       agg_node.x_list = {}
       agg_node.y_list = {}
       agg_node.r_list = {}
+      agg_node.radius_list = {}
+      agg_node.theta_list = {}
       agg_node.in_edges = []
       agg_node.out_edges = []
       agg_node.nodes = agg
@@ -38,6 +40,8 @@ var aggregate_nodes = function(prop1,prop2){
       // agg_node.y_list[modes.generation] = yscale(agg_node[prop2])
       agg_node.y_list[modes.generation] = d3.mean(agg_node.nodes.map(function(d){return d.y_list[modes.active_generation]}))
       agg_node.r_list[modes.generation] = agg_node.count*3
+      agg_node.radius_list[modes.generation] = d3.mean(agg_node.nodes.map(function(d){return d.radius_list[modes.active_generation]}))
+      agg_node.theta_list[modes.generation] = d3.mean(agg_node.nodes.map(function(d){return d.theta_list[modes.active_generation]}))
       agg_nodes.push(agg_node)
       agg_nodes_dict[id] = agg_node
 
@@ -85,7 +89,7 @@ var aggregate_nodes = function(prop1,prop2){
     .enter().append("circle")
       .classed("node",true)
       .classed("aggregate",true)
-      .attr("generation",modes.generation)
+      .classed("gen-"+modes.generation,true)
       .attr("nodeid", function(d){return d.id})
       .attr("r",0)
       .attr("fill", function(d){ return d3.rgb(color(d.modularity_class)).darker(); })
@@ -118,12 +122,12 @@ var aggregate_nodes = function(prop1,prop2){
         .attr("generation",modes.link_generation)
         .attr("stroke-width", 0)
         .on("mouseover",function(d){
-          d3.select('.node[generation="'+modes.source_generation+'"][nodeid="'+d.source.id+'"]').attr("fill", color(d.source.modularity_class) )
-          d3.select('.node[generation="'+modes.target_generation+'"][nodeid="'+d.target.id+'"]').attr("fill", color(d.target.modularity_class) )
+          d3.select('.node.gen-'+modes.source_generation+'[nodeid="'+d.source.id+'"]').attr("fill", color(d.source.modularity_class) )
+          d3.select('.node.gen-'+modes.target_generation+'[nodeid="'+d.target.id+'"]').attr("fill", color(d.target.modularity_class) )
         })
         .on("mouseout",function(d){
-          d3.select('.node[generation="'+modes.source_generation+'"][nodeid="'+d.source.id+'"]').attr("fill", d3.rgb(color(d.source.modularity_class)).darker() )
-          d3.select('.node[generation="'+modes.target_generation+'"][nodeid="'+d.target.id+'"]').attr("fill", d3.rgb(color(d.target.modularity_class)).darker() )
+          d3.select('.node.gen-'+modes.source_generation+'[nodeid="'+d.source.id+'"]').attr("fill", d3.rgb(color(d.source.modularity_class)).darker() )
+          d3.select('.node.gen-'+modes.target_generation+'[nodeid="'+d.target.id+'"]').attr("fill", d3.rgb(color(d.target.modularity_class)).darker() )
         })
         
         
@@ -144,7 +148,7 @@ var aggregate_nodes = function(prop1,prop2){
     modes.target_generation = modes.generation
   }
 
-  modes.active_generation = modes.generation
+  select_generation(modes.generation)
 
 
 
@@ -261,7 +265,7 @@ var aggregate_nodes_by_property = function(prop1){
     .enter().append("circle")
       .classed("node",true)
       .classed("aggregate",true)
-      .attr("generation",modes.generation)
+      .classed("gen-"+modes.generation,true)
       .attr("nodeid", function(d){return d.id})
       .attr("r",0)
       .attr("fill", function(d){ return d3.rgb(color(d.modularity_class)).darker(); })
@@ -291,7 +295,7 @@ var aggregate_nodes_by_property = function(prop1){
           d.endy = function(){ return this.target.y_list[modes.target_generation]; }
           d.visibility = true
         })
-        .attr("generation",modes.link_generation)
+        .classed("gen-"+modes.generation,true)
         .attr("stroke-width", 0)
         .on("mouseover",function(d){
           d3.select('.node[generation="'+modes.source_generation+'"][nodeid="'+d.source.id+'"]').attr("fill", color(d.source.modularity_class) )
@@ -320,7 +324,7 @@ var aggregate_nodes_by_property = function(prop1){
     modes.target_generation = modes.generation
   }
 
-  modes.active_generation = modes.generation
+  select_generation(modes.generation)
 
 
 
@@ -365,7 +369,7 @@ var deaggregate_nodes = function(agg_gen){
     }else{
       update_rolled_up()
       // console.log("yep, aggregate")
-      modes.active_generation = agg_generations[agg_gen].source_gen
+      select_generation(agg_generations[agg_gen].source_gen)
       modes.active_link_generation = agg_generations[agg_gen].source_link_gen
       
       var active_source = false
@@ -494,8 +498,16 @@ var remove_generation_6 = function(){
 
 //Select Generations
 var select_generation = function(gen){
+  console.log("selecting "+gen)
   modes.active_generation = gen
   node = node_generations[modes.active_generation]
+  node.each(function(d){
+    d.generation = generation_index(modes.active_generation)
+  })
+  nodeg.selectAll(".gen-"+modes.active_generation)
+    .classed("active",true)
+  nodeg.selectAll(":not(.gen-"+modes.active_generation+")")
+    .classed("active",false)
 }
 
 var select_generation_0 = function(){

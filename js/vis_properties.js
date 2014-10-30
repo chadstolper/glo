@@ -3,6 +3,7 @@ var node, nodeclone, link
 var node_generations = {}
 var link_generations = {}
 var agg_generations = {}
+var subgraph_generations = {}
 var xscale, yscale
 var xprop, yprop
 var transition_duration = 500
@@ -38,6 +39,28 @@ var activeGenIsAggregate = function(){
     return true
   }
   return false
+}
+
+var num_gen = function(){
+  var i = 0;
+  for(var g in node_generations){
+    if(node_generations[g]!=null){
+      i++
+    }
+  }
+  return i;
+}
+
+var generation_index = function(gen) {
+  var map = {}
+  var i = 0
+  for(var g in node_generations){
+    if(node_generations[g]!=null && g!=gen){
+      i++
+    }else{
+      return i/num_gen();
+    }
+  }
 }
 
 var width = 610

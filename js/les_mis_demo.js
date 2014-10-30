@@ -36,6 +36,8 @@ d3.csv("data/"+source+"/nodes.csv",function(nodes){
       d.x_list = {}
       d.y_list = {}
       d.r_list = {}
+      d.radius_list = {}
+      d.theta_list = {}
     })
     edges.forEach(function(d){
       // console.log(d)
