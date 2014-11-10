@@ -157,12 +157,15 @@ var mlgo_buttons = button_groups.selectAll(".step")
         var newType = d.type[i];
         d3.selectAll(".history-item")
           .filter(function(d,i){
-            return i<history.length;
+            return i<gloHistory.length;
           })
           .classed("disabled",function(d,i){
             //console.log("prev array"+d.type);
-            if (nameToTypeDictionary[d3.select(this).text()]==newType 
-              && d3.select(this).attr("active-gen") == modes.active_generation){
+            // debugger
+            var typeList = nameToTypeDictionary[d3.select(this).text()]
+            var inTypeList = typeList.indexOf(newType)>-1
+            var sameActiveGen = d3.select(this).attr("active-gen") == modes.active_generation
+            if (inTypeList && sameActiveGen){
               return true;
             }else{
               return d3.select(this).classed("disabled");
