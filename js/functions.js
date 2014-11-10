@@ -1,5 +1,5 @@
 var initialize_force_directed = function(){
-  mlgo_buttons.attr("disabled","true")
+  // mlgo_buttons.attr("disabled","true")
   
   force = d3.layout.force()
       .charge(-200)
@@ -154,6 +154,7 @@ var force_directed_stop_immediately = function(){
 
 var hide_links = function(){
   // link.style("visibility","hidden")
+  modes.link_display = "none"
   graph.edges.forEach(function(d){
     d.visibility = false
   })
@@ -174,11 +175,11 @@ var hide_links_node_callbacks = function(selection){
 
 var show_links = function(){
   // link.style("visibility","visible")
-  graph.edges.forEach(function(d){
+  modes.link_display="all"
+  link_generations[modes.active_link_generation].each(function(d){
     d.visibility = true
   })
-  node.call(show_links_node_callbacks)
-  if(nodeclone) nodeclone.call(show_links_node_callbacks)
+  node_generations[modes.active_generation].call(show_links_node_callbacks)
   update_links()
 }
 
@@ -194,6 +195,7 @@ var show_links_node_callbacks = function(selection){
 
 var show_selected_links = function(){
   // link.style("visibility","hidden")
+  modes.link_display = "some"
   link_generations[modes.active_link_generation].each(function(d){
     d.visibility = false
   })

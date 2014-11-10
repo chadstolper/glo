@@ -117,7 +117,15 @@ var aggregate_nodes = function(prop1,prop2){
           d.starty = function(){ return this.source.y_list[modes.source_generation]; }
           d.endx = function(){ return this.target.x_list[modes.target_generation]; }
           d.endy = function(){ return this.target.y_list[modes.target_generation]; }
-          d.visibility = true
+          // d.visibility = true
+          if(modes.link_display=="all"){
+            d.visibility = true
+          }else{
+            d.visibility = false
+          }
+        })
+        .style("visibility",function(d){
+          return d.visibility?"visible":"hidden"
         })
         .attr("generation",modes.link_generation)
         .attr("stroke-width", 0)
@@ -167,7 +175,7 @@ var aggregate_nodes = function(prop1,prop2){
       return d.r_list[modes.generation]
     })
 
-
+  
 
   link.transition().duration(transition_duration)
     .attr("stroke-width", function(d) { return Math.sqrt(d.weight); })
@@ -179,6 +187,15 @@ var aggregate_nodes = function(prop1,prop2){
     //       }
     //       return "url(#arrow)";
     //     })
+    .each('end', function(){
+      if(modes.link_display=="all"){
+        show_links()
+      }else if(modes.link_display=="some"){
+        show_selected_links()
+      }else{
+        hide_links()
+      }
+    })
 }
 
 var aggregate_nodes_by_property = function(prop1){
