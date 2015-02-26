@@ -10,11 +10,6 @@
 
 
 
-// var source = "PivotGraph"
-var source = "LesMis"
-// var source = "TinyToy"
-
-
 //Load Data
 d3.csv("/static/data/"+source+"/nodes.csv",function(nodes){
   d3.csv("/static/data/"+source+"/edges.csv",function(edges){

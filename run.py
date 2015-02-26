@@ -4,8 +4,8 @@ import ast
 
 urls = (
 	'/', 'gui',
-	'/dataset/(.*)', 'dataset',
 	'/data/(.*)/(.*)', 'data_request',
+	'/(.*)', 'dataset',
 )
 
 render = web.template.render('templates')
@@ -13,18 +13,14 @@ render = web.template.render('templates')
 
 class gui:
 	def GET(self):
-		d = {}
+		d = {"dataset": "LesMis"}
 		return render.gui(d)
 
-
 class dataset:
-	def GET(self, s, t):
-		m = model.Database(s)
+	def GET(self, name):
 		d = {}
-		d["database_short"] = s
-		d["table"] = t
-		d["tables"] = m.get_tables()["tables"]
-		return render.table_dynamic(d)
+		d["dataset"] = name
+		return render.gui(d)
 
 class data_request:
 	def GET(self, s, t):
