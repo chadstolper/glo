@@ -1,10 +1,11 @@
 import web
 import simplejson as json
 import ast
+import csv
 
 urls = (
 	'/', 'gui',
-	'/data/(.*)/(.*)', 'data_request',
+	'/data/(.*)', 'data_request',
 	'/(.*)', 'dataset',
 )
 
@@ -23,10 +24,22 @@ class dataset:
 		return render.gui(d)
 
 class data_request:
-	def GET(self, s, t):
-		m = model.Database(s)
-		d = m.get_table_instances(t, None)
-		return json.dumps(d, cls=DateEncoder);
+	def GET(self, id):
+		d = {}
+		nodes = []
+		edges = []
+		nodes.append( ["id", "label", "modularity_class"] )
+		edges.append( ["source", "target", "type", "id", "label", "weight"] )
+		
+		with open("./static/data/dynamic/nodes.csv", "wb") as f:
+			writer = csv.writer(f, delimiter=',')
+			writer.writerows(nodes)
+		with open("./static/data/dynamic/edges.csv", "wb") as f:
+			writer = csv.writer(f, delimiter=',')
+			writer.writerows(edges)
+		
+		d["dataset"] = "dynamic"
+		return render.gui(d)
 
 class data_request2:
 	def POST(self, s, t):
