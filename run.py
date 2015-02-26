@@ -38,6 +38,13 @@ class data_request:
 		elif id == 2:
 			database = "prodigalresult"
 			q = "select fromImID, toImID, weight FROM imGraph WHERE (toImID = 9000 or fromImID = 9000) and eventDate between '2014-05-01' and '2014-05-31';"
+		elif id == 3:
+			database = "prodigalresult"
+			q = "select fromImID as source, toImID as target, weight FROM imGraph WHERE (toImID = 9000 or fromImID = 9000) and eventDate between '2014-05-01' and '2014-05-07' UNION SELECT y.source, y.target, y.weight FROM (select fromImID as source, toImID as target, weight FROM imGraph WHERE (toImID = 9000 or fromImID = 9000) and eventDate between '2014-05-01' and '2014-05-07') x join (select fromImID as source, toImID as target, weight FROM imGraph WHERE eventDate between '2014-05-01' and '2014-05-07') y on x.target=y.source "
+		elif id == 4:
+			database = "prodigalobservation"
+			q = "SELECT userID, printerID, count(*) from printerEvent where eventDate between '2014-05-08 00:00:00' and '2014-05-08 12:00:00' and printerid > 0 group by userID, printerID"
+		
 		
 
 		db = MySQLdb.connect(host="prodigal5", user="prodigal", passwd="prodigal", port=3307, db=database)
@@ -64,7 +71,7 @@ class data_request:
 		with open("./static/data/dynamic/nodes.csv", "wb") as f:
 			writer = csv.writer(f, delimiter=',')
 			writer.writerow( ["id", "label", "modularity_class", "degree"] )
-			writer.writerows([[vno[v], v, 0, degree[v]] for v in nodes_set])
+			writer.writerows([[vno[v], v, 0 if id<=3 or int(v)%10==0 else 1, degree[v]] for v in nodes_set])
 		with open("./static/data/dynamic/edges.csv", "wb") as f:
 			writer = csv.writer(f, delimiter=',')
 			writer.writerow( ["source", "target", "type", "id", "label", "weight"] )
