@@ -2,12 +2,13 @@ import web
 import simplejson as json
 import ast
 import csv
+import os.path
 import MySQLdb
 from collections import defaultdict
 
 urls = (
 	'/', 'gui',
-	'/data/(\d+)', 'data_request',
+	'/q/(\d+)', 'data_request',
 	'/(.*)', 'dataset',
 )
 
@@ -16,13 +17,14 @@ render = web.template.render('templates')
 
 class gui:
 	def GET(self):
-		d = {"dataset": "LesMis"}
+		d = {"dataset": "LesMis", "request_id": ""}
 		return render.gui(d)
 
 class dataset:
 	def GET(self, name):
 		d = {}
 		d["dataset"] = name
+		d["request_id"] = ""
 		return render.gui(d)
 
 class data_request:
@@ -44,9 +46,16 @@ class data_request:
 		elif id == 4:
 			database = "prodigalobservation"
 			q = "SELECT userID, printerID, count(*) from printerEvent where eventDate between '2014-05-08 00:00:00' and '2014-05-08 12:00:00' and printerid > 0 group by userID, printerID"
+				
+		if not os.path.isfile("./static/data/dynamic/nodes"+str(id)+".csv"): 
+			self.generate_graph_files(database, q, id)
 		
-		
+		d["dataset"] = "dynamic"
+		d["request_id"] = str(id)
+		return render.gui(d)
 
+	def generate_graph_files(self, database, q, id):
+		print database
 		db = MySQLdb.connect(host="prodigal5", user="prodigal", passwd="prodigal", port=3307, db=database)
 		cur = db.cursor() 
 		cur.execute(q)
@@ -68,18 +77,16 @@ class data_request:
 			vno[v] = no
 			no += 1
 		
-		with open("./static/data/dynamic/nodes.csv", "wb") as f:
+		with open("./static/data/dynamic/nodes"+str(id)+".csv", "wb") as f:
 			writer = csv.writer(f, delimiter=',')
 			writer.writerow( ["id", "label", "modularity_class", "degree"] )
 			writer.writerows([[vno[v], v, 0 if id<=3 or int(v)%10==0 else 1, degree[v]] for v in nodes_set])
-		with open("./static/data/dynamic/edges.csv", "wb") as f:
+		with open("./static/data/dynamic/edges"+str(id)+".csv", "wb") as f:
 			writer = csv.writer(f, delimiter=',')
 			writer.writerow( ["source", "target", "type", "id", "label", "weight"] )
 			writer.writerows([[vno[edges[i][0]], vno[edges[i][1]], "Directed", i, "", edges[i][2]] for i in range(len(edges))])
+	
 		
-		d["dataset"] = "dynamic"
-		return render.gui(d)
-
 class data_request2:
 	def POST(self, s, t):
 		m = model.Database(s)

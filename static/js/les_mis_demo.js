@@ -11,8 +11,8 @@
 
 
 //Load Data
-d3.csv("/static/data/"+source+"/nodes.csv",function(nodes){
-  d3.csv("/static/data/"+source+"/edges.csv",function(edges){
+d3.csv("/static/data/"+source+"/nodes"+request_id+".csv",function(nodes){
+  d3.csv("/static/data/"+source+"/edges"+request_id+".csv",function(edges){
     nodes.forEach(function(d){
       d.id = +d.id
       d.modularity_class = +d.modularity_class
