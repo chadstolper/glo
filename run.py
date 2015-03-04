@@ -46,6 +46,9 @@ class data_request:
 		elif id == 4:
 			database = "prodigalobservation"
 			q = "SELECT userID, printerID, count(*) from printerEvent where eventDate between '2014-05-08 00:00:00' and '2014-05-08 12:00:00' and printerid > 0 group by userID, printerID"
+		elif id == 5:
+			database = "prodigalresult"
+			q = "select fromImID as source, toImID as target, weight FROM imGraph WHERE (toImID = 9000 or fromImID = 9000) and eventDate between '2014-05-01' and '2014-05-05' UNION SELECT y.source, y.target, y.weight FROM (select fromImID as source, toImID as target, weight FROM imGraph WHERE (toImID = 9000 or fromImID = 9000) and eventDate between '2014-05-01' and '2014-05-05') x join (select fromImID as source, toImID as target, weight FROM imGraph WHERE eventDate between '2014-05-01' and '2014-05-05') y on x.target=y.source"
 				
 		if not os.path.isfile("./static/data/dynamic/nodes"+str(id)+".csv"): 
 			self.generate_graph_files(database, q, id)
@@ -80,11 +83,14 @@ class data_request:
 		with open("./static/data/dynamic/nodes"+str(id)+".csv", "wb") as f:
 			writer = csv.writer(f, delimiter=',')
 			writer.writerow( ["id", "label", "modularity_class", "degree"] )
-			writer.writerows([[vno[v], v, 0 if id<=3 or int(v)%10==0 else 1, degree[v]] for v in nodes_set])
+			writer.writerows([[vno[v], v, 0 if id!=4 or int(v)%10==0 else 1, degree[v]] for v in nodes_set])
 		with open("./static/data/dynamic/edges"+str(id)+".csv", "wb") as f:
 			writer = csv.writer(f, delimiter=',')
 			writer.writerow( ["source", "target", "type", "id", "label", "weight"] )
-			writer.writerows([[vno[edges[i][0]], vno[edges[i][1]], "Directed", i, "", edges[i][2]] for i in range(len(edges))])
+			if id==5:
+				writer.writerows([[vno[edges[i][0]], vno[edges[i][1]], "Undirected", i, "", 5] if vno[edges[i][0]]>vno[edges[i][1]] else [vno[edges[i][1]], vno[edges[i][0]], "Undirected", i, "", 5] for i in range(len(edges))])
+			else:
+				writer.writerows([[vno[edges[i][0]], vno[edges[i][1]], "Directed", i, "", edges[i][2]] for i in range(len(edges))])
 	
 		
 class data_request2:
