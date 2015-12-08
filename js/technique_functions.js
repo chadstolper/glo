@@ -46,3 +46,16 @@ var create_scatterplot = function(){
   setTimeout(hide_links,transition_duration*4);
 
 }
+
+var radial_by_modularity_class = function(){
+  evenly_position_nodes_radially_by_property('modularity_class');
+}
+
+var create_circle_plot = function(){
+  setTimeout(radial_by_modularity_class,transition_duration*0);
+  setTimeout(transition_links_to_curved,transition_duration*1);
+  setTimeout(size_nodes_by_constant,transition_duration*2);
+
+
+
+}
