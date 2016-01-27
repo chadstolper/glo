@@ -1,3 +1,5 @@
+
+
 var evenly_position_nodes_radially_by_property = function (prop) {
   node_data().sort(function(a,b){
     var val = a[prop]-b[prop]
@@ -230,3 +232,10 @@ var substrate_on_theta = function(prop){
 
 
 
+
+
+
+//Button
+var circle_by_class = function(){
+  evenly_position_nodes_radially_by_property('modularity_class')
+}
