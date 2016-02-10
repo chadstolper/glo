@@ -1,8 +1,7 @@
 //The Button
 
+var mlgo_index = 0;
 
-
-var mlgo_index = 0
 var mlgo_steps = [
   // {f:initialize_force_directed, label:"Initialize"},
   {f:transition_x_by_degree, label:"Position X by Degree"},
@@ -69,10 +68,10 @@ var mlgo_steps = [
 
   {f:set_target_generation_0, label:"Target Generation 0"},
   {f:set_target_generation_1, label:"Target Generation 1"},
-  {f:set_target_generation_2, label:"Target Generation 2"},
+  {f:set_target_generation_2, label:"Target Generation 2"}
   
   // {f:finished, label:"Finished"}
-  ]
+  ];
 
 var mlgo_buttons = d3.select("#buttons").selectAll(".glo")
     .data(mlgo_steps)
@@ -80,9 +79,9 @@ var mlgo_buttons = d3.select("#buttons").selectAll(".glo")
     .classed("glo",true)
     .text(function(d){return d.label; })
     .on("click",function(d,i){
-      d.f()
+      d.f();
       // update_buttons()
-    })
+    });
 
 // update_buttons()
 
