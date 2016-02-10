@@ -1,5 +1,6 @@
 //The Button
-var mlgo_index = 0
+
+var mlgo_index = 0;
 
 var grouped_steps = [
 //Position Nodes
@@ -39,7 +40,7 @@ var grouped_steps = [
       {f:hide_links, label:"Hide Links", type: ["show_edge"]},
       {f:transition_links_to_straight, label:"Links to Straight", type: ["edge_shape"]},
       {f:transition_links_to_curved, label:"Links to Curved", type: ["edge_shape"]},
-      {f:transition_links_to_circle, label:"Links to Circles", type: ["edge_shape"]},
+      {f:transition_links_to_circle, label:"Links to Circles", type: ["edge_shape"]}
 
     ]
   },
@@ -76,7 +77,7 @@ var grouped_steps = [
     {f:set_target_generation_0, label:"Set Target Generation 0", type:["target_gen"]},
     {f:set_target_generation_1, label:"Set Target Generation 1", type:["target_gen"]},
     {f:set_target_generation_2, label:"Set Target Generation 2", type:["target_gen"]},
-    {f:set_target_generation_3, label:"Set Target Generation 3", type:["target_gen"]},
+    {f:set_target_generation_3, label:"Set Target Generation 3", type:["target_gen"]}
     // {f:set_target_generation_4, label:"Set Target Generation 4", type:["target_gen"]},
     // {f:set_target_generation_5, label:"Set Target Generation 5", type:["target_gen"]},
     // {f:set_target_generation_6, label:"Set Target Generation 6", type:["target_gen"]},
@@ -135,7 +136,7 @@ accordion_groups = d3.select("#buttons")
     .data(grouped_steps)
     .enter(function(d){
       console.log(d);
-    })
+    });
     // .append("div")
     // .classed("accordion_group",true);
 
@@ -163,9 +164,9 @@ var mlgo_buttons = button_groups.selectAll(".step")
           .classed("disabled",function(d,i){
             //console.log("prev array"+d.type);
             // debugger
-            var typeList = nameToTypeDictionary[d3.select(this).text()]
-            var inTypeList = typeList.indexOf(newType)>-1
-            var sameActiveGen = d3.select(this).attr("active-gen") == modes.active_generation
+            var typeList = nameToTypeDictionary[d3.select(this).text()];
+            var inTypeList = typeList.indexOf(newType)>-1;
+            var sameActiveGen = d3.select(this).attr("active-gen") == modes.active_generation;
             if (inTypeList && sameActiveGen){
               return true;
             }else{
@@ -176,7 +177,7 @@ var mlgo_buttons = button_groups.selectAll(".step")
       }
       // d.disabled = true
       // update_buttons()
-    })
+    });
 
 // update_buttons()
 
