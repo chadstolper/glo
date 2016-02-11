@@ -1,14 +1,14 @@
 /* known problem:
-@when reapply history, functions are not executed in sequence.
-    -tried JQuery deferred, not working perfectly, need to research more.
+ @when reapply history, functions are not executed in sequence.
+ -tried JQuery deferred, not working perfectly, need to research more.
 
-*/
+ */
 //----------define history behavior--------------
 var gloHistory = [];
 var snapshotHistory = [];
 var snapshotCounter = 0;
 
-var reapplyHistory = function(){
+var reapplyHistory = function () {
     // //reapply new history
     // var chain = function(){
     //     var d = $.Deferred();
@@ -18,7 +18,7 @@ var reapplyHistory = function(){
     // };
 
     // chain = chain();
-    
+
     // for (i = 0; i < gloHistory.length; i++) {
     //     setTimeout(function(){
     //         chain = chain.pipe(gloHistory[i].func);
@@ -28,16 +28,16 @@ var reapplyHistory = function(){
     console.log(gloHistory);
     //clean disable and then reapply
     d3.selectAll(".disabled")
-        .classed("disabled",false);
+        .classed("disabled", false);
 
     var histKeeper = gloHistory;
     gloHistory = [];
-    var workerWrapper = function(i){
-        setTimeout(function(){
+    var workerWrapper = function (i) {
+        setTimeout(function () {
             // console.log(i);
             histKeeper[i].func();
             gloHistory.push(histKeeper[i]);
-        },1000*i);
+        }, 1000 * i);
     };
 
 
@@ -56,120 +56,123 @@ var reapplyHistory = function(){
 
 //-------------UI stuff-------------------
 $("#buttons").accordion({heightStyle: "content"});
-$(".button-group > .btn").draggable({helper: "clone" });
-$(".ui-accordion-content").css("padding","2px"); 
-
+$(".button-group > .btn").draggable({helper: "clone"});
+$(".ui-accordion-content").css("padding", "2px");
 
 
 $("#history-panel").droppable({
     drop: function (event, ui) {
-    	var newListedHistItem = $("<div></div>")
+        var newListedHistItem = $("<div></div>")
             .addClass("history-item")
-            .attr("active-gen",modes.active_generation);
+            .attr("active-gen", modes.active_generation);
         newListedHistItem.append("<div class=\"delete-x glyphicon glyphicon-remove\"></div>")
-            .click(function(){
+            .click(function () {
                 $(this).toggleClass("selected");
             })
             .appendTo("#history");
-        newListedHistItem.append("<div class=\"glotext\">"+ui.draggable.text()+"</div>");
+        newListedHistItem.append("<div class=\"glotext\">" + ui.draggable.text() + "</div>");
 
         $(newListedHistItem).children(".delete-x")
-            .click(function(){
+            .click(function () {
                 var selectedItem = $(this.parentNode);
-                $.each(gloHistory,function(index,value){
+                $.each(gloHistory, function (index, value) {
                     //console.log(selectedItem.text()+" "+gloHistory[index].name);
-                    if (selectedItem.text()==gloHistory[index].name){
-                        gloHistory.splice(index,1);
+                    if (selectedItem.text() == gloHistory[index].name) {
+                        gloHistory.splice(index, 1);
                         //console.log(index);
                         return false;
                     }
                 });
-                $(this.parentNode).hide('slow', function(){ this.remove(); });
-                
+                $(this.parentNode).hide('slow', function () {
+                    this.remove();
+                });
+
                 reapplyHistory();
             });
 
 
-    	var histItem = {};
+        var histItem = {};
         histItem.name = ui.draggable.text();
         //use jquery deferred to make sure functions are executed in sequence
-        histItem.func = function(){
+        histItem.func = function () {
             // var d = $.Deferred();
             ui.draggable.click();
             // d.resolve();
             // return d.promise();
         };
         histItem.func();
-    	gloHistory.push(histItem);
-		
-		$("#history").scrollTop($("#history")[0].scrollHeight);
+        gloHistory.push(histItem);
+
+        $("#history").scrollTop($("#history")[0].scrollHeight);
 
     }
 });
 
 //----------control button-----------
-$("#delete-btn").click(function(){
-	console.log("clicked del");
+$("#delete-btn").click(function () {
+    console.log("clicked del");
 
     var newHistory = [];
-    $(".history-item").each(function(index,value){
+    $(".history-item").each(function (index, value) {
         var selectedItem = $(this);
-        if (!selectedItem.hasClass("selected")){
+        if (!selectedItem.hasClass("selected")) {
             newHistory.push(gloHistory[index]);
         }
     });
     gloHistory = newHistory;
     console.log(gloHistory.length);
-	
-    $(".selected").hide('slow', function(){ this.remove(); });
+
+    $(".selected").hide('slow', function () {
+        this.remove();
+    });
     reapplyHistory();
 });
 
 
-$("#snapshot-btn").click(function(){
+$("#snapshot-btn").click(function () {
     newSnapshot = $("#canvas")
         .children(":first")
         .clone()
-        .attr("width",150)
-        .attr("height","95%")
-        .attr("class","snapshot")
-        .attr("snapshot-count",snapshotCounter)
+        .attr("width", 150)
+        .attr("height", "95%")
+        .attr("class", "snapshot")
+        .attr("snapshot-count", snapshotCounter)
         //click snapshot to restore data
-        .on("click",function(){
+        .on("click", function () {
             console.log(snapshotHistory[$(this).attr("snapshot-count")]);
             //restore SVG
             $("#canvas").html("");
             $(this) //the svg
                 .clone()
-                .attr("width",710)
-                .attr("height",590)
+                .attr("width", 710)
+                .attr("height", 590)
                 //try to use $.removeClass()
-                .attr("class","")
+                .attr("class", "")
                 .removeAttr("snapshot-count")
                 .appendTo("#canvas")
                 .children(":first")
-                .attr("transform","translate(50,50)")
+                .attr("transform", "translate(50,50)")
                 .next()
-                .attr("transform","translate(50,560)")
+                .attr("transform", "translate(50,560)")
                 .next()
-                .attr("transform","translate(30,50)");
+                .attr("transform", "translate(30,50)");
             console.log($(this));
-            
+
             $("#history").html(snapshotHistory[$(this).attr("snapshot-count")]);
         });
     newSnapshot.appendTo("#snapshot")
         .children(":first")
-        .attr("transform","scale(0.2) translate(50,50)")
+        .attr("transform", "scale(0.2) translate(50,50)")
         .next()
-        .attr("transform","scale(0.2) translate(50,560)")
+        .attr("transform", "scale(0.2) translate(50,560)")
         .next()
-        .attr("transform","scale(0.2) translate(30,50)");
+        .attr("transform", "scale(0.2) translate(30,50)");
 
-    snapshotHistory[snapshotCounter]=$("#history").html();
+    snapshotHistory[snapshotCounter] = $("#history").html();
 
     snapshotCounter++;
-	
-	$("#snapshot").scrollLeft($("#snapshot")[0].scrollWidth);
+
+    $("#snapshot").scrollLeft($("#snapshot")[0].scrollWidth);
 });
 
 
