@@ -1,0 +1,73 @@
+{
+    "initialState": {
+        "nodes": [
+            {"id": "A", "color": "blue"},
+            {"id": "B", "color": "blue"},
+            {"id": "C", "color": "red"},
+            {"id": "D", "color": "blue"},
+            {"id": "E", "color": "green"},
+            {"id": "F", "color": "yellow"},
+            {"id": "G", "color": "purple"}
+        ],
+        "links": [
+            {"source": "A", "target": "B", "value": 1},
+            {"source": "B", "target": "C", "value": 2},
+            {"source": "D", "target": "C", "value": 3},
+            {"source": "E", "target": "A", "value": 4},
+            {"source": "E", "target": "B", "value": 1},
+            {"source": "G", "target": "C", "value": 2},
+            {"source": "F", "target": "G", "value": 1}
+        ]
+    },
+    "newStates": [
+        {
+            "events": [
+                {
+                    "type": "na",
+                    "nodes": [
+                        {"id": "I", "color": "blue"},
+                        {"id": "H", "color": "yellow"}
+                    ]
+                },
+                {
+                    "type": "ea",
+                    "links": [
+                        {"source": "H", "target": "I", "value": 1},
+                        {"source": "I", "target": "F", "value": 1}
+                    ]
+                },
+                {
+                    "type": "ed",
+                    "links": [{"source": "G", "target": "C"}]
+                }
+            ]
+        },
+        {
+            "events": [
+                {
+                    "type": "nd",
+                    "nodes": ["E"]
+
+                },
+                {
+                    "type": "ed",
+                    "links": [{"source": "A", "target": "B"}]
+                },
+                {
+                    "type": "nca",
+                    "nodes": [
+                        {"node": "F", "color": "green"},
+                        {"node": "G", "color": "blue"}]
+                },
+                {
+                    "type": "eca",
+                    "links": [
+                        {"link": {"source": "B", "target": "C"}, "value": 5},
+                        {"link": {"source": "D", "target": "C"}, "value": 1}
+                    ]
+                }
+            ]
+        }
+
+    ]
+}
