@@ -6,7 +6,7 @@
             {"id": "C", "color": "red"},
             {"id": "D", "color": "blue"},
             {"id": "E", "color": "green"},
-            {"id": "F", "color": "yellow"},
+            {"id": "F", "color": "brown"},
             {"id": "G", "color": "purple"}
         ],
         "links": [
@@ -26,7 +26,7 @@
                     "type": "na",
                     "nodes": [
                         {"id": "I", "color": "blue"},
-                        {"id": "H", "color": "yellow"}
+                        {"id": "H", "color": "brown"}
                     ]
                 },
                 {
