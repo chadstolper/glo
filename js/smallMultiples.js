@@ -1,8 +1,7 @@
 var dynamicGraphs = dynamicGraphs || {};
-var dg = dynamicGraphs;
 
-var MAX_NUMBER_OF_DRAWINGS_PER_ROW = 3;
-var PAUSE = 6000;
+dynamicGraphs.MAX_NUMBER_OF_DRAWINGS_PER_ROW = 3;
+dynamicGraphs.PAUSE = 5000;
 
 
 /**
@@ -42,7 +41,11 @@ function splitScreen(data, max_number_of_drawings_per_row) {
     return groupWidth;
 }
 
-
+/**
+ * This function simply converts the graphs to a d3-friendly format
+ * @param graphs: input
+ * @returns {Array}: output
+ */
 function convertGraphsToD3Format(graphs){
     var result = [];
 
@@ -52,7 +55,6 @@ function convertGraphsToD3Format(graphs){
                 return i
             }
         }
-        console.log("WHY ARE YOU HERE?");
     }
 
     graphs.forEach(function(graph){
@@ -61,7 +63,7 @@ function convertGraphsToD3Format(graphs){
         d3Graph["nodes"] = [];
         d3Graph["links"] = [];
 
-        graph["nodes"].forEach(function(node){ d3Graph["nodes"].push(node)});
+        graph["nodes"].forEach(function(node){ d3Graph["nodes"].push(node) });
         graph["links"].forEach(function(link){
             d3Graph["links"].push(
                 {
@@ -79,8 +81,9 @@ function convertGraphsToD3Format(graphs){
 
 
 /**
- * This function finds the px coordinate of a node looking in the drawing stored in g.step-0
+ * This function finds the coordinate of a node looking in the drawing stored in g.step-i
  * @param nodes: The node to find the coordinates for
+ * @param i: index of the step in which the algorithm will look for nodes
  */
 function fixNodes(nodes, i){
 
@@ -154,15 +157,15 @@ d3.json("data/DynamicGraphs/toy.json", function(error, data){
     if (error) throw error;
 
     // Split screen and get the width of each box
-    var boxWidth = splitScreen(data, MAX_NUMBER_OF_DRAWINGS_PER_ROW);
+    var boxWidth = splitScreen(data, dynamicGraphs.MAX_NUMBER_OF_DRAWINGS_PER_ROW);
 
-    var dynamicGraph = new DynamicGraph();
+    var dynamicGraph = new dynamicGraphs.DynamicGraph();
     dynamicGraph.addInitialState(data["initialState"]);
     dynamicGraph.addNewStates(data["newStates"]);
 
     var d3Graph = convertGraphsToD3Format(dynamicGraph.getGraphs());
 
-    // Draw the first graph and then after 5 seconds all the others (so to steal node positions)
+    // Draw the first graph
     drawGraph(d3Graph[0], 0, boxWidth);
 
 
@@ -174,7 +177,7 @@ d3.json("data/DynamicGraphs/toy.json", function(error, data){
                 drawGraph(d3Graph[i], i, boxWidth);
                 i++;
                 if (i < d3Graph.length) drawAll();
-            }, PAUSE
+            }, dynamicGraphs.PAUSE
         )
     }
     drawAll();
