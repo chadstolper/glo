@@ -145,7 +145,10 @@ function drawGraph(graph, i, boxWidth){
     node.append("text")
         .text(function(d){ return d["id"]})
         .attr("dx", -3)
-        .attr("dy", +3);
+        .attr("dy", +3)
+        .attr("fill", "white")
+        .style("stroke-width", "0px")
+        .style("font-size", 10);
 
     node.append("title")
         .text(function(d) { return d["id"]; });
