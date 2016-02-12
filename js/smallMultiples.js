@@ -88,10 +88,12 @@ function convertGraphsToD3Format(graphs){
 function fixNodes(nodes, i){
 
     for (var j = 0; j < nodes.length; j++){
-        var $node = d3.select("#step-" + i).select("circle[id='" +  nodes[j]["id"] + "']");
-        if ($node.node() != null) {
-            var x = $node.attr("cx");
-            var y = $node.attr("cy");
+        var $group = d3.select("#step-" + i).select("g.node[id='" + nodes[j]["id"] + "']");
+        if ($group.node() != null) {
+            //How to extract coordinates from "transform" attributes: (super handy!)
+            //http://stackoverflow.com/questions/19154631/how-to-get-coordinates-of-an-svg-element
+            var x = d3.transform($group.attr("transform")).translate[0];
+            var y = d3.transform($group.attr("transform")).translate[1];
             nodes[j].fixed = true;
             nodes[j].x = x;
             nodes[j].y = y;
@@ -129,12 +131,21 @@ function drawGraph(graph, i, boxWidth){
 
     var node = svgGroup.selectAll(".node")
         .data(graph.nodes, function(node){ return node["id"]})
-        .enter().append("circle")
+        .enter()
+        .append("g")
         .attr("id", function(node){ return node["id"]})
-        .attr("class", "node")
-        .attr("r", 5)
-        .style("fill", function(d) { return d.color })
+        .classed("node", true)
         .call(force.drag);
+
+    node.append("circle")
+    .attr("r", 8)
+    .style("fill", function(d) { return d.color });
+
+    // Comment this if you don't want text in circles
+    node.append("text")
+        .text(function(d){ return d["id"]})
+        .attr("dx", -3)
+        .attr("dy", +3);
 
     node.append("title")
         .text(function(d) { return d["id"]; });
@@ -145,8 +156,7 @@ function drawGraph(graph, i, boxWidth){
             .attr("x2", function(d) { return d.target.x; })
             .attr("y2", function(d) { return d.target.y; });
 
-        node.attr("cx", function(d) { return d.x; })
-            .attr("cy", function(d) { return d.y; });
+        node.attr("transform", function(d) { return "translate(" + d.x + "," + d.y + ")"; });
     });
 }
 
