@@ -1,3 +1,15 @@
+body {
+  background-color: steelblue;
+}
+
+h3 {
+  color: white;
+}
+
+svg {
+  background-color: white;
+}
+
 /* Force Directed */
 .node {
   stroke: #fff;
