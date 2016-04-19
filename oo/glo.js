@@ -16,18 +16,27 @@ GLO.GLO = function(svg){
 
 
 
+
+
 GLO.GLO.prototype.nodes = function(nodes){
+	if(!nodes){
+		return this.nodes
+	}
 	this.nodes = nodes
 	return this
 }
 
 GLO.GLO.prototype.edges = function(edges){
+	if(!edges){
+		return this.edges
+	}
 	this.edges = edges
 	return this
 }
 
-GLO.GLO.prototype.init = function(){
+GLO.GLO.prototype.draw = function(){
 	this._init_graph()
+	this.canvases[0].init()
 	return this
 }
 
@@ -57,7 +66,6 @@ GLO.GLO.prototype._init_graph = function(){
 	edges.forEach(function(d){
 		d.target.in_edges.push(d)
 		d.source.out_edges.push(d)
-		d.visibility = true
 	})
 
 	return this
