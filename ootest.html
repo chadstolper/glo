@@ -1,0 +1,31 @@
+<svg id="canvas"></svg>
+
+<script src="bower_components/d3/d3.js" charset="utf-8"></script>
+<script src="bower_components/jquery/dist/jquery.min.js"></script>
+
+<script src="oo/namespace.js"></script>
+<script src="oo/canvas.js"></script>
+<script src="oo/glo.js"></script>
+
+<script>
+	var nodes = [
+		{id:0, name:"Coconut", color:"brown"},
+		{id:1, name:"Banana", color:"yellow"},
+		{id:2, name:"Apple", color:"red"},
+		{id:3, name:"Donut", color:"pink"}
+	];
+	var edges = [
+		{id:0, source:0, target:2, weight:1.0},
+		{id:1, source:1, target:2, weight:2.0},
+		{id:2, source:2, target:3, weight:3.0}
+	]
+
+	var svg = d3.select("#canvas")
+		.style("width",500)
+		.style("height",400)
+		.style("background-color","green")
+	var glo = new GLO.GLO(svg)
+		.nodes(nodes)
+		.edges(edges)
+		.init()
+</script>
