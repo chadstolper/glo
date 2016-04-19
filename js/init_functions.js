@@ -1,9 +1,9 @@
-var init = function(){
+function init(){
   initialize_graph()
   initialize_graph_svg()
 }
 
-var initialize_graph = function(){
+function initialize_graph(){
   var nodes = graph.nodes
   var edges = graph.edges
 
@@ -30,7 +30,7 @@ var initialize_graph = function(){
 }
 
 
-var initialize_graph_svg = function(){
+function initialize_graph_svg(){
 
 
 
