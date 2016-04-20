@@ -43,6 +43,13 @@ GLO.GLO.prototype.active_canvas = function(value){
 	return this
 }
 
+GLO.GLO.prototype.active_node_generation = function(){
+	return this.active_canvas().active_node_generation()
+}
+
+GLO.GLO.prototype.active_edge_generation = function(){
+	return this.active_canvas().active_edge_generation()
+}
 
 GLO.GLO.prototype._next_node_gen = function(){
 	return this.node_gen_counter++;

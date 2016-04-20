@@ -19,7 +19,12 @@ GLO.EdgeGeneration.prototype.source_generation = function(value){
 	if(!value){
 		return this._source_generation
 	}
+	if(this._source_generation){
+		this._source_generation.remove_listener(this)
+	}
 	this._source_generation = value
+	this._source_generation.add_listener(this)
+	this.update()
 	return this
 }
 
@@ -27,15 +32,21 @@ GLO.EdgeGeneration.prototype.target_generation = function(value){
 	if(!value){
 		return this._target_generation
 	}
+	if(this._target_generation){
+		this._target_generation.remove_listener(this)
+	}
 	this._target_generation = value
+	this._target_generation.add_listener(this)
+	this.update()
 	return this
 }
 
 
 
 GLO.EdgeGeneration.prototype.update = function(){
-	this[this.edge_mode]()
-	// this.straight_lines()
+	if(this.edge_mode){
+		this[this.edge_mode]()
+	}
 	return this
 }
 
@@ -81,7 +92,7 @@ GLO.EdgeGeneration.prototype.straight_lines = function(){
 
 	this.edge_mode = "straight_lines"
 
-	this.edge_glyphs
+	this.edge_glyphs.transition()
 		.attr("d", function(d) {
 			var p = "M"+ d.startx(self) + "," + d.starty(self)
 

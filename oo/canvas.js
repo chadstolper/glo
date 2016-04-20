@@ -9,8 +9,8 @@ GLO.Canvas = function(glo,width,height,x_offset,y_offset){
 	this._x_offset = x_offset || 0
 	this._y_offset = y_offset || 0
 
-	this._x_buffer = 0
-	this._y_buffer = 0
+	this._x_buffer = 20
+	this._y_buffer = 20
 
 	this.node_generations = {}
 	this.edge_generations = {}
@@ -23,7 +23,7 @@ GLO.Canvas = function(glo,width,height,x_offset,y_offset){
 }
 
 
-GLO.Canvas.prototype.axis_size = 20;
+GLO.Canvas.prototype.axis_size = 50;
 
 
 GLO.Canvas.prototype.width = function(value){
@@ -96,20 +96,43 @@ GLO.Canvas.prototype.y_offset = function(value){
 }
 
 
+GLO.Canvas.prototype.top = function(){
+	return this.y_buffer()
+}
+
+GLO.Canvas.prototype.bottom = function(){
+	return this.height()-this.y_buffer()-this.axis_size
+}
+
+GLO.Canvas.prototype.middle = function(){
+	return (this.height()-2*this.y_buffer()-this.axis_size)/2
+}
+
+GLO.Canvas.prototype.left = function(){
+	return this.axis_size + this.x_buffer()
+}
+
+GLO.Canvas.prototype.center = function(){
+	return this.axis_size+this.x_buffer()+(this.width()-this.axis_size-2*this.x_buffer())/2
+}
+
+GLO.Canvas.prototype.right = function(){
+	return this.width()-this.x_buffer()
+}
 
 
 
 GLO.Canvas.prototype.init = function(){
 	this.chart = this.glo.svg.append("g")
-		.attr("transform","translate("+this.x_offset() + this.x_buffer()+","+this.y_offset() + this.y_buffer()+")")
+		.attr("transform","translate("+this.x_offset()+","+this.y_offset()+")")
 
 	this.x_axis_g = this.chart.append("g")
 		.attr("class","x axis")
-		.attr("transform","translate("+this.x_buffer()+","+ (this.height()+this.y_buffer()+this.axis_size) + ")")
+		.attr("transform","translate("+this.left()+","+ this.bottom() + ")")
 
 	this.y_axis_g = this.chart.append("g")
 		.attr("class","y axis")
-		.attr("transform","translate("+(this.x_buffer()-this.axis_size)+","+this.y_buffer()+")")
+		.attr("transform","translate("+this.x_buffer()+","+this.top()+")")
 
 
 	//append edgeg first so that it is under the nodes

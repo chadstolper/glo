@@ -99,7 +99,10 @@ GLO.GLO.prototype.align_edges = function(dir,opts){
 	Shorthand for position_nodes_by(constant)
 */
 GLO.GLO.prototype.align_nodes = function(dir,opts){
-	TODO("align_nodes")
+	var nodes = this.active_node_generation()
+	nodes.align(dir)
+
+
 }
 
 
@@ -151,17 +154,8 @@ GLO.GLO.prototype.evenly_distribute_nodes_on = function(axis,opts){
 	
 */
 GLO.GLO.prototype.apply_force_directed_algorithm_to_nodes = function(opts){
-	var self = this
-	var force = cola.d3adaptor()
-		.linkDistance(70)
-		.size([self.width(),self.height()])
-		.nodes(self.nodes())
-		.links(self.edges())
-		.on('tick', function(){
-			self.active_canvas().active_node_generation().update()
-			self.active_canvas().active_edge_generation().update()
-		})
-		.start()
+	var node_gen = this.active_node_generation()
+		.apply_force_directed(this.edges())
 
 	return this
 }
