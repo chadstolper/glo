@@ -3,8 +3,11 @@
 */
 GLO.GLO = function(svg){
 	this.svg = svg;
-	this.width = svg.style("width")
-	this.height = svg.style("height")
+	this.width = parseInt(svg.style("width"))
+	this.height = parseInt(svg.style("height"))
+
+	this.node_gen_counter = 0
+	this.edge_gen_counter = 0
 
 	this.canvases = {}
 	this.canvases[0] = new GLO.Canvas(this,this.width,this.height)
@@ -16,21 +19,28 @@ GLO.GLO = function(svg){
 
 
 
+GLO.GLO.prototype._next_node_gen = function(){
+	return ++this.node_gen_counter;
+}
+
+GLO.GLO.prototype._next_edge_gen = function(){
+	return ++this.edge_gen_counter;
+}
 
 
 GLO.GLO.prototype.nodes = function(nodes){
 	if(!nodes){
-		return this.nodes
+		return this._nodes
 	}
-	this.nodes = nodes
+	this._nodes = nodes
 	return this
 }
 
 GLO.GLO.prototype.edges = function(edges){
 	if(!edges){
-		return this.edges
+		return this._edges
 	}
-	this.edges = edges
+	this._edges = edges
 	return this
 }
 
@@ -45,8 +55,8 @@ GLO.GLO.prototype.draw = function(){
 	node- and edge-lists.
 */
 GLO.GLO.prototype._init_graph = function(){
-	var nodes = this.nodes
-	var edges = this.edges
+	var nodes = this.nodes()
+	var edges = this.edges()
 
 	for(var e in edges){
 		e = edges[e]

@@ -5,16 +5,20 @@
 
 <script src="oo/namespace.js"></script>
 <script src="oo/canvas.js"></script>
+<script src="oo/node_generation.js"></script>
+<script src="oo/edge_generation.js"></script>
+
 <script src="oo/glo.js"></script>
 
+
 <script>
-	var nodes = [
+	var test_nodes = [
 		{id:0, name:"Coconut", color:"brown"},
 		{id:1, name:"Banana", color:"yellow"},
 		{id:2, name:"Apple", color:"red"},
 		{id:3, name:"Donut", color:"pink"}
 	];
-	var edges = [
+	var test_edges = [
 		{id:0, source:0, target:2, weight:1.0},
 		{id:1, source:1, target:2, weight:2.0},
 		{id:2, source:2, target:3, weight:3.0}
@@ -25,7 +29,7 @@
 		.style("height",400)
 		.style("background-color","green")
 	var glo = new GLO.GLO(svg)
-		.nodes(nodes)
-		.edges(edges)
+		.nodes(test_nodes)
+		.edges(test_edges)
 		.draw()
 </script>
