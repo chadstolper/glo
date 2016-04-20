@@ -2,6 +2,7 @@
 
 <script src="bower_components/d3/d3.js" charset="utf-8"></script>
 <script src="bower_components/jquery/dist/jquery.min.js"></script>
+<script src="bower_components/webcola/WebCola/cola.min.js"></script>
 
 <script src="oo/namespace.js"></script>
 <script src="oo/canvas.js"></script>
@@ -28,7 +29,7 @@
 	var svg = d3.select("#canvas")
 		.style("width",500)
 		.style("height",400)
-		.style("background-color","green")
+		.style("background-color","steelblue")
 	var glo = new GLO.GLO(svg)
 		.nodes(test_nodes)
 		.edges(test_edges)

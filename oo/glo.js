@@ -3,44 +3,69 @@
 */
 GLO.GLO = function(svg){
 	this.svg = svg;
-	this.width = parseInt(svg.style("width"))
-	this.height = parseInt(svg.style("height"))
+	this._width = parseInt(svg.style("width"))
+	this._height = parseInt(svg.style("height"))
 
 	this.node_gen_counter = 0
 	this.edge_gen_counter = 0
 
 	this.canvases = {}
-	this.canvases[0] = new GLO.Canvas(this,this.width,this.height)
+	this.canvases[0] = new GLO.Canvas(this,this.width(),this.height())
+
+	this._active_canvas = 0
 
 	this.transition_duration = 500;
 
 	return this
 }
 
-
-
-GLO.GLO.prototype._next_node_gen = function(){
-	return ++this.node_gen_counter;
-}
-
-GLO.GLO.prototype._next_edge_gen = function(){
-	return ++this.edge_gen_counter;
-}
-
-
-GLO.GLO.prototype.nodes = function(nodes){
-	if(!nodes){
-		return this._nodes
+GLO.GLO.prototype.width = function(value){
+	if(!value){
+		return this._width
 	}
-	this._nodes = nodes
+	this._width = value
 	return this
 }
 
-GLO.GLO.prototype.edges = function(edges){
-	if(!edges){
+GLO.GLO.prototype.height = function(value){
+	if(!value){
+		return this._height
+	}
+	this._height = value
+	return this
+}
+
+GLO.GLO.prototype.active_canvas = function(value){
+	if(!value){
+		return this.canvases[this._active_canvas]
+	}
+	this._active_canvas = value
+	return this
+}
+
+
+GLO.GLO.prototype._next_node_gen = function(){
+	return this.node_gen_counter++;
+}
+
+GLO.GLO.prototype._next_edge_gen = function(){
+	return this.edge_gen_counter++;
+}
+
+
+GLO.GLO.prototype.nodes = function(value){
+	if(!value){
+		return this._nodes
+	}
+	this._nodes = value
+	return this
+}
+
+GLO.GLO.prototype.edges = function(value){
+	if(!value){
 		return this._edges
 	}
-	this._edges = edges
+	this._edges = value
 	return this
 }
 
@@ -62,6 +87,11 @@ GLO.GLO.prototype._init_graph = function(){
 		e = edges[e]
 		e.source = nodes[e.source]
 		e.target = nodes[e.target]
+
+		e.startx = function(edge_gen){ return this.source.x_list[edge_gen.source_generation().gen_id]; }
+		e.starty = function(edge_gen){ return this.source.y_list[edge_gen.source_generation().gen_id]; }
+		e.endx = function(edge_gen){ return this.target.x_list[edge_gen.target_generation().gen_id]; }
+		e.endy = function(edge_gen){ return this.target.y_list[edge_gen.target_generation().gen_id]; }
 	}
 
 	nodes.forEach(function(d){

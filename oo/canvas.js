@@ -44,7 +44,7 @@ GLO.Canvas.prototype.height = function(value){
 
 GLO.Canvas.prototype.active_node_generation = function(value){
 	if(!value){
-		return this.node_generations[this._active_node_generation]
+		return this._active_node_generation
 	}
 	this._active_node_generation = value
 	return this
@@ -52,7 +52,7 @@ GLO.Canvas.prototype.active_node_generation = function(value){
 
 GLO.Canvas.prototype.active_edge_generation = function(value){
 	if(!value){
-		return this.edge_generations[this._active_edge_generation]
+		return this._active_edge_generation
 	}
 	this._active_edge_generation = value
 	return this
@@ -115,13 +115,13 @@ GLO.Canvas.prototype.init = function(){
 	//append edgeg first so that it is under the nodes
 	var init_edges = new GLO.EdgeGeneration(this,this.glo.edges(),false)
 	init_edges.init_svg()
-	this.active_edge_generation(init_edges.gen_id)
+	this.active_edge_generation(init_edges)
 
 
 
 	var init_nodes = new GLO.NodeGeneration(this,this.glo.nodes(),false);
 	init_nodes.init_svg().init_draw()
-	this.active_node_generation(init_nodes.gen_id)
+	this.active_node_generation(init_nodes)
 
 	init_edges
 		.source_generation(init_nodes)

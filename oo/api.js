@@ -151,7 +151,19 @@ GLO.GLO.prototype.evenly_distribute_nodes_on = function(axis,opts){
 	
 */
 GLO.GLO.prototype.apply_force_directed_algorithm_to_nodes = function(opts){
-	TODO("apply_force_directed_algorithm_to_nodes")
+	var self = this
+	var force = cola.d3adaptor()
+		.linkDistance(70)
+		.size([self.width(),self.height()])
+		.nodes(self.nodes())
+		.links(self.edges())
+		.on('tick', function(){
+			self.active_canvas().active_node_generation().update()
+			self.active_canvas().active_edge_generation().update()
+		})
+		.start()
+
+	return this
 }
 
 

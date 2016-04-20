@@ -10,7 +10,8 @@ GLO.EdgeGeneration = function(canvas, edges, is_aggregated){
 	return this
 }
 
-GLO.EdgeGeneration.prototype.default_width = 1;
+GLO.EdgeGeneration.prototype.default_stroke_width = 1;
+GLO.EdgeGeneration.prototype.default_stroke = "black";
 
 
 
@@ -31,6 +32,14 @@ GLO.EdgeGeneration.prototype.target_generation = function(value){
 }
 
 
+
+GLO.EdgeGeneration.prototype.update = function(){
+	this[this.edge_mode]()
+	// this.straight_lines()
+	return this
+}
+
+
 GLO.EdgeGeneration.prototype.init_svg = function(){
 	this.edge_g = this.canvas.chart.append("g")
 		.classed("edgeg",true)
@@ -45,8 +54,10 @@ GLO.EdgeGeneration.prototype.init_draw = function(){
 	
 	this.edge_glyphs.enter().append("svg:path")
 		.classed("edge",true)
-		.classed("edgegen",this.gen_id)
-		.attr("stroke-width", this.default_width)
+		.classed("edgegen-"+this.gen_id, true)
+		.style("stroke-width", this.default_stroke_width)
+		.style("stroke", this.default_stroke)
+		.style("fill", "none")
 		.on("mouseover",function(d){
 			d3.select('.node.gen-'+self.source_generation().gen_id()+'[nodeid="'+d.source.id+'"]')
 				.attr("fill", "lightgrey" )
@@ -59,28 +70,27 @@ GLO.EdgeGeneration.prototype.init_draw = function(){
 			d3.select('.node.gen-'+self.source_generation().gen_id()+'[nodeid="'+d.target.id+'"]')
 				.attr("fill", "black" )
 		})
-		.each(function(d){
-				d.startx = function(){ return this.source.x_list[self.source_generation().gen_id]; }
-				d.starty = function(){ return this.source.y_list[self.source_generation().gen_id]; }
-				d.endx = function(){ return this.target.x_list[self.target_generation().gen_id]; }
-				d.endy = function(){ return this.target.y_list[self.target_generation().gen_id]; }
-		})
+		
 
-	this.straight_edges()
+	this.straight_lines()
 }
 
 
-GLO.EdgeGeneration.prototype.straight_edges = function(){
+GLO.EdgeGeneration.prototype.straight_lines = function(){
+	var self = this
+
+	this.edge_mode = "straight_lines"
+
 	this.edge_glyphs
 		.attr("d", function(d) {
-			var p = "M"+ d.startx() + "," + d.starty()
+			var p = "M"+ d.startx(self) + "," + d.starty(self)
 
 			//control point
-			var cx = (d.endx() + d.startx())/2
-			var cy = (d.endy() + d.starty())/2
+			var cx = (d.endx(self) + d.startx(self))/2
+			var cy = (d.endy(self) + d.starty(self))/2
 			
 			p += "Q"+cx+","+cy+" "
-			p += d.endx()+","+d.endy()
+			p += d.endx(self)+","+d.endy(self)
 
 
 			return p

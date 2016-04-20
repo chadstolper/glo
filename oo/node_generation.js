@@ -17,6 +17,18 @@ GLO.NodeGeneration = function(canvas, nodes, is_aggregated){
 GLO.NodeGeneration.prototype.default_r = 5
 
 
+GLO.NodeGeneration.prototype.update = function(){
+	var self = this
+	this.nodes.forEach(function(d){
+		d.x_list[self.gen_id] = d.x
+		d.y_list[self.gen_id] = d.y
+	})
+	this.node_glyphs
+		.attr("cx", function(d){ return d.x_list[self.gen_id]; })
+		.attr("cy", function(d){ return d.y_list[self.gen_id]; })
+
+	return this
+}
 
 GLO.NodeGeneration.prototype.init_svg = function(){
 	this.node_g = this.canvas.chart.append("g")
