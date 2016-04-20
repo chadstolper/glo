@@ -70,15 +70,15 @@ GLO.EdgeGeneration.prototype.init_draw = function(){
 		.style("stroke", this.default_stroke)
 		.style("fill", "none")
 		.on("mouseover",function(d){
-			d3.select('.node.gen-'+self.source_generation().gen_id()+'[nodeid="'+d.source.id+'"]')
+			d3.select('.node.gen-'+self.source_generation().gen_id+'[nodeid="'+d.source.id+'"]')
 				.attr("fill", "lightgrey" )
-			d3.select('.node.gen-'+self.target_generation().gen_id()+'[nodeid="'+d.target.id+'"]')
+			d3.select('.node.gen-'+self.target_generation().gen_id+'[nodeid="'+d.target.id+'"]')
 				.attr("fill", "lightgrey" )
 		})
 		.on("mouseout",function(d){
-			d3.select('.node.gen-'+self.source_generation().gen_id()+'[nodeid="'+d.source.id+'"]')
+			d3.select('.node.gen-'+self.source_generation().gen_id+'[nodeid="'+d.source.id+'"]')
 				.attr("fill", "black" )
-			d3.select('.node.gen-'+self.source_generation().gen_id()+'[nodeid="'+d.target.id+'"]')
+			d3.select('.node.gen-'+self.source_generation().gen_id+'[nodeid="'+d.target.id+'"]')
 				.attr("fill", "black" )
 		})
 		

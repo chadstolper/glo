@@ -15,9 +15,8 @@ GLO.Canvas = function(glo,width,height,x_offset,y_offset){
 	this.node_generations = {}
 	this.edge_generations = {}
 
-
-	this.xscale;
-	this.yscale;
+	this.x_axis_gen
+	this.y_axis_gen
 
 	return this
 }
@@ -32,6 +31,14 @@ GLO.Canvas.prototype.width = function(value){
 	}
 	this._width = value
 	return this
+}
+
+GLO.Canvas.prototype.canvas_width = function(){
+	return this.width()-2*this.x_buffer()-this.axis_size
+}
+
+GLO.Canvas.prototype.canvas_height = function(){
+	return this.height()-2*this.y_buffer()-this.axis_size
 }
 
 GLO.Canvas.prototype.height = function(value){
@@ -134,6 +141,28 @@ GLO.Canvas.prototype.init = function(){
 		.attr("class","y axis")
 		.attr("transform","translate("+this.x_buffer()+","+this.top()+")")
 
+	this.chart.append("circle")
+		.attr("cx", this.center())
+		.attr("cy", this.middle())
+		.attr("r", 3)
+		.style("fill","blue")
+
+	this.chart.append("line")
+		.attr("x1", this.left())
+		.attr("x2", this.left())
+		.attr("y1", this.bottom())
+		.attr("y2", this.top())
+		.style("stroke", "blue")
+		.style("stroke-width", 1)
+
+
+	this.chart.append("line")
+		.attr("x1", this.left())
+		.attr("x2", this.right())
+		.attr("y1", this.bottom())
+		.attr("y2", this.bottom())
+		.style("stroke", "blue")
+		.style("stroke-width", 1)
 
 	//append edgeg first so that it is under the nodes
 	var init_edges = new GLO.EdgeGeneration(this,this.glo.edges(),false)

@@ -99,10 +99,7 @@ GLO.GLO.prototype.align_edges = function(dir,opts){
 	Shorthand for position_nodes_by(constant)
 */
 GLO.GLO.prototype.align_nodes = function(dir,opts){
-	var nodes = this.active_node_generation()
-	nodes.align(dir)
-
-
+	this.active_node_generation().align(dir)
 }
 
 
@@ -144,7 +141,15 @@ GLO.GLO.prototype.evenly_distribute_edges_on = function(axis,opts){
 	opts includes by option
 */
 GLO.GLO.prototype.evenly_distribute_nodes_on = function(axis,opts){
-	TODO("evenly_distribute_nodes_on")
+	if(opts && opts.by){
+		print("I buy it")
+		this.active_node_generation().distribute(axis,opts.by)
+	}else{
+		this.active_node_generation().distribute(axis)
+	}
+
+	return this
+
 }
 
 

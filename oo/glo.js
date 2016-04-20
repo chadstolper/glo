@@ -107,7 +107,7 @@ GLO.GLO.prototype._init_graph = function(){
 		d.x_list = {}
 		d.y_list = {}
 		d.r_list = {}
-		d.radius_list = {}
+		d.rho_list = {}
 		d.theta_list = {}
 	})
 	edges.forEach(function(d){

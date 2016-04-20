@@ -2,12 +2,16 @@
 
 <script src="bower_components/d3/d3.js" charset="utf-8"></script>
 <script src="bower_components/jquery/dist/jquery.min.js"></script>
+<script src="bower_components/underscore/underscore-min.js"></script>
+
 <script src="bower_components/webcola/WebCola/cola.min.js"></script>
 
 <script src="oo/namespace.js"></script>
 <script src="oo/canvas.js"></script>
 <script src="oo/node_generation.js"></script>
 <script src="oo/edge_generation.js"></script>
+
+<script src="oo/helpers.js"></script>
 
 <script src="oo/glo.js"></script>
 <script src="oo/api.js"></script>
@@ -29,7 +33,7 @@
 	var svg = d3.select("#canvas")
 		.style("width",500)
 		.style("height",400)
-		.style("background-color","steelblue")
+		.style("background-color","#91B6D4")
 	var glo = new GLO.GLO(svg)
 		.nodes(test_nodes)
 		.edges(test_edges)
