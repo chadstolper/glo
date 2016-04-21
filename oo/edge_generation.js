@@ -77,22 +77,22 @@ GLO.EdgeGeneration.prototype.init_draw = function(){
 		.style("fill", "none")
 		.on("mouseover",function(d){
 			self.source_generation().select('[nodeid="'+d.source.id+'"]')
-				.attr("fill", function(d){
-					return d3.rgb(d.fill_list[self.source_generation().gen_id]).brighter()
+				.attr("fill", function(n){
+					return d3.rgb(n.fill_list[self.source_generation().gen_id]).brighter()
 				} )
 			self.target_generation().select('[nodeid="'+d.target.id+'"]')
-				.attr("fill", function(d){
-					return d3.rgb(d.fill_list[self.target_generation().gen_id]).brighter()
+				.attr("fill", function(n){
+					return d3.rgb(n.fill_list[self.target_generation().gen_id]).brighter()
 				} )
 		})
 		.on("mouseout",function(d){
 			self.source_generation().select('[nodeid="'+d.source.id+'"]')
-				.attr("fill", function(d){
-					return d.fill_list[self.source_generation().gen_id]
+				.attr("fill", function(n){
+					return n.fill_list[self.source_generation().gen_id]
 				} )
 			self.target_generation().select('[nodeid="'+d.target.id+'"]')
-				.attr("fill", function(d){
-					return d.fill_list[self.target_generation().gen_id]
+				.attr("fill", function(n){
+					return n.fill_list[self.target_generation().gen_id]
 				} )
 		})
 		

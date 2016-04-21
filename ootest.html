@@ -17,6 +17,18 @@
 <script src="oo/api.js"></script>
 
 
+<style>
+	.axis {
+		shape-rendering: crispEdges;
+		font-size: 6pt;
+	}
+
+	.axis line, .axis path {
+		fill: none;
+		stroke: #000;
+	}
+</style>
+
 <script>
 	var test_nodes = [
 		{id:0, name:"Coconut", color:"brown", size:-5},
@@ -49,4 +61,8 @@
 		.edge_attr(test_edge_attr)
 		.draw()
 			.color_nodes_by("color")
+			.position_nodes_on("y","name")
+			.show_axis("y")
+			.position_nodes_on("x","name")
+			.show_axis("x")
 </script>

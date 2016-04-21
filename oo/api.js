@@ -100,6 +100,7 @@ GLO.GLO.prototype.align_edges = function(dir,opts){
 */
 GLO.GLO.prototype.align_nodes = function(dir,opts){
 	this.active_node_generation().align(dir)
+	return this
 }
 
 
@@ -220,7 +221,9 @@ GLO.GLO.prototype.select_node_generation = function(gen,opts){
 	
 */
 GLO.GLO.prototype.set_source_generation = function(gen,opts){
-	TODO("set_source_generation")
+	var gen_inst = this.active_canvas().node_generations[gen]
+	this.active_edge_generation().source_generation(gen_inst)
+	return this
 }
 
 //217	set target generation {num}
@@ -228,7 +231,9 @@ GLO.GLO.prototype.set_source_generation = function(gen,opts){
 	
 */
 GLO.GLO.prototype.set_target_generation = function(gen,opts){
-	TODO("set_target_generation")
+	var gen_inst = this.active_canvas().node_generations[gen]
+	this.active_edge_generation().target_generation(gen_inst)
+	return this
 }
 
 
@@ -754,7 +759,14 @@ GLO.GLO.prototype.hide_meta_axis = function(axis,opts){
 	
 */
 GLO.GLO.prototype.show_axis = function(axis,opts){
-	TODO("show_axis")
+	if(axis=="x"){
+		this.active_canvas().show_x_axis(true)
+	}else if(axis=="y"){
+		this.active_canvas().show_y_axis(true)
+	}else{
+		throw "Invalid axis for showing. Only x and y permitted."
+	}
+	return this
 }
 
 
@@ -763,7 +775,14 @@ GLO.GLO.prototype.show_axis = function(axis,opts){
 	
 */
 GLO.GLO.prototype.hide_axis = function(axis,opts){
-	TODO("hide_axis")
+	if(axis=="x"){
+		this.active_canvas().show_x_axis(false)
+	}else if(axis=="y"){
+		this.active_canvas().show_y_axis(false)
+	}else{
+		throw "Invalid axis for showing. Only x and y permitted."
+	}
+	return this
 }
 
 

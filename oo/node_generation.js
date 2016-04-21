@@ -303,6 +303,13 @@ GLO.NodeGeneration.prototype.position_by_continuous = function(axis,attr){
 		})
 	}
 
+	if(axis=="x"){
+		this.canvas.x_axis_gen(this)
+	}
+	if(axis=="y"){
+		this.canvas.y_axis_gen(this)
+	}
+
 	this.update()
 	return this
 }
@@ -362,6 +369,13 @@ GLO.NodeGeneration.prototype.position_by_discrete = function(axis,attr){
 		})
 	}
 
+	if(axis=="x"){
+		this.canvas.x_axis_gen(this)
+	}
+	if(axis=="y"){
+		this.canvas.y_axis_gen(this)
+	}
+
 	this.update()
 	return this
 }
@@ -406,6 +420,13 @@ GLO.NodeGeneration.prototype.position_by_constant = function(axis,constant){
 			d.x_list[self.gen_id] = new_coords.x
 			d.y_list[self.gen_id] = new_coords.y
 		})
+	}
+
+	if(axis=="x"){
+		this.canvas.x_axis_gen(this)
+	}
+	if(axis=="y"){
+		this.canvas.y_axis_gen(this)
 	}
 
 	this.update()
@@ -478,6 +499,12 @@ GLO.NodeGeneration.prototype.distribute = function(axis,by_prop){
 		})
 	}
 
+	if(axis=="x"){
+		this.canvas.x_axis_gen(this)
+	}
+	if(axis=="y"){
+		this.canvas.y_axis_gen(this)
+	}
 
 	this.update()
 	return this
@@ -529,6 +556,13 @@ GLO.NodeGeneration.prototype.align = function(dir){
 			.each(function(d){
 				d.x_list[self.gen_id] = self.canvas.right()
 			})
+	}
+
+	if(dir=="top" || dir=="middle" || dir=="bottom"){
+		this.canvas.y_axis_gen(this)
+	}
+	if(axis=="left" || axis=="center" || axis=="right"){
+		this.canvas.x_axis_gen(this)
 	}
 
 	this.update()
