@@ -18,7 +18,16 @@ GLO.NodeGeneration = function(canvas, nodes, is_aggregated){
 }
 
 GLO.NodeGeneration.prototype.default_r = 5
+GLO.NodeGeneration.prototype.default_fill = "#333"
 
+
+GLO.NodeGeneration.prototype.select = function(str){
+	return this.node_g.select(str)
+}
+
+GLO.NodeGeneration.prototype.selectAll = function(str){
+	return this.node_g.selectAll(str)
+}
 
 GLO.NodeGeneration.prototype.update = function(){
 	var self = this
@@ -77,7 +86,10 @@ GLO.NodeGeneration.prototype.init_draw = function(){
 			d.rho_list[self.gen_id] = 0
 			d.theta_list[self.gen_id] = Math.PI/2
 		})
-		.attr("fill", "black")
+		.attr("fill", function(d){
+			d.fill_list[self.gen_id] = self.default_fill
+			return d.fill_list[self.gen_id]
+		})
 
 	return this
 }
@@ -142,10 +154,9 @@ GLO.NodeGeneration.prototype.position_on = function(axis,val){
 
 GLO.NodeGeneration.prototype.position_by_attr = function(axis,attr){
 	var type = this.canvas.glo.node_attr()[attr]
-	console.log(type)
 	if(type == "continuous"){
 		this.position_by_continuous(axis,attr)
-	}else if(type == "discrete"){
+	}else if(type == "discrete" || type=="color"){
 		this.position_by_discrete(axis,attr)
 	}else{
 		throw "Undefined Attribute Error"

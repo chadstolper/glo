@@ -10,7 +10,7 @@ GLO.EdgeGeneration = function(canvas, edges, is_aggregated){
 	return this
 }
 
-GLO.EdgeGeneration.prototype.default_stroke_width = 1;
+GLO.EdgeGeneration.prototype.default_stroke_width = 3;
 GLO.EdgeGeneration.prototype.default_stroke = "black";
 
 
@@ -66,20 +66,34 @@ GLO.EdgeGeneration.prototype.init_draw = function(){
 	this.edge_glyphs.enter().append("svg:path")
 		.classed("edge",true)
 		.classed("edgegen-"+this.gen_id, true)
-		.style("stroke-width", this.default_stroke_width)
-		.style("stroke", this.default_stroke)
+		.style("stroke-width", function(d){
+			d.stroke_width_list[self.gen_id] = self.default_stroke_width
+			return d.stroke_width_list[self.gen_id]
+		})
+		.style("stroke", function(d){
+			d.stroke_list[self.gen_id] = self.default_stroke
+			return d.stroke_list[self.gen_id]
+		})
 		.style("fill", "none")
 		.on("mouseover",function(d){
-			d3.select('.node.gen-'+self.source_generation().gen_id+'[nodeid="'+d.source.id+'"]')
-				.attr("fill", "lightgrey" )
-			d3.select('.node.gen-'+self.target_generation().gen_id+'[nodeid="'+d.target.id+'"]')
-				.attr("fill", "lightgrey" )
+			self.source_generation().select('[nodeid="'+d.source.id+'"]')
+				.attr("fill", function(d){
+					return d3.rgb(d.fill_list[self.source_generation().gen_id]).brighter()
+				} )
+			self.target_generation().select('[nodeid="'+d.target.id+'"]')
+				.attr("fill", function(d){
+					return d3.rgb(d.fill_list[self.target_generation().gen_id]).brighter()
+				} )
 		})
 		.on("mouseout",function(d){
-			d3.select('.node.gen-'+self.source_generation().gen_id+'[nodeid="'+d.source.id+'"]')
-				.attr("fill", "black" )
-			d3.select('.node.gen-'+self.source_generation().gen_id+'[nodeid="'+d.target.id+'"]')
-				.attr("fill", "black" )
+			self.source_generation().select('[nodeid="'+d.source.id+'"]')
+				.attr("fill", function(d){
+					return d.fill_list[self.source_generation().gen_id]
+				} )
+			self.target_generation().select('[nodeid="'+d.target.id+'"]')
+				.attr("fill", function(d){
+					return d.fill_list[self.target_generation().gen_id]
+				} )
 		})
 		
 
