@@ -19,8 +19,8 @@
 
 <script>
 	var test_nodes = [
-		{id:0, name:"Coconut", color:"brown", size:5},
-		{id:1, name:"Banana", color:"yellow", size:15},
+		{id:0, name:"Coconut", color:"brown", size:-5},
+		{id:1, name:"Banana", color:"yellow", size:-15},
 		{id:2, name:"Apple", color:"red", size:30},
 		{id:3, name:"Donut", color:"pink", size:50}
 	];
@@ -48,4 +48,5 @@
 		.node_attr(test_node_attr)
 		.edge_attr(test_edge_attr)
 		.draw()
+			.color_nodes_by("color")
 </script>

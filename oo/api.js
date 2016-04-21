@@ -581,7 +581,8 @@ GLO.GLO.prototype.color_edges_by_constant = function(constant,opts){
 		divergent
 */
 GLO.GLO.prototype.color_nodes_by = function(attr,opts){
-	TODO("color_nodes_by")
+	this.active_node_generation().color_by(attr)
+	return this
 }
 
 //149	color nodes by {constant}

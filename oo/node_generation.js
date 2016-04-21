@@ -107,6 +107,85 @@ GLO.NodeGeneration.prototype.color_by_constant = function(constant){
 	return this
 }
 
+
+GLO.NodeGeneration.prototype.color_by = function(attr){
+	var self = this
+	var type = this.canvas.glo.node_attr()[attr]
+	if(type=="color"){
+		this.color_by_color_attr(attr)
+	}else if(type=="continuous"){
+		this.color_by_continuous(attr)
+	}else if(type=="discrete"){
+		this.color_by_discrete(attr)
+	}else{
+		throw "Unrecognized Type Error"
+	}
+
+	return this
+}
+
+GLO.NodeGeneration.prototype.color_by_continuous = function(attr){
+	var self = this
+
+	var extent = d3.extent(this.nodes.map(function(d){
+		return d[attr]
+	}))
+
+
+	var scale = d3.scale.linear()
+	if(extent[0]<=0 && extent[1]>=0){
+		scale
+			.domain([extent[0], 0, extent[1]])
+			.range(["red", "white", "blue"])
+	}else if(extent[0]>0){
+		scale
+			.domain(extent)
+			.range(["white", "blue"])
+	}else{// externt[0]<0
+		scale
+			.domain(extent)
+			.range(["red", "white"])
+	}
+	
+
+	this.nodes.forEach(function(d){
+		d.fill_list[self.gen_id] = scale(d[attr])
+	})
+
+	this.fill_scale = scale
+
+	this.update()
+	return this
+}
+
+GLO.NodeGeneration.prototype.color_by_discrete = function(attr){
+	var self = this
+
+	var scale = d3.scale.category20()
+
+	this.nodes.forEach(function(d){
+		d.fill_list[self.gen_id] = scale(d[attr])
+	})
+
+	this.fill_scale = scale
+
+	this.update()
+	return this
+}
+
+GLO.NodeGeneration.prototype.color_by_color_attr = function(attr){
+	var self = this
+
+	this.nodes.forEach(function(d){
+		d.fill_list[self.gen_id] = d[attr]
+	})
+
+	this.update()
+	return this
+}
+
+
+
 GLO.NodeGeneration.prototype.apply_force_directed = function(edges){
 	var self = this
 	var force = cola.d3adaptor()
