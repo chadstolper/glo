@@ -35,6 +35,7 @@ GLO.NodeGeneration.prototype.update = function(){
 		.attr("cx", function(d){ return d.x_list[self.gen_id]; })
 		.attr("cy", function(d){ return d.y_list[self.gen_id]; })
 		.attr("r", function(d){ return d.r_list[self.gen_id]; })
+		.attr("fill", function(d){ return d.fill_list[self.gen_id]; })
 
 	for(let edge_gen of this.edge_generation_listeners){
 		edge_gen.update()
@@ -94,6 +95,17 @@ GLO.NodeGeneration.prototype.init_draw = function(){
 	return this
 }
 
+
+GLO.NodeGeneration.prototype.color_by_constant = function(constant){
+	var self = this
+
+	this.nodes.forEach(function(d){
+		d.fill_list[self.gen_id] = constant
+	})
+
+	this.update()
+	return this
+}
 
 GLO.NodeGeneration.prototype.apply_force_directed = function(edges){
 	var self = this

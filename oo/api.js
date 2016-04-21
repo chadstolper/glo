@@ -590,7 +590,8 @@ GLO.GLO.prototype.color_nodes_by = function(attr,opts){
 	constant should be an HTML-recognizable color string
 */
 GLO.GLO.prototype.color_nodes_by_constant = function(constant,opts){
-	TODO("color_nodes_by_constant")
+	this.active_node_generation().color_by_constant(constant)
+	return this
 }
 
 
