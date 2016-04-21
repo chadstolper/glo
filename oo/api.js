@@ -142,7 +142,6 @@ GLO.GLO.prototype.evenly_distribute_edges_on = function(axis,opts){
 */
 GLO.GLO.prototype.evenly_distribute_nodes_on = function(axis,opts){
 	if(opts && opts.by){
-		print("I buy it")
 		this.active_node_generation().distribute(axis,opts.by)
 	}else{
 		this.active_node_generation().distribute(axis)

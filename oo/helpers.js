@@ -1,6 +1,5 @@
 // http://stackoverflow.com/questions/32219051/how-to-convert-cartesian-coordinates-to-polar-coordinates-in-js
 function cartesian2polar(x, y){
-	console.log(x,y)
 	var distance = Math.sqrt(x*x + y*y)
 	var radians = Math.atan2(y,x) //This takes y first
 	var polarCoor = { rho:distance, theta:radians }

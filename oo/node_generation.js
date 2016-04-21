@@ -140,8 +140,6 @@ GLO.NodeGeneration.prototype.distribute = function(axis,by_prop){
 		by_prop = "id"
 	}
 
-	console.log(by_prop)
-
 	self.nodes.sort(function(a,b){
 		var val
 		if(_.isNumber(a[by_prop])){
