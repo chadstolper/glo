@@ -131,6 +131,185 @@ GLO.NodeGeneration.prototype.theta_shift = function(d,new_theta){
 	return new_coords
 }
 
+GLO.NodeGeneration.prototype.position_on = function(axis,val){
+	if(_.isNumber(val)){
+		this.position_by_constant(axis,val)
+	}else{
+		this.position_by_attr(axis,val)
+	}
+	return this
+}
+
+GLO.NodeGeneration.prototype.position_by_attr = function(axis,attr){
+	var type = this.canvas.glo.node_attr()[attr]
+	console.log(type)
+	if(type == "continuous"){
+		this.position_by_continuous(axis,attr)
+	}else if(type == "discrete"){
+		this.position_by_discrete(axis,attr)
+	}else{
+		throw "Undefined Attribute Error"
+	}
+
+	return this
+}
+
+GLO.NodeGeneration.prototype.position_by_continuous = function(axis,attr){
+	var self = this
+
+	var scale = d3.scale.linear()
+		.domain(d3.extent(this.nodes.map(function(d){
+			return d[attr]
+		})))
+
+	if(axis=="x"){
+		this.x_scale = scale
+			.range([this.canvas.left(),this.canvas.right()])
+		
+		this.nodes.forEach(function(d){
+			d.x_list[self.gen_id] = scale(d[attr])
+		})
+	}
+	if(axis=="y"){
+		this.y_scale = scale
+			.range([this.canvas.bottom(),this.canvas.top()])
+		
+		this.nodes.forEach(function(d){
+			d.y_list[self.gen_id] = scale(d[attr])
+		})
+	}
+	if(axis=="rho"){
+		this.rho_scale = scale
+			.range([1,Math.min(this.canvas.canvas_width(),this.canvas.canvas_height())/2])
+	
+		this.nodes.forEach(function(d){
+			d.rho_list[self.gen_id] = scale(d[attr])
+			var new_coords = self.rho_shift(d, d.rho_list[self.gen_id])
+			d.x_list[self.gen_id] = new_coords.x
+			d.y_list[self.gen_id] = new_coords.y
+		})
+	}
+	if(axis=="theta"){
+		this.theta_scale = scale
+			.range([3*Math.PI/2,7*Math.PI/2])
+
+		this.nodes.forEach(function(d){
+			d.theta_list[self.gen_id] = scale(d[attr])
+			var new_coords = self.theta_shift(d, d.theta_list[self.gen_id])
+			d.x_list[self.gen_id] = new_coords.x
+			d.y_list[self.gen_id] = new_coords.y
+		})
+	}
+
+	this.update()
+	return this
+}
+
+GLO.NodeGeneration.prototype.position_by_discrete = function(axis,attr){
+	var self = this
+
+	var scale = d3.scale.ordinal()
+		.domain(this.nodes.map(function(d){
+			return d[attr]
+		}).sort(function(a,b){
+			var val
+			if(_.isNumber(a)){
+				val = a-b
+			}else{
+				val = a.localeCompare(b)
+			}
+			return val
+		}))
+
+	if(axis=="x"){
+		this.x_scale = scale
+			.rangePoints([this.canvas.left(),this.canvas.right()])
+		
+		this.nodes.forEach(function(d){
+			d.x_list[self.gen_id] = scale(d[attr])
+		})
+	}
+	if(axis=="y"){
+		this.y_scale = scale
+			.rangePoints([this.canvas.bottom(),this.canvas.top()])
+		
+		this.nodes.forEach(function(d){
+			d.y_list[self.gen_id] = scale(d[attr])
+		})
+	}
+	if(axis=="rho"){
+		this.rho_scale = scale
+			.rangePoints([1,Math.min(this.canvas.canvas_width(),this.canvas.canvas_height())/2])
+	
+		this.nodes.forEach(function(d){
+			d.rho_list[self.gen_id] = scale(d[attr])
+			var new_coords = self.rho_shift(d, d.rho_list[self.gen_id])
+			d.x_list[self.gen_id] = new_coords.x
+			d.y_list[self.gen_id] = new_coords.y
+		})
+	}
+	if(axis=="theta"){
+		this.theta_scale = scale
+			.rangeBands([3*Math.PI/2,7*Math.PI/2])
+
+		this.nodes.forEach(function(d){
+			d.theta_list[self.gen_id] = scale(d[attr])
+			var new_coords = self.theta_shift(d, d.theta_list[self.gen_id])
+			d.x_list[self.gen_id] = new_coords.x
+			d.y_list[self.gen_id] = new_coords.y
+		})
+	}
+
+	this.update()
+	return this
+}
+
+
+
+GLO.NodeGeneration.prototype.position_by_constant = function(axis,constant){
+	var self = this
+
+	var scale = d3.scale.linear()
+
+	if(axis=="x"){
+		this.x_scale = scale
+		this.nodes.forEach(function(d){
+			d.x_list[self.gen_id] = constant
+		})
+	}
+
+	if(axis=="y"){
+		this.y_scale = scale
+		this.nodes.forEach(function(d){
+			d.y_list[self.gen_id] = constant
+		})
+	}
+
+	if(axis=="rho"){
+		this.rho_scale = scale
+		this.nodes.forEach(function(d){
+			d.rho_list[self.gen_id] = constant
+			var new_coords = self.rho_shift(d, d.rho_list[self.gen_id])
+			d.x_list[self.gen_id] = new_coords.x
+			d.y_list[self.gen_id] = new_coords.y
+		})
+	}
+
+	if(axis=="theta"){
+		this.theta_scale = scale
+
+		this.nodes.forEach(function(d){
+			d.theta_list[self.gen_id] = constant*(Math.PI/180)
+			var new_coords = self.theta_shift(d, d.theta_list[self.gen_id])
+			d.x_list[self.gen_id] = new_coords.x
+			d.y_list[self.gen_id] = new_coords.y
+		})
+	}
+
+	this.update()
+	return this
+}
+
 
 GLO.NodeGeneration.prototype.distribute = function(axis,by_prop){
 	var self = this
@@ -201,6 +380,8 @@ GLO.NodeGeneration.prototype.distribute = function(axis,by_prop){
 	this.update()
 	return this
 }
+
+
 
 
 GLO.NodeGeneration.prototype.align = function(dir){

@@ -114,10 +114,12 @@ GLO.GLO.prototype.position_edges_by = function(xattr,yattr,opts){
 //728	position nodes on {axis} by {attr}
 //145	position nodes on {axis} by {constant}
 /*
-	attr is either a string attrID or a numerical constant
+	val is either a string attrID or a numerical constant
+	theta constants are expressed in degrees, not radians
 */
-GLO.GLO.prototype.position_nodes_on = function(axis,attr,opts){
-	TODO("position_nodes_on")
+GLO.GLO.prototype.position_nodes_on = function(axis,val,opts){
+	this.active_node_generation().position_on(axis,val)
+	return this
 }
 
 //29	position nodes {dir} on {axis} (by {attr})

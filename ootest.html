@@ -19,16 +19,24 @@
 
 <script>
 	var test_nodes = [
-		{id:0, name:"Coconut", color:"brown"},
-		{id:1, name:"Banana", color:"yellow"},
-		{id:2, name:"Apple", color:"red"},
-		{id:3, name:"Donut", color:"pink"}
+		{id:0, name:"Coconut", color:"brown", size:5},
+		{id:1, name:"Banana", color:"yellow", size:15},
+		{id:2, name:"Apple", color:"red", size:30},
+		{id:3, name:"Donut", color:"pink", size:50}
 	];
 	var test_edges = [
 		{id:0, source:0, target:2, weight:1.0},
 		{id:1, source:1, target:2, weight:2.0},
 		{id:2, source:2, target:3, weight:3.0}
-	]
+	];
+	var test_node_attr = {
+		name:"discrete",
+		color:"discrete",
+		size:"continuous"
+	};
+	var test_edge_attr = {
+		weight:"continuous"
+	}
 
 	var svg = d3.select("#canvas")
 		.style("width",500)
@@ -37,5 +45,7 @@
 	var glo = new GLO.GLO(svg)
 		.nodes(test_nodes)
 		.edges(test_edges)
+		.node_attr(test_node_attr)
+		.edge_attr(test_edge_attr)
 		.draw()
 </script>

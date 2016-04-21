@@ -76,6 +76,23 @@ GLO.GLO.prototype.edges = function(value){
 	return this
 }
 
+GLO.GLO.prototype.node_attr = function(value){
+	if(!value){
+		return this._node_attr
+	}
+	this._node_attr = value
+	this._node_attr.count = "continuous"
+	return this
+}
+
+GLO.GLO.prototype.edge_attr = function(value){
+	if(!value){
+		return this._edge_attr
+	}
+	this._edge_attr = value
+	return this
+}
+
 GLO.GLO.prototype.draw = function(){
 	this._init_graph()
 	this.canvases[0].init()
