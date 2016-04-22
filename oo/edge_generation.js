@@ -7,12 +7,16 @@ GLO.EdgeGeneration = function(canvas, edges, is_aggregated){
 
 	this.canvas.edge_generations[this.gen_id] = this
 
+	this.hscale = d3.scale.linear()
+		.range([3,this.max_link_curve_r])
+		.domain([0,Math.min(this.canvas.canvas_width(),this.canvas.canvas_height())])
+
 	return this
 }
 
 GLO.EdgeGeneration.prototype.default_stroke_width = 3;
 GLO.EdgeGeneration.prototype.default_stroke = "black";
-
+GLO.EdgeGeneration.prototype.max_link_curve_r = 11
 
 
 GLO.EdgeGeneration.prototype.source_generation = function(value){
@@ -123,6 +127,47 @@ GLO.EdgeGeneration.prototype.straight_lines = function(){
 			var cy = (d.endy(self) + d.starty(self))/2
 			
 			p += "Q"+cx+","+cy+" "
+			p += d.endx(self)+","+d.endy(self)
+
+
+			return p
+		});
+}
+
+
+
+
+
+GLO.EdgeGeneration.prototype.curved_lines = function(){
+	var self = this
+
+	this.edge_glyphs.transition()
+		.attr("d", function(d) {
+			var p = "M"+ d.startx(self) + "," + d.starty(self)
+
+			//control point
+			var cx = (d.endx(self) + d.startx(self))/2
+			var cy = (d.endy(self) + d.starty(self))/2
+			var dist = Math.abs(d.endx(self)-d.startx(self))+Math.abs(d.endy(self)-d.starty(self))
+			var h = self.hscale(dist)
+			var rise = Math.abs(d.endy(self)-d.starty(self))
+			var run = Math.abs(d.endx(self)-d.startx(self))
+			var dx, dy
+			
+			dx = (rise/(rise+run))*h
+			dy = -(run/(rise+run))*h
+			
+			//Curve up or curve down
+			var direction
+			var ydir = (d.startx(self)<d.endx(self))?1:-1
+			dy *= ydir
+			var xdir = (d.starty(self)<d.endy(self))?1:-1
+			dx *= xdir
+
+			var cx_prime = cx + (dx*h)
+			var cy_prime = cy + (dy*h)
+			
+			p += "Q"+cx_prime+","+cy_prime+" "
 			p += d.endx(self)+","+d.endy(self)
 
 

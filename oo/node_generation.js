@@ -561,7 +561,7 @@ GLO.NodeGeneration.prototype.align = function(dir){
 	if(dir=="top" || dir=="middle" || dir=="bottom"){
 		this.canvas.y_axis_gen(this)
 	}
-	if(axis=="left" || axis=="center" || axis=="right"){
+	if(dir=="left" || dir=="center" || dir=="right"){
 		this.canvas.x_axis_gen(this)
 	}
 

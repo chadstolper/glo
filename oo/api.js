@@ -384,7 +384,8 @@ GLO.GLO.prototype.display_edges_as_bars = function(opts){
 	
 */
 GLO.GLO.prototype.display_edges_as_curved_lines = function(opts){
-	TODO("display_edges_as_curved_lines")
+	this.active_edge_generation().edge_format("curved_lines")
+	return this
 }
 
 //28	display edges as in-out-links
