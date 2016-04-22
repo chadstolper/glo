@@ -417,7 +417,8 @@ GLO.GLO.prototype.display_edges_as_squares = function(opts){
 	
 */
 GLO.GLO.prototype.display_edges_as_straight_lines = function(opts){
-	TODO("display_edges_as_straight_lines")
+	this.active_edge_generation().edge_format("straight_lines")
+	return this
 }
 
 //28	display edges as y->x right-angles

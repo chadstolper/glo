@@ -44,8 +44,8 @@ GLO.EdgeGeneration.prototype.target_generation = function(value){
 
 
 GLO.EdgeGeneration.prototype.update = function(){
-	if(this.edge_mode){
-		this[this.edge_mode]()
+	if(this.edge_format()){
+		this[this.edge_format()]()
 	}
 	return this
 }
@@ -97,14 +97,22 @@ GLO.EdgeGeneration.prototype.init_draw = function(){
 		})
 		
 
-	this.straight_lines()
+	this.edge_format("straight_lines")
+}
+
+
+GLO.EdgeGeneration.prototype.edge_format = function(value){
+	if(typeof value === "undefined"){
+		return this._edge_format
+	}
+	this._edge_format = value
+	this.update()
+	return this
 }
 
 
 GLO.EdgeGeneration.prototype.straight_lines = function(){
 	var self = this
-
-	this.edge_mode = "straight_lines"
 
 	this.edge_glyphs.transition()
 		.attr("d", function(d) {
