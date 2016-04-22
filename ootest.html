@@ -1,4 +1,6 @@
-<svg id="canvas"></svg>
+<div id="svg-wrapper">
+	<svg id="canvas"></svg>
+</div>
 
 <script src="bower_components/d3/d3.js" charset="utf-8"></script>
 <script src="bower_components/jquery/dist/jquery.min.js"></script>
@@ -18,6 +20,11 @@
 
 
 <style>
+	#svg-wrapper {
+		border: 3px solid black;
+		display: inline-block;
+	}
+
 	.axis {
 		shape-rendering: crispEdges;
 		font-size: 6pt;
@@ -83,7 +90,6 @@
 					svg = d3.select("#canvas")
 						.style("width",500)
 						.style("height",400)
-						.style("background-color","#91B6D4")
 					glo = new GLO.GLO(svg)
 						.nodes(nodes)
 						.edges(edges)
