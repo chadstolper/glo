@@ -161,7 +161,7 @@ GLO.NodeGeneration.prototype.color_by_continuous = function(attr){
 GLO.NodeGeneration.prototype.color_by_discrete = function(attr){
 	var self = this
 
-	var scale = d3.scale.category20()
+	var scale = d3.scale.category10()
 
 	this.nodes.forEach(function(d){
 		d.fill_list[self.gen_id] = scale(d[attr])
