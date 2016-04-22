@@ -19,6 +19,8 @@ GLO.NodeGeneration = function(canvas, nodes, is_aggregated){
 
 GLO.NodeGeneration.prototype.default_r = 5
 GLO.NodeGeneration.prototype.default_fill = "#333"
+GLO.NodeGeneration.prototype.max_r = 45
+GLO.NodeGeneration.prototype.min_r = 2
 
 
 GLO.NodeGeneration.prototype.select = function(str){
@@ -95,6 +97,83 @@ GLO.NodeGeneration.prototype.init_draw = function(){
 	return this
 }
 
+GLO.NodeGeneration.prototype.size_by_constant = function(constant){
+	var self = this
+
+	this.nodes.forEach(function(d){
+		d.r_list[self.gen_id] = constant
+	})
+
+	this.update()
+	return this
+}
+
+GLO.NodeGeneration.prototype.size_by = function(attr){
+	var self = this
+	var type = this.canvas.glo.node_attr()[attr]
+	if(type=="continuous"){
+		this.size_by_continuous(attr)
+	}else if(type=="discrete"){
+		this.size_by_discrete(attr)
+	}else{
+		throw "Unrecognized Type Error"
+	}
+
+	return this
+}
+
+GLO.NodeGeneration.prototype.size_by_discrete = function(attr){
+	var self = this
+
+	var scale = d3.scale.ordinal()
+		.domain(this.nodes.map(function(d){
+			return d[attr]
+		}).sort(function(a,b){
+			var val
+			if(_.isNumber(a)){
+				val = a-b
+			}else{
+				val = a.localeCompare(b)
+			}
+			return val
+		}))
+
+	this.r_scale = scale
+		.rangePoints([this.min_r,this.max_r])
+	
+	this.nodes.forEach(function(d){
+		d.r_list[self.gen_id] = scale(d[attr])
+	})
+
+	this.update()
+	return this
+}
+
+
+GLO.NodeGeneration.prototype.size_by_continuous = function(attr){
+	var self = this
+	
+	var extent = d3.extent(this.nodes.map(function(d){
+		return d[attr]
+	}))
+
+
+	var scale = d3.scale.linear()
+		.domain(extent)
+		.range([this.min_r,this.max_r])
+	
+
+	this.nodes.forEach(function(d){
+		d.r_list[self.gen_id] = scale(d[attr])
+	})
+
+	this.r_scale = scale
+
+	this.update()
+	return this
+
+}
+
 
 GLO.NodeGeneration.prototype.color_by_constant = function(constant){
 	var self = this
@@ -106,6 +185,9 @@ GLO.NodeGeneration.prototype.color_by_constant = function(constant){
 	this.update()
 	return this
 }
+
+
+
 
 
 GLO.NodeGeneration.prototype.color_by = function(attr){

@@ -494,12 +494,18 @@ GLO.GLO.prototype.size_edges_by_attr = function(attr,opts){
 
 
 //242	size nodes by {attr}
-//162	size nodes by {constant}
 /*
-	attr can be either an attrID or a number
+	attr is a string attrID
 */
 GLO.GLO.prototype.size_nodes_by = function(attr,opts){
-	TODO("size_nodes_by")
+	this.active_node_generation().size_by(attr)
+	return this
+}
+
+//162	size nodes by {constant}
+GLO.GLO.prototype.size_nodes_by_constant = function(opts){
+	this.active_node_generation().size_by_constant(GLO.NodeGeneration.prototype.default_r)
+	return this
 }
 
 
@@ -597,8 +603,8 @@ GLO.GLO.prototype.color_nodes_by = function(attr,opts){
 	Colors nodes by a constant
 	constant should be an HTML-recognizable color string
 */
-GLO.GLO.prototype.color_nodes_by_constant = function(constant,opts){
-	this.active_node_generation().color_by_constant(constant)
+GLO.GLO.prototype.color_nodes_by_constant = function(opts){
+	this.active_node_generation().color_by_constant(GLO.NodeGeneration.prototype.default_fill)
 	return this
 }
 
