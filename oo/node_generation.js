@@ -264,6 +264,7 @@ GLO.NodeGeneration.prototype.position_by_continuous = function(axis,attr){
 			return d[attr]
 		})))
 
+
 	if(axis=="x"){
 		this.x_scale = scale
 			.range([this.canvas.left(),this.canvas.right()])
@@ -438,7 +439,7 @@ GLO.NodeGeneration.prototype.distribute = function(axis,by_prop){
 	var self = this
 
 
-	if(!by_prop){
+	if(typeof by_prop === "undefined"){
 		by_prop = "id"
 	}
 

@@ -30,39 +30,76 @@
 </style>
 
 <script>
-	var test_nodes = [
-		{id:0, name:"Coconut", color:"brown", size:-5},
-		{id:1, name:"Banana", color:"yellow", size:-15},
-		{id:2, name:"Apple", color:"red", size:30},
-		{id:3, name:"Donut", color:"pink", size:50}
-	];
-	var test_edges = [
-		{id:0, source:0, target:2, weight:1.0},
-		{id:1, source:1, target:2, weight:2.0},
-		{id:2, source:2, target:3, weight:3.0}
-	];
-	var test_node_attr = {
-		name:"discrete",
-		color:"color",
-		size:"continuous"
-	};
-	var test_edge_attr = {
-		weight:"continuous"
-	}
+	// var test_nodes = [
+	// 	{id:0, name:"Coconut", color:"brown", size:-5},
+	// 	{id:1, name:"Banana", color:"yellow", size:-15},
+	// 	{id:2, name:"Apple", color:"red", size:30},
+	// 	{id:3, name:"Donut", color:"pink", size:50}
+	// ];
+	// var test_edges = [
+	// 	{id:0, source:0, target:2, weight:1.0},
+	// 	{id:1, source:1, target:2, weight:2.0},
+	// 	{id:2, source:2, target:3, weight:3.0}
+	// ];
+	// var test_node_attr = {
+	// 	name:"discrete",
+	// 	color:"color",
+	// 	size:"continuous"
+	// };
+	// var test_edge_attr = {
+	// 	weight:"continuous"
+	// }
 
-	var svg = d3.select("#canvas")
-		.style("width",500)
-		.style("height",400)
-		.style("background-color","#91B6D4")
-	var glo = new GLO.GLO(svg)
-		.nodes(test_nodes)
-		.edges(test_edges)
-		.node_attr(test_node_attr)
-		.edge_attr(test_edge_attr)
-		.draw()
-			.color_nodes_by("color")
-			.position_nodes_on("y","name")
-			.show_axis("y")
-			.position_nodes_on("x","name")
-			.show_axis("x")
+	d3.csv('data/LesMis/nodes.csv', function(nodes){
+		d3.csv('data/LesMis/edges.csv', function(edges){
+			d3.json('data/LesMis/node_attr.json', function(node_attr){
+				d3.json('data/LesMis/edge_attr.json', function(edge_attr){
+					
+					nodes.forEach(function(d){
+						d.id = +d.id
+						d.modularity_class = +d.modularity_class
+						d.degree = +d.degree
+						d.weighted_degree = +d.weighted_degree
+						d.eccentricity = +d.eccentricity
+						d.closeness_centrality = +d.closeness_centrality
+						d.betweenness_centrality = +d.betweenness_centrality
+						d.authority = +d.authority
+						d.hub = +d.hub
+						d.page_rank = +d.page_rank
+						d.component_id = +d.component_id
+						d.clustering_coefficient = +d.clustering_coefficient
+						d.number_of_triangles = +d.number_of_triangles
+						d.eigenvector_centrality = +d.eigenvector_centrality
+					})
+
+					edges.forEach(function(d){
+						d.source = +d.source
+						d.target = +d.target
+						d.id = +d.id
+						d.weight = +d.weight
+					})
+					
+
+					svg = d3.select("#canvas")
+						.style("width",500)
+						.style("height",400)
+						.style("background-color","#91B6D4")
+					glo = new GLO.GLO(svg)
+						.nodes(nodes)
+						.edges(edges)
+						.node_attr(node_attr)
+						.edge_attr(edge_attr)
+						.draw()
+							.color_nodes_by("modularity_class")
+							.position_nodes_on("y","betweenness_centrality")
+							.show_axis("y")
+							.position_nodes_on("x","degree")
+							.show_axis("x")
+				})
+			})
+		})
+	})
+
+	
+
 </script>
