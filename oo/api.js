@@ -582,7 +582,7 @@ GLO.GLO.prototype.color_edges_by = function(attr,opts){
 	Colors edges by a constant
 	constant should be an HTML-recognizable color string
 */
-GLO.GLO.prototype.color_edges_by_constant = function(constant,opts){
+GLO.GLO.prototype.color_edges_by_constant = function(opts){
 	TODO("color_edges_by_constant")
 }
 
