@@ -583,7 +583,8 @@ GLO.GLO.prototype.color_edges_by = function(attr,opts){
 	constant should be an HTML-recognizable color string
 */
 GLO.GLO.prototype.color_edges_by_constant = function(opts){
-	TODO("color_edges_by_constant")
+	this.active_edge_generation().color_by_constant(GLO.EdgeGeneration.prototype.default_stroke)
+	return this
 }
 
 //144	color nodes by {attr}

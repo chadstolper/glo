@@ -72,6 +72,21 @@ GLO.EdgeGeneration.prototype.update = function(){
 }
 
 
+
+GLO.EdgeGeneration.prototype.color_by_constant = function(constant){
+	var self = this
+
+	this.edges.forEach(function(d){
+		d.stroke_list[self.gen_id] = constant
+	})
+
+	this.update()
+	return this
+}
+
+
+
+
 GLO.EdgeGeneration.prototype.init_svg = function(){
 	this.edge_g = this.canvas.chart.append("g")
 		.classed("edgeg",true)
