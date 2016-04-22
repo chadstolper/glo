@@ -11,6 +11,8 @@ GLO.EdgeGeneration = function(canvas, edges, is_aggregated){
 		.range([3,this.max_link_curve_r])
 		.domain([0,Math.min(this.canvas.canvas_width(),this.canvas.canvas_height())])
 
+	this._edge_format = "straight_lines"
+
 	return this
 }
 
@@ -48,9 +50,24 @@ GLO.EdgeGeneration.prototype.target_generation = function(value){
 
 
 GLO.EdgeGeneration.prototype.update = function(){
-	if(this.edge_format()){
-		this[this.edge_format()]()
-	}
+	var self = this
+
+	if(typeof this.edge_glyphs === "undefined"){ return this; }
+
+	// if(this.edge_format()){
+	// 	this[this.edge_format()]()
+	// }
+
+
+	this.edge_glyphs.transition()
+		.style("stroke-width", function(d){
+			return d.stroke_width_list[self.gen_id]
+		})
+		.style("stroke", function(d){
+			return d.stroke_list[self.gen_id]
+		})
+		.call(this[this.edge_format()].bind(self))
+
 	return this
 }
 
@@ -102,6 +119,8 @@ GLO.EdgeGeneration.prototype.init_draw = function(){
 		
 
 	this.edge_format("straight_lines")
+
+	return this
 }
 
 
@@ -115,10 +134,10 @@ GLO.EdgeGeneration.prototype.edge_format = function(value){
 }
 
 
-GLO.EdgeGeneration.prototype.straight_lines = function(){
+GLO.EdgeGeneration.prototype.straight_lines = function(selection){
 	var self = this
 
-	this.edge_glyphs.transition()
+	selection
 		.attr("d", function(d) {
 			var p = "M"+ d.startx(self) + "," + d.starty(self)
 
@@ -132,16 +151,18 @@ GLO.EdgeGeneration.prototype.straight_lines = function(){
 
 			return p
 		});
+
+	return this
 }
 
 
 
 
 
-GLO.EdgeGeneration.prototype.curved_lines = function(){
+GLO.EdgeGeneration.prototype.curved_lines = function(selection){
 	var self = this
 
-	this.edge_glyphs.transition()
+	selection
 		.attr("d", function(d) {
 			var p = "M"+ d.startx(self) + "," + d.starty(self)
 
@@ -173,4 +194,6 @@ GLO.EdgeGeneration.prototype.curved_lines = function(){
 
 			return p
 		});
+
+	return this
 }
