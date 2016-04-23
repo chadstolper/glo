@@ -701,6 +701,8 @@ GLO.NodeGeneration.prototype.distribute_on_within = function(axis,within_prop,by
 
 	}//end for(var dis in groups)
 
+
+	//Clear scales if necessary
 	if(axis=="x"){
 		var xscale = d3.scale.linear()
 			.range([this.canvas.left(),this.canvas.right()])
