@@ -271,8 +271,8 @@ GLO.NodeGeneration.prototype.color_by_color_attr = function(attr){
 GLO.NodeGeneration.prototype.apply_force_directed = function(edges){
 	var self = this
 	var force = cola.d3adaptor()
-		.linkDistance(70)
-		.size([self.canvas.width(),self.canvas.height()])
+		.linkDistance(48)
+		.size([self.canvas.canvas_width(),self.canvas.canvas_height()])
 		.nodes(self.nodes)
 		.links(edges)
 		.on('tick', function(){
@@ -283,6 +283,25 @@ GLO.NodeGeneration.prototype.apply_force_directed = function(edges){
 			self.update()
 		})
 		.start()
+
+	var xscale = d3.scale.linear()
+		.range([this.canvas.left(),this.canvas.right()])
+		.domain([0,1])
+
+	this.x_scale = xscale
+
+	var yscale = d3.scale.linear()
+		.range([this.canvas.bottom(),this.canvas.top()])
+		.domain([0,1])
+
+	this.y_scale = yscale
+
+	if(this.canvas.x_axis_gen()==this){
+		this.canvas.x_axis_gen(this)
+	}
+	if(this.canvas.y_axis_gen()==this){
+		this.canvas.y_axis_gen(this)
+	}
 
 	return this
 }
