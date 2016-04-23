@@ -9,7 +9,7 @@ function TODO(x) {
 	For each function, the final parameter is an optional options
 	parameter. It should be an object{} with any
 	combination of the three options:
-		* within:		discrete attribute name as string
+		* groupby:	discrete attribute name as string
 		* allgens:	boolean value, true to apply to all
 								generations in current canvas
 		* allparts:	boolean value, true to apply
@@ -148,6 +148,20 @@ GLO.GLO.prototype.evenly_distribute_nodes_on = function(axis,opts){
 		this.active_node_generation().distribute(axis,opts.by)
 	}else{
 		this.active_node_generation().distribute(axis)
+	}
+
+	return this
+
+}
+
+/*
+	opts includes by option
+*/
+GLO.GLO.prototype.evenly_distribute_nodes_on_within = function(axis,attr,opts){
+	if(opts && opts.by){
+		this.active_node_generation().distribute_on_within(axis,attr,opts.by)
+	}else{
+		this.active_node_generation().distribute_on_within(axis,attr)
 	}
 
 	return this
@@ -303,7 +317,7 @@ GLO.GLO.prototype.remove_all_cloned_nodes = function(opts){
 
 //29	draw convex hulls
 /*
-	within value in opts, otherwise convex hull for
+	groupby value in opts, otherwise convex hull for
 	all nodes
 */
 GLO.GLO.prototype.show_convex_hulls = function(opts){

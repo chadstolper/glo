@@ -612,6 +612,126 @@ GLO.NodeGeneration.prototype.distribute = function(axis,by_prop){
 	return this
 }
 
+/**
+	Returns a map of discrete_val --> [nodes]
+*/
+GLO.NodeGeneration.prototype._group_by = function(discrete){
+	var self = this
+
+	var groups = {}
+
+	this.nodes.forEach(function(d){
+		if(!groups[d[discrete]]){
+			groups[d[discrete]] = []
+		}
+		groups[d[discrete]].push(d)
+	})
+
+	return groups
+}
+
+
+GLO.NodeGeneration.prototype.distribute_on_within = function(axis,within_prop,by_prop){
+	var self = this
+
+	if(typeof by_prop === "undefined"){
+		by_prop = "id"
+	}
+
+	var groups = this._group_by(within_prop) //within_prop-->[nodes] map
+
+	for(var dis in groups){
+		var nodes = groups[dis]
+		nodes.sort(function(a,b){
+			var val
+			if(_.isNumber(a[by_prop])){
+				val = a[by_prop]-b[by_prop]
+			}else{
+				val = a[by_prop].localeCompare(b[by_prop])
+			}
+			if (val==0){
+				return a.id-b.id
+			}
+			return val
+		}).forEach(function(d,i){
+			d.index = i
+		})
+
+		var scale = d3.scale.ordinal()
+			.domain(_.range(nodes.length))
+
+		if(axis=="x"){
+			scale
+				.rangePoints([this.canvas.left(),this.canvas.right()])
+			
+			nodes.forEach(function(d){
+				d.x_list[self.gen_id] = scale(d.index)
+			})
+		}
+		if(axis=="y"){
+			scale
+				.rangePoints([this.canvas.bottom(),this.canvas.top()])
+			
+			nodes.forEach(function(d){
+				d.y_list[self.gen_id] = scale(d.index)
+			})
+		}
+		if(axis=="rho"){
+			rho_scale = scale
+				.rangePoints([1,Math.min(this.canvas.canvas_width(),this.canvas.canvas_height())/2])
+		
+			this.nodes.forEach(function(d){
+				d.rho_list[self.gen_id] = scale(d.index)
+				var new_coords = self.rho_shift(d, d.rho_list[self.gen_id])
+				d.x_list[self.gen_id] = new_coords.x
+				d.y_list[self.gen_id] = new_coords.y
+			})
+		}
+		if(axis=="theta"){
+			theta_scale = scale
+				.rangeBands([3*Math.PI/2,7*Math.PI/2])
+
+			nodes.forEach(function(d){
+				d.theta_list[self.gen_id] = scale(d.index)
+				var new_coords = self.theta_shift(d, d.theta_list[self.gen_id])
+				d.x_list[self.gen_id] = new_coords.x
+				d.y_list[self.gen_id] = new_coords.y
+			})
+		}
+
+	}//end for(var dis in groups)
+
+	if(axis=="x"){
+		var xscale = d3.scale.linear()
+			.range([this.canvas.left(),this.canvas.right()])
+			.domain([0,1])
+
+		this.x_scale = xscale
+		if(this.canvas.x_axis_gen()==this){
+			this.canvas.x_axis_gen(this)
+		}
+	}
+	
+	if(axis=="y"){
+		var yscale = d3.scale.linear()
+			.range([this.canvas.bottom(),this.canvas.top()])
+			.domain([0,1])
+
+		this.y_scale = yscale
+
+		
+		if(this.canvas.y_axis_gen()==this){
+			this.canvas.y_axis_gen(this)
+		}
+	}
+
+	
+
+	this.update()
+	return this
+
+}
+
 
 
 
