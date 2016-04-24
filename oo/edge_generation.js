@@ -16,8 +16,10 @@ GLO.EdgeGeneration = function(canvas, edges, is_aggregated){
 	return this
 }
 
-GLO.EdgeGeneration.prototype.default_stroke_width = 3;
+GLO.EdgeGeneration.prototype.default_stroke_width = 2;
 GLO.EdgeGeneration.prototype.default_stroke = "black";
+GLO.EdgeGeneration.prototype.default_opacity = 0.5
+
 GLO.EdgeGeneration.prototype.max_link_curve_r = 11
 
 
@@ -66,6 +68,7 @@ GLO.EdgeGeneration.prototype.update = function(){
 		.style("stroke", function(d){
 			return d.stroke_list[self.gen_id]
 		})
+		.style("opacity", self.default_opacity)
 		.call(this[this.edge_format()].bind(self))
 
 	return this
@@ -165,7 +168,9 @@ GLO.EdgeGeneration.prototype.straight_lines = function(selection){
 
 
 			return p
-		});
+		})
+		.call(this.directional_gradient.bind(self))
+
 
 	return this
 }
@@ -208,7 +213,45 @@ GLO.EdgeGeneration.prototype.curved_lines = function(selection){
 
 
 			return p
-		});
+		})
+		.call(this.directional_gradient.bind(self))
 
 	return this
+}
+
+
+GLO.EdgeGeneration.prototype.directional_gradient = function(selection){
+	var self = this
+
+	selection.style("stroke",function(d){
+    if(d.endx(self)==d.startx(self)){
+      if(d.endy(self)<d.starty(self)){
+        return "url(#up)"
+      }else{
+        return "url(#down)"
+      }
+    }
+    if(d.endy(self)==d.starty(self)){
+       if(d.endx(self)<d.startx(self)){
+        return "url(#right)"
+      }else{
+        return "url(#left)"
+      }
+    }
+    if(d.endx(self)<d.startx(self)){
+      if(d.endy(self)<d.starty(self)){
+        return "url(#nxny)"
+      }else{
+        return "url(#nxpy)"
+      }
+    }else{
+      if(d.endy(self)<d.starty(self)){
+        return "url(#pxny)"
+      }else{
+        return "url(#pxpy)"
+      }
+    }
+  })
+
+  return this
 }
