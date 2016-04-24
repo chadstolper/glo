@@ -13,6 +13,13 @@ GLO.NodeGeneration = function(canvas, nodes, is_aggregated){
 
 	this.edge_generation_listeners = new Set()
 
+	this.x_scale = d3.scale.linear()
+		.range([this.canvas.left(),this.canvas.right()])
+		.domain([0,1])
+
+	this.y_scale = d3.scale.linear()
+		.range([this.canvas.bottom(),this.canvas.top()])
+		.domain([0,1])
 
 	return this
 }
