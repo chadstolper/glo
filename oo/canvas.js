@@ -190,12 +190,7 @@ GLO.Canvas.prototype.right = function(){
 
 
 
-GLO.Canvas.prototype.init = function(){
-	this.chart = this.glo.svg.append("g")
-		.attr("transform","translate("+this.x_offset()+","+this.y_offset()+")")
-
-
-	//debug markers
+GLO.Canvas.prototype._draw_debug_markers = function(){
 	this.chart.append("circle")
 		.attr("cx", this.center())
 		.attr("cy", this.middle())
@@ -217,8 +212,16 @@ GLO.Canvas.prototype.init = function(){
 		.attr("y2", this.bottom())
 		.style("stroke", "blue")
 		.style("stroke-width", 1)
+}
 
-	//end debug markers
+
+GLO.Canvas.prototype.init = function(){
+	this.chart = this.glo.svg.append("g")
+		.attr("transform","translate("+this.x_offset()+","+this.y_offset()+")")
+
+
+	this._draw_debug_markers()
+
 
 
 
