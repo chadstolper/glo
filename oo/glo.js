@@ -116,6 +116,8 @@ GLO.GLO.prototype._init_graph = function(){
 		e.stroke_list = {}
 		e.stroke_width_list = {}
 
+		e.display_list = {}
+
 		e.startx = function(edge_gen){ return this.source.x_list[edge_gen.source_generation().gen_id]; }
 		e.starty = function(edge_gen){ return this.source.y_list[edge_gen.source_generation().gen_id]; }
 		e.endx = function(edge_gen){ return this.target.x_list[edge_gen.target_generation().gen_id]; }
@@ -130,6 +132,8 @@ GLO.GLO.prototype._init_graph = function(){
 		d.r_list = {}
 		d.rho_list = {}
 		d.theta_list = {}
+
+		d.hover_list = {}
 
 		d.fill_list = {}
 	})

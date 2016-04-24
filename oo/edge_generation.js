@@ -12,6 +12,7 @@ GLO.EdgeGeneration = function(canvas, edges, is_aggregated){
 		.domain([0,Math.min(this.canvas.canvas_width(),this.canvas.canvas_height())])
 
 	this._edge_format = "straight_lines"
+	this._show_mode = "show_all_edges"
 
 	return this
 }
@@ -60,6 +61,7 @@ GLO.EdgeGeneration.prototype.update = function(){
 	// 	this[this.edge_format()]()
 	// }
 
+	this[this.show_mode()]()
 
 	this.edge_glyphs.transition()
 		.style("stroke-width", function(d){
@@ -68,8 +70,12 @@ GLO.EdgeGeneration.prototype.update = function(){
 		.style("stroke", function(d){
 			return d.stroke_list[self.gen_id]
 		})
+		.style("display", function(d){
+			return d.display_list[self.gen_id]
+		})
 		.style("opacity", self.default_opacity)
 		.call(this[this.edge_format()].bind(self))
+
 
 	return this
 }
@@ -114,6 +120,10 @@ GLO.EdgeGeneration.prototype.init_draw = function(){
 			return d.stroke_list[self.gen_id]
 		})
 		.style("fill", "none")
+		.style("display", function(d){
+			d.display_list[self.gen_id] = null
+			return d.display_list[self.gen_id]
+		})
 		.on("mouseover",function(d){
 			self.source_generation().select('[nodeid="'+d.source.id+'"]')
 				.attr("fill", function(n){
@@ -224,34 +234,75 @@ GLO.EdgeGeneration.prototype.directional_gradient = function(selection){
 	var self = this
 
 	selection.style("stroke",function(d){
-    if(d.endx(self)==d.startx(self)){
-      if(d.endy(self)<d.starty(self)){
-        return "url(#up)"
-      }else{
-        return "url(#down)"
-      }
-    }
-    if(d.endy(self)==d.starty(self)){
-       if(d.endx(self)<d.startx(self)){
-        return "url(#right)"
-      }else{
-        return "url(#left)"
-      }
-    }
-    if(d.endx(self)<d.startx(self)){
-      if(d.endy(self)<d.starty(self)){
-        return "url(#nxny)"
-      }else{
-        return "url(#nxpy)"
-      }
-    }else{
-      if(d.endy(self)<d.starty(self)){
-        return "url(#pxny)"
-      }else{
-        return "url(#pxpy)"
-      }
-    }
-  })
+		if(d.endx(self)==d.startx(self)){
+			if(d.endy(self)<d.starty(self)){
+				return "url(#up)"
+			}else{
+				return "url(#down)"
+			}
+		}
+		if(d.endy(self)==d.starty(self)){
+			 if(d.endx(self)<d.startx(self)){
+				return "url(#right)"
+			}else{
+				return "url(#left)"
+			}
+		}
+		if(d.endx(self)<d.startx(self)){
+			if(d.endy(self)<d.starty(self)){
+				return "url(#nxny)"
+			}else{
+				return "url(#nxpy)"
+			}
+		}else{
+			if(d.endy(self)<d.starty(self)){
+				return "url(#pxny)"
+			}else{
+				return "url(#pxpy)"
+			}
+		}
+	})
 
-  return this
+	return this
+}
+
+
+
+GLO.EdgeGeneration.prototype.show_mode = function(value){
+	if(typeof value === "undefined"){
+		return this._show_mode
+	}
+	this._show_mode = value
+
+	this.update()
+	return this
+}
+
+
+
+GLO.EdgeGeneration.prototype.show_all_edges = function(){
+	var self = this
+
+	this.edges.forEach(function(d){
+		d.display_list[self.gen_id] = null
+	})
+
+	return this
+}
+
+
+GLO.EdgeGeneration.prototype.show_incident_edges = function(){
+	var self = this
+
+	this.edges.forEach(function(d){
+		var source_hover = d.source.hover_list[self.source_generation().gen_id]
+		var target_hover = d.target.hover_list[self.target_generation().gen_id]
+		if(source_hover || target_hover){
+			d.display_list[self.gen_id] = null
+		}else{
+			d.display_list[self.gen_id] = "none"
+		}
+	})
+
+	return this
 }

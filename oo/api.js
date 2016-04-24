@@ -339,7 +339,8 @@ GLO.GLO.prototype.hide_convex_hulls = function(opts){
 	
 */
 GLO.GLO.prototype.show_all_edges = function(opts){
-	TODO("show_all_edges")
+	this.active_edge_generation().show_mode("show_all_edges")
+	return this
 }
 
 //27	show edges as faded
@@ -373,7 +374,8 @@ GLO.GLO.prototype.show_faded_and_incident_edges = function(opts){
 	to mousedover node shown as solid
 */
 GLO.GLO.prototype.show_incident_edges = function(opts){
-	TODO("show_incident_edges")
+	this.active_edge_generation().show_mode("show_incident_edges")
+	return this
 }
 
 

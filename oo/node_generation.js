@@ -73,6 +73,8 @@ GLO.NodeGeneration.prototype.init_draw = function(){
 		.classed("node",true)
 		.classed("gen-"+this.gen_id,true)
 		.attr("nodeid", function(d){return d.id})
+	
+	this.node_glyphs
 		.attr("r",function(d){
 			d.r_list[self.gen_id] = self.default_r
 			return d.r_list[self.gen_id]
@@ -92,6 +94,17 @@ GLO.NodeGeneration.prototype.init_draw = function(){
 		.attr("fill", function(d){
 			d.fill_list[self.gen_id] = self.default_fill
 			return d.fill_list[self.gen_id]
+		})
+		.each(function(d){
+			d.hover_list[self.gen_id] = false
+		})
+		.on('mouseover', function(d){
+			d.hover_list[self.gen_id] = true
+			self.update()
+		})
+		.on('mouseout', function(d){
+			d.hover_list[self.gen_id] = false
+			self.update()
 		})
 
 	return this
@@ -152,7 +165,7 @@ GLO.NodeGeneration.prototype.size_by_discrete = function(attr){
 
 GLO.NodeGeneration.prototype.size_by_continuous = function(attr){
 	var self = this
-	
+
 	var extent = d3.extent(this.nodes.map(function(d){
 		return d[attr]
 	}))
