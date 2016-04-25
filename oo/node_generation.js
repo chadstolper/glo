@@ -28,6 +28,7 @@ GLO.NodeGeneration.prototype.default_r = 5
 GLO.NodeGeneration.prototype.default_fill = "#333"
 GLO.NodeGeneration.prototype.max_r = 45
 GLO.NodeGeneration.prototype.min_r = 2
+GLO.NodeGeneration.prototype.discrete_range_padding = 1.0;
 
 
 GLO.NodeGeneration.prototype.select = function(str){
@@ -454,7 +455,7 @@ GLO.NodeGeneration.prototype.position_by_discrete = function(axis,attr){
 
 	if(axis=="x"){
 		this.x_scale = scale
-			.rangePoints([this.canvas.left(),this.canvas.right()])
+			.rangePoints([this.canvas.left(),this.canvas.right()],this.discrete_range_padding)
 		
 		this.nodes.forEach(function(d){
 			d.x_list[self.gen_id] = scale(d[attr])
@@ -462,7 +463,7 @@ GLO.NodeGeneration.prototype.position_by_discrete = function(axis,attr){
 	}
 	if(axis=="y"){
 		this.y_scale = scale
-			.rangePoints([this.canvas.bottom(),this.canvas.top()])
+			.rangePoints([this.canvas.bottom(),this.canvas.top()],this.discrete_range_padding)
 		
 		this.nodes.forEach(function(d){
 			d.y_list[self.gen_id] = scale(d[attr])
@@ -470,7 +471,7 @@ GLO.NodeGeneration.prototype.position_by_discrete = function(axis,attr){
 	}
 	if(axis=="rho"){
 		this.rho_scale = scale
-			.rangePoints([1,Math.min(this.canvas.canvas_width(),this.canvas.canvas_height())/2])
+			.rangePoints([1,Math.min(this.canvas.canvas_width(),this.canvas.canvas_height())/2],this.discrete_range_padding)
 	
 		this.nodes.forEach(function(d){
 			d.rho_list[self.gen_id] = scale(d[attr])
@@ -481,7 +482,7 @@ GLO.NodeGeneration.prototype.position_by_discrete = function(axis,attr){
 	}
 	if(axis=="theta"){
 		this.theta_scale = scale
-			.rangeBands([3*Math.PI/2,7*Math.PI/2])
+			.rangeBands([3*Math.PI/2,7*Math.PI/2],this.discrete_range_padding)
 
 		this.nodes.forEach(function(d){
 			d.theta_list[self.gen_id] = scale(d[attr])
@@ -584,7 +585,7 @@ GLO.NodeGeneration.prototype.distribute = function(axis,by_prop){
 
 	if(axis=="x"){
 		this.x_scale = scale
-			.rangePoints([this.canvas.left(),this.canvas.right()])
+			.rangePoints([this.canvas.left(),this.canvas.right()],this.discrete_range_padding)
 		
 		this.nodes.forEach(function(d){
 			d.x_list[self.gen_id] = scale(d.index)
@@ -592,7 +593,7 @@ GLO.NodeGeneration.prototype.distribute = function(axis,by_prop){
 	}
 	if(axis=="y"){
 		this.y_scale = scale
-			.rangePoints([this.canvas.bottom(),this.canvas.top()])
+			.rangePoints([this.canvas.bottom(),this.canvas.top()],this.discrete_range_padding)
 		
 		this.nodes.forEach(function(d){
 			d.y_list[self.gen_id] = scale(d.index)
@@ -600,7 +601,7 @@ GLO.NodeGeneration.prototype.distribute = function(axis,by_prop){
 	}
 	if(axis=="rho"){
 		this.rho_scale = scale
-			.rangePoints([1,Math.min(this.canvas.canvas_width(),this.canvas.canvas_height())/2])
+			.rangePoints([1,Math.min(this.canvas.canvas_width(),this.canvas.canvas_height())/2],this.discrete_range_padding)
 	
 		this.nodes.forEach(function(d){
 			d.rho_list[self.gen_id] = scale(d.index)
@@ -611,7 +612,7 @@ GLO.NodeGeneration.prototype.distribute = function(axis,by_prop){
 	}
 	if(axis=="theta"){
 		this.theta_scale = scale
-			.rangeBands([3*Math.PI/2,7*Math.PI/2])
+			.rangeBands([3*Math.PI/2,7*Math.PI/2],this.discrete_range_padding)
 
 		this.nodes.forEach(function(d){
 			d.theta_list[self.gen_id] = scale(d.index)
@@ -682,7 +683,7 @@ GLO.NodeGeneration.prototype.distribute_on_within = function(axis,within_prop,by
 
 		if(axis=="x"){
 			scale
-				.rangePoints([this.canvas.left(),this.canvas.right()])
+				.rangePoints([this.canvas.left(),this.canvas.right()],this.discrete_range_padding)
 			
 			nodes.forEach(function(d){
 				d.x_list[self.gen_id] = scale(d.index)
@@ -690,7 +691,7 @@ GLO.NodeGeneration.prototype.distribute_on_within = function(axis,within_prop,by
 		}
 		if(axis=="y"){
 			scale
-				.rangePoints([this.canvas.bottom(),this.canvas.top()])
+				.rangePoints([this.canvas.bottom(),this.canvas.top()],this.discrete_range_padding)
 			
 			nodes.forEach(function(d){
 				d.y_list[self.gen_id] = scale(d.index)
@@ -698,7 +699,7 @@ GLO.NodeGeneration.prototype.distribute_on_within = function(axis,within_prop,by
 		}
 		if(axis=="rho"){
 			rho_scale = scale
-				.rangePoints([1,Math.min(this.canvas.canvas_width(),this.canvas.canvas_height())/2])
+				.rangePoints([1,Math.min(this.canvas.canvas_width(),this.canvas.canvas_height())/2],this.discrete_range_padding)
 		
 			this.nodes.forEach(function(d){
 				d.rho_list[self.gen_id] = scale(d.index)
@@ -709,7 +710,7 @@ GLO.NodeGeneration.prototype.distribute_on_within = function(axis,within_prop,by
 		}
 		if(axis=="theta"){
 			theta_scale = scale
-				.rangeBands([3*Math.PI/2,7*Math.PI/2])
+				.rangeBands([3*Math.PI/2,7*Math.PI/2],this.discrete_range_padding)
 
 			nodes.forEach(function(d){
 				d.theta_list[self.gen_id] = scale(d.index)
