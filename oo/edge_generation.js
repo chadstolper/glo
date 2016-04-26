@@ -172,6 +172,27 @@ GLO.EdgeGeneration.prototype.size_by_continuous = function(attr){
 
 }
 
+GLO.EdgeGeneration.prototype.deaggregate = function(){
+	if(!this.is_aggregated){ return this; }
+
+	var self = this
+
+	var source_gen = this.aggregate_source_generation
+	console.log(source_gen)
+	//Remove the glyphs
+	self.edge_g.remove()
+
+	//Remove pointer to the generation
+	delete self.canvas.edge_generations[self.gen_id]
+
+
+	self.canvas.active_edge_generation(source_gen)
+	source_gen.edge_g.style("display", null)
+	source_gen.update()
+
+	return source_gen
+}
+
 
 GLO.EdgeGeneration.prototype.get_root_source_gen = function(){
 	if(!this.is_aggregated){
@@ -258,6 +279,8 @@ GLO.EdgeGeneration.prototype.aggregate = function(attr,method){
 
 	var agg_gen = new GLO.EdgeGeneration(this.canvas, new_edge_arr, true)
 	agg_gen.aggregate_edge_map = new Map() //(edge in this gen,past gen) --> list(nodes in old gen)
+
+	agg_gen.aggregate_source_generation = this
 
 	var id_counter = 0
 	for(var key in agg_edges){

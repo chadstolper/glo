@@ -44,7 +44,8 @@ GLO.GLO.prototype.aggregate_edges_by = function(attr,method,opts){
 	If active generation is not aggregated, then nop
 */
 GLO.GLO.prototype.deaggregate_edges = function(opts){
-	TODO("deaggregate_edges")
+	this.active_edge_generation().deaggregate()
+	return this
 }
 
 

@@ -38,6 +38,8 @@ GLO.NodeGeneration.prototype.discrete_range_padding = 1.0;
 
 
 GLO.NodeGeneration.prototype.deaggregate = function(){
+	if(!this.is_aggregated){ return this; }
+
 	var self = this
 
 	var source_gen = this.aggregate_source_generation
@@ -60,7 +62,6 @@ GLO.NodeGeneration.prototype.deaggregate = function(){
 	source_gen.update()
 
 	return source_gen
-
 }
 
 GLO.NodeGeneration.prototype.get_root_source_gen = function(){
