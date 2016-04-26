@@ -251,6 +251,7 @@ GLO.Canvas.prototype.init = function(){
 	init_edges
 		.source_generation(init_nodes)
 		.target_generation(init_nodes)
+		.init_props()
 		.init_draw()
 
 	return this

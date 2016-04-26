@@ -33,7 +33,8 @@ function TODO(x) {
 			of attributes.
 */
 GLO.GLO.prototype.aggregate_edges_by = function(attr,method,opts){
-	TODO("aggregate_edges_by");
+	this.active_edge_generation().aggregate(attr,method)
+	return this
 }
 
 //84	deaggregate edges
@@ -507,6 +508,11 @@ GLO.GLO.prototype.display_nodes_as_labels = function(attr,opts){
 	first attrID is used.
 */
 GLO.GLO.prototype.size_edges_by_attr = function(attr,opts){
+	TODO("size_edges_by_attr")
+}
+
+
+GLO.GLO.prototype.size_edges_by_constant = function(attr,opts){
 	TODO("size_edges_by_attr")
 }
 

@@ -122,6 +122,8 @@ GLO.GLO.prototype._init_graph = function(){
 		e.starty = function(edge_gen){ return this.source.y_list[edge_gen.source_generation().gen_id]; }
 		e.endx = function(edge_gen){ return this.target.x_list[edge_gen.target_generation().gen_id]; }
 		e.endy = function(edge_gen){ return this.target.y_list[edge_gen.target_generation().gen_id]; }
+
+		e.count = 1
 	}
 
 	nodes.forEach(function(d){

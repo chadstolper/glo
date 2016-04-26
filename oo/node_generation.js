@@ -282,8 +282,8 @@ GLO.NodeGeneration.prototype.init_svg = function(){
 GLO.NodeGeneration.prototype.init_props = function(){
 	var self = this
 
-	this.node_glyphs
-		.each(function(d){
+	this.nodes
+		.forEach(function(d){
 			d.r_list[self.gen_id] = self.default_r
 			d.x_list[self.gen_id] = self.canvas.center()
 			d.y_list[self.gen_id] = self.canvas.middle()
