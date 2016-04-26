@@ -112,8 +112,6 @@ GLO.Canvas.prototype.y_axis_gen = function(value){
 }
 
 GLO.Canvas.prototype.update_axes = function(){
-
-	console.log("Updating Axes")
 	if(this.show_x_axis()==true){
 		this.draw_x_axis()
 	}else{
