@@ -508,12 +508,15 @@ GLO.GLO.prototype.display_nodes_as_labels = function(attr,opts){
 	first attrID is used.
 */
 GLO.GLO.prototype.size_edges_by_attr = function(attr,opts){
-	TODO("size_edges_by_attr")
+	TODO("size edges by multiple attrs")
+	this.active_edge_generation().size_by(attr)
+	return this
 }
 
 
 GLO.GLO.prototype.size_edges_by_constant = function(attr,opts){
-	TODO("size_edges_by_attr")
+	this.active_edge_generation().size_by(this.active_edge_generation().default_stroke_width)
+	return this
 }
 
 

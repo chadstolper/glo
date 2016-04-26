@@ -21,6 +21,9 @@ GLO.EdgeGeneration.prototype.default_stroke_width = 2;
 GLO.EdgeGeneration.prototype.default_stroke = "black";
 GLO.EdgeGeneration.prototype.default_opacity = 0.5
 
+GLO.EdgeGeneration.prototype.min_stroke_width = 1
+GLO.EdgeGeneration.prototype.max_stroke_width = 20
+
 GLO.EdgeGeneration.prototype.max_link_curve_r = 11
 
 
@@ -91,6 +94,82 @@ GLO.EdgeGeneration.prototype.color_by_constant = function(constant){
 
 	this.update()
 	return this
+}
+
+GLO.EdgeGeneration.prototype.size_by_constant = function(constant){
+	var self = this
+	this.edges.forEach(function(d){
+		d.stroke_width_list[self.gen_id] = constant
+	})
+
+	this.update()
+	return this
+}
+
+GLO.EdgeGeneration.prototype.size_by = function(attr){
+	var self = this
+	var type = this.canvas.glo.edge_attr()[attr]
+	if(type=="continuous"){
+		this.size_by_continuous(attr)
+	}else if(type=="discrete"){
+		this.size_by_discrete(attr)
+	}else{
+		throw "Unrecognized Type Error"
+	}
+
+	return this
+}
+
+GLO.EdgeGeneration.prototype.size_by_discrete = function(attr){
+	var self = this
+
+	var scale = d3.scale.ordinal()
+		.domain(this.edges.map(function(d){
+			return d[attr]
+		}).sort(function(a,b){
+			var val
+			if(_.isNumber(a)){
+				val = a-b
+			}else{
+				val = a.localeCompare(b)
+			}
+			return val
+		}))
+
+	this.stroke_width_scale = scale
+		.rangePoints([this.min_stroke_width,this.max_stroke_width])
+	
+	this.edges.forEach(function(d){
+		d.stroke_width_list[self.gen_id] = scale(d[attr])
+	})
+
+	this.update()
+	return this
+}
+
+
+GLO.EdgeGeneration.prototype.size_by_continuous = function(attr){
+	var self = this
+
+	var extent = d3.extent(this.edges.map(function(d){
+		return d[attr]
+	}))
+
+
+	var scale = d3.scale.linear()
+		.domain(extent)
+		.range([this.min_stroke_width,this.max_stroke_width])
+	
+
+	this.edges.forEach(function(d){
+		d.stroke_width_list[self.gen_id] = scale(d[attr])
+	})
+
+	this.stroke_width_scale = scale
+
+	this.update()
+	return this
+
 }
 
 

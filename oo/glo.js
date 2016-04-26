@@ -90,6 +90,7 @@ GLO.GLO.prototype.edge_attr = function(value){
 		return this._edge_attr
 	}
 	this._edge_attr = value
+	this._edge_attr.count = "continuous"
 	return this
 }
 
