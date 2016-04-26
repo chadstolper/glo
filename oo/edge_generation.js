@@ -31,7 +31,7 @@ GLO.EdgeGeneration.prototype.source_generation = function(value){
 	if(this._source_generation){
 		this._source_generation.remove_listener(this)
 	}
-	this._source_generation = value
+	this._source_generation = value.get_root_source_gen()
 	this._source_generation.add_listener(this)
 	this.update()
 	return this
@@ -44,7 +44,7 @@ GLO.EdgeGeneration.prototype.target_generation = function(value){
 	if(this._target_generation){
 		this._target_generation.remove_listener(this)
 	}
-	this._target_generation = value
+	this._target_generation = value.get_root_source_gen()
 	this._target_generation.add_listener(this)
 	this.update()
 	return this

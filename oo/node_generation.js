@@ -32,6 +32,15 @@ GLO.NodeGeneration.prototype.discrete_range_padding = 1.0;
 
 
 
+
+GLO.NodeGeneration.prototype.get_root_source_gen = function(){
+	if(!this.is_aggregated){
+		return this
+	}
+	return this.aggregate_source_generation.get_root_source_gen()
+}
+
+
 GLO.NodeGeneration.prototype.aggregate = function(attr, method){
 	var self = this
 
