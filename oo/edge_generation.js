@@ -64,6 +64,13 @@ GLO.EdgeGeneration.prototype.update = function(){
 	// 	this[this.edge_format()]()
 	// }
 
+	if(this.is_aggregated){
+		this.aggregate_source_generation.show_mode(this.show_mode())
+		this.aggregate_source_generation.edge_format(this.edge_format())
+		this.aggregate_source_generation.source_generation(this.source_generation())
+		this.aggregate_source_generation.target_generation(this.target_generation())
+	}
+
 	this[this.show_mode()]()
 
 	this.edge_glyphs.transition()

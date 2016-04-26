@@ -37,6 +37,66 @@ GLO.NodeGeneration.prototype.discrete_range_padding = 1.0;
 
 
 
+GLO.NodeGeneration.prototype.clone = function(canvas){
+	if(typeof canvas == "undefined"){
+		canvas = this.canvas
+	}
+
+	var self = this
+
+	var clone_gen = new GLO.NodeGeneration(canvas, this.nodes, this.is_aggregated)
+
+	clone_gen.nodes.forEach(function(d){
+			//INTERNAL PROPERTIES
+		d.x_list[clone_gen.gen_id] = d.x_list[self.gen_id]
+		d.y_list[clone_gen.gen_id] = d.y_list[self.gen_id]
+		d.r_list[clone_gen.gen_id] = d.r_list[self.gen_id]
+		d.rho_list[clone_gen.gen_id] = d.rho_list[self.gen_id]
+		d.theta_list[clone_gen.gen_id] = d.theta_list[self.gen_id]
+
+		d.hover_list[clone_gen.gen_id] = false
+		d.fill_list[clone_gen.gen_id] = d.fill_list[self.gen_id]
+	})
+
+	clone_gen.x_scale = self.x_scale.copy()
+	clone_gen.y_scale = self.y_scale.copy()
+
+	if(this.is_aggregated){
+
+		var agg_source_clone = this.aggregate_source_generation.clone()
+		clone_gen.aggregate_source_generation = agg_source_clone
+
+		clone_gen.aggregate_node_map = new Map()
+		for(var [n,list] of this.aggregate_node_map){
+			clone_gen.aggregate_node_map.set(n,list)
+		}
+	}
+
+
+	clone_gen
+		.init_svg()
+		.init_draw()
+		.is_displayed(self.is_displayed())
+		.update()
+
+	clone_gen.canvas.active_node_generation(clone_gen)
+
+	return clone_gen
+}
+
+GLO.NodeGeneration.prototype.is_displayed = function(value){
+	if(typeof value == "undefined"){
+		return this._is_displayed
+	}
+	this._is_displayed = value
+	if(this._is_displayed==false){
+		this.node_g.style("display", "none")
+	}else{
+		this.node_g.style("display", null)
+	}
+	return this
+}
+
 GLO.NodeGeneration.prototype.deaggregate = function(){
 	if(!this.is_aggregated){ return this; }
 
@@ -58,7 +118,7 @@ GLO.NodeGeneration.prototype.deaggregate = function(){
 	}
 
 	self.canvas.active_node_generation(source_gen)
-	source_gen.node_g.style("display", null)
+	source_gen.is_displayed(true)
 	source_gen.update()
 
 	return source_gen
@@ -141,6 +201,7 @@ GLO.NodeGeneration.prototype.aggregate = function(attr, method){
 	agg_gen.aggregate_source_generation = this
 	agg_gen.x_scale = this.x_scale.copy()
 	agg_gen.y_scale = this.y_scale.copy()
+
 	// agg_gen.aggregate_source_generation.shift(this)
 
 	var id_counter = 0
@@ -194,7 +255,7 @@ GLO.NodeGeneration.prototype.aggregate = function(attr, method){
 
 	}
 
-	this.node_g.style("display", "none")
+	
 	this.canvas.active_node_generation(agg_gen)
 	if(this.canvas.x_axis_gen()==this){
 		this.canvas.x_axis_gen(agg_gen)
@@ -202,7 +263,13 @@ GLO.NodeGeneration.prototype.aggregate = function(attr, method){
 	if(this.canvas.y_axis_gen()==this){
 		this.canvas.y_axis_gen(agg_gen)
 	}
-	agg_gen.init_svg().init_draw().update()
+	agg_gen
+		.init_svg()
+		.init_draw()
+		.is_displayed(self.is_displayed())
+		.update()
+
+	this.is_displayed(false)
 
 	return agg_gen
 
@@ -282,6 +349,8 @@ GLO.NodeGeneration.prototype.init_svg = function(){
 
 GLO.NodeGeneration.prototype.init_props = function(){
 	var self = this
+
+	this.is_displayed(true)
 
 	this.nodes
 		.forEach(function(d){

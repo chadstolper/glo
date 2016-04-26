@@ -211,7 +211,8 @@ GLO.GLO.prototype.clone_edges = function(opts){
 	generation as the active generation
 */
 GLO.GLO.prototype.clone_nodes = function(opts){
-	TODO("clone_nodes")
+	this.active_node_generation().clone()
+	return this
 }
 
 
@@ -239,7 +240,7 @@ GLO.GLO.prototype.select_node_generation = function(gen,opts){
 	
 */
 GLO.GLO.prototype.set_source_generation = function(gen,opts){
-	var gen_inst = this.active_canvas().node_generations[gen]
+	var gen_inst = this.active_canvas().node_generations.get(gen)
 	this.active_edge_generation().source_generation(gen_inst)
 	return this
 }
@@ -249,7 +250,7 @@ GLO.GLO.prototype.set_source_generation = function(gen,opts){
 	
 */
 GLO.GLO.prototype.set_target_generation = function(gen,opts){
-	var gen_inst = this.active_canvas().node_generations[gen]
+	var gen_inst = this.active_canvas().node_generations.get(gen)
 	this.active_edge_generation().target_generation(gen_inst)
 	return this
 }
