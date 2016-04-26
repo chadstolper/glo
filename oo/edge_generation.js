@@ -22,7 +22,7 @@ GLO.EdgeGeneration.prototype.default_stroke = "black";
 GLO.EdgeGeneration.prototype.default_opacity = 0.5
 
 GLO.EdgeGeneration.prototype.min_stroke_width = 1
-GLO.EdgeGeneration.prototype.max_stroke_width = 20
+GLO.EdgeGeneration.prototype.max_stroke_width = 50
 
 GLO.EdgeGeneration.prototype.max_link_curve_r = 11
 
