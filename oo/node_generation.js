@@ -32,7 +32,7 @@ GLO.NodeGeneration.prototype.discrete_range_padding = 1.0;
 
 
 
-GLO.NodeGeneration.prototype.aggregate_by_attr = function(attr, method){
+GLO.NodeGeneration.prototype.aggregate = function(attr, method){
 	var self = this
 
 	var agg_fn
@@ -47,12 +47,29 @@ GLO.NodeGeneration.prototype.aggregate_by_attr = function(attr, method){
 		return this
 	}
 
+	var key_fn
+	if(typeof attr == "string"){
+		key_fn = function(d,attr){
+			return d[attr]
+		}
+	}else{// attr is list
+		key_fn = function(d,attrs){
+			var str = ""
+			for(var attr in attrs){
+				attr = attrs[attr]
+				str+=d[attr]+"&"
+			}
+			return str
+		}
+	}
+
 	var agg_nodes = new Map()
 	this.nodes.forEach(function(d){
-		if(!agg_nodes[d[attr]]){
-			agg_nodes[d[attr]] = []
+		var key = key_fn(d,attr)
+		if(!agg_nodes[key]){
+			agg_nodes[key] = []
 		}
-		agg_nodes[d[attr]].push(d)
+		agg_nodes[key].push(d)
 	})
 
 
@@ -142,10 +159,6 @@ GLO.NodeGeneration.prototype.aggregate_by_attr = function(attr, method){
 	agg_gen.init_svg().init_draw().update()
 
 	return agg_gen
-
-}
-
-GLO.NodeGeneration.prototype.aggregate_by_attrs = function(attrs){
 
 }
 

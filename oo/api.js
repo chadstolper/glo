@@ -56,7 +56,7 @@ GLO.GLO.prototype.deaggregate_edges = function(opts){
 			of strings for attributes.
 */
 GLO.GLO.prototype.aggregate_nodes_by = function(attr,method,opts){
-	this.active_node_generation().aggregate_by_attr(attr,method)
+	this.active_node_generation().aggregate(attr,method)
 	return this
 }
 
