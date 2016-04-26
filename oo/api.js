@@ -67,7 +67,8 @@ GLO.GLO.prototype.aggregate_nodes_by = function(attr,method,opts){
 	If active generation is not aggregated, then nop
 */
 GLO.GLO.prototype.deaggregate_nodes = function(opts){
-	TODO("deaggregate_nodes")
+	this.active_node_generation().deaggregate()
+	return this
 }
 
 

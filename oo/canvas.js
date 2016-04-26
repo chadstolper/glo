@@ -73,11 +73,7 @@ GLO.Canvas.prototype.show_x_axis = function(value){
 	}
 	this._show_x_axis = value
 
-	if(this._show_x_axis==true){
-		this.draw_x_axis()
-	}else{
-		this.x_axis_g.html("")
-	}
+	this.update_axes()
 
 	return this
 }
@@ -88,11 +84,7 @@ GLO.Canvas.prototype.show_y_axis = function(value){
 	}
 	this._show_y_axis = value
 
-	if(this._show_y_axis==true){
-		this.draw_y_axis()
-	}else{
-		this.y_axis_g.html("")
-	}
+	this.update_axes()
 
 	return this
 }
@@ -103,11 +95,7 @@ GLO.Canvas.prototype.x_axis_gen = function(value){
 	}
 	this._x_axis_gen = value
 
-	if(this.show_x_axis()==true){
-		this.draw_x_axis()
-	}else{
-		this.x_axis_g.html("")
-	}
+	this.update_axes()
 
 	return this
 }
@@ -117,6 +105,20 @@ GLO.Canvas.prototype.y_axis_gen = function(value){
 		return this._y_axis_gen
 	}
 	this._y_axis_gen = value
+
+	this.update_axes()
+
+	return this
+}
+
+GLO.Canvas.prototype.update_axes = function(){
+
+	console.log("Updating Axes")
+	if(this.show_x_axis()==true){
+		this.draw_x_axis()
+	}else{
+		this.x_axis_g.html("")
+	}
 
 	if(this.show_y_axis()==true){
 		this.draw_y_axis()

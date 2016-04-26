@@ -13,13 +13,18 @@ GLO.NodeGeneration = function(canvas, nodes, is_aggregated){
 
 	this.edge_generation_listeners = new Set()
 
-	this.x_scale = d3.scale.linear()
-		.range([this.canvas.left(),this.canvas.right()])
-		.domain([0,1])
 
-	this.y_scale = d3.scale.linear()
-		.range([this.canvas.bottom(),this.canvas.top()])
-		.domain([0,1])
+	this.default_x_scale = d3.scale.linear()
+			.range([this.canvas.left(),this.canvas.right()])
+			.domain([0,1])
+
+	this.default_y_scale = d3.scale.linear()
+			.range([this.canvas.bottom(),this.canvas.top()])
+			.domain([0,1])
+
+	this.x_scale = this.default_x_scale.copy()
+
+	this.y_scale = this.default_y_scale.copy()
 
 	return this
 }
@@ -32,6 +37,31 @@ GLO.NodeGeneration.prototype.discrete_range_padding = 1.0;
 
 
 
+GLO.NodeGeneration.prototype.deaggregate = function(){
+	var self = this
+
+	var source_gen = this.aggregate_source_generation
+
+	//Remove the glyphs
+	self.node_g.remove()
+
+	//Remove pointer to the generation
+	delete self.canvas.node_generations[self.gen_id]
+
+	if(self.canvas.x_axis_gen()==self){
+		self.canvas.x_axis_gen(source_gen)
+	}
+	if(self.canvas.y_axis_gen()==self){
+		self.canvas.y_axis_gen(source_gen)
+	}
+
+	self.canvas.active_node_generation(source_gen)
+	source_gen.node_g.style("display", null)
+	source_gen.update()
+
+	return source_gen
+
+}
 
 GLO.NodeGeneration.prototype.get_root_source_gen = function(){
 	if(!this.is_aggregated){
@@ -165,6 +195,12 @@ GLO.NodeGeneration.prototype.aggregate = function(attr, method){
 
 	this.node_g.style("display", "none")
 	this.canvas.active_node_generation(agg_gen)
+	if(this.canvas.x_axis_gen()==this){
+		this.canvas.x_axis_gen(agg_gen)
+	}
+	if(this.canvas.y_axis_gen()==this){
+		this.canvas.y_axis_gen(agg_gen)
+	}
 	agg_gen.init_svg().init_draw().update()
 
 	return agg_gen
@@ -187,13 +223,20 @@ GLO.NodeGeneration.prototype.update = function(){
 		for(var [n,list] of this.aggregate_node_map){
 			for(var d in list){
 				d = list[d]
+
+				//Currently choosing to propigate only
+				//position, selection
 				d.x_list[self.aggregate_source_generation.gen_id] = n.x_list[self.gen_id]
 				d.y_list[self.aggregate_source_generation.gen_id] = n.y_list[self.gen_id]
-				d.r_list[self.aggregate_source_generation.gen_id] = n.r_list[self.gen_id]
-				d.fill_list[self.aggregate_source_generation.gen_id] = n.fill_list[self.gen_id]
+				// d.r_list[self.aggregate_source_generation.gen_id] = n.r_list[self.gen_id]
+				// d.fill_list[self.aggregate_source_generation.gen_id] = n.fill_list[self.gen_id]
 				d.hover_list[self.aggregate_source_generation.gen_id] = n.hover_list[self.gen_id]
 			}
 		}
+
+		this.aggregate_source_generation.x_scale = this.x_scale.copy()
+		this.aggregate_source_generation.y_scale = this.y_scale.copy()
+
 		this.aggregate_source_generation.update()
 	}
 
@@ -482,12 +525,7 @@ GLO.NodeGeneration.prototype.apply_force_directed = function(edges){
 
 	this.y_scale = yscale
 
-	if(this.canvas.x_axis_gen()==this){
-		this.canvas.x_axis_gen(this)
-	}
-	if(this.canvas.y_axis_gen()==this){
-		this.canvas.y_axis_gen(this)
-	}
+	this.set_axes("rho") //cop-out
 
 	return this
 }
@@ -591,12 +629,7 @@ GLO.NodeGeneration.prototype.position_by_continuous = function(axis,attr){
 		})
 	}
 
-	if(axis=="x"){
-		this.canvas.x_axis_gen(this)
-	}
-	if(axis=="y"){
-		this.canvas.y_axis_gen(this)
-	}
+	this.set_axes(axis)
 
 	this.update()
 	return this
@@ -647,7 +680,7 @@ GLO.NodeGeneration.prototype.position_by_discrete = function(axis,attr){
 	}
 	if(axis=="theta"){
 		this.theta_scale = scale
-			.rangeBands([3*Math.PI/2,7*Math.PI/2],this.discrete_range_padding)
+			.rangePoints([3*Math.PI/2,7*Math.PI/2],this.discrete_range_padding)
 
 		this.nodes.forEach(function(d){
 			d.theta_list[self.gen_id] = scale(d[attr])
@@ -657,12 +690,7 @@ GLO.NodeGeneration.prototype.position_by_discrete = function(axis,attr){
 		})
 	}
 
-	if(axis=="x"){
-		this.canvas.x_axis_gen(this)
-	}
-	if(axis=="y"){
-		this.canvas.y_axis_gen(this)
-	}
+	this.set_axes(axis)
 
 	this.update()
 	return this
@@ -710,12 +738,7 @@ GLO.NodeGeneration.prototype.position_by_constant = function(axis,constant){
 		})
 	}
 
-	if(axis=="x"){
-		this.canvas.x_axis_gen(this)
-	}
-	if(axis=="y"){
-		this.canvas.y_axis_gen(this)
-	}
+	this.set_axes(axis)
 
 	this.update()
 	return this
@@ -777,7 +800,7 @@ GLO.NodeGeneration.prototype.distribute = function(axis,by_prop){
 	}
 	if(axis=="theta"){
 		this.theta_scale = scale
-			.rangeBands([3*Math.PI/2,7*Math.PI/2],this.discrete_range_padding)
+			.rangePoints([3*Math.PI/2,7*Math.PI/2],this.discrete_range_padding)
 
 		this.nodes.forEach(function(d){
 			d.theta_list[self.gen_id] = scale(d.index)
@@ -787,16 +810,28 @@ GLO.NodeGeneration.prototype.distribute = function(axis,by_prop){
 		})
 	}
 
+	this.set_axes(axis)
+
+	this.update()
+	return this
+}
+
+
+GLO.NodeGeneration.prototype.set_axes = function(axis){
 	if(axis=="x"){
 		this.canvas.x_axis_gen(this)
 	}
 	if(axis=="y"){
 		this.canvas.y_axis_gen(this)
 	}
-
-	this.update()
+	if(axis=="rho" || axis=="theta"){
+		this.x_scale = this.default_x_scale.copy()
+		this.y_scale = this.default_y_scale.copy()
+		this.canvas.update_axes()
+	}
 	return this
 }
+
 
 /**
 	Returns a map of discrete_val --> [nodes]
@@ -875,7 +910,7 @@ GLO.NodeGeneration.prototype.distribute_on_within = function(axis,within_prop,by
 		}
 		if(axis=="theta"){
 			theta_scale = scale
-				.rangeBands([3*Math.PI/2,7*Math.PI/2],this.discrete_range_padding)
+				.rangePoints([3*Math.PI/2,7*Math.PI/2],this.discrete_range_padding)
 
 			nodes.forEach(function(d){
 				d.theta_list[self.gen_id] = scale(d.index)
