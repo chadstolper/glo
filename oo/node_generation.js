@@ -9,7 +9,7 @@ GLO.NodeGeneration = function(canvas, nodes, is_aggregated){
 
 	this.gen_id = this.canvas.glo._next_node_gen()
 
-	this.canvas.node_generations[this.gen_id] = this
+	this.canvas.node_generations.set(this.gen_id,this)
 
 	this.edge_generation_listeners = new Set()
 
@@ -48,7 +48,7 @@ GLO.NodeGeneration.prototype.deaggregate = function(){
 	self.node_g.remove()
 
 	//Remove pointer to the generation
-	delete self.canvas.node_generations[self.gen_id]
+	self.canvas.node_generations.delete(self.gen_id)
 
 	if(self.canvas.x_axis_gen()==self){
 		self.canvas.x_axis_gen(source_gen)

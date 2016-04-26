@@ -5,7 +5,7 @@ GLO.EdgeGeneration = function(canvas, edges, is_aggregated){
 
 	this.gen_id = this.canvas.glo._next_edge_gen()
 
-	this.canvas.edge_generations[this.gen_id] = this
+	this.canvas.edge_generations.set(this.gen_id, this)
 
 	this.hscale = d3.scale.linear()
 		.range([3,this.max_link_curve_r])
@@ -178,12 +178,11 @@ GLO.EdgeGeneration.prototype.deaggregate = function(){
 	var self = this
 
 	var source_gen = this.aggregate_source_generation
-	console.log(source_gen)
 	//Remove the glyphs
 	self.edge_g.remove()
 
 	//Remove pointer to the generation
-	delete self.canvas.edge_generations[self.gen_id]
+	self.canvas.edge_generations.delete(self.gen_id)
 
 
 	self.canvas.active_edge_generation(source_gen)
