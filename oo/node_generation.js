@@ -115,7 +115,7 @@ GLO.NodeGeneration.prototype.aggregate_by_attr = function(attr, method){
 		}))
 
 		new_node.hover_list[agg_gen.gen_id] = false
-		new_node.fill_list[agg_gen.gen_id] = list[0].fill_list[agg_gen.gen_id]
+		new_node.fill_list[agg_gen.gen_id] = list[0].fill_list[this.gen_id]
 
 
 		//EXTERNAL PROPERTIES
