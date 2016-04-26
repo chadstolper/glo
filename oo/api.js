@@ -53,10 +53,11 @@ GLO.GLO.prototype.deaggregate_edges = function(opts){
 /*
 	Aggregates nodes by attribute(s) using method.
 	* attr can be either a string for the attribute or a list
-			of attributes.
+			of strings for attributes.
 */
 GLO.GLO.prototype.aggregate_nodes_by = function(attr,method,opts){
-	TODO("aggregate_nodes_by")
+	this.active_node_generation().aggregate_by_attr(attr,method)
+	return this
 }
 
 //107	deaggregate nodes

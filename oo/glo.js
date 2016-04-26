@@ -9,7 +9,7 @@ GLO.GLO = function(svg){
 	this.node_gen_counter = 0
 	this.edge_gen_counter = 0
 
-	this.canvases = {}
+	this.canvases = new Map()
 	this.canvases[0] = new GLO.Canvas(this,this.width(),this.height())
 
 	this._active_canvas = 0
@@ -113,10 +113,10 @@ GLO.GLO.prototype._init_graph = function(){
 		e.source = nodes[e.source]
 		e.target = nodes[e.target]
 
-		e.stroke_list = {}
-		e.stroke_width_list = {}
+		e.stroke_list = new Map()
+		e.stroke_width_list = new Map()
 
-		e.display_list = {}
+		e.display_list = new Map()
 
 		e.startx = function(edge_gen){ return this.source.x_list[edge_gen.source_generation().gen_id]; }
 		e.starty = function(edge_gen){ return this.source.y_list[edge_gen.source_generation().gen_id]; }
@@ -125,22 +125,24 @@ GLO.GLO.prototype._init_graph = function(){
 	}
 
 	nodes.forEach(function(d){
-		d.in_edges = []
-		d.out_edges = []
-		d.x_list = {}
-		d.y_list = {}
-		d.r_list = {}
-		d.rho_list = {}
-		d.theta_list = {}
+		// d.in_edges = []
+		// d.out_edges = []
+		d.x_list = new Map()
+		d.y_list = new Map()
+		d.r_list = new Map()
+		d.rho_list = new Map()
+		d.theta_list = new Map()
 
-		d.hover_list = {}
+		d.hover_list = new Map()
 
-		d.fill_list = {}
+		d.fill_list = new Map()
+
+		d.count = 1
 	})
-	edges.forEach(function(d){
-		d.target.in_edges.push(d)
-		d.source.out_edges.push(d)
-	})
+	// edges.forEach(function(d){
+	// 	d.target.in_edges.push(d)
+	// 	d.source.out_edges.push(d)
+	// })
 
 	return this
 }

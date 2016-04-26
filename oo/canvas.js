@@ -12,8 +12,8 @@ GLO.Canvas = function(glo,width,height,x_offset,y_offset){
 	this._x_buffer = 10
 	this._y_buffer = 10
 
-	this.node_generations = {}
-	this.edge_generations = {}
+	this.node_generations = new Map()
+	this.edge_generations = new Map()
 
 	this._show_x_axis = false
 	this._show_y_axis = false
@@ -243,7 +243,7 @@ GLO.Canvas.prototype.init = function(){
 
 
 	var init_nodes = new GLO.NodeGeneration(this,this.glo.nodes(),false);
-	init_nodes.init_svg().init_draw()
+	init_nodes.init_svg().init_props().init_draw()
 	this.active_node_generation(init_nodes)
 	this.x_axis_gen(init_nodes)
 	this.y_axis_gen(init_nodes)

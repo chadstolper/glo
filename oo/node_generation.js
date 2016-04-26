@@ -31,6 +31,125 @@ GLO.NodeGeneration.prototype.min_r = 2
 GLO.NodeGeneration.prototype.discrete_range_padding = 1.0;
 
 
+
+GLO.NodeGeneration.prototype.aggregate_by_attr = function(attr, method){
+	var self = this
+
+	var agg_fn
+	if(method.toLowerCase()=="sum"){
+		agg_fn = d3.sum
+	}else if(method.toLowerCase()=="mean"){
+		agg_fn = d3.mean
+	}else if(method.toLowerCase()=="median"){
+		agg_fn = d3.median
+	}else{
+		throw "Unrecognized aggregation method. Not aggregating."
+		return this
+	}
+
+	var agg_nodes = new Map()
+	this.nodes.forEach(function(d){
+		if(!agg_nodes[d[attr]]){
+			agg_nodes[d[attr]] = []
+		}
+		agg_nodes[d[attr]].push(d)
+	})
+
+
+
+	var new_nodes = new Map()
+	for(var key in agg_nodes){
+		var list = agg_nodes[key]
+
+		var new_node = {}
+
+		new_node.x_list = new Map()
+		new_node.y_list = new Map()
+		new_node.r_list = new Map()
+		new_node.rho_list = new Map()
+		new_node.theta_list = new Map()
+		new_node.hover_list = new Map()
+		new_node.fill_list = new Map()
+
+		new_nodes.set(key, new_node)
+	}
+
+	var new_nodes_arr = [...new_nodes.values()]
+
+	var agg_gen = new GLO.NodeGeneration(this.canvas, new_nodes_arr, true)
+	agg_gen.aggregate_node_map = new Map() //(node in this gen,past gen) --> list(nodes in old gen)
+
+
+	//Update properties from this to the aggregate
+	agg_gen.aggregate_source_generation = this
+	agg_gen.x_scale = this.x_scale.copy()
+	agg_gen.y_scale = this.y_scale.copy()
+	// agg_gen.aggregate_source_generation.shift(this)
+
+	var id_counter = 0
+	for(var key in agg_nodes){
+		var list = agg_nodes[key]
+		var new_node = new_nodes.get(key)
+
+
+		agg_gen.aggregate_node_map.set(new_node, list)
+
+
+		//INTERNAL PROPERTIES
+		new_node.id = id_counter++
+
+		new_node.x_list[agg_gen.gen_id] = agg_fn(list.map(function(d){
+			return d.x_list[self.gen_id]
+		}))
+		new_node.y_list[agg_gen.gen_id] = agg_fn(list.map(function(d){
+			return d.y_list[self.gen_id]
+		}))
+		new_node.r_list[agg_gen.gen_id] = agg_fn(list.map(function(d){
+			return d.r_list[self.gen_id]
+		}))
+		new_node.rho_list[agg_gen.gen_id] = agg_fn(list.map(function(d){
+			return d.rho_list[self.gen_id]
+		}))
+		new_node.theta_list[agg_gen.gen_id] = agg_fn(list.map(function(d){
+			return d.theta_list[self.gen_id]
+		}))
+
+		new_node.hover_list[agg_gen.gen_id] = false
+		new_node.fill_list[agg_gen.gen_id] = list[0].fill_list[agg_gen.gen_id]
+
+
+		//EXTERNAL PROPERTIES
+		var node_attrs = this.canvas.glo.node_attr()
+		for(var prop in node_attrs){
+			if(node_attrs[prop]=="continuous"){
+				new_node[prop] = agg_fn(list.map(function(d){
+					return d[prop]
+				}))
+			}else{
+				new_node[prop] = list[0][prop]
+			}
+		}
+
+		//AGGREGATE PROPERTY (ALWAYS SUM)
+		new_node.count = d3.sum(list.map(function(d){
+			return d.count
+		}))
+
+	}
+
+	this.node_g.style("display", "none")
+	this.canvas.active_node_generation(agg_gen)
+	agg_gen.init_svg().init_draw().update()
+
+	return agg_gen
+
+}
+
+GLO.NodeGeneration.prototype.aggregate_by_attrs = function(attrs){
+
+}
+
+
 GLO.NodeGeneration.prototype.select = function(str){
 	return this.node_g.select(str)
 }
@@ -41,6 +160,21 @@ GLO.NodeGeneration.prototype.selectAll = function(str){
 
 GLO.NodeGeneration.prototype.update = function(){
 	var self = this
+
+	if(this.is_aggregated){
+		for(var [n,list] of this.aggregate_node_map){
+			for(var d in list){
+				d = list[d]
+				d.x_list[self.aggregate_source_generation.gen_id] = n.x_list[self.gen_id]
+				d.y_list[self.aggregate_source_generation.gen_id] = n.y_list[self.gen_id]
+				d.r_list[self.aggregate_source_generation.gen_id] = n.r_list[self.gen_id]
+				d.fill_list[self.aggregate_source_generation.gen_id] = n.fill_list[self.gen_id]
+				d.hover_list[self.aggregate_source_generation.gen_id] = n.hover_list[self.gen_id]
+			}
+		}
+		this.aggregate_source_generation.update()
+	}
+
 	this.node_glyphs.transition()
 		.attr("cx", function(d){ return d.x_list[self.gen_id]; })
 		.attr("cy", function(d){ return d.y_list[self.gen_id]; })
@@ -68,43 +202,52 @@ GLO.NodeGeneration.prototype.init_svg = function(){
 	this.node_g = this.canvas.chart.append("g")
 		.classed("nodeg",true)
 
-	return this
-}
-
-
-
-GLO.NodeGeneration.prototype.init_draw = function(){
-	var self = this
 	this.node_glyphs = this.node_g.selectAll(".node")
 		.data(this.nodes, function(d){return d.id})
 	this.node_glyphs.enter().append("circle")
 		.classed("node",true)
 		.classed("gen-"+this.gen_id,true)
 		.attr("nodeid", function(d){return d.id})
+
+	return this
+}
+
+
+
+GLO.NodeGeneration.prototype.init_props = function(){
+	var self = this
+
+	this.node_glyphs
+		.each(function(d){
+			d.r_list[self.gen_id] = self.default_r
+			d.x_list[self.gen_id] = self.canvas.center()
+			d.y_list[self.gen_id] = self.canvas.middle()
+			d.rho_list[self.gen_id] = 0
+			d.theta_list[self.gen_id] = Math.PI/2
+			d.fill_list[self.gen_id] = self.default_fill
+			d.hover_list[self.gen_id] = false
+		})
+
+
+	return this
+}
+
+GLO.NodeGeneration.prototype.init_draw = function(){
+	var self = this
+	
 	
 	this.node_glyphs
 		.attr("r",function(d){
-			d.r_list[self.gen_id] = self.default_r
 			return d.r_list[self.gen_id]
 		})
 		.attr("cx", function(d) {
-			d.x_list[self.gen_id] = self.canvas.center()
 			return d.x_list[self.gen_id];
 		})
 		.attr("cy", function(d) {
-			d.y_list[self.gen_id] = self.canvas.middle()
 			return d.y_list[self.gen_id];
 		})
-		.each(function(d){
-			d.rho_list[self.gen_id] = 0
-			d.theta_list[self.gen_id] = Math.PI/2
-		})
 		.attr("fill", function(d){
-			d.fill_list[self.gen_id] = self.default_fill
 			return d.fill_list[self.gen_id]
-		})
-		.each(function(d){
-			d.hover_list[self.gen_id] = false
 		})
 		.on('mouseover', function(d){
 			d.hover_list[self.gen_id] = true
@@ -639,7 +782,7 @@ GLO.NodeGeneration.prototype.distribute = function(axis,by_prop){
 GLO.NodeGeneration.prototype._group_by = function(discrete){
 	var self = this
 
-	var groups = {}
+	var groups = new Map()
 
 	this.nodes.forEach(function(d){
 		if(!groups[d[discrete]]){
