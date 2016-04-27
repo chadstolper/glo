@@ -509,7 +509,7 @@ GLO.GLO.prototype.display_nodes_as_labels = function(attr,opts){
 	If non-line-based edge display (e.g. label, square, bar), only
 	first attrID is used.
 */
-GLO.GLO.prototype.size_edges_by_attr = function(attr,opts){
+GLO.GLO.prototype.size_edges_by = function(attr,opts){
 	TODO("size edges by multiple attrs")
 	this.active_edge_generation().size_by(attr)
 	return this

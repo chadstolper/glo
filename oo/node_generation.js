@@ -252,7 +252,12 @@ GLO.NodeGeneration.prototype.aggregate = function(attr, method){
 		new_node.count = d3.sum(list.map(function(d){
 			return d.count
 		}))
-
+		new_node.degree = d3.sum(list.map(function(d){
+			return d.degree
+		}))
+		new_node.in_degree = d3.sum(list.map(function(d){
+			return d.in_degree
+		}))
 	}
 
 	

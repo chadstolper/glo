@@ -436,7 +436,7 @@ GLO.EdgeGeneration.prototype.straight_lines = function(selection){
 			var cx = (d.endx(self) + d.startx(self))/2
 			var cy = (d.endy(self) + d.starty(self))/2
 			
-			p += "Q"+cx+","+cy+" "
+			p += " Q"+cx+","+cy+" "
 			p += d.endx(self)+","+d.endy(self)
 
 
@@ -481,7 +481,7 @@ GLO.EdgeGeneration.prototype.curved_lines = function(selection){
 			var cx_prime = cx + (dx*h)
 			var cy_prime = cy + (dy*h)
 			
-			p += "Q"+cx_prime+","+cy_prime+" "
+			p += " Q"+cx_prime+","+cy_prime+" "
 			p += d.endx(self)+","+d.endy(self)
 
 

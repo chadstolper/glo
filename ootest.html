@@ -108,7 +108,7 @@
 							.aggregate_nodes_by(["modularity_class","gender"],"mean")
 							.size_nodes_by("count")
 							.aggregate_edges_by(["source.modularity_class","source.gender","target.modularity_class","target.gender"],"mean")
-							.size_edges_by_attr("count")
+							.size_edges_by("count")
 				})
 			})
 		})

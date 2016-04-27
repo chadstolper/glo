@@ -82,6 +82,9 @@ GLO.GLO.prototype.node_attr = function(value){
 	}
 	this._node_attr = value
 	this._node_attr.count = "continuous"
+	this._node_attr.degree = "continuous"
+	this._node_attr.in_degree = "continuous"
+	this._node_attr.out_degree = "continuous"
 	return this
 }
 
@@ -128,8 +131,8 @@ GLO.GLO.prototype._init_graph = function(){
 	}
 
 	nodes.forEach(function(d){
-		// d.in_edges = []
-		// d.out_edges = []
+		d.in_edges = []
+		d.out_edges = []
 		d.x_list = new Map()
 		d.y_list = new Map()
 		d.r_list = new Map()
@@ -141,11 +144,18 @@ GLO.GLO.prototype._init_graph = function(){
 		d.fill_list = new Map()
 
 		d.count = 1
+		
 	})
-	// edges.forEach(function(d){
-	// 	d.target.in_edges.push(d)
-	// 	d.source.out_edges.push(d)
-	// })
+	edges.forEach(function(d){
+		d.target.in_edges.push(d)
+		d.source.out_edges.push(d)
+	})
+
+	nodes.forEach(function(d){
+		d.degree = d.in_edges.length + d.out_edges.length
+		d.in_degree =  d.in_edges.length
+		d.out_degree = d.out_edges.length
+	})
 
 	return this
 }
