@@ -14,6 +14,8 @@ GLO.EdgeGeneration = function(canvas, edges, is_aggregated){
 	this._edge_format = "straight_lines"
 	this._show_mode = "show_all_edges"
 
+	this._is_displayed = true
+
 	return this
 }
 
@@ -81,7 +83,7 @@ GLO.EdgeGeneration.prototype.update = function(){
 			return d.display_list[self.gen_id]
 		})
 		.style("opacity", self.default_opacity)
-		.call(this[this.edge_format()].bind(self))
+		.call(self[self.edge_format()].bind(self))
 
 	return this
 }
@@ -175,6 +177,67 @@ GLO.EdgeGeneration.prototype.size_by_continuous = function(attr){
 
 }
 
+
+GLO.EdgeGeneration.prototype.is_displayed = function(value){
+	if(typeof value == "undefined"){
+		return this._is_displayed
+	}
+	this._is_displayed = value
+	if(this._is_displayed==false){
+		this.edge_g.style("display", "none")
+	}else{
+		this.edge_g.style("display", null)
+	}
+	return this
+}
+
+
+
+GLO.EdgeGeneration.prototype.clone = function(canvas){
+	if(typeof canvas == "undefined"){
+		canvas = this.canvas
+	}
+
+	var self = this
+
+	var clone_gen = new GLO.EdgeGeneration(canvas, this.edges, this.is_aggregated)
+
+	clone_gen.edges.forEach(function(d){
+			//INTERNAL PROPERTIES
+		d.stroke_width_list[clone_gen.gen_id] = d.stroke_width_list[self.gen_id]
+		d.display_list[clone_gen.gen_id] = d.display_list[self.gen_id]
+		d.stroke_list[clone_gen.gen_id] = d.stroke_list[self.gen_id]
+	})
+
+	clone_gen.edge_format(self.edge_format())
+	clone_gen.show_mode(self.show_mode())
+	clone_gen.source_generation(self.source_generation())
+	clone_gen.target_generation(self.target_generation())
+
+	if(this.is_aggregated){
+		var agg_source_clone = this.aggregate_source_generation.clone(canvas)
+		clone_gen.aggregate_source_generation = agg_source_clone
+
+		clone_gen.aggregate_edge_map = new Map()
+		for(var [n,list] of this.aggregate_edge_map){
+			clone_gen.aggregate_edge_map.set(n,list)
+		}
+	}
+
+	clone_gen
+		.init_svg()
+		.init_draw()
+		.is_displayed(self.is_displayed())
+		.update()
+
+	clone_gen.canvas.active_edge_generation(clone_gen)
+
+	return clone_gen
+}
+
+
+
+
 GLO.EdgeGeneration.prototype.deaggregate = function(){
 	if(!this.is_aggregated){ return this; }
 
@@ -189,7 +252,7 @@ GLO.EdgeGeneration.prototype.deaggregate = function(){
 
 
 	self.canvas.active_edge_generation(source_gen)
-	source_gen.edge_g.style("display", null)
+	source_gen.is_displayed(true)
 	source_gen.update()
 
 	return source_gen
@@ -328,10 +391,15 @@ GLO.EdgeGeneration.prototype.aggregate = function(attr,method){
 	agg_gen.source_generation(self.source_generation())
 	agg_gen.target_generation(self.target_generation())
 
-	this.edge_g.style("display", "none")
 	this.canvas.active_edge_generation(agg_gen)
 
-	agg_gen.init_svg().init_draw().update()
+	agg_gen
+		.init_svg()
+		.init_draw()
+		.is_displayed(self.is_displayed())
+		.update()
+
+	self.is_displayed(false)
 
 	return agg_gen
 }

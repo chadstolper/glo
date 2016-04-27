@@ -202,7 +202,8 @@ GLO.GLO.prototype.apply_force_directed_algorithm_to_nodes = function(opts){
 	generation as the active generation
 */
 GLO.GLO.prototype.clone_edges = function(opts){
-	TODO("clone_edges")
+	this.active_edge_generation().clone()
+	return this
 }
 
 //234	clone nodes
