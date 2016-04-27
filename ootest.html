@@ -88,7 +88,7 @@
 					
 
 					svg = d3.select("#canvas")
-						.style("width",500)
+						.style("width",800)
 						.style("height",400)
 					glo = new GLO.GLO(svg)
 						.nodes(nodes)
@@ -125,6 +125,7 @@
 							.color_nodes_by("modularity_class")
 							.evenly_distribute_nodes_on("x",{by:"modularity_class"})
 							.evenly_distribute_nodes_on("y",{by:"modularity_class"})
+							.display_edges_as_squares()
 				})
 			})
 		})

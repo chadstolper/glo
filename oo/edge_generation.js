@@ -520,7 +520,9 @@ GLO.EdgeGeneration.prototype.squares = function(selection){
 	var self = this
 
 	var small_dimension = Math.min(this.canvas.canvas_width(),this.canvas.canvas_height())
-	var square_size = small_dimension/this.edges.length
+	var large_node_length = Math.max(this.target_generation().nodes.length,this.source_generation().nodes.length)
+
+	var square_size = small_dimension/large_node_length
 	var half_square_size = square_size / 2
 
 	selection
@@ -636,7 +638,8 @@ GLO.EdgeGeneration.prototype.clear_directional_gradient = function(selection){
 	var self = this
 
 	selection.style("stroke", function(d){
-		return d.stroke_list[self.gen_id]
+		// return d.stroke_list[self.gen_id]
+		return null
 	})
 
 	return this
