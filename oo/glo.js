@@ -119,6 +119,7 @@ GLO.GLO.prototype._init_graph = function(){
 
 		e.stroke_list = new Map()
 		e.stroke_width_list = new Map()
+		e.fill_list = new Map()
 
 		e.display_list = new Map()
 

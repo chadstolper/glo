@@ -110,7 +110,14 @@ GLO.GLO.prototype.align_nodes = function(dir,opts){
 
 //168	position edges by {attr},{attr}
 /*
-	
+	Valid:
+		source,target (assume x or y based on pos in args)
+		source.x,target.y (e.g.)
+		mean,mean -> mean(x),mean(y)
+		mean(x),mean(y)
+		mean(y),mean(x)
+
+	Ideally enable mean(x)
 */
 GLO.GLO.prototype.position_edges_by = function(xattr,yattr,opts){
 	TODO("position_edges_by")
@@ -432,7 +439,8 @@ GLO.GLO.prototype.display_edges_as_outer_links = function(opts){
 	
 */
 GLO.GLO.prototype.display_edges_as_squares = function(opts){
-	TODO("display_edges_as_squares")
+	this.active_edge_generation().edge_format("squares")
+	return this
 }
 
 //165	display edges as straight lines

@@ -73,6 +73,9 @@ GLO.EdgeGeneration.prototype.update = function(){
 	this[this.show_mode()]()
 
 	this.edge_glyphs.transition()
+		.style("fill", function(d){
+			return d.fill_list[self.gen_id]
+		})
 		.style("stroke-width", function(d){
 			return d.stroke_width_list[self.gen_id]
 		})
@@ -207,6 +210,7 @@ GLO.EdgeGeneration.prototype.clone = function(canvas){
 		d.stroke_width_list[clone_gen.gen_id] = d.stroke_width_list[self.gen_id]
 		d.display_list[clone_gen.gen_id] = d.display_list[self.gen_id]
 		d.stroke_list[clone_gen.gen_id] = d.stroke_list[self.gen_id]
+		d.fill_list[clone_gen.gen_id] = d.fill_list[self.gen_id]
 	})
 
 	clone_gen.edge_format(self.edge_format())
@@ -330,6 +334,7 @@ GLO.EdgeGeneration.prototype.aggregate = function(attr,method){
 		new_edge.stroke_list = new Map()
 		new_edge.stroke_width_list = new Map()
 		new_edge.display_list = new Map()
+		new_edge.fill_list = new Map()
 
 		new_edge.startx = function(edge_gen){ return this.source.x_list[edge_gen.source_generation().gen_id]; }
 		new_edge.starty = function(edge_gen){ return this.source.y_list[edge_gen.source_generation().gen_id]; }
@@ -362,6 +367,7 @@ GLO.EdgeGeneration.prototype.aggregate = function(attr,method){
 		}))
 		new_edge.display_list[agg_gen.gen_id] = list[0].display_list[self.gen_id]
 		new_edge.stroke_list[agg_gen.gen_id] = list[0].stroke_list[self.gen_id]
+		new_edge.fill_list[agg_gen.gen_id] = list[0].fill_list[self.gen_id]
 
 		//THIS PROBABLY ISN'T OPTIMAL!!!!!
 		new_edge.source = list[0].source
@@ -426,6 +432,7 @@ GLO.EdgeGeneration.prototype.init_props = function(){
 			d.stroke_width_list[self.gen_id] = self.default_stroke_width
 			d.stroke_list[self.gen_id] = self.default_stroke
 			d.display_list[self.gen_id] = null
+			d.fill_list[self.gen_id] = "none"
 
 		})
 
@@ -438,7 +445,6 @@ GLO.EdgeGeneration.prototype.init_draw = function(){
 	this.edge_glyphs.enter().append("svg:path")
 		.classed("edge",true)
 		.classed("edgegen-"+this.gen_id, true)
-		.style("fill", "none")
 		.on("mouseover",function(d){
 			self.source_generation().select('[nodeid="'+d.source.id+'"]')
 				.attr("fill", function(n){
@@ -462,6 +468,9 @@ GLO.EdgeGeneration.prototype.init_draw = function(){
 
 
 	this.edge_glyphs
+		.style("fill", function(d){
+			return d.fill_list[self.gen_id]
+		})
 		.style("stroke-width", function(d){
 			return d.stroke_width_list[self.gen_id]
 		})
@@ -484,7 +493,74 @@ GLO.EdgeGeneration.prototype.edge_format = function(value){
 		return this._edge_format
 	}
 	this._edge_format = value
+	var self = this
+
+	if(this._edge_format=="squares"){
+		this.edges.forEach(function(d){
+			d.fill_list[self.gen_id] = d.stroke_list[self.gen_id]
+
+		})
+	}else{
+		this.edges.forEach(function(d){
+			d.fill_list[self.gen_id] = "none"
+		})
+	}
+
+
+
 	this.update()
+	return this
+}
+
+
+GLO.EdgeGeneration.prototype.squares = function(selection){
+	// TODO("position_edges_by") //x->y is hardcoded
+	// TODO("size_edges_by") //Currently hard-coding square size
+
+	var self = this
+
+	var small_dimension = Math.min(this.canvas.canvas_width(),this.canvas.canvas_height())
+	var square_size = small_dimension/this.edges.length
+	var half_square_size = square_size / 2
+
+	selection
+		.attr("d", function(d){
+
+			// |---
+			// |    non-relative move (M)
+			var p = "M"
+			p+= ""+(d.startx(self)-half_square_size)
+			p+= ","
+			p+= ""+(d.endy(self)-half_square_size)
+
+			// ---|
+			//    | relative move (m)
+			p+=" l"
+			p+= ""+(square_size)
+			p+= ","
+			p+= "0"
+
+			//    |
+			// ---| relative move (m)
+			p+=" l"
+			p+= "0"
+			p+= ","
+			p+= ""+(square_size)
+
+			// |   
+			// |--- relative move (m)
+			p+=" l"
+			p+= "-"+(square_size) //negative since moving left
+			p+= ","
+			p+= "0"
+
+			p+= " z"
+
+
+			return p
+		})
+		.call(this.clear_directional_gradient.bind(self))
+
 	return this
 }
 
@@ -556,6 +632,15 @@ GLO.EdgeGeneration.prototype.curved_lines = function(selection){
 	return this
 }
 
+GLO.EdgeGeneration.prototype.clear_directional_gradient = function(selection){
+	var self = this
+
+	selection.style("stroke", function(d){
+		return d.stroke_list[self.gen_id]
+	})
+
+	return this
+}
 
 GLO.EdgeGeneration.prototype.directional_gradient = function(selection){
 	var self = this
