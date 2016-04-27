@@ -60,9 +60,6 @@ GLO.EdgeGeneration.prototype.update = function(){
 
 	if(typeof this.edge_glyphs === "undefined"){ return this; }
 
-	// if(this.edge_format()){
-	// 	this[this.edge_format()]()
-	// }
 
 	if(this.is_aggregated){
 		this.aggregate_source_generation.show_mode(this.show_mode())
@@ -85,7 +82,6 @@ GLO.EdgeGeneration.prototype.update = function(){
 		})
 		.style("opacity", self.default_opacity)
 		.call(this[this.edge_format()].bind(self))
-
 
 	return this
 }
