@@ -34,7 +34,9 @@ GLO.EdgeGeneration.prototype.source_generation = function(value){
 		return this._source_generation
 	}
 	if(this._source_generation){
-		this._source_generation.remove_listener(this)
+		if(value._source_generation.gen_id != this._target_generation.gen_id){
+			this._source_generation.remove_listener(this)
+		}
 	}
 	this._source_generation = value.get_root_source_gen()
 	this._source_generation.add_listener(this)
@@ -47,7 +49,9 @@ GLO.EdgeGeneration.prototype.target_generation = function(value){
 		return this._target_generation
 	}
 	if(this._target_generation){
-		this._target_generation.remove_listener(this)
+		if(this._target_generation.gen_id != this._source_generation.gen_id){
+			this._target_generation.remove_listener(this)
+		}
 	}
 	this._target_generation = value.get_root_source_gen()
 	this._target_generation.add_listener(this)

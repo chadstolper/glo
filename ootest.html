@@ -1,3 +1,4 @@
+<title>GLOs 2</title>
 <div id="svg-wrapper">
 	<svg id="canvas"></svg>
 </div>
@@ -123,9 +124,16 @@
 							// .set_source_generation(2)
 							// .set_target_generation(2)
 							.color_nodes_by("modularity_class")
-							.evenly_distribute_nodes_on("x",{by:"modularity_class"})
+							.align_nodes("left")
 							.evenly_distribute_nodes_on("y",{by:"modularity_class"})
+							.clone_nodes()
+							.align_nodes("bottom")
+							.evenly_distribute_nodes_on("x",{by:"modularity_class"})
 							.display_edges_as_squares()
+							.set_target_generation(1)
+							.aggregate_nodes_by("modularity_class","mean")
+							.select_node_generation(0)
+				
 				})
 			})
 		})
