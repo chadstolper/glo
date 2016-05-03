@@ -531,9 +531,9 @@ GLO.EdgeGeneration.prototype.squares = function(selection){
 			// |---
 			// |    non-relative move (M)
 			var p = "M"
-			p+= ""+(d.startx(self)-half_square_size)
+			p+= ""+(d.endx(self)-half_square_size)
 			p+= ","
-			p+= ""+(d.endy(self)-half_square_size)
+			p+= ""+(d.starty(self)-half_square_size)
 
 			// ---|
 			//    | relative move (m)
@@ -615,9 +615,9 @@ GLO.EdgeGeneration.prototype.curved_lines = function(selection){
 			
 			//Curve up or curve down
 			var direction
-			var ydir = (d.startx(self)<d.endx(self))?1:-1
+			var ydir = (d.startx(self)<d.endx(self))?-1:1
 			dy *= ydir
-			var xdir = (d.starty(self)<d.endy(self))?1:-1
+			var xdir = (d.starty(self)<d.endy(self))?-1:1
 			dx *= xdir
 
 			var cx_prime = cx + (dx*h)
