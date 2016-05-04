@@ -120,7 +120,7 @@ GLO.NodeGeneration.prototype.deaggregate = function(){
 	}
 
 	self.canvas.active_node_generation(source_gen)
-	self.has_aggregate = false
+	source_gen.has_aggregate = false
 	delete self.aggregate_target_generation
 	source_gen.is_displayed(true)
 	source_gen.update()
