@@ -77,6 +77,7 @@ GLO.EdgeGeneration.prototype.update = function(){
 	this[this.show_mode()]()
 
 	this.edge_glyphs.transition()
+		.call(self[self.edge_format()].bind(self))
 		.style("fill", function(d){
 			return d.fill_list[self.gen_id]
 		})
@@ -90,7 +91,7 @@ GLO.EdgeGeneration.prototype.update = function(){
 			return d.display_list[self.gen_id]
 		})
 		.style("opacity", self.default_opacity)
-		.call(self[self.edge_format()].bind(self))
+		
 
 	return this
 }
@@ -101,12 +102,100 @@ GLO.EdgeGeneration.prototype.color_by_constant = function(constant){
 	var self = this
 
 	this.edges.forEach(function(d){
-		d.stroke_list[self.gen_id] = constant
+		d.color_list[self.gen_id] = constant
 	})
 
 	this.update()
 	return this
 }
+
+
+GLO.EdgeGeneration.prototype.color_by = function(attr){
+	var self = this
+	var type = this.canvas.glo.edge_attr()[attr]
+	if(type=="color"){
+		this.color_by_color_attr(attr)
+	}else if(type=="continuous"){
+		this.color_by_continuous(attr)
+	}else if(type=="discrete"){
+		this.color_by_discrete(attr)
+	}else{
+		throw "Unrecognized Type Error"
+	}
+
+	return this
+}
+
+GLO.EdgeGeneration.prototype.color_by_continuous = function(attr){
+	var self = this
+
+	var extent = d3.extent(this.edges.map(function(d){
+		return d[attr]
+	}))
+
+
+	var scale = d3.scale.linear()
+	if(extent[0]<=0 && extent[1]>=0){
+		scale
+			.domain([extent[0], 0, extent[1]])
+			.range(["red", "white", "blue"])
+	}else if(extent[0]>0){
+		scale
+			.domain(extent)
+			.range(["white", "blue"])
+	}else{// externt[0]<0
+		scale
+			.domain(extent)
+			.range(["red", "white"])
+	}
+	
+
+	this.edges.forEach(function(d){
+		d.color_list[self.gen_id] = scale(d[attr])
+	})
+
+	this.color_scale = scale
+
+	this.update()
+	return this
+}
+
+GLO.EdgeGeneration.prototype.color_by_discrete = function(attr){
+	var self = this
+
+	var scale = d3.scale.category10()
+
+	this.edges.forEach(function(d){
+		d.color_list[self.gen_id] = scale(d[attr])
+	})
+
+	this.color_scale = scale
+
+	this.update()
+	return this
+}
+
+GLO.EdgeGeneration.prototype.color_by_color_attr = function(attr){
+	var self = this
+
+	this.edges.forEach(function(d){
+		d.color_list[self.gen_id] = d[attr]
+	})
+
+	this.update()
+	return this
+}
+
+
+
+
+
+
+
+
+
+
+
 
 GLO.EdgeGeneration.prototype.size_by_constant = function(constant){
 	var self = this
@@ -213,6 +302,7 @@ GLO.EdgeGeneration.prototype.clone = function(canvas){
 			//INTERNAL PROPERTIES
 		d.stroke_width_list[clone_gen.gen_id] = d.stroke_width_list[self.gen_id]
 		d.display_list[clone_gen.gen_id] = d.display_list[self.gen_id]
+		d.color_list[clone_gen.gen_id] = d.color_list[self.gen_id]
 		d.stroke_list[clone_gen.gen_id] = d.stroke_list[self.gen_id]
 		d.fill_list[clone_gen.gen_id] = d.fill_list[self.gen_id]
 	})
@@ -335,6 +425,7 @@ GLO.EdgeGeneration.prototype.aggregate = function(attr,method){
 
 		var new_edge = {}
 
+		new_edge.color_list = new Map()
 		new_edge.stroke_list = new Map()
 		new_edge.stroke_width_list = new Map()
 		new_edge.display_list = new Map()
@@ -372,6 +463,7 @@ GLO.EdgeGeneration.prototype.aggregate = function(attr,method){
 		new_edge.display_list[agg_gen.gen_id] = list[0].display_list[self.gen_id]
 		new_edge.stroke_list[agg_gen.gen_id] = list[0].stroke_list[self.gen_id]
 		new_edge.fill_list[agg_gen.gen_id] = list[0].fill_list[self.gen_id]
+		new_edge.color_list[agg_gen.gen_id] = list[0].color_list[self.gen_id]
 
 		//THIS PROBABLY ISN'T OPTIMAL!!!!!
 		new_edge.source = list[0].source
@@ -435,6 +527,7 @@ GLO.EdgeGeneration.prototype.init_props = function(){
 		.forEach(function(d){
 			d.stroke_width_list[self.gen_id] = self.default_stroke_width
 			d.stroke_list[self.gen_id] = self.default_stroke
+			d.color_list[self.gen_id] = self.default_stroke
 			d.display_list[self.gen_id] = null
 			d.fill_list[self.gen_id] = "none"
 
@@ -497,19 +590,6 @@ GLO.EdgeGeneration.prototype.edge_format = function(value){
 		return this._edge_format
 	}
 	this._edge_format = value
-	var self = this
-
-	if(this._edge_format=="squares"){
-		this.edges.forEach(function(d){
-			d.fill_list[self.gen_id] = d.stroke_list[self.gen_id]
-
-		})
-	}else{
-		this.edges.forEach(function(d){
-			d.fill_list[self.gen_id] = "none"
-		})
-	}
-
 
 
 	this.update()
@@ -567,6 +647,11 @@ GLO.EdgeGeneration.prototype.squares = function(selection){
 		})
 		.call(this.clear_directional_gradient.bind(self))
 
+	this.edges.forEach(function(d){
+		d.fill_list[self.gen_id] = d.color_list[self.gen_id]
+		d.stroke_list[self.gen_id] = null
+	})
+
 	return this
 }
 
@@ -588,8 +673,14 @@ GLO.EdgeGeneration.prototype.straight_lines = function(selection){
 
 			return p
 		})
-		.call(this.directional_gradient.bind(self))
+		
 
+		this.edges.forEach(function(d){
+			d.stroke_list[self.gen_id] = d.color_list[self.gen_id]
+			d.fill_list[self.gen_id] = "none"
+		})
+
+	// selection.call(this.directional_gradient.bind(self))
 
 	return this
 }
@@ -633,7 +724,14 @@ GLO.EdgeGeneration.prototype.curved_lines = function(selection){
 
 			return p
 		})
-		.call(this.directional_gradient.bind(self))
+	
+
+		this.edges.forEach(function(d){
+			d.stroke_list[self.gen_id] = d.color_list[self.gen_id]
+			d.fill_list[self.gen_id] = "none"
+		})
+
+	// selection.call(this.directional_gradient.bind(self))
 
 	return this
 }
@@ -652,32 +750,32 @@ GLO.EdgeGeneration.prototype.clear_directional_gradient = function(selection){
 GLO.EdgeGeneration.prototype.directional_gradient = function(selection){
 	var self = this
 
-	selection.style("stroke",function(d){
+	selection.each(function(d){
 		if(d.endx(self).toFixed(12)==d.startx(self).toFixed(12)){
 			if(d.endy(self)<d.starty(self)){
-				return "url(#up)"
+				d.stroke_list[self.gen_id] = "url(#up)"
 			}else{
-				return "url(#down)"
+				d.stroke_list[self.gen_id] = "url(#down)"
 			}
 		}
 		if(d.endy(self).toFixed(12)==d.starty(self).toFixed(12)){
 			 if(d.endx(self)<d.startx(self)){
-				return "url(#right)"
+				d.stroke_list[self.gen_id] = "url(#right)"
 			}else{
-				return "url(#left)"
+				d.stroke_list[self.gen_id] = "url(#left)"
 			}
 		}
 		if(d.endx(self).toFixed(12)<d.startx(self).toFixed(12)){
 			if(d.endy(self)<d.starty(self)){
-				return "url(#nxny)"
+				d.stroke_list[self.gen_id] = "url(#nxny)"
 			}else{
-				return "url(#nxpy)"
+				d.stroke_list[self.gen_id] = "url(#nxpy)"
 			}
 		}else{
 			if(d.endy(self).toFixed(12)<d.starty(self).toFixed(12)){
-				return "url(#pxny)"
+				d.stroke_list[self.gen_id] = "url(#pxny)"
 			}else{
-				return "url(#pxpy)"
+				d.stroke_list[self.gen_id] = "url(#pxpy)"
 			}
 		}
 	})

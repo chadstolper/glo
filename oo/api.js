@@ -530,7 +530,7 @@ GLO.GLO.prototype.size_edges_by = function(attr,opts){
 
 
 GLO.GLO.prototype.size_edges_by_constant = function(attr,opts){
-	this.active_edge_generation().size_by(this.active_edge_generation().default_stroke_width)
+	this.active_edge_generation().size_by_constant(this.active_edge_generation().default_stroke_width)
 	return this
 }
 
@@ -615,7 +615,9 @@ GLO.GLO.prototype.remove_all_edge_waypoints = function(opts){
 	source-end color and the second item is the target-end color
 */
 GLO.GLO.prototype.color_edges_by = function(attr,opts){
-	TODO("color_edges_by")
+	TODO("color_edges_by Multiple Attributes")
+	this.active_edge_generation().color_by(attr)
+	return this
 }
 
 

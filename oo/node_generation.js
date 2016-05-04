@@ -66,7 +66,7 @@ GLO.NodeGeneration.prototype.clone = function(canvas){
 		var agg_source_clone = this.aggregate_source_generation.clone(canvas)
 		clone_gen.aggregate_source_generation = agg_source_clone
 		agg_source_clone.aggregate_target_generation = clone_gen
-		agg_source.has_aggregate = true
+		agg_source_clone.has_aggregate = true
 
 		clone_gen.aggregate_node_map = new Map()
 		for(var [n,list] of this.aggregate_node_map){
