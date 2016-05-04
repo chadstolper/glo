@@ -65,6 +65,8 @@ GLO.NodeGeneration.prototype.clone = function(canvas){
 
 		var agg_source_clone = this.aggregate_source_generation.clone(canvas)
 		clone_gen.aggregate_source_generation = agg_source_clone
+		agg_source_clone.aggregate_target_generation = clone_gen
+		agg_source.has_aggregate = true
 
 		clone_gen.aggregate_node_map = new Map()
 		for(var [n,list] of this.aggregate_node_map){
@@ -118,6 +120,8 @@ GLO.NodeGeneration.prototype.deaggregate = function(){
 	}
 
 	self.canvas.active_node_generation(source_gen)
+	self.has_aggregate = false
+	delete self.aggregate_target_generation
 	source_gen.is_displayed(true)
 	source_gen.update()
 
@@ -129,6 +133,13 @@ GLO.NodeGeneration.prototype.get_root_source_gen = function(){
 		return this
 	}
 	return this.aggregate_source_generation.get_root_source_gen()
+}
+
+GLO.NodeGeneration.prototype.get_leaf_target_gen = function(){
+	if(!this.has_aggregate){
+		return this
+	}
+	return this.aggregate_target_generation.get_leaf_target_gen()
 }
 
 
@@ -199,6 +210,8 @@ GLO.NodeGeneration.prototype.aggregate = function(attr, method){
 
 	//Update properties from this to the aggregate
 	agg_gen.aggregate_source_generation = this
+	this.aggregate_target_generation = agg_gen
+	this.has_aggregate = true
 	agg_gen.x_scale = this.x_scale.copy()
 	agg_gen.y_scale = this.y_scale.copy()
 

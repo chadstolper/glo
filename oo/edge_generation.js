@@ -34,7 +34,7 @@ GLO.EdgeGeneration.prototype.source_generation = function(value){
 		return this._source_generation
 	}
 	if(this._source_generation){
-		if(value._source_generation.gen_id != this._target_generation.gen_id){
+		if(this._source_generation.gen_id != this._target_generation.gen_id){
 			this._source_generation.remove_listener(this)
 		}
 	}
@@ -524,7 +524,7 @@ GLO.EdgeGeneration.prototype.squares = function(selection){
 	var self = this
 
 	var small_dimension = Math.min(this.canvas.canvas_width(),this.canvas.canvas_height())
-	var large_node_length = Math.max(this.target_generation().nodes.length,this.source_generation().nodes.length)
+	var large_node_length = Math.max(this.target_generation().get_leaf_target_gen().nodes.length,this.source_generation().get_leaf_target_gen().nodes.length)
 
 	var square_size = small_dimension/large_node_length
 	var half_square_size = square_size / 2

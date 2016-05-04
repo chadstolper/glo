@@ -132,8 +132,11 @@
 							.display_edges_as_squares()
 							.set_target_generation(1)
 							.aggregate_nodes_by("modularity_class","mean")
+							.evenly_distribute_nodes_on("x",{by:"modularity_class"})
 							.select_node_generation(0)
-				
+							.aggregate_nodes_by("modularity_class","mean")
+							.evenly_distribute_nodes_on("y",{by:"modularity_class"})
+
 				})
 			})
 		})
