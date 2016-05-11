@@ -1,12 +1,27 @@
-GLO.NodeGroup = function(nodes, node_gen){
-	var self = this
+GLO.NodeGroup = function(nodes, node_gen, cloning){
 	this.nodes = nodes
 	this.gen = node_gen
 
-	var X = this.nodes.map(function(d){return d.x_list[self.gen.gen_id]; })
-	var Y = this.nodes.map(function(d){return d.y_list[self.gen.gen_id]; })
-	this.coordinates = new GLO.Coordinates(X,Y)
+	if(typeof cloning == "undefined" || cloning == false){
+		var self = this
+		var X = this.nodes.map(function(d){return d.x_list[self.gen.gen_id]; })
+		var Y = this.nodes.map(function(d){return d.y_list[self.gen.gen_id]; })
+		this.coordinates = new GLO.Coordinates(X,Y)
+	}
+	
 	return this
+}
+
+
+GLO.NodeGroup.prototype.clone = function(new_node_gen){
+	var self = this
+	var clone_group = new GLO.NodeGroup(self.nodes,new_node_gen,true)
+	clone_group.coordinates = self.coordinates.clone()
+	if(self.x_scale) clone_group.x_scale = self.x_scale.copy()
+	if(self.y_scale) clone_group.y_scale = self.y_scale.copy()
+	if(self.rho_scale) clone_group.rho_scale = self.rho_scale.copy()
+	if(self.theta_scale) clone_group.theta_scale = self.theta_scale.copy()
+	return clone_group
 }
 
 
@@ -450,43 +465,43 @@ GLO.NodeGroup.prototype.align = function(dir){
 	var self = this
 
 	if(dir=="top"){
-		this.node_glyphs
-			.each(function(d){
+		this.nodes
+			.forEach(function(d){
 				d.y_list[self.gen.gen_id] = self.coordinates.top()
 			})
 	}
 
 	if(dir=="middle"){
-		this.node_glyphs
-			.each(function(d){
+		this.nodes
+			.forEach(function(d){
 				d.y_list[self.gen.gen_id] = self.coordinates.middle()
 			})
 	}
 
 	if(dir=="bottom"){
-		this.node_glyphs
-			.each(function(d){
+		this.nodes
+			.forEach(function(d){
 				d.y_list[self.gen.gen_id] = self.coordinates.bottom()
 			})
 	}
 
 	if(dir=="left"){
-		this.node_glyphs
-			.each(function(d){
+		this.nodes
+			.forEach(function(d){
 				d.x_list[self.gen.gen_id] = self.coordinates.left()
 			})
 	}
 
 	if(dir=="center"){
-		this.node_glyphs
-			.each(function(d){
+		this.nodes
+			.forEach(function(d){
 				d.x_list[self.gen.gen_id] = self.coordinates.center()
 			})
 	}
 
 	if(dir=="right"){
-		this.node_glyphs
-			.each(function(d){
+		this.nodes
+			.forEach(function(d){
 				d.x_list[self.gen.gen_id] = self.coordinates.right()
 			})
 	}

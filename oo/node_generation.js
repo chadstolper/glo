@@ -94,6 +94,16 @@ GLO.NodeGeneration.prototype.clone = function(canvas){
 	clone_gen.x_scale = self.x_scale.copy()
 	clone_gen.y_scale = self.y_scale.copy()
 
+	//Clone Groups
+	clone_gen.group_by_map = new Map()
+	for (var [attr, group_map] of self.group_by_map.entries()) {
+		var new_group_map = new Map()
+		for (var [val, group] of group_map){
+			new_group_map.set(val, group.clone(clone_gen))
+		}
+		clone_gen.group_by_map.set(attr, new_group_map)
+	}
+
 	if(this.is_aggregated){
 
 		var agg_source_clone = this.aggregate_source_generation.clone(canvas)
@@ -1176,43 +1186,43 @@ GLO.NodeGeneration.prototype.align = function(dir,opts){
 	var self = this
 
 	if(dir=="top"){
-		this.node_glyphs
-			.each(function(d){
+		this.nodes
+			.forEach(function(d){
 				d.y_list[self.gen_id] = self.canvas.top()
 			})
 	}
 
 	if(dir=="middle"){
-		this.node_glyphs
-			.each(function(d){
+		this.nodes
+			.forEach(function(d){
 				d.y_list[self.gen_id] = self.canvas.middle()
 			})
 	}
 
 	if(dir=="bottom"){
-		this.node_glyphs
-			.each(function(d){
+		this.nodes
+			.forEach(function(d){
 				d.y_list[self.gen_id] = self.canvas.bottom()
 			})
 	}
 
 	if(dir=="left"){
-		this.node_glyphs
-			.each(function(d){
+		this.nodes
+			.forEach(function(d){
 				d.x_list[self.gen_id] = self.canvas.left()
 			})
 	}
 
 	if(dir=="center"){
-		this.node_glyphs
-			.each(function(d){
+		this.nodes
+			.forEach(function(d){
 				d.x_list[self.gen_id] = self.canvas.center()
 			})
 	}
 
 	if(dir=="right"){
-		this.node_glyphs
-			.each(function(d){
+		this.nodes
+			.forEach(function(d){
 				d.x_list[self.gen_id] = self.canvas.right()
 			})
 	}

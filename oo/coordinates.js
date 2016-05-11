@@ -15,6 +15,10 @@ GLO.Coordinates = function(x,y,width,height){
 	return this
 }
 
+GLO.Coordinates.prototype.clone = function(){
+	return new GLO.Coordinates(this._x,this._y,this._width,this._height)
+}
+
 GLO.Coordinates.prototype.bounding_box_area = function(X,Y){
 	var min_x = d3.min(X)
 	var min_y = d3.min(Y)

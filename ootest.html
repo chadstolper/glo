@@ -147,6 +147,14 @@
 							// .display_edges_as_curved_lines()
 							.position_nodes_by_constant_on("rho",{group_by:"modularity_class"})
 							.evenly_distribute_nodes_on("theta",{group_by:"modularity_class"})
+
+							.align_nodes("left",{group_by:"modularity_class"})
+							.evenly_distribute_nodes_on("y",{group_by:"modularity_class"})
+							.clone_nodes()
+							.evenly_distribute_nodes_on("x",{group_by:"modularity_class"})
+							.align_nodes("bottom",{group_by:"modularity_class"})
+							.set_target_generation(1)
+
 				})
 			})
 		})
