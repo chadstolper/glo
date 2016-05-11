@@ -1,10 +1,10 @@
 
 GLO.Coordinates = function(x,y,width,height){
-	if(typeof x == "list"){
+	if(Array.isArray(x)){
 		this._x = d3.min(x)
 		this._width = d3.max(x) - this._x
 		this._y = d3.min(y)
-		this._height = d3.max(y) = this._y
+		this._height = d3.max(y) - this._y
 		return this
 	}
 
@@ -71,25 +71,25 @@ GLO.Coordinates.prototype.area = function(){
 }
 
 GLO.Coordinates.prototype.top = function(){
-	return 0
+	return this.map_y(0)
 }
 
 GLO.Coordinates.prototype.bottom = function(){
-	return this.height()
+	return this.map_y(this.height())
 }
 
 GLO.Coordinates.prototype.middle = function(){
-	return this.height()/2
+	return this.map_y(this.height()/2)
 }
 
 GLO.Coordinates.prototype.left = function(){
-	return 0
+	return this.map_x(0)
 }
 
 GLO.Coordinates.prototype.center = function(){
-	return this.width()/2
+	return this.map_x(this.width()/2)
 }
 
 GLO.Coordinates.prototype.right = function(){
-	return this.width()
+	return this.map_x(this.width())
 }

@@ -136,7 +136,7 @@ GLO.GLO.prototype.position_nodes_on = function(axis,val,opts){
 
 //145	position nodes on {axis} by {constant}
 GLO.GLO.prototype.position_nodes_by_constant_on = function(axis,opts){
-	this.active_node_generation().position_by_preset_constant(axis)
+	this.active_node_generation().position_by_preset_constant(axis,opts)
 
 	return this
 }
@@ -163,9 +163,9 @@ GLO.GLO.prototype.evenly_distribute_edges_on = function(axis,opts){
 */
 GLO.GLO.prototype.evenly_distribute_nodes_on = function(axis,opts){
 	if(opts && opts.by){
-		this.active_node_generation().distribute(axis,opts.by)
+		this.active_node_generation().distribute(axis,opts.by,opts)
 	}else{
-		this.active_node_generation().distribute(axis)
+		this.active_node_generation().distribute(axis,null,opts)
 	}
 
 	return this
@@ -177,9 +177,9 @@ GLO.GLO.prototype.evenly_distribute_nodes_on = function(axis,opts){
 */
 GLO.GLO.prototype.evenly_distribute_nodes_on_within = function(axis,attr,opts){
 	if(opts && opts.by){
-		this.active_node_generation().distribute_on_within(axis,attr,opts.by)
+		this.active_node_generation().distribute_on_within(axis,attr,opts.by,opts)
 	}else{
-		this.active_node_generation().distribute_on_within(axis,attr)
+		this.active_node_generation().distribute_on_within(axis,attr,opts)
 	}
 
 	return this

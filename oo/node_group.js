@@ -252,7 +252,7 @@ GLO.NodeGroup.prototype.distribute = function(axis,by_prop){
 	var self = this
 
 
-	if(typeof by_prop === "undefined"){
+	if(typeof by_prop === "undefined" || by_prop == null){
 		by_prop = "id"
 	}
 
@@ -276,40 +276,40 @@ GLO.NodeGroup.prototype.distribute = function(axis,by_prop){
 
 	if(axis=="x"){
 		this.x_scale = scale
-			.rangePoints([this.coordinates.left(),this.coordinates.right()],this.discrete_range_padding)
+			.rangePoints([this.coordinates.left(),this.coordinates.right()],this.gen.discrete_range_padding)
 		
 		this.nodes.forEach(function(d){
-			d.x_list[self.gen_id] = scale(d.index)
+			d.x_list[self.gen.gen_id] = scale(d.index)
 		})
 	}
 	if(axis=="y"){
 		this.y_scale = scale
-			.rangePoints([this.coordinates.bottom(),this.coordinates.top()],this.discrete_range_padding)
+			.rangePoints([this.coordinates.bottom(),this.coordinates.top()],this.gen.discrete_range_padding)
 		
 		this.nodes.forEach(function(d){
-			d.y_list[self.gen_id] = scale(d.index)
+			d.y_list[self.gen.gen_id] = scale(d.index)
 		})
 	}
 	if(axis=="rho"){
 		this.rho_scale = scale
-			.rangePoints([1,Math.min(this.coordinates.width(),this.coordinates.height())/2],this.discrete_range_padding)
+			.rangePoints([1,Math.min(this.coordinates.width(),this.coordinates.height())/2],this.gen.discrete_range_padding)
 	
 		this.nodes.forEach(function(d){
-			d.rho_list[self.gen_id] = scale(d.index)
-			var new_coords = self.rho_shift(d, d.rho_list[self.gen_id])
-			d.x_list[self.gen_id] = new_coords.x
-			d.y_list[self.gen_id] = new_coords.y
+			d.rho_list[self.gen.gen_id] = scale(d.index)
+			var new_coords = self.rho_shift(d, d.rho_list[self.gen.gen_id])
+			d.x_list[self.gen.gen_id] = new_coords.x
+			d.y_list[self.gen.gen_id] = new_coords.y
 		})
 	}
 	if(axis=="theta"){
 		this.theta_scale = scale
-			.rangePoints([3*Math.PI/2,7*Math.PI/2],this.discrete_range_padding)
+			.rangePoints([3*Math.PI/2,7*Math.PI/2],this.gen.discrete_range_padding)
 
 		this.nodes.forEach(function(d){
-			d.theta_list[self.gen_id] = scale(d.index)
-			var new_coords = self.theta_shift(d, d.theta_list[self.gen_id])
-			d.x_list[self.gen_id] = new_coords.x
-			d.y_list[self.gen_id] = new_coords.y
+			d.theta_list[self.gen.gen_id] = scale(d.index)
+			var new_coords = self.theta_shift(d, d.theta_list[self.gen.gen_id])
+			d.x_list[self.gen.gen_id] = new_coords.x
+			d.y_list[self.gen.gen_id] = new_coords.y
 		})
 	}
 
@@ -370,40 +370,40 @@ GLO.NodeGroup.prototype.distribute_on_within = function(axis,within_prop,by_prop
 
 		if(axis=="x"){
 			scale
-				.rangePoints([this.coordinates.left(),this.coordinates.right()],this.discrete_range_padding)
+				.rangePoints([this.coordinates.left(),this.coordinates.right()],this.gen.discrete_range_padding)
 			
 			nodes.forEach(function(d){
-				d.x_list[self.gen_id] = scale(d.index)
+				d.x_list[self.gen.gen_id] = scale(d.index)
 			})
 		}
 		if(axis=="y"){
 			scale
-				.rangePoints([this.coordinates.bottom(),this.coordinates.top()],this.discrete_range_padding)
+				.rangePoints([this.coordinates.bottom(),this.coordinates.top()],this.gen.discrete_range_padding)
 			
 			nodes.forEach(function(d){
-				d.y_list[self.gen_id] = scale(d.index)
+				d.y_list[self.gen.gen_id] = scale(d.index)
 			})
 		}
 		if(axis=="rho"){
 			rho_scale = scale
-				.rangePoints([1,Math.min(this.coordinates.width(),this.coordinates.height())/2],this.discrete_range_padding)
+				.rangePoints([1,Math.min(this.coordinates.width(),this.coordinates.height())/2],this.gen.discrete_range_padding)
 		
 			this.nodes.forEach(function(d){
-				d.rho_list[self.gen_id] = scale(d.index)
-				var new_coords = self.rho_shift(d, d.rho_list[self.gen_id])
-				d.x_list[self.gen_id] = new_coords.x
-				d.y_list[self.gen_id] = new_coords.y
+				d.rho_list[self.gen.gen_id] = scale(d.index)
+				var new_coords = self.rho_shift(d, d.rho_list[self.gen.gen_id])
+				d.x_list[self.gen.gen_id] = new_coords.x
+				d.y_list[self.gen.gen_id] = new_coords.y
 			})
 		}
 		if(axis=="theta"){
 			theta_scale = scale
-				.rangePoints([3*Math.PI/2,7*Math.PI/2],this.discrete_range_padding)
+				.rangePoints([3*Math.PI/2,7*Math.PI/2],this.gen.discrete_range_padding)
 
 			nodes.forEach(function(d){
-				d.theta_list[self.gen_id] = scale(d.index)
-				var new_coords = self.theta_shift(d, d.theta_list[self.gen_id])
-				d.x_list[self.gen_id] = new_coords.x
-				d.y_list[self.gen_id] = new_coords.y
+				d.theta_list[self.gen.gen_id] = scale(d.index)
+				var new_coords = self.theta_shift(d, d.theta_list[self.gen.gen_id])
+				d.x_list[self.gen.gen_id] = new_coords.x
+				d.y_list[self.gen.gen_id] = new_coords.y
 			})
 		}
 
@@ -452,42 +452,42 @@ GLO.NodeGroup.prototype.align = function(dir){
 	if(dir=="top"){
 		this.node_glyphs
 			.each(function(d){
-				d.y_list[self.gen_id] = self.coordinates.top()
+				d.y_list[self.gen.gen_id] = self.coordinates.top()
 			})
 	}
 
 	if(dir=="middle"){
 		this.node_glyphs
 			.each(function(d){
-				d.y_list[self.gen_id] = self.coordinates.middle()
+				d.y_list[self.gen.gen_id] = self.coordinates.middle()
 			})
 	}
 
 	if(dir=="bottom"){
 		this.node_glyphs
 			.each(function(d){
-				d.y_list[self.gen_id] = self.coordinates.bottom()
+				d.y_list[self.gen.gen_id] = self.coordinates.bottom()
 			})
 	}
 
 	if(dir=="left"){
 		this.node_glyphs
 			.each(function(d){
-				d.x_list[self.gen_id] = self.coordinates.left()
+				d.x_list[self.gen.gen_id] = self.coordinates.left()
 			})
 	}
 
 	if(dir=="center"){
 		this.node_glyphs
 			.each(function(d){
-				d.x_list[self.gen_id] = self.coordinates.center()
+				d.x_list[self.gen.gen_id] = self.coordinates.center()
 			})
 	}
 
 	if(dir=="right"){
 		this.node_glyphs
 			.each(function(d){
-				d.x_list[self.gen_id] = self.coordinates.right()
+				d.x_list[self.gen.gen_id] = self.coordinates.right()
 			})
 	}
 

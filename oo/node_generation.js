@@ -936,7 +936,10 @@ GLO.NodeGeneration.prototype.distribute = function(axis,by_prop,opts){
 	if(typeof opts !== "undefined" && typeof opts.group_by !== "undefined"){
 		var groups = this.get_group_by_groups(opts.group_by)
 		groups.forEach(function(group){
-			group.distribute(axis,by_prop)
+			if(by_prop)
+				group.distribute(axis,by_prop)
+			else
+				group.distribute(axis)
 		})
 		return this
 	}
@@ -944,7 +947,7 @@ GLO.NodeGeneration.prototype.distribute = function(axis,by_prop,opts){
 	var self = this
 
 
-	if(typeof by_prop === "undefined"){
+	if(typeof by_prop === "undefined" || by_prop == null){
 		by_prop = "id"
 	}
 
