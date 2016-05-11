@@ -10,9 +10,11 @@
 <script src="bower_components/webcola/WebCola/cola.min.js"></script>
 
 <script src="oo/namespace.js"></script>
+<script src="oo/coordinates.js"></script>
 <script src="oo/canvas.js"></script>
 <script src="oo/node_generation.js"></script>
 <script src="oo/edge_generation.js"></script>
+
 
 <script src="oo/helpers.js"></script>
 
@@ -123,20 +125,25 @@
 							// .clone_edges()
 							// .set_source_generation(2)
 							// .set_target_generation(2)
+							// .color_nodes_by("modularity_class")
+							// .align_nodes("left")
+							// .aggregate_nodes_by("modularity_class","mean")
+							// .size_nodes_by("count")
+							// .evenly_distribute_nodes_on("y",{by:"modularity_class"})
+							// .clone_nodes()
+							// .align_nodes("bottom")
+
+							// .evenly_distribute_nodes_on("x",{by:"modularity_class"})
+
+							// .set_target_generation(3)
+							// .aggregate_edges_by(["source.modularity_class","target.modularity_class"],"sum")
+							// .display_edges_as_squares()
+							// .color_edges_by("weight")
 							.color_nodes_by("modularity_class")
-							.align_nodes("left")
-							.aggregate_nodes_by("modularity_class","mean")
-							.size_nodes_by("count")
-							.evenly_distribute_nodes_on("y",{by:"modularity_class"})
-							.clone_nodes()
-							.align_nodes("bottom")
-
-							.evenly_distribute_nodes_on("x",{by:"modularity_class"})
-
-							.set_target_generation(3)
-							.aggregate_edges_by(["source.modularity_class","target.modularity_class"],"sum")
-							.display_edges_as_squares()
-							.color_edges_by("weight")
+							.position_nodes_by_constant_on("rho")
+							// .evenly_distribute_nodes_on("theta")
+							.evenly_distribute_nodes_on("theta",{by:"modularity_class"})
+							.display_edges_as_curved_lines()
 				})
 			})
 		})

@@ -26,6 +26,9 @@ GLO.NodeGeneration = function(canvas, nodes, is_aggregated){
 
 	this.y_scale = this.default_y_scale.copy()
 
+
+	this.group_by_coordinates = new Map() //attr_string-->Coordinates
+
 	return this
 }
 
