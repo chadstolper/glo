@@ -524,6 +524,7 @@ GLO.GLO.prototype.display_nodes_as_labels = function(attr,opts){
 */
 GLO.GLO.prototype.size_edges_by = function(attr,opts){
 	TODO("size edges by multiple attrs")
+	TODO("size square edges")
 	this.active_edge_generation().size_by(attr)
 	return this
 }
