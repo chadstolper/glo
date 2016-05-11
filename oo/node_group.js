@@ -180,6 +180,28 @@ GLO.NodeGroup.prototype.position_by_discrete = function(axis,attr){
 }
 
 
+GLO.NodeGroup.prototype.position_by_preset_constant = function(axis){
+	var self = this
+
+	var constant
+	if(axis=="x"){
+		constant = this.coordinates.center()
+	}else if(axis=="y"){
+		constant = this.coordinates.middle()
+	}else if(axis=="rho"){
+		constant = .95*(Math.min(this.coordinates.width(),this.coordinates.height())/2)
+	}else if(axis=="theta"){
+		constant = 90
+	}else{
+		throw "Unsupported Axis: "+axis
+	}
+
+	this.position_by_constant(axis,constant)
+	return this
+}
+
+
+
 GLO.NodeGroup.prototype.position_by_constant = function(axis,constant){
 	var self = this
 

@@ -103,7 +103,7 @@ GLO.GLO.prototype.align_edges = function(dir,opts){
 	Shorthand for position_nodes_by(constant)
 */
 GLO.GLO.prototype.align_nodes = function(dir,opts){
-	this.active_node_generation().align(dir)
+	this.active_node_generation().align(dir,opts)
 	return this
 }
 
@@ -130,26 +130,14 @@ GLO.GLO.prototype.position_edges_by = function(xattr,yattr,opts){
 	theta constants are expressed in degrees, not radians
 */
 GLO.GLO.prototype.position_nodes_on = function(axis,val,opts){
-	this.active_node_generation().position_on(axis,val)
+	this.active_node_generation().position_on(axis,val,opts)
 	return this
 }
 
 //145	position nodes on {axis} by {constant}
 GLO.GLO.prototype.position_nodes_by_constant_on = function(axis,opts){
-	var constant
-	if(axis=="x"){
-		constant = this.active_canvas().center()
-	}else if(axis=="y"){
-		constant = this.active_canvas().middle()
-	}else if(axis=="rho"){
-		constant = .95*(Math.min(this.active_canvas().canvas_width(),this.active_canvas().canvas_height())/2)
-	}else if(axis=="theta"){
-		constant = 90
-	}else{
-		throw "Unsupported Axis: "+axis
-	}
+	this.active_node_generation().position_by_preset_constant(axis)
 
-	this.active_node_generation().position_by_constant(axis,constant)
 	return this
 }
 

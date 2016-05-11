@@ -680,7 +680,15 @@ GLO.NodeGeneration.prototype.theta_shift = function(d,new_theta){
 	return new_coords
 }
 
-GLO.NodeGeneration.prototype.position_on = function(axis,val){
+GLO.NodeGeneration.prototype.position_on = function(axis,val,opts){
+	if(typeof opts !== "undefined" && typeof opts.group_by !== "undefined"){
+		var groups = this.get_group_by_groups(opts.group_by)
+		groups.forEach(function(group){
+			group.position_on(axis,val)
+		})
+		return this
+	}
+
 	if(_.isNumber(val)){
 		this.position_by_constant(axis,val)
 	}else{
@@ -689,7 +697,15 @@ GLO.NodeGeneration.prototype.position_on = function(axis,val){
 	return this
 }
 
-GLO.NodeGeneration.prototype.position_by_attr = function(axis,attr){
+GLO.NodeGeneration.prototype.position_by_attr = function(axis,attr,opts){
+	if(typeof opts !== "undefined" && typeof opts.group_by !== "undefined"){
+		var groups = this.get_group_by_groups(opts.group_by)
+		groups.forEach(function(group){
+			group.position_by_attr(axis,attr)
+		})
+		return this
+	}
+
 	var type = this.canvas.glo.node_attr()[attr]
 	if(type == "continuous"){
 		this.position_by_continuous(axis,attr)
@@ -702,7 +718,15 @@ GLO.NodeGeneration.prototype.position_by_attr = function(axis,attr){
 	return this
 }
 
-GLO.NodeGeneration.prototype.position_by_continuous = function(axis,attr){
+GLO.NodeGeneration.prototype.position_by_continuous = function(axis,attr,opts){
+	if(typeof opts !== "undefined" && typeof opts.group_by !== "undefined"){
+		var groups = this.get_group_by_groups(opts.group_by)
+		groups.forEach(function(group){
+			group.position_by_continuous(axis,attr)
+		})
+		return this
+	}
+
 	var self = this
 
 	var scale = d3.scale.linear()
@@ -756,7 +780,15 @@ GLO.NodeGeneration.prototype.position_by_continuous = function(axis,attr){
 	return this
 }
 
-GLO.NodeGeneration.prototype.position_by_discrete = function(axis,attr){
+GLO.NodeGeneration.prototype.position_by_discrete = function(axis,attr,opts){
+	if(typeof opts !== "undefined" && typeof opts.group_by !== "undefined"){
+		var groups = this.get_group_by_groups(opts.group_by)
+		groups.forEach(function(group){
+			group.position_by_discrete(axis,attr)
+		})
+		return this
+	}
+
 	var self = this
 
 	var scale = d3.scale.ordinal()
@@ -817,9 +849,43 @@ GLO.NodeGeneration.prototype.position_by_discrete = function(axis,attr){
 	return this
 }
 
+GLO.NodeGeneration.prototype.position_by_preset_constant = function(axis,opts){
+	if(typeof opts !== "undefined" && typeof opts.group_by !== "undefined"){
+		var groups = this.get_group_by_groups(opts.group_by)
+		groups.forEach(function(group){
+			group.position_by_preset_constant(axis)
+		})
+		return this
+	}
 
+	var self = this
 
-GLO.NodeGeneration.prototype.position_by_constant = function(axis,constant){
+	var constant
+	if(axis=="x"){
+		constant = this.canvas.center()
+	}else if(axis=="y"){
+		constant = this.canvas.middle()
+	}else if(axis=="rho"){
+		constant = .95*(Math.min(this.canvas.canvas_width(),this.canvas.canvas_height())/2)
+	}else if(axis=="theta"){
+		constant = 90
+	}else{
+		throw "Unsupported Axis: "+axis
+	}
+
+	this.position_by_constant(axis,constant)
+	return this
+}
+
+GLO.NodeGeneration.prototype.position_by_constant = function(axis,constant,opts){
+	if(typeof opts !== "undefined" && typeof opts.group_by !== "undefined"){
+		var groups = this.get_group_by_groups(opts.group_by)
+		groups.forEach(function(group){
+			group.position_by_constant(axis,constant)
+		})
+		return this
+	}
+
 	var self = this
 
 	var scale = d3.scale.linear()
@@ -866,7 +932,15 @@ GLO.NodeGeneration.prototype.position_by_constant = function(axis,constant){
 }
 
 
-GLO.NodeGeneration.prototype.distribute = function(axis,by_prop){
+GLO.NodeGeneration.prototype.distribute = function(axis,by_prop,opts){
+	if(typeof opts !== "undefined" && typeof opts.group_by !== "undefined"){
+		var groups = this.get_group_by_groups(opts.group_by)
+		groups.forEach(function(group){
+			group.distribute(axis,by_prop)
+		})
+		return this
+	}
+
 	var self = this
 
 
@@ -973,7 +1047,15 @@ GLO.NodeGeneration.prototype._group_by = function(discrete){
 }
 
 
-GLO.NodeGeneration.prototype.distribute_on_within = function(axis,within_prop,by_prop){
+GLO.NodeGeneration.prototype.distribute_on_within = function(axis,within_prop,by_prop,opts){
+	if(typeof opts !== "undefined" && typeof opts.group_by !== "undefined"){
+		var groups = this.get_group_by_groups(opts.group_by)
+		groups.forEach(function(group){
+			group.distribute_on_within(axis,within_prop,by_prop)
+		})
+		return this
+	}
+
 	var self = this
 
 	if(typeof by_prop === "undefined"){
@@ -1079,7 +1161,15 @@ GLO.NodeGeneration.prototype.distribute_on_within = function(axis,within_prop,by
 
 
 
-GLO.NodeGeneration.prototype.align = function(dir){
+GLO.NodeGeneration.prototype.align = function(dir,opts){
+	if(typeof opts !== "undefined" && typeof opts.group_by !== "undefined"){
+		var groups = this.get_group_by_groups(opts.group_by)
+		groups.forEach(function(group){
+			group.align(dir)
+		})
+		return this
+	}
+
 	var self = this
 
 	if(dir=="top"){
