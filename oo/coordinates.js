@@ -1,9 +1,18 @@
 
 GLO.Coordinates = function(x,y,width,height){
+	if(typeof x == "list"){
+		this._x = d3.min(x)
+		this._width = d3.max(x) - this._x
+		this._y = d3.min(y)
+		this._height = d3.max(y) = this._y
+		return this
+	}
+
 	this._x = x
 	this._y = y
 	this._width = width
 	this._height = height
+	return this
 }
 
 GLO.Coordinates.prototype.bounding_box_area = function(X,Y){

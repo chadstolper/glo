@@ -27,7 +27,7 @@ GLO.NodeGeneration = function(canvas, nodes, is_aggregated){
 	this.y_scale = this.default_y_scale.copy()
 
 
-	this.group_by_coordinates = new Map() //attr_string-->Coordinates
+	this.group_by_map = new Map() //attr_string-->(vals-->node_group)
 
 	return this
 }
@@ -38,6 +38,36 @@ GLO.NodeGeneration.prototype.max_r = 45
 GLO.NodeGeneration.prototype.min_r = 2
 GLO.NodeGeneration.prototype.discrete_range_padding = 1.0;
 
+
+GLO.NodeGeneration.prototype.get_group_by_groups = function(attr){
+	var self = this
+
+	var node_groups
+
+	if(this.group_by_map.has(attr)){
+		node_groups = this.group_by_map.get(attr)
+	}else{
+		node_groups = new Map()
+
+		var vals = this.nodes.map(function(d){
+			return d[attr]
+		})
+
+		for(var val in vals){
+			val = vals[val]
+			nodes = this.nodes.filter(function(d){
+				return (d[attr] == val)
+			})
+			node_group = new NodeGroup(nodes,self)
+			node_groups.put(val,node_group)
+		}
+
+		this.group_by_map.put(attr, node_groups)
+	}
+
+
+	return node_groups
+}
 
 
 GLO.NodeGeneration.prototype.clone = function(canvas){
