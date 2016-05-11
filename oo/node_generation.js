@@ -58,11 +58,11 @@ GLO.NodeGeneration.prototype.get_group_by_groups = function(attr){
 			nodes = this.nodes.filter(function(d){
 				return (d[attr] == val)
 			})
-			node_group = new NodeGroup(nodes,self)
-			node_groups.put(val,node_group)
+			node_group = new GLO.NodeGroup(nodes,this)
+			node_groups.set(val,node_group)
 		}
 
-		this.group_by_map.put(attr, node_groups)
+		this.group_by_map.set(attr, node_groups)
 	}
 
 
