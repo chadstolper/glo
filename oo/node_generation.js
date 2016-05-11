@@ -937,7 +937,7 @@ GLO.NodeGeneration.prototype.distribute = function(axis,by_prop){
 	return this
 }
 
-
+//TODO: REMEMBER TO IGNORE GROUP-BY CASES
 GLO.NodeGeneration.prototype.set_axes = function(axis){
 	if(axis=="x"){
 		this.canvas.x_axis_gen(this)
