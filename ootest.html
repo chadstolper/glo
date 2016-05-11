@@ -93,7 +93,7 @@
 
 					svg = d3.select("#canvas")
 						.style("width",800)
-						.style("height",400)
+						.style("height",500)
 					glo = new GLO.GLO(svg)
 						.nodes(nodes)
 						.edges(edges)
@@ -140,11 +140,10 @@
 							// .aggregate_edges_by(["source.modularity_class","target.modularity_class"],"sum")
 							// .display_edges_as_squares()
 							// .color_edges_by("weight")
+							
 							.color_nodes_by("modularity_class")
 							.position_nodes_by_constant_on("rho")
-							// .evenly_distribute_nodes_on("theta")
 							.evenly_distribute_nodes_on("theta",{by:"modularity_class"})
-							// .display_edges_as_curved_lines()
 							.position_nodes_by_constant_on("rho",{group_by:"modularity_class"})
 							.evenly_distribute_nodes_on("theta",{group_by:"modularity_class"})
 
