@@ -68,16 +68,27 @@ GLO.EdgeGeneration.prototype.update = function(){
 
 
 	if(this.is_aggregated){
-		this.aggregate_source_generation.show_mode(this.show_mode())
-		this.aggregate_source_generation.edge_format(this.edge_format())
+		for(var [n,list] of this.aggregate_edge_map){
+			for(var d in list){
+				d = list[d]
+				d.show_mode_list[self.aggregate_source_generation.gen_id] = n.show_mode_list[self.gen_id]
+				d.edge_format_list[self.aggregate_source_generation.gen_id] = n.edge_format_list[self.gen_id]
+			}
+		}
+
 		this.aggregate_source_generation.source_generation(this.source_generation())
 		this.aggregate_source_generation.target_generation(this.target_generation())
 	}
 
-	this[this.show_mode()]()
-
+	
 	this.edge_glyphs.transition()
-		.call(self[self.edge_format()].bind(self))
+		.each(function(d){
+			self[d.show_mode_list[self.gen_id]](d)
+			self[d.edge_format_list[self.gen_id]+"_fill"](d)
+		})
+		.attr("d", function(d){
+			return self[d.edge_format_list[self.gen_id]](d)
+		})
 		.style("fill", function(d){
 			return d.fill_list[self.gen_id]
 		})
@@ -91,6 +102,7 @@ GLO.EdgeGeneration.prototype.update = function(){
 			return d.display_list[self.gen_id]
 		})
 		.style("opacity", self.default_opacity)
+
 		
 
 	return this
@@ -305,10 +317,13 @@ GLO.EdgeGeneration.prototype.clone = function(canvas){
 		d.color_list[clone_gen.gen_id] = d.color_list[self.gen_id]
 		d.stroke_list[clone_gen.gen_id] = d.stroke_list[self.gen_id]
 		d.fill_list[clone_gen.gen_id] = d.fill_list[self.gen_id]
+		d.edge_format_list[clone_gen.gen_id] = d.edge_format_list[self.gen_id]
+		d.show_mode_list[clone_gen.gen_id] = d.show_mode_list[self.gen_id]
 	})
 
-	clone_gen.edge_format(self.edge_format())
-	clone_gen.show_mode(self.show_mode())
+	// clone_gen.edge_format(self.edge_format())
+
+	// clone_gen.show_mode(self.show_mode())
 	clone_gen.source_generation(self.source_generation())
 	clone_gen.target_generation(self.target_generation())
 
@@ -430,6 +445,8 @@ GLO.EdgeGeneration.prototype.aggregate = function(attr,method){
 		new_edge.stroke_width_list = new Map()
 		new_edge.display_list = new Map()
 		new_edge.fill_list = new Map()
+		new_edge.show_mode_list = new Map()
+		new_edge.edge_format_list = new Map()
 
 		new_edge.startx = function(edge_gen){ return this.source.x_list[edge_gen.source_generation().gen_id]; }
 		new_edge.starty = function(edge_gen){ return this.source.y_list[edge_gen.source_generation().gen_id]; }
@@ -465,6 +482,10 @@ GLO.EdgeGeneration.prototype.aggregate = function(attr,method){
 		new_edge.fill_list[agg_gen.gen_id] = list[0].fill_list[self.gen_id]
 		new_edge.color_list[agg_gen.gen_id] = list[0].color_list[self.gen_id]
 
+		new_edge.edge_format_list[agg_gen.gen_id] = list[0].edge_format_list[self.gen_id]
+		new_edge.show_mode_list[agg_gen.gen_id] = list[0].show_mode_list[self.gen_id]
+
+
 		//THIS PROBABLY ISN'T OPTIMAL!!!!!
 		new_edge.source = list[0].source
 		new_edge.target = list[0].target
@@ -487,8 +508,6 @@ GLO.EdgeGeneration.prototype.aggregate = function(attr,method){
 		}))
 	}
 
-	agg_gen.edge_format(self.edge_format())
-	agg_gen.show_mode(self.show_mode())
 
 	agg_gen.source_generation(self.source_generation())
 	agg_gen.target_generation(self.target_generation())
@@ -530,6 +549,8 @@ GLO.EdgeGeneration.prototype.init_props = function(){
 			d.color_list[self.gen_id] = self.default_stroke
 			d.display_list[self.gen_id] = null
 			d.fill_list[self.gen_id] = "none"
+			d.show_mode_list[self.gen_id] = "show_all_edges"
+			d.edge_format_list[self.gen_id] = "straight_lines"
 
 		})
 
@@ -577,6 +598,9 @@ GLO.EdgeGeneration.prototype.init_draw = function(){
 		.style("display", function(d){
 			return d.display_list[self.gen_id]
 		})
+		.attr("d", function(d){
+
+		})
 
 
 	return this
@@ -587,9 +611,15 @@ GLO.EdgeGeneration.prototype.init_draw = function(){
 
 GLO.EdgeGeneration.prototype.edge_format = function(value){
 	if(typeof value === "undefined"){
+		throw "Still asking for global edge_format"
 		return this._edge_format
 	}
-	this._edge_format = value
+	// this._edge_format = value
+
+	var self = this
+	this.edges.forEach(function(d){
+		d.edge_format_list[self.gen_id] = value
+	})
 
 
 	this.update()
@@ -597,144 +627,129 @@ GLO.EdgeGeneration.prototype.edge_format = function(value){
 }
 
 
-GLO.EdgeGeneration.prototype.squares = function(selection){
+GLO.EdgeGeneration.prototype.squares = function(d){
 	// TODO("position_edges_by") //x->y is hardcoded
 	// TODO("size_edges_by") //Currently hard-coding square size
 
 	var self = this
 
-	var small_dimension = Math.min(this.canvas.canvas_width(),this.canvas.canvas_height())
-	var large_node_length = Math.max(this.target_generation().get_leaf_target_gen().nodes.length,this.source_generation().get_leaf_target_gen().nodes.length)
+	var small_dimension = Math.min(self.canvas.canvas_width(),self.canvas.canvas_height())
+	var large_node_length = Math.max(self.target_generation().get_leaf_target_gen().nodes.length,self.source_generation().get_leaf_target_gen().nodes.length)
 
 	var square_size = small_dimension/large_node_length
 	var half_square_size = square_size / 2
 
-	selection
-		.attr("d", function(d){
 
-			// |---
-			// |    non-relative move (M)
-			var p = "M"
-			p+= ""+(d.endx(self)-half_square_size)
-			p+= ","
-			p+= ""+(d.starty(self)-half_square_size)
+	// |---
+	// |    non-relative move (M)
+	var p = "M"
+	p+= ""+(d.endx(self)-half_square_size)
+	p+= ","
+	p+= ""+(d.starty(self)-half_square_size)
 
-			// ---|
-			//    | relative move (m)
-			p+=" l"
-			p+= ""+(square_size)
-			p+= ","
-			p+= "0"
+	// ---|
+	//    | relative move (m)
+	p+=" l"
+	p+= ""+(square_size)
+	p+= ","
+	p+= "0"
 
-			//    |
-			// ---| relative move (m)
-			p+=" l"
-			p+= "0"
-			p+= ","
-			p+= ""+(square_size)
+	//    |
+	// ---| relative move (m)
+	p+=" l"
+	p+= "0"
+	p+= ","
+	p+= ""+(square_size)
 
-			// |   
-			// |--- relative move (m)
-			p+=" l"
-			p+= "-"+(square_size) //negative since moving left
-			p+= ","
-			p+= "0"
+	// |   
+	// |--- relative move (m)
+	p+=" l"
+	p+= "-"+(square_size) //negative since moving left
+	p+= ","
+	p+= "0"
 
-			p+= " z"
+	p+= " z"
 
 
-			return p
-		})
-		.call(this.clear_directional_gradient.bind(self))
-
-	this.edges.forEach(function(d){
-		d.fill_list[self.gen_id] = d.color_list[self.gen_id]
-		d.stroke_list[self.gen_id] = null
-	})
-
-	return this
+	return p
 }
 
-
-GLO.EdgeGeneration.prototype.straight_lines = function(selection){
+GLO.EdgeGeneration.prototype.squares_fill = function(d){
 	var self = this
-
-	selection
-		.attr("d", function(d) {
-			var p = "M"+ d.startx(self) + "," + d.starty(self)
-
-			//control point
-			var cx = (d.endx(self) + d.startx(self))/2
-			var cy = (d.endy(self) + d.starty(self))/2
-			
-			p += " Q"+cx+","+cy+" "
-			p += d.endx(self)+","+d.endy(self)
-
-
-			return p
-		})
-		
-
-		this.edges.forEach(function(d){
-			d.stroke_list[self.gen_id] = d.color_list[self.gen_id]
-			d.fill_list[self.gen_id] = "none"
-		})
-
-	// selection.call(this.directional_gradient.bind(self))
-
-	return this
+	d.fill_list[self.gen_id] = d.color_list[self.gen_id]
+	d.stroke_list[self.gen_id] = null
 }
 
 
 
 
-
-GLO.EdgeGeneration.prototype.curved_lines = function(selection){
+GLO.EdgeGeneration.prototype.straight_lines = function(d){
 	var self = this
 
-	selection
-		.attr("d", function(d) {
-			var p = "M"+ d.startx(self) + "," + d.starty(self)
+	var p = "M"+ d.startx(self) + "," + d.starty(self)
 
-			//control point
-			var cx = (d.endx(self) + d.startx(self))/2
-			var cy = (d.endy(self) + d.starty(self))/2
-			var dist = Math.abs(d.endx(self)-d.startx(self))+Math.abs(d.endy(self)-d.starty(self))
-			var h = self.hscale(dist)
-			var rise = Math.abs(d.endy(self)-d.starty(self))
-			var run = Math.abs(d.endx(self)-d.startx(self))
-			var dx, dy
-			
-			dx = (rise/(rise+run))*h
-			dy = -(run/(rise+run))*h
-			
-			//Curve up or curve down
-			var direction
-			var ydir = (d.startx(self)<d.endx(self))?-1:1
-			dy *= ydir
-			var xdir = (d.starty(self)<d.endy(self))?-1:1
-			dx *= xdir
-
-			var cx_prime = cx + (dx*h)
-			var cy_prime = cy + (dy*h)
-			
-			p += " Q"+cx_prime+","+cy_prime+" "
-			p += d.endx(self)+","+d.endy(self)
-
-
-			return p
-		})
+	//control point
+	var cx = (d.endx(self) + d.startx(self))/2
+	var cy = (d.endy(self) + d.starty(self))/2
 	
+	p += " Q"+cx+","+cy+" "
+	p += d.endx(self)+","+d.endy(self)
 
-		this.edges.forEach(function(d){
-			d.stroke_list[self.gen_id] = d.color_list[self.gen_id]
-			d.fill_list[self.gen_id] = "none"
-		})
 
-	// selection.call(this.directional_gradient.bind(self))
-
-	return this
+	return p
 }
+
+GLO.EdgeGeneration.prototype.straight_lines_fill = function(d){
+	var self = this
+	d.stroke_list[self.gen_id] = d.color_list[self.gen_id]
+	d.fill_list[self.gen_id] = "none"
+}
+
+
+
+
+
+GLO.EdgeGeneration.prototype.curved_lines = function(d){
+	var self = this
+
+	var p = "M"+ d.startx(self) + "," + d.starty(self)
+
+	//control point
+	var cx = (d.endx(self) + d.startx(self))/2
+	var cy = (d.endy(self) + d.starty(self))/2
+	var dist = Math.abs(d.endx(self)-d.startx(self))+Math.abs(d.endy(self)-d.starty(self))
+	var h = self.hscale(dist)
+	var rise = Math.abs(d.endy(self)-d.starty(self))
+	var run = Math.abs(d.endx(self)-d.startx(self))
+	var dx, dy
+	
+	dx = (rise/(rise+run))*h
+	dy = -(run/(rise+run))*h
+	
+	//Curve up or curve down
+	var direction
+	var ydir = (d.startx(self)<d.endx(self))?-1:1
+	dy *= ydir
+	var xdir = (d.starty(self)<d.endy(self))?-1:1
+	dx *= xdir
+
+	var cx_prime = cx + (dx*h)
+	var cy_prime = cy + (dy*h)
+	
+	p += " Q"+cx_prime+","+cy_prime+" "
+	p += d.endx(self)+","+d.endy(self)
+
+
+	return p
+}
+
+
+GLO.EdgeGeneration.prototype.curved_lines_fill = function(d){
+	var self = this
+	d.stroke_list[self.gen_id] = d.color_list[self.gen_id]
+	d.fill_list[self.gen_id] = "none"
+}
+
 
 GLO.EdgeGeneration.prototype.clear_directional_gradient = function(selection){
 	var self = this
@@ -787,39 +802,34 @@ GLO.EdgeGeneration.prototype.directional_gradient = function(selection){
 
 GLO.EdgeGeneration.prototype.show_mode = function(value){
 	if(typeof value === "undefined"){
+		throw "Still asking for global show_mode"
 		return this._show_mode
 	}
 	this._show_mode = value
 
+	var self = this
+	this.edges.forEach(function(d){
+		d.show_mode_list[self.gen_id] = value
+	})
 	this.update()
 	return this
 }
 
 
 
-GLO.EdgeGeneration.prototype.show_all_edges = function(){
+GLO.EdgeGeneration.prototype.show_all_edges = function(d){
 	var self = this
-
-	this.edges.forEach(function(d){
-		d.display_list[self.gen_id] = null
-	})
-
-	return this
+	d.display_list[self.gen_id] = null
 }
 
 
-GLO.EdgeGeneration.prototype.show_incident_edges = function(){
+GLO.EdgeGeneration.prototype.show_incident_edges = function(d){
 	var self = this
-
-	this.edges.forEach(function(d){
-		var source_hover = d.source.hover_list[self.source_generation().gen_id]
-		var target_hover = d.target.hover_list[self.target_generation().gen_id]
-		if(source_hover || target_hover){
-			d.display_list[self.gen_id] = null
-		}else{
-			d.display_list[self.gen_id] = "none"
-		}
-	})
-
-	return this
+	var source_hover = d.source.hover_list[self.source_generation().gen_id]
+	var target_hover = d.target.hover_list[self.target_generation().gen_id]
+	if(source_hover || target_hover){
+		d.display_list[self.gen_id] = null
+	}else{
+		d.display_list[self.gen_id] = "none"
+	}
 }
