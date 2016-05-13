@@ -867,3 +867,8 @@ GLO.EdgeGeneration.prototype.show_incident_edges = function(d){
 		d.display_list[self.gen_id] = "none"
 	}
 }
+
+GLO.EdgeGeneration.prototype.hide_edges = function(d){
+	var self = this
+	d.display_list[self.gen_id] = "none"
+}

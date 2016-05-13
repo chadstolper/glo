@@ -408,7 +408,8 @@ GLO.GLO.prototype.show_incident_edges = function(opts){
 	
 */
 GLO.GLO.prototype.hide_edges = function(opts){
-	TODO("hide_edges")
+	this.active_edge_generation().show_mode("hide_edges",opts)
+	return this
 }
 
 //28	display edges as bars

@@ -142,10 +142,15 @@
 							// .color_edges_by("weight")
 							
 							.color_nodes_by("modularity_class")
+
+							// .evenly_distribute_nodes_on("x",{by:"modularity_class"})
+							// .evenly_distribute_nodes_on("y",{by:"modularity_class"})
+
 							.position_nodes_by_constant_on("rho")
 							.evenly_distribute_nodes_on("theta",{by:"modularity_class"})
-							.position_nodes_by_constant_on("rho",{group_by:"modularity_class"})
-							.evenly_distribute_nodes_on("theta",{group_by:"modularity_class"})
+
+							// .position_nodes_by_constant_on("rho",{group_by:"modularity_class"})
+							// .evenly_distribute_nodes_on("theta",{group_by:"modularity_class"})
 
 							.align_nodes("left",{group_by:"modularity_class"})
 							.evenly_distribute_nodes_on("y",{group_by:"modularity_class"})
@@ -158,6 +163,12 @@
 							.display_edges_as_curved_lines()
 							.display_edges_as_squares({group_by:"modularity_class"})
 							.show_all_edges({group_by:"modularity_class"})
+
+							.clone_edges()
+							.hide_edges({group_by:"modularity_class"})
+							.set_source_generation(1)
+							.set_target_generation(0)
+
 
 							// .show_incident_edges()
 							// .display_edges_as_curved_lines()
