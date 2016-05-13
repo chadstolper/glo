@@ -363,7 +363,7 @@ GLO.GLO.prototype.hide_convex_hulls = function(opts){
 	
 */
 GLO.GLO.prototype.show_all_edges = function(opts){
-	this.active_edge_generation().show_mode("show_all_edges")
+	this.active_edge_generation().show_mode("show_all_edges",opts)
 	return this
 }
 
@@ -398,7 +398,7 @@ GLO.GLO.prototype.show_faded_and_incident_edges = function(opts){
 	to mousedover node shown as solid
 */
 GLO.GLO.prototype.show_incident_edges = function(opts){
-	this.active_edge_generation().show_mode("show_incident_edges")
+	this.active_edge_generation().show_mode("show_incident_edges",opts)
 	return this
 }
 
@@ -424,7 +424,7 @@ GLO.GLO.prototype.display_edges_as_bars = function(opts){
 	
 */
 GLO.GLO.prototype.display_edges_as_curved_lines = function(opts){
-	this.active_edge_generation().edge_format("curved_lines")
+	this.active_edge_generation().edge_format("curved_lines",opts)
 	return this
 }
 
@@ -450,7 +450,7 @@ GLO.GLO.prototype.display_edges_as_outer_links = function(opts){
 	
 */
 GLO.GLO.prototype.display_edges_as_squares = function(opts){
-	this.active_edge_generation().edge_format("squares")
+	this.active_edge_generation().edge_format("squares",opts)
 	return this
 }
 
@@ -459,7 +459,7 @@ GLO.GLO.prototype.display_edges_as_squares = function(opts){
 	
 */
 GLO.GLO.prototype.display_edges_as_straight_lines = function(opts){
-	this.active_edge_generation().edge_format("straight_lines")
+	this.active_edge_generation().edge_format("straight_lines", opts)
 	return this
 }
 

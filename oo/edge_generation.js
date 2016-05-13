@@ -608,19 +608,43 @@ GLO.EdgeGeneration.prototype.init_draw = function(){
 
 
 
+GLO.EdgeGeneration.prototype.internal_external_edges = function(attr){
+	var internal = []
+	var external = []
 
-GLO.EdgeGeneration.prototype.edge_format = function(value){
+	this.edges.forEach(function(d){
+		if(d.source[attr]==d.target[attr]){
+			internal.push(d)
+		}else{
+			external.push(d)
+		}
+	})
+
+	return {"internal":internal, "external":external}
+}
+
+
+
+GLO.EdgeGeneration.prototype.edge_format = function(value,opts){
+	var self = this
 	if(typeof value === "undefined"){
 		throw "Still asking for global edge_format"
 		return this._edge_format
 	}
-	// this._edge_format = value
+	this._edge_format = value
 
-	var self = this
+	if(typeof opts !== "undefined" && typeof opts.group_by !== "undefined"){
+		var internal_edges = self.internal_external_edges(opts.group_by).internal
+		internal_edges.forEach(function(d){
+			d.edge_format_list[self.gen_id] = value
+		})
+		this.update()
+		return this
+	}
+
 	this.edges.forEach(function(d){
 		d.edge_format_list[self.gen_id] = value
 	})
-
 
 	this.update()
 	return this
@@ -800,14 +824,24 @@ GLO.EdgeGeneration.prototype.directional_gradient = function(selection){
 
 
 
-GLO.EdgeGeneration.prototype.show_mode = function(value){
+GLO.EdgeGeneration.prototype.show_mode = function(value,opts){
+	var self = this
 	if(typeof value === "undefined"){
 		throw "Still asking for global show_mode"
 		return this._show_mode
 	}
 	this._show_mode = value
 
-	var self = this
+	if(typeof opts !== "undefined" && typeof opts.group_by !== "undefined"){
+		var internal_edges = self.internal_external_edges(opts.group_by).internal
+		internal_edges.forEach(function(d){
+			d.show_mode_list[self.gen_id] = value
+		})
+		this.update()
+		return this
+	}
+
+	
 	this.edges.forEach(function(d){
 		d.show_mode_list[self.gen_id] = value
 	})
