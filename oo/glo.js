@@ -10,7 +10,7 @@ GLO.GLO = function(svg){
 	this.edge_gen_counter = 0
 
 	this.canvases = new Map()
-	this.canvases[0] = new GLO.Canvas(this,this.width(),this.height())
+	this.canvases.set(0, new GLO.Canvas(this,this.width(),this.height()))
 
 	this._active_canvas = 0
 
@@ -37,7 +37,7 @@ GLO.GLO.prototype.height = function(value){
 
 GLO.GLO.prototype.active_canvas = function(value){
 	if(!value){
-		return this.canvases[this._active_canvas]
+		return this.canvases.get(this._active_canvas)
 	}
 	this._active_canvas = value
 	return this
@@ -59,6 +59,15 @@ GLO.GLO.prototype._next_edge_gen = function(){
 	return this.edge_gen_counter++;
 }
 
+
+GLO.GLO.prototype.update_all_node_generations = function(){
+	this.canvases.forEach(function(canvas,id){
+		canvas.node_generations.forEach(function(node_gen,gen_id){
+			node_gen.update()
+		})
+	})
+	return this
+}
 
 GLO.GLO.prototype.nodes = function(value){
 	if(!value){
@@ -100,7 +109,7 @@ GLO.GLO.prototype.edge_attr = function(value){
 GLO.GLO.prototype.draw = function(){
 	this._init_graph()
 	this._init_directional_gradients()
-	this.canvases[0].init()
+	this.canvases.get(0).init()
 	return this
 }
 

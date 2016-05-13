@@ -346,6 +346,11 @@ GLO.NodeGeneration.prototype.selectAll = function(str){
 	return this.node_g.selectAll(str)
 }
 
+GLO.NodeGeneration.prototype.update_all = function(){
+	var self = this
+	this.canvas.glo.update_all_node_generations()
+}
+
 GLO.NodeGeneration.prototype.update = function(){
 	var self = this
 
@@ -458,11 +463,13 @@ GLO.NodeGeneration.prototype.init_draw = function(){
 		})
 		.on('mouseover', function(d){
 			d.hover_value = true
-			self.update()
+			self.update_all()
+			// self.update()
 		})
 		.on('mouseout', function(d){
 			d.hover_value = false
-			self.update()
+			self.update_all()
+			// self.update()
 		})
 
 	return this
