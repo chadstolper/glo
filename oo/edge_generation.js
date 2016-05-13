@@ -859,8 +859,8 @@ GLO.EdgeGeneration.prototype.show_all_edges = function(d){
 
 GLO.EdgeGeneration.prototype.show_incident_edges = function(d){
 	var self = this
-	var source_hover = d.source.hover_list.get(self.source_generation().gen_id)
-	var target_hover = d.target.hover_list.get(self.target_generation().gen_id)
+	var source_hover = d.source.hover_value
+	var target_hover = d.target.hover_value
 	if(source_hover || target_hover){
 		d.display_list[self.gen_id] = null
 	}else{
