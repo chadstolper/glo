@@ -243,6 +243,8 @@ GLO.NodeGeneration.prototype.aggregate = function(attr, method){
 		new_node.hover_value = false
 		new_node.fill_list = new Map()
 
+		new_node.label = key.slice(0,-1) //slice is to remove last &
+
 		new_nodes.set(key, new_node)
 	}
 
@@ -488,6 +490,10 @@ GLO.NodeGeneration.prototype.init_draw = function(){
 			self.update()
 			self.update_all()
 		})
+		.append("title")
+			.text(function(d){
+				return d.label
+			})
 
 	return this
 }

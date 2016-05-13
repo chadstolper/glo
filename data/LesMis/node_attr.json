@@ -1,5 +1,4 @@
 {
-	"label":"discrete",
 	"modularity_class":"discrete",
 	"degree":"continuous",
 	"weighted_degree":"continuous",
