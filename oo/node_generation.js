@@ -356,6 +356,7 @@ GLO.NodeGeneration.prototype.update = function(){
 
 	if(this.is_aggregated){
 		for(var [n,list] of this.aggregate_node_map){
+			n.hover_value = false
 			for(var d in list){
 				d = list[d]
 
@@ -365,7 +366,7 @@ GLO.NodeGeneration.prototype.update = function(){
 				d.y_list[self.aggregate_source_generation.gen_id] = n.y_list[self.gen_id]
 				// d.r_list[self.aggregate_source_generation.gen_id] = n.r_list[self.gen_id]
 				// d.fill_list[self.aggregate_source_generation.gen_id] = n.fill_list[self.gen_id]
-				d.hover_hover_value = n.hover_value
+				n.hover_value = n.hover_value || d.hover_value
 			}
 		}
 
@@ -444,6 +445,20 @@ GLO.NodeGeneration.prototype.init_props = function(){
 	return this
 }
 
+
+GLO.NodeGeneration.prototype.down_propagate_hover = function(){
+	var self = this
+	if(this.is_aggregated){
+		for(var [n,list] of this.aggregate_node_map){
+			for(var d in list){
+				d = list[d]
+				d.hover_value = n.hover_value
+			}
+		}
+	}
+	return this
+}
+
 GLO.NodeGeneration.prototype.init_draw = function(){
 	var self = this
 	
@@ -463,13 +478,15 @@ GLO.NodeGeneration.prototype.init_draw = function(){
 		})
 		.on('mouseover', function(d){
 			d.hover_value = true
+			self.down_propagate_hover()
+			self.update()
 			self.update_all()
-			// self.update()
 		})
 		.on('mouseout', function(d){
 			d.hover_value = false
+			self.down_propagate_hover()
+			self.update()
 			self.update_all()
-			// self.update()
 		})
 
 	return this
