@@ -18,12 +18,46 @@ GLO.Canvas = function(glo,width,height,x_offset,y_offset){
 	this._show_x_axis = false
 	this._show_y_axis = false
 
+	this._scale_x = 1
+	this._scale_y = 1
+
 	return this
 }
 
 
 GLO.Canvas.prototype.y_axis_width = 35;
 GLO.Canvas.prototype.x_axis_height = 15;
+
+
+GLO.Canvas.prototype.scale = function(axis,value){
+	if(axis!="x" && axis!="y"){
+		throw "Invalid axis to scale canvas: "+axis
+		return this
+	}
+	this["_scale_"+axis] *= value
+	this.redraw()
+	return this
+}
+
+GLO.Canvas.prototype.unscale = function(axis){
+	if(typeof axis == "undefined"){
+		this._scale_x = 1
+		this._scale_y = 1
+		this.redraw()
+		return this
+	}
+	this["_scale_"+axis] = 1
+	this.redraw()
+	return this
+}
+
+GLO.Canvas.prototype.redraw = function(){
+	this.chart
+		.attr("transform",
+			"translate("+this.x_offset()+","+this.y_offset()+")"
+			+",scale("+this._scale_x+","+this._scale_y+")"
+			)
+}
 
 
 GLO.Canvas.prototype.width = function(value){
