@@ -76,8 +76,8 @@ GLO.NodeGeneration.prototype.scale = function(oleft,oright,otop,obottom,nleft,nr
 												.domain([oleft,oright])
 												.range([nleft,nright])
 	var scaler_y = d3.scale.linear()
-												.domain([otop,obottom])
-												.range([ntop,nbottom])
+												.domain([obottom,otop])
+												.range([nbottom,ntop])
 
 	self.nodes.forEach(function(d){
 		d.x_list[self.gen_id] = scaler_x(d.x_list[self.gen_id])
@@ -89,8 +89,15 @@ GLO.NodeGeneration.prototype.scale = function(oleft,oright,otop,obottom,nleft,nr
 		for(var node_group of group.values()){
 			node_group.coordinates.x(scaler_x(node_group.coordinates.x()))
 			node_group.coordinates.y(scaler_y(node_group.coordinates.y()))
-			node_group.coordinates.width(scaler_x(node_group.coordinates.width()))
-			node_group.coordinates.height(scaler_y(node_group.coordinates.height()))
+			//TODO ISSUE IS HERE
+			node_group.coordinates.width(
+				scaler_x(node_group.coordinates.right())
+				-scaler_x(node_group.coordinates.left())
+				)
+			node_group.coordinates.height(
+				scaler_y(node_group.coordinates.bottom())
+				-scaler_y(node_group.coordinates.top())
+				)
 		}
 	}
 
