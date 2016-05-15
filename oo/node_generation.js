@@ -70,6 +70,35 @@ GLO.NodeGeneration.prototype.get_group_by_groups = function(attr){
 }
 
 
+GLO.NodeGeneration.prototype.scale = function(oleft,oright,otop,obottom,nleft,nright,ntop,nbottom){
+	var self = this
+	var scaler_x = d3.scale.linear()
+												.domain([oleft,oright])
+												.range([nleft,nright])
+	var scaler_y = d3.scale.linear()
+												.domain([otop,obottom])
+												.range([ntop,nbottom])
+
+	self.nodes.forEach(function(d){
+		d.x_list[self.gen_id] = scaler_x(d.x_list[self.gen_id])
+		d.y_list[self.gen_id] = scaler_y(d.y_list[self.gen_id])
+	})
+
+	//todo: update group coordinates
+	for(var group of self.group_by_map.values()){
+		for(var node_group of group.values()){
+			node_group.coordinates.x(scaler_x(node_group.coordinates.x()))
+			node_group.coordinates.y(scaler_y(node_group.coordinates.y()))
+			node_group.coordinates.width(scaler_x(node_group.coordinates.width()))
+			node_group.coordinates.height(scaler_y(node_group.coordinates.height()))
+		}
+	}
+
+	self.update()
+	return self
+}
+
+
 GLO.NodeGeneration.prototype.clone = function(canvas){
 	if(typeof canvas == "undefined"){
 		canvas = this.canvas

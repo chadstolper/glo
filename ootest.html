@@ -120,7 +120,7 @@
 							.evenly_distribute_nodes_on("y",{group_by:"modularity_class"})
 							.clone_nodes()
 							.evenly_distribute_nodes_on("x",{group_by:"modularity_class"})
-							.align_nodes("bottom",{group_by:"modularity_class"})
+							.align_nodes("top",{group_by:"modularity_class"})
 							.set_target_generation(1)
 
 							.show_incident_edges()
@@ -133,6 +133,7 @@
 							// .set_source_generation(1)
 							// .set_target_generation(0)
 
+					glo.active_canvas().scale("x",.75)
 				})
 			})
 		})

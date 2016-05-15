@@ -58,6 +58,7 @@ GLO.Coordinates.prototype.width = function(value){
 	if(!value){
 		return this._width
 	}
+	this.old_width = this.width()
 	this._width = value
 	return this
 }
