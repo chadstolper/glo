@@ -266,6 +266,22 @@ GLO.Canvas.prototype._draw_debug_markers = function(){
 }
 
 
+GLO.Canvas.prototype.clone = function(){
+	var self = this
+	var new_canvas = new GLO.Canvas(self.glo,self.width,self.height)
+	new_canvas.init_empty()
+
+	for(var gen of self.node_generations.values()){
+		gen.clone(new_canvas)
+	}
+	for(var gen of self.edge_generations.values()){
+		gen.clone(new_canvas)
+	}
+
+	return new_canvas
+
+}
+
 GLO.Canvas.prototype.init = function(){
 	this.chart = this.glo.svg.append("g")
 		.attr("transform","translate("+this.x_offset()+","+this.y_offset()+")")
@@ -304,6 +320,34 @@ GLO.Canvas.prototype.init = function(){
 		.target_generation(init_nodes)
 		.init_props()
 		.init_draw()
+
+	return this
+}
+
+GLO.Canvas.prototype.update_chart = function(){
+	this.chart
+		.attr("transform","translate("+this.x_offset()+","+this.y_offset()+")")
+}
+
+
+GLO.Canvas.prototype.init_empty = function(){
+	this.chart = this.glo.svg.append("g")
+		.attr("transform","translate("+this.x_offset()+","+this.y_offset()+")")
+
+
+	this._draw_debug_markers()
+
+
+
+
+	this.x_axis_g = this.chart.append("g")
+		.attr("class","x axis")
+		.attr("transform","translate("+0+","+ this.bottom() + ")")
+
+	this.y_axis_g = this.chart.append("g")
+		.attr("class","y axis")
+		.attr("transform","translate("+(this.x_buffer()+this.y_axis_width)+","+0+")")
+
 
 	return this
 }

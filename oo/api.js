@@ -18,6 +18,7 @@ function TODO(x) {
 
 	For some functions, there are additional optional values
 		* by: a sorting function used for index-based positioning
+		* parts: number of partitions
 */
 
 
@@ -705,10 +706,28 @@ GLO.GLO.prototype.color_convex_hulls_by_constant = function(constant,opts){
 	Partitions the current display along the given axis
 	all gens in the current display are cloned into the new display.
 	Default is a 2-way split; the by option can be used to specify a
-	larger number. Splits are always even.
+	larger number (parts). Splits are always even.
 */
 GLO.GLO.prototype.partition_on = function(axis,opts){
-	TODO("partition_on")
+	var scaler
+	if(typeof opts != "undefined" && typeof opts.parts != "undefined"){
+		scaler = opts.parts
+	}else{
+		scaler = 2
+	}
+	this.active_canvas().scale(axis, 1/scaler)
+	for(var i=1; i<scaler; i++){
+		var new_canvas = this.active_canvas().clone()
+		if(axis=="x"){
+			new_canvas.x_offset((this.width/scaler)*i)
+		}
+		if(axis=="y"){
+			new_canvas.y_offset((this.height/scaler)*i)
+		}
+		new_canvas.update_chart()
+	}
+
+	return this
 }
 
 
