@@ -422,6 +422,13 @@ GLO.NodeGeneration.prototype.update = function(){
 		.attr("cy", function(d){ return d.y_list[self.gen_id]; })
 		.attr("r", function(d){ return d.r_list[self.gen_id]; })
 		.attr("fill", function(d){ return d.fill_list[self.gen_id]; })
+		.style("box-shadow", function(d){
+			if(d.hover_value == true){
+				return "0px 0px 30px 20px #535FED"
+			}else{
+				return null
+			}
+		})
 		.attr("stroke", function(d){
 			if(d.hover_value == true){
 				return "black"
@@ -711,7 +718,7 @@ GLO.NodeGeneration.prototype.color_by_color_attr = function(attr){
 GLO.NodeGeneration.prototype.apply_force_directed = function(edges){
 	var self = this
 	var force = cola.d3adaptor()
-		.linkDistance(48)
+		.linkDistance(20)
 		.size([self.canvas.canvas_width(),self.canvas.canvas_height()])
 		.nodes(self.nodes)
 		.links(edges)

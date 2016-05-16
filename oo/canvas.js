@@ -18,8 +18,9 @@ GLO.Canvas = function(glo,width,height,x_offset,y_offset){
 	this._show_x_axis = false
 	this._show_y_axis = false
 
-	this._scale_x = 1
-	this._scale_y = 1
+	this.id = this.glo._next_canvas_id()
+	this.glo.canvases.set(this.id, this)
+	this.glo.active_canvas(this.id)
 
 	return this
 }
@@ -256,6 +257,7 @@ GLO.Canvas.prototype._draw_debug_markers = function(){
 		.style("stroke", "blue")
 		.style("stroke-width", 1)
 
+
 	this.chart.append("line")
 		.attr("x1", this.left())
 		.attr("x2", this.right())
@@ -266,20 +268,34 @@ GLO.Canvas.prototype._draw_debug_markers = function(){
 }
 
 
-GLO.Canvas.prototype.clone = function(){
+GLO.Canvas.prototype.clone = function(x_offset, y_offset){
 	var self = this
-	var new_canvas = new GLO.Canvas(self.glo,self.width,self.height)
+	var new_canvas = new GLO.Canvas(self.glo,self.width(),self.height(),x_offset, y_offset)
 	new_canvas.init_empty()
 
+	var orig_to_clone_map = new Map() //old_gen_id --> new_gen
+	var orig_to_clone_map_edges = new Map()
 	for(var gen of self.node_generations.values()){
-		gen.clone(new_canvas)
+		var clone_gen = gen.clone(new_canvas)
+		orig_to_clone_map.set(gen.gen_id, clone_gen)
 	}
 	for(var gen of self.edge_generations.values()){
-		gen.clone(new_canvas)
+		var clone_gen = gen.clone(new_canvas)
+		orig_to_clone_map_edges.set(gen.gen_id, clone_gen)
+		clone_gen.source_generation(orig_to_clone_map.get(clone_gen.source_generation().gen_id))
+		clone_gen.target_generation(orig_to_clone_map.get(clone_gen.target_generation().gen_id))
 	}
 
-	return new_canvas
+	new_canvas.active_node_generation(orig_to_clone_map.get(self.active_node_generation().gen_id))
+	new_canvas.active_edge_generation(orig_to_clone_map_edges.get(self.active_edge_generation().gen_id))
 
+	new_canvas.x_axis_gen(orig_to_clone_map.get(self.x_axis_gen().gen_id))
+	new_canvas.y_axis_gen(orig_to_clone_map.get(self.y_axis_gen().gen_id))
+	
+	new_canvas.show_x_axis(self.show_x_axis())
+	new_canvas.show_y_axis(self.show_y_axis())
+
+	return new_canvas
 }
 
 GLO.Canvas.prototype.init = function(){
@@ -287,7 +303,7 @@ GLO.Canvas.prototype.init = function(){
 		.attr("transform","translate("+this.x_offset()+","+this.y_offset()+")")
 
 
-	this._draw_debug_markers()
+	// this._draw_debug_markers()
 
 
 
@@ -335,7 +351,7 @@ GLO.Canvas.prototype.init_empty = function(){
 		.attr("transform","translate("+this.x_offset()+","+this.y_offset()+")")
 
 
-	this._draw_debug_markers()
+	// this._draw_debug_markers()
 
 
 

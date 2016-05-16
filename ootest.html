@@ -41,25 +41,42 @@
 </style>
 
 <script>
-	// var test_nodes = [
-	// 	{id:0, name:"Coconut", color:"brown", size:-5},
-	// 	{id:1, name:"Banana", color:"yellow", size:-15},
-	// 	{id:2, name:"Apple", color:"red", size:30},
-	// 	{id:3, name:"Donut", color:"pink", size:50}
-	// ];
-	// var test_edges = [
-	// 	{id:0, source:0, target:2, weight:1.0},
-	// 	{id:1, source:1, target:2, weight:2.0},
-	// 	{id:2, source:2, target:3, weight:3.0}
-	// ];
-	// var test_node_attr = {
-	// 	name:"discrete",
-	// 	color:"color",
-	// 	size:"continuous"
-	// };
-	// var test_edge_attr = {
-	// 	weight:"continuous"
-	// }
+	var test_nodes = [
+		{id:0, name:"Coconut", color:"brown", size:-5},
+		{id:1, name:"Banana", color:"yellow", size:-15},
+		{id:2, name:"Apple", color:"red", size:30},
+		{id:3, name:"Donut", color:"pink", size:50}
+	];
+	var test_edges = [
+		{id:0, source:0, target:2, weight:1.0},
+		{id:1, source:1, target:2, weight:2.0},
+		{id:2, source:2, target:3, weight:3.0}
+	];
+	var test_node_attr = {
+		name:"discrete",
+		color:"color",
+		size:"continuous"
+	};
+	var test_edge_attr = {
+		weight:"continuous"
+	}
+
+	// svg = d3.select("#canvas")
+	// 					.style("width",400)
+	// 					.style("height",300)
+	// 				glo = new GLO.GLO(svg)
+	// 					.nodes(test_nodes)
+	// 					.edges(test_edges)
+	// 					.node_attr(test_node_attr)
+	// 					.edge_attr(test_edge_attr)
+	// 					.draw()
+	// 						.evenly_distribute_nodes_on("x")
+	// 						.evenly_distribute_nodes_on("y")
+	// 						.display_edges_as_curved_lines()
+	// 						.color_nodes_by("color")
+	// 						.show_axis("x")
+	// 						.partition_on("x",{parts:3})
+	// 						.evenly_distribute_nodes_on("y",{by:"color"})
 
 	d3.csv('data/LesMis/nodes.csv', function(nodes){
 		d3.csv('data/LesMis/edges.csv', function(edges){
@@ -101,37 +118,25 @@
 						.edge_attr(edge_attr)
 						.draw()
 							.color_nodes_by("modularity_class")
-							.evenly_distribute_nodes_on("x")
-							.evenly_distribute_nodes_on("y")
-							.display_edges_as_curved_lines()
+							.apply_force_directed_algorithm_to_nodes()
+							.partition_on("x",{parts:2})
 
-							.color_nodes_by("modularity_class")
-
-							.evenly_distribute_nodes_on("x",{by:"modularity_class"})
 							.evenly_distribute_nodes_on("y",{by:"modularity_class"})
-
-							// .position_nodes_by_constant_on("rho")
-							// .evenly_distribute_nodes_on("theta",{by:"modularity_class"})
-
-							.position_nodes_by_constant_on("rho",{group_by:"modularity_class"})
-							.evenly_distribute_nodes_on("theta",{group_by:"modularity_class"})
-
-							.align_nodes("left",{group_by:"modularity_class"})
-							.evenly_distribute_nodes_on("y",{group_by:"modularity_class"})
-							.clone_nodes()
-							.evenly_distribute_nodes_on("x",{group_by:"modularity_class"})
-							.align_nodes("bottom",{group_by:"modularity_class"})
-							.set_target_generation(1)
-
-							.show_incident_edges()
+							.align_nodes("left")
 							.display_edges_as_curved_lines()
-							.display_edges_as_squares({group_by:"modularity_class"})
-							.show_all_edges({group_by:"modularity_class"})
+							.clone_edges()
+							.clone_nodes()
+							.align_nodes("bottom")
+							.evenly_distribute_nodes_on("x",{by:"modularity_class"})
+							.set_source_generation(2)
+							.set_target_generation(2)
+							.clone_edges()
+							.set_source_generation(1)
+							.display_edges_as_squares()
 
-							// .clone_edges()
-							// .hide_edges({group_by:"modularity_class"})
-							// .set_source_generation(1)
-							// .set_target_generation(0)
+
+
+
 
 					// glo.active_canvas().scale("x",.25)
 				})

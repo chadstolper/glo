@@ -7,9 +7,7 @@ GLO.EdgeGeneration = function(canvas, edges, is_aggregated){
 
 	this.canvas.edge_generations.set(this.gen_id, this)
 
-	this.hscale = d3.scale.linear()
-		.range([3,this.max_link_curve_r])
-		.domain([0,Math.min(this.canvas.canvas_width(),this.canvas.canvas_height())])
+
 
 	this._edge_format = "straight_lines"
 	this._show_mode = "show_all_edges"
@@ -66,6 +64,11 @@ GLO.EdgeGeneration.prototype.update = function(){
 
 	if(typeof this.edge_glyphs === "undefined"){ return this; }
 
+	var min_dimension = Math.min(this.canvas.canvas_width(),this.canvas.canvas_height())
+	this.max_link_curve_r = .7 * Math.sqrt(min_dimension)
+	this.hscale = d3.scale.linear()
+		.range([3,this.max_link_curve_r])
+		.domain([0,min_dimension])
 
 	if(this.is_aggregated){
 		for(var [n,list] of this.aggregate_edge_map){

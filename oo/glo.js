@@ -8,11 +8,13 @@ GLO.GLO = function(svg){
 
 	this.node_gen_counter = 0
 	this.edge_gen_counter = 0
+	this.canvas_id_counter = 0
 
 	this.canvases = new Map()
-	this.canvases.set(0, new GLO.Canvas(this,this.width(),this.height()))
+	new GLO.Canvas(this,this.width(),this.height())
+	// this.canvases.set(0, new GLO.Canvas(this,this.width(),this.height()))
 
-	this._active_canvas = 0
+	// this._active_canvas = 0
 
 	this.transition_duration = 500;
 
@@ -36,7 +38,7 @@ GLO.GLO.prototype.height = function(value){
 }
 
 GLO.GLO.prototype.active_canvas = function(value){
-	if(!value){
+	if(typeof value == "undefined"){
 		return this.canvases.get(this._active_canvas)
 	}
 	this._active_canvas = value
@@ -57,6 +59,10 @@ GLO.GLO.prototype._next_node_gen = function(){
 
 GLO.GLO.prototype._next_edge_gen = function(){
 	return this.edge_gen_counter++;
+}
+
+GLO.GLO.prototype._next_canvas_id = function(){
+	return this.canvas_id_counter++;
 }
 
 

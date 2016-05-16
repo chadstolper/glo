@@ -711,20 +711,24 @@ GLO.GLO.prototype.color_convex_hulls_by_constant = function(constant,opts){
 GLO.GLO.prototype.partition_on = function(axis,opts){
 	var scaler
 	if(typeof opts != "undefined" && typeof opts.parts != "undefined"){
-		scaler = opts.parts
+		scaler = opts.parts * 1.0
 	}else{
-		scaler = 2
+		scaler = 2.0
 	}
 	this.active_canvas().scale(axis, 1/scaler)
+	
 	for(var i=1; i<scaler; i++){
-		var new_canvas = this.active_canvas().clone()
+		var x_offset = 0
+		var y_offset = 0
 		if(axis=="x"){
-			new_canvas.x_offset((this.width/scaler)*i)
+			x_offset = ((this.width()/scaler)*i)
 		}
 		if(axis=="y"){
-			new_canvas.y_offset((this.height/scaler)*i)
+			y_offset = ((this.height()/scaler)*i)
 		}
-		new_canvas.update_chart()
+		var new_canvas = this.active_canvas().clone(x_offset, y_offset)
+		
+		// new_canvas.update_chart()
 	}
 
 	return this
@@ -749,7 +753,8 @@ GLO.GLO.prototype.filter_partition_on = function(axis,opts){
 	Selects the most recent active generations of that canvas
 */
 GLO.GLO.prototype.select_canvas = function(canvas,opts){
-	TODO("select_canvas")
+	this.active_canvas(canvas)
+	return this
 }
 
 //3	select column {num}
