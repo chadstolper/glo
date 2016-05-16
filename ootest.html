@@ -4,6 +4,7 @@
 </div>
 
 <script src="bower_components/d3/d3.js" charset="utf-8"></script>
+<!-- <script src="https://d3js.org/d3.v4.0.0-alpha.40.min.js"></script> -->
 <script src="bower_components/jquery/dist/jquery.min.js"></script>
 <script src="bower_components/underscore/underscore-min.js"></script>
 
@@ -118,9 +119,9 @@
 						.edge_attr(edge_attr)
 						.draw()
 							.color_nodes_by("modularity_class")
-							.apply_force_directed_algorithm_to_nodes()
 							.partition_on("x",{parts:2})
-
+							
+							.select_canvas(1)
 							.evenly_distribute_nodes_on("y",{by:"modularity_class"})
 							.align_nodes("left")
 							.display_edges_as_curved_lines()
@@ -133,6 +134,11 @@
 							.clone_edges()
 							.set_source_generation(1)
 							.display_edges_as_squares()
+
+							.select_canvas(0)
+							.size_nodes_by("degree")
+							.apply_force_directed_algorithm_to_nodes()
+							
 
 
 

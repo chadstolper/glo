@@ -432,12 +432,14 @@ GLO.NodeGeneration.prototype.update = function(){
 		.attr("stroke", function(d){
 			if(d.hover_value == true){
 				return "black"
+			}else{
+				return "white"
 			}
 		})
 		.attr("stroke-width", function(d){
-			if(d.hover_value == true){
+			// if(d.hover_value == true){
 				return 1
-			}
+			// }
 		})
 
 	for(let edge_gen of this.edge_generation_listeners){
@@ -605,9 +607,23 @@ GLO.NodeGeneration.prototype.size_by_continuous = function(attr){
 	}))
 
 
+	var range_min, range_max
+	if(extent[0]<this.max_r){
+		range_min = Math.max(this.min_r,extent[0])
+	}else{
+		range_min = this.min_r
+	}
+
+	if(extent[1]>this.min_r){
+		range_max = Math.min(this.max_r,extent[1])
+	}else{
+		range_max = this.max_r
+	}
+	
+
 	var scale = d3.scale.linear()
 		.domain(extent)
-		.range([this.min_r,this.max_r])
+		.range([range_min,range_max])
 	
 
 	this.nodes.forEach(function(d){
@@ -718,10 +734,14 @@ GLO.NodeGeneration.prototype.color_by_color_attr = function(attr){
 GLO.NodeGeneration.prototype.apply_force_directed = function(edges){
 	var self = this
 	var force = cola.d3adaptor()
-		.linkDistance(20)
+	// var force = d3.layout.force()
+		// .linkDistance(30)
 		.size([self.canvas.canvas_width(),self.canvas.canvas_height()])
 		.nodes(self.nodes)
 		.links(edges)
+		.jaccardLinkLengths(40,0.7)
+		// .avoidOverlaps(true)
+
 		.on('tick', function(){
 			self.nodes.forEach(function(d){
 				d.x_list[self.gen_id] = d.x
@@ -729,7 +749,8 @@ GLO.NodeGeneration.prototype.apply_force_directed = function(edges){
 			})
 			self.update()
 		})
-		.start()
+		// .start()
+		.start(10,15,20)
 
 	var xscale = d3.scale.linear()
 		.range([this.canvas.left(),this.canvas.right()])
