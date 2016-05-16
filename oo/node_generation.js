@@ -602,8 +602,10 @@ GLO.NodeGeneration.prototype.size_by_discrete = function(attr){
 GLO.NodeGeneration.prototype.size_by_continuous = function(attr){
 	var self = this
 
+	var accessor = function(d){ return Math.PI * Math.sqrt(d[attr])}
+
 	var extent = d3.extent(this.nodes.map(function(d){
-		return d[attr]
+		return accessor(d)
 	}))
 
 
@@ -627,7 +629,7 @@ GLO.NodeGeneration.prototype.size_by_continuous = function(attr){
 	
 
 	this.nodes.forEach(function(d){
-		d.r_list[self.gen_id] = scale(d[attr])
+		d.r_list[self.gen_id] = scale(accessor(d))
 	})
 
 	this.r_scale = scale
