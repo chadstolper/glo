@@ -84,12 +84,14 @@ GLO.NodeGeneration.prototype.scale = function(oleft,oright,otop,obottom,nleft,nr
 		d.y_list[self.gen_id] = scaler_y(d.y_list[self.gen_id])
 	})
 
-	//todo: update group coordinates
+	//TODO: UPDATE XSCALES AND YSCALES
+	self.x_scale.range([nleft,nright])
+	self.y_scale.range([nbottom,ntop])
+
 	for(var group of self.group_by_map.values()){
 		for(var node_group of group.values()){
 			node_group.coordinates.x(scaler_x(node_group.coordinates.x()))
 			node_group.coordinates.y(scaler_y(node_group.coordinates.y()))
-			//TODO ISSUE IS HERE
 			node_group.coordinates.width(
 				scaler_x(node_group.coordinates.right())
 				-scaler_x(node_group.coordinates.left())
@@ -101,6 +103,7 @@ GLO.NodeGeneration.prototype.scale = function(oleft,oright,otop,obottom,nleft,nr
 		}
 	}
 
+	this.canvas.update_axes()
 	self.update()
 	return self
 }
