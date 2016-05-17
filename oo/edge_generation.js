@@ -101,10 +101,11 @@ GLO.EdgeGeneration.prototype.update = function(){
 		.style("stroke", function(d){
 			return d.stroke_list[self.gen_id]
 		})
-		.style("display", function(d){
+		.style("opacity", self.default_opacity)
+
+	this.edge_glyphs.style("display", function(d){
 			return d.display_list[self.gen_id]
 		})
-		.style("opacity", self.default_opacity)
 
 		
 

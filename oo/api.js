@@ -899,7 +899,8 @@ GLO.GLO.prototype.hide_axis = function(axis,opts){
 	Highlights neighbors
 */
 GLO.GLO.prototype.highlight_neighbors = function(opts){
-	TODO("highlight_neighbors")
+	this.active_node_generation().highlight_neighbors(true)
+	return this
 }
 
 
@@ -918,7 +919,8 @@ GLO.GLO.prototype.highlight_in_out_neighbors = function(opts){
 	
 */
 GLO.GLO.prototype.stop_highlighting = function(opts){
-	TODO("stop_highlighting")
+	this.active_node_generation().highlight_neighbors(false)
+	return this
 }
 
 

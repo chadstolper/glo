@@ -29,6 +29,8 @@ GLO.NodeGeneration = function(canvas, nodes, is_aggregated){
 
 	this.group_by_map = new Map() //attr_string-->(vals-->node_group)
 
+	this._highlight_neighbors = false
+
 	return this
 }
 
@@ -161,6 +163,7 @@ GLO.NodeGeneration.prototype.clone = function(canvas){
 		.init_svg()
 		.init_draw()
 		.is_displayed(self.is_displayed())
+		.highlight_neighbors(self.highlight_neighbors())
 		.update()
 
 	clone_gen.canvas.active_node_generation(clone_gen)
@@ -204,6 +207,7 @@ GLO.NodeGeneration.prototype.deaggregate = function(){
 	self.canvas.active_node_generation(source_gen)
 	source_gen.has_aggregate = false
 	delete self.aggregate_target_generation
+	source_gen.highlight_neighbors(self.highlight_neighbors())
 	source_gen.is_displayed(true)
 	source_gen.update()
 
@@ -372,6 +376,7 @@ GLO.NodeGeneration.prototype.aggregate = function(attr, method){
 		.init_svg()
 		.init_draw()
 		.is_displayed(self.is_displayed())
+		.highlight_neighbors(self.highlight_neighbors())
 		.update()
 
 	this.is_displayed(false)
@@ -432,8 +437,8 @@ GLO.NodeGeneration.prototype.update = function(){
 	this.node_glyphs.attr("stroke", function(d){
 			if(d.hover_value == true){
 				return "black"
-			}else if(d.in_hover_value == true || d.out_hover_value == true){
-				return "steelblue"
+			}else if(self.highlight_neighbors() == true && (d.in_hover_value == true || d.out_hover_value == true)){
+				return "black"
 			}else{
 				return "white"
 			}
@@ -450,6 +455,16 @@ GLO.NodeGeneration.prototype.update = function(){
 		edge_gen.update()
 	}
 
+	return this
+}
+
+
+GLO.NodeGeneration.prototype.highlight_neighbors = function(value){
+	if(typeof value === "undefined"){
+		return this._highlight_neighbors
+	}
+
+	this._highlight_neighbors = value
 	return this
 }
 
