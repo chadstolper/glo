@@ -157,7 +157,7 @@ GLO.GLO.prototype.position_nodes_stacked = function(direction,opts){
 	Utilizes by from opts
 */
 GLO.GLO.prototype.position_nodes_stacked_within = function(direction,within_prop,opts){
-	TODO("position_nodes_stacked_on")
+	TODO("position_nodes_stacked_within --- group_by")
 	this.active_node_generation().stack_within(direction,within_prop,opts)
 	return this
 }
