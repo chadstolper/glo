@@ -280,6 +280,8 @@ GLO.NodeGeneration.prototype.aggregate = function(attr, method){
 		new_node.theta_list = new Map()
 		// new_node.hover_list = new Map()
 		new_node.hover_value = false
+		new_node.in_hover_value = false
+		new_node.out_hover_value = false
 		new_node.fill_list = new Map()
 
 		new_node.label = key.slice(0,-1) //slice is to remove last &
@@ -398,6 +400,8 @@ GLO.NodeGeneration.prototype.update = function(){
 	if(this.is_aggregated){
 		for(var [n,list] of this.aggregate_node_map){
 			n.hover_value = false
+			n.in_hover_value = false
+			n.out_hover_value = false
 			for(var d in list){
 				d = list[d]
 
@@ -408,6 +412,8 @@ GLO.NodeGeneration.prototype.update = function(){
 				// d.r_list[self.aggregate_source_generation.gen_id] = n.r_list[self.gen_id]
 				// d.fill_list[self.aggregate_source_generation.gen_id] = n.fill_list[self.gen_id]
 				n.hover_value = n.hover_value || d.hover_value
+				n.in_hover_value = n.in_hover_value || d.in_hover_value
+				n.out_hover_value = n.out_hover_value || d.out_hover_value
 			}
 		}
 
@@ -422,24 +428,22 @@ GLO.NodeGeneration.prototype.update = function(){
 		.attr("cy", function(d){ return d.y_list[self.gen_id]; })
 		.attr("r", function(d){ return d.r_list[self.gen_id]; })
 		.attr("fill", function(d){ return d.fill_list[self.gen_id]; })
-		.style("box-shadow", function(d){
-			if(d.hover_value == true){
-				return "0px 0px 30px 20px #535FED"
-			}else{
-				return null
-			}
-		})
-		.attr("stroke", function(d){
+	
+	this.node_glyphs.attr("stroke", function(d){
 			if(d.hover_value == true){
 				return "black"
+			}else if(d.in_hover_value == true || d.out_hover_value == true){
+				return "steelblue"
 			}else{
 				return "white"
 			}
 		})
 		.attr("stroke-width", function(d){
-			// if(d.hover_value == true){
+			if(d.hover_value == true){
+				return 3
+			}else{
 				return 1
-			// }
+			}
 		})
 
 	for(let edge_gen of this.edge_generation_listeners){
@@ -489,6 +493,8 @@ GLO.NodeGeneration.prototype.init_props = function(){
 			d.theta_list[self.gen_id] = Math.PI/2
 			d.fill_list[self.gen_id] = self.default_fill
 			d.hover_value = false
+			d.in_hover_value = false
+			d.out_hover_value = false
 		})
 
 
@@ -503,6 +509,8 @@ GLO.NodeGeneration.prototype.down_propagate_hover = function(){
 			for(var d in list){
 				d = list[d]
 				d.hover_value = n.hover_value
+				d.out_hover_value = n.out_hover_value
+				d.in_hover_value = n.in_hover_value
 			}
 		}
 	}
@@ -528,12 +536,24 @@ GLO.NodeGeneration.prototype.init_draw = function(){
 		})
 		.on('mouseover', function(d){
 			d.hover_value = true
+			d.out_edges.forEach(function(e){
+				e.target.in_hover_value = true
+			})
+			d.in_edges.forEach(function(e){
+				e.source.out_hover_value = true
+			})
 			self.down_propagate_hover()
 			self.update()
 			self.update_all()
 		})
 		.on('mouseout', function(d){
 			d.hover_value = false
+			d.out_edges.forEach(function(e){
+				e.target.in_hover_value = false
+			})
+			d.in_edges.forEach(function(e){
+				e.source.out_hover_value = false
+			})
 			self.down_propagate_hover()
 			self.update()
 			self.update_all()

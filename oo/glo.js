@@ -159,7 +159,9 @@ GLO.GLO.prototype._init_graph = function(){
 		d.rho_list = new Map()
 		d.theta_list = new Map()
 
-		d.hover_list = new Map()
+		d.hover_value = false
+		d.in_hover_value = false
+		d.out_hover_value = false
 
 		d.fill_list = new Map()
 
