@@ -146,8 +146,20 @@ GLO.GLO.prototype.position_nodes_by_constant_on = function(axis,opts){
 /*
 	Utilizes by from opts
 */
-GLO.GLO.prototype.position_nodes_stacked_on = function(axis,opts){
+GLO.GLO.prototype.position_nodes_stacked = function(direction,opts){
+	TODO("position_nodes_stacked --- group_by")
+	this.active_node_generation().stack(direction,opts)
+	return this
+}
+
+//29	position nodes {dir} on {axis} (by {attr})
+/*
+	Utilizes by from opts
+*/
+GLO.GLO.prototype.position_nodes_stacked_within = function(direction,within_prop,opts){
 	TODO("position_nodes_stacked_on")
+	this.active_node_generation().stack_within(direction,within_prop,opts)
+	return this
 }
 
 //29	evenly distribute edges on {axis} (by {attr})

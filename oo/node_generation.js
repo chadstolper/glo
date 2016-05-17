@@ -1052,6 +1052,85 @@ GLO.NodeGeneration.prototype.position_by_constant = function(axis,constant,opts)
 }
 
 
+GLO.NodeGeneration.prototype.stack = function(direction,opts){
+	if(typeof opts !== "undefined" && typeof opts.group_by !== "undefined"){
+		var groups = this.get_group_by_groups(opts.group_by)
+		groups.forEach(function(group){
+			group.position_by_preset_constant(direction,opts)
+		})
+		return this
+	}
+
+	var self = this
+
+	var by_prop
+	if(typeof opts === "undefined" || typeof opts.by === "undefined"){
+		by_prop = "id"
+	}else{
+		by_prop = opts.by
+	}
+
+	self.nodes.sort(function(a,b){
+		var val
+		if(_.isNumber(a[by_prop])){
+			val = a[by_prop]-b[by_prop]
+		}else{
+			val = a[by_prop].localeCompare(b[by_prop])
+		}
+		if (val==0){
+			return a.id-b.id
+		}
+		return val
+	}).forEach(function(d,i){
+		d.index = i
+	})
+
+	var axis, baseline
+	var scale = d3.scale.ordinal()
+			.domain(_.range(self.nodes.length))
+	var total_length = self.nodes.length*2*self.default_r
+
+	if(direction=="top"){
+		axis = "y"
+		baseline = self.canvas.top()+self.default_r
+		endpoint = baseline + 
+		scale.rangePoints([baseline,baseline+total_length],0)
+		// stack_fn = function(i){ return baseline+(i*2*self.default_r); }
+		self.y_axis = scale
+	}
+	if(direction=="bottom"){
+		axis = "y"
+		baseline = self.canvas.bottom()-self.default_r
+		scale.rangePoints([baseline, baseline-total_length],0)
+		self.y_axis = scale
+		// stack_fn = function(i){ return baseline-(i*2*self.default_r); }
+	}
+	if(direction=="left"){
+		axis = "x"
+		baseline = self.canvas.left()+self.default_r
+		scale.rangePoints([baseline, baseline+total_length],0)
+		// stack_fn = function(i){ return baseline+(i*2*self.default_r); }
+		self.x_axis = scale
+	}
+	if(direction=="right"){
+		axis = "x"
+		baseline = self.canvas.right()-self.default_r
+		scale.rangePoints([baseline, baseline-total_length],0)
+		// stack_fn = function(i){ return baseline-(i*2*self.default_r); }
+		self.x_axis = scale
+	}
+
+	self.nodes.forEach(function(d,i){
+		d[axis+"_list"][self.gen_id] = scale(i)
+	})
+
+	this.set_axes(axis)
+
+	self.update()
+	return self
+}
+
+
 GLO.NodeGeneration.prototype.distribute = function(axis,by_prop,opts){
 	if(typeof opts !== "undefined" && typeof opts.group_by !== "undefined"){
 		var groups = this.get_group_by_groups(opts.group_by)
@@ -1170,6 +1249,128 @@ GLO.NodeGeneration.prototype._group_by = function(discrete){
 }
 
 
+
+
+GLO.NodeGeneration.prototype.stack_within = function(direction,within_prop,opts){
+	if(typeof opts !== "undefined" && typeof opts.group_by !== "undefined"){
+		var groups = this.get_group_by_groups(opts.group_by)
+		groups.forEach(function(group){
+			group.distribute_on_within(axis,within_prop,by_prop)
+		})
+		return this
+	}
+
+	var self = this
+
+	var by_prop
+	if(typeof opts === "undefined" || typeof opts.by === "undefined"){
+		by_prop = "id"
+	}else{
+		by_prop = opts.by
+	}
+
+
+	var groups = this._group_by(within_prop) //within_prop-->[nodes] map
+
+
+
+	var axis, baseline
+	var scale = d3.scale.ordinal()
+			.domain(_.range(self.nodes.length))
+	var total_length = self.nodes.length*2*self.default_r
+
+	if(direction=="top"){
+		axis = "y"
+		baseline = self.canvas.top()+self.default_r
+		endpoint = baseline + 
+		scale.rangePoints([baseline,baseline+total_length],0)
+		// stack_fn = function(i){ return baseline+(i*2*self.default_r); }
+	}
+	if(direction=="bottom"){
+		axis = "y"
+		baseline = self.canvas.bottom()-self.default_r
+		scale.rangePoints([baseline, baseline-total_length],0)
+		// stack_fn = function(i){ return baseline-(i*2*self.default_r); }
+	}
+	if(direction=="left"){
+		axis = "x"
+		baseline = self.canvas.left()+self.default_r
+		scale.rangePoints([baseline, baseline+total_length],0)
+		// stack_fn = function(i){ return baseline+(i*2*self.default_r); }
+	}
+	if(direction=="right"){
+		axis = "x"
+		baseline = self.canvas.right()-self.default_r
+		scale.rangePoints([baseline, baseline-total_length],0)
+		// stack_fn = function(i){ return baseline-(i*2*self.default_r); }
+	}
+
+
+
+	for(var dis in groups){
+		var nodes = groups[dis]
+		nodes.sort(function(a,b){
+			var val
+			if(_.isNumber(a[by_prop])){
+				val = a[by_prop]-b[by_prop]
+			}else{
+				val = a[by_prop].localeCompare(b[by_prop])
+			}
+			if (val==0){
+				return a.id-b.id
+			}
+			return val
+		}).forEach(function(d,i){
+			d.index = i
+		})
+
+
+
+		nodes.forEach(function(d){
+			d[axis+"_list"][self.gen_id] = scale(d.index)
+		})
+
+	}//end for(var dis in groups)
+
+
+	//Clear scales if necessary
+	if(axis=="x"){
+		var xscale = d3.scale.linear()
+			.range([this.canvas.left(),this.canvas.right()])
+			.domain([0,1])
+
+		this.x_scale = xscale
+		if(this.canvas.x_axis_gen()==this){
+			this.canvas.x_axis_gen(this)
+		}
+	}
+	
+	if(axis=="y"){
+		var yscale = d3.scale.linear()
+			.range([this.canvas.bottom(),this.canvas.top()])
+			.domain([0,1])
+
+		this.y_scale = yscale
+
+		
+		if(this.canvas.y_axis_gen()==this){
+			this.canvas.y_axis_gen(this)
+		}
+	}
+
+	
+
+	this.update()
+	return this
+
+}
+
+
+
+
+
+
+
 GLO.NodeGeneration.prototype.distribute_on_within = function(axis,within_prop,by_prop,opts){
 	if(typeof opts !== "undefined" && typeof opts.group_by !== "undefined"){
 		var groups = this.get_group_by_groups(opts.group_by)
@@ -1227,7 +1428,7 @@ GLO.NodeGeneration.prototype.distribute_on_within = function(axis,within_prop,by
 			rho_scale = scale
 				.rangePoints([1,Math.min(this.canvas.canvas_width(),this.canvas.canvas_height())/2],this.discrete_range_padding)
 		
-			this.nodes.forEach(function(d){
+			nodes.forEach(function(d){
 				d.rho_list[self.gen_id] = scale(d.index)
 				var new_coords = self.rho_shift(d, d.rho_list[self.gen_id])
 				d.x_list[self.gen_id] = new_coords.x
