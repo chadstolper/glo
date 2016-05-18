@@ -1559,7 +1559,7 @@ GLO.NodeGeneration.prototype.align = function(dir,opts){
 	if(dir=="top"){
 		this.nodes
 			.forEach(function(d){
-				d.y_list[self.gen_id] = self.canvas.top()
+				d.y_list[self.gen_id] = self.canvas.top()-2*self.default_r
 			})
 	}
 
@@ -1573,14 +1573,14 @@ GLO.NodeGeneration.prototype.align = function(dir,opts){
 	if(dir=="bottom"){
 		this.nodes
 			.forEach(function(d){
-				d.y_list[self.gen_id] = self.canvas.bottom()
+				d.y_list[self.gen_id] = self.canvas.bottom()+2*self.default_r
 			})
 	}
 
 	if(dir=="left"){
 		this.nodes
 			.forEach(function(d){
-				d.x_list[self.gen_id] = self.canvas.left()
+				d.x_list[self.gen_id] = self.canvas.left()-2*self.default_r
 			})
 	}
 
@@ -1594,7 +1594,7 @@ GLO.NodeGeneration.prototype.align = function(dir,opts){
 	if(dir=="right"){
 		this.nodes
 			.forEach(function(d){
-				d.x_list[self.gen_id] = self.canvas.right()
+				d.x_list[self.gen_id] = self.canvas.right()+2*self.default_r
 			})
 	}
 
