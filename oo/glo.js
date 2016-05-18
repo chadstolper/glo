@@ -46,14 +46,53 @@ GLO.GLO.prototype.active_canvas = function(value){
 }
 
 GLO.GLO.prototype.active_canvas_set = function(){
-	var canvases = new Set()
-	canvases.add (this.active_canvas())
-	return canvases
+	var canvi = new Set()
+	canvi.add (this.active_canvas())
+	return canvi
 }
 
-GLO.GLO.prototype.all_canvases = function(){
-	return this.canvases.values()
+
+GLO.GLO.prototype.correct_node_gens = function(opts){
+	if(typeof opts !== "undefined"){
+		if(typeof opts.all_canvases !== "undefined" && opts.all_canvases == true){
+			if(typeof opts.all_gens !== "undefined" && opts.all_gens == true){
+				return this.all_node_generations()
+			}else{
+				return this.all_active_node_generations()
+			}
+		}
+		if(typeof opts.all_gens !== "undefined" && opts.all_gens == true){
+				return this.current_node_generations()
+		}
+	}
+	return this.active_node_generation()
 }
+
+GLO.GLO.prototype.correct_edge_gens = function(opts){
+	if(typeof opts !== "undefined"){
+		if(typeof opts.all_canvases !== "undefined" && opts.all_canvases == true){
+			if(typeof opts.all_gens !== "undefined" && opts.all_gens == true){
+				return this.all_edge_generations()
+			}else{
+				return this.all_active_edge_generations()
+			}
+		}
+		if(typeof opts.all_gens !== "undefined" && opts.all_gens == true){
+				return this.current_edge_generations()
+		}
+	}
+	return this.active_edge_generation()
+}
+
+GLO.GLO.prototype.correct_canvases = function(opts){
+	if(typeof opts !== "undefined"){
+		if(typeof opts.all_canvases !== "undefined" && opts.all_canvases == true){
+			return new Set(this.canvases.values())
+		}
+	}
+	return this.active_canvas_set()
+}
+
 
 GLO.GLO.prototype.all_active_node_generations = function(){
 	var gens = new Set()
@@ -107,11 +146,11 @@ GLO.GLO.prototype.active_edge_generation = function(){
 }
 
 GLO.GLO.prototype.current_node_generations = function(){
-	return this.active_canvas().node_generations.values()
+	return new Set(this.active_canvas().node_generations.values())
 }
 
 GLO.GLO.prototype.current_edge_generations = function(){
-	return this.active_canvas().edge_generations.values()
+	return new Set(this.active_canvas().edge_generations.values())
 }
 
 GLO.GLO.prototype._next_node_gen = function(){

@@ -403,8 +403,10 @@ GLO.Canvas.prototype.partition = function(axis,scaler){
 		var y_offset = 0
 		if(axis=="x"){
 			x_offset = self.x_offset() + ((width/scaler)*i)
+			y_offset = self.y_offset()
 		}
 		if(axis=="y"){
+			x_offset = self.x_offset()
 			y_offset = self.y_offset() + ((height/scaler)*i)
 		}
 		var new_canvas = self.clone(x_offset, y_offset)

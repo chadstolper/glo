@@ -34,7 +34,7 @@ function TODO(x) {
 			of attributes.
 */
 GLO.GLO.prototype.aggregate_edges_by = function(attr,method,opts){
-	this.active_edge_generation().forEach(function(gen){
+	this.correct_edge_gens(opts).forEach(function(gen){
 		gen.aggregate(attr,method)
 	})
 	return this
@@ -47,7 +47,7 @@ GLO.GLO.prototype.aggregate_edges_by = function(attr,method,opts){
 	If active generation is not aggregated, then nop
 */
 GLO.GLO.prototype.deaggregate_edges = function(opts){
-	this.active_edge_generation().forEach(function(gen){
+	this.correct_edge_gens(opts).forEach(function(gen){
 		gen.deaggregate()
 	})
 	return this
@@ -63,7 +63,7 @@ GLO.GLO.prototype.deaggregate_edges = function(opts){
 			of strings for attributes.
 */
 GLO.GLO.prototype.aggregate_nodes_by = function(attr,method,opts){
-	this.active_node_generation().forEach(function(gen){
+	this.correct_node_gens(opts).forEach(function(gen){
 		gen.aggregate(attr,method)
 	})
 	return this
@@ -76,7 +76,7 @@ GLO.GLO.prototype.aggregate_nodes_by = function(attr,method,opts){
 	If active generation is not aggregated, then nop
 */
 GLO.GLO.prototype.deaggregate_nodes = function(opts){
-	this.active_node_generation().forEach(function(gen){
+	this.correct_node_gens(opts).forEach(function(gen){
 		gen.deaggregate()
 	})
 	return this
@@ -112,7 +112,7 @@ GLO.GLO.prototype.align_edges = function(dir,opts){
 	Shorthand for position_nodes_by(constant)
 */
 GLO.GLO.prototype.align_nodes = function(dir,opts){
-	this.active_node_generation().forEach(function(gen){
+	this.correct_node_gens(opts).forEach(function(gen){
 		gen.align(dir,opts)
 	})
 	return this
@@ -141,7 +141,7 @@ GLO.GLO.prototype.position_edges_by = function(xattr,yattr,opts){
 	theta constants are expressed in degrees, not radians
 */
 GLO.GLO.prototype.position_nodes_on = function(axis,val,opts){
-	this.active_node_generation().forEach(function(gen){
+	this.correct_node_gens(opts).forEach(function(gen){
 		gen.position_on(axis,val,opts)
 	})
 	return this
@@ -149,7 +149,7 @@ GLO.GLO.prototype.position_nodes_on = function(axis,val,opts){
 
 //145	position nodes on {axis} by {constant}
 GLO.GLO.prototype.position_nodes_by_constant_on = function(axis,opts){
-	this.active_node_generation().forEach(function(gen){
+	this.correct_node_gens(opts).forEach(function(gen){
 		gen.position_by_preset_constant(axis,opts)
 	})
 	return this
@@ -161,7 +161,7 @@ GLO.GLO.prototype.position_nodes_by_constant_on = function(axis,opts){
 */
 GLO.GLO.prototype.position_nodes_stacked = function(direction,opts){
 	TODO("position_nodes_stacked --- group_by")
-	this.active_node_generation().forEach(function(gen){
+	this.correct_node_gens(opts).forEach(function(gen){
 		gen.stack(direction,opts)
 	})
 	return this
@@ -173,7 +173,7 @@ GLO.GLO.prototype.position_nodes_stacked = function(direction,opts){
 */
 GLO.GLO.prototype.position_nodes_stacked_within = function(direction,within_prop,opts){
 	TODO("position_nodes_stacked_within --- group_by")
-	this.active_node_generation().forEach(function(gen){
+	this.correct_node_gens(opts).forEach(function(gen){
 		gen.stack_within(direction,within_prop,opts)
 	})
 	return this
@@ -192,7 +192,7 @@ GLO.GLO.prototype.evenly_distribute_edges_on = function(axis,opts){
 	opts includes by option
 */
 GLO.GLO.prototype.evenly_distribute_nodes_on = function(axis,opts){
-	this.active_node_generation().forEach(function(gen){
+	this.correct_node_gens(opts).forEach(function(gen){
 		if(opts && opts.by){
 			gen.distribute(axis,opts.by,opts)
 		}else{
@@ -209,7 +209,7 @@ GLO.GLO.prototype.evenly_distribute_nodes_on = function(axis,opts){
 	opts includes by option
 */
 GLO.GLO.prototype.evenly_distribute_nodes_on_within = function(axis,attr,opts){
-	this.active_node_generation().forEach(function(gen){
+	this.correct_node_gens(opts).forEach(function(gen){
 		if(opts && opts.by){
 			gen.distribute_on_within(axis,attr,opts.by,opts)
 		}else{
@@ -228,7 +228,7 @@ GLO.GLO.prototype.evenly_distribute_nodes_on_within = function(axis,attr,opts){
 */
 GLO.GLO.prototype.apply_force_directed_algorithm_to_nodes = function(opts){
 	var self = this
-	this.active_node_generation().forEach(function(gen){
+	this.correct_node_gens(opts).forEach(function(gen){
 		gen.apply_force_directed(self.edges())
 	})
 	return this
@@ -251,7 +251,7 @@ GLO.GLO.prototype.apply_force_directed_algorithm_to_nodes = function(opts){
 	generation as the active generation
 */
 GLO.GLO.prototype.clone_edges = function(opts){
-	this.active_edge_generation().forEach(function(gen){
+	this.correct_edge_gens(opts).forEach(function(gen){
 		gen.clone()
 	})
 	return this
@@ -263,7 +263,7 @@ GLO.GLO.prototype.clone_edges = function(opts){
 	generation as the active generation
 */
 GLO.GLO.prototype.clone_nodes = function(opts){
-	this.active_node_generation().forEach(function(gen){
+	this.correct_node_gens(opts).forEach(function(gen){
 		gen.clone()
 	})
 	return this
@@ -276,6 +276,11 @@ GLO.GLO.prototype.clone_nodes = function(opts){
 	
 */
 GLO.GLO.prototype.select_edge_generation = function(gen,opts){
+	if(typeof opts !== "undefined"){
+		opts.all_canvases = false
+	}else{
+		opts = {all_canvases: false}
+	}
 	var edge_gen = this.active_canvas().edge_generations.get(gen)
 	this.active_canvas().active_edge_generation(edge_gen)
 	return this
@@ -286,6 +291,11 @@ GLO.GLO.prototype.select_edge_generation = function(gen,opts){
 	
 */
 GLO.GLO.prototype.select_node_generation = function(gen,opts){
+	if(typeof opts !== "undefined"){
+		opts.all_canvases = false
+	}else{
+		opts = {all_canvases: false}
+	}
 	var node_gen = this.active_canvas().node_generations.get(gen)
 	this.active_canvas().active_node_generation(node_gen)
 	return this
@@ -298,8 +308,13 @@ GLO.GLO.prototype.select_node_generation = function(gen,opts){
 	
 */
 GLO.GLO.prototype.set_source_generation = function(gen,opts){
+	if(typeof opts !== "undefined"){
+		opts.all_canvases = false
+	}else{
+		opts = {all_canvases: false}
+	}
 	var gen_inst = this.active_canvas().node_generations.get(gen)
-	this.active_edge_generation().forEach(function(gen){
+	this.correct_edge_gens(opts).forEach(function(gen){
 		gen.source_generation(gen_inst)
 	})
 	return this
@@ -310,8 +325,13 @@ GLO.GLO.prototype.set_source_generation = function(gen,opts){
 	
 */
 GLO.GLO.prototype.set_target_generation = function(gen,opts){
+	if(typeof opts !== "undefined"){
+		opts.all_canvases = false
+	}else{
+		opts = {all_canvases: false}
+	}
 	var gen_inst = this.active_canvas().node_generations.get(gen)
-	this.active_edge_generation().forEach(function(gen){
+	this.correct_edge_gens(opts).forEach(function(gen){
 		gen.target_generation(gen_inst)
 	})
 	return this
@@ -406,7 +426,7 @@ GLO.GLO.prototype.hide_convex_hulls = function(opts){
 	
 */
 GLO.GLO.prototype.show_all_edges = function(opts){
-	this.active_edge_generation().forEach(function(gen){
+	this.correct_edge_gens(opts).forEach(function(gen){
 		gen.show_mode("show_all_edges",opts)
 	})
 	return this
@@ -443,7 +463,7 @@ GLO.GLO.prototype.show_faded_and_incident_edges = function(opts){
 	to mousedover node shown as solid
 */
 GLO.GLO.prototype.show_incident_edges = function(opts){
-	this.active_edge_generation().forEach(function(gen){
+	this.correct_edge_gens(opts).forEach(function(gen){
 		gen.show_mode("show_incident_edges",opts)
 	})
 	return this
@@ -455,7 +475,7 @@ GLO.GLO.prototype.show_incident_edges = function(opts){
 	
 */
 GLO.GLO.prototype.hide_edges = function(opts){
-	this.active_edge_generation().forEach(function(gen){
+	this.correct_edge_gens(opts).forEach(function(gen){
 		gen.show_mode("hide_edges",opts)
 	})
 	return this
@@ -474,7 +494,7 @@ GLO.GLO.prototype.display_edges_as_bars = function(opts){
 	
 */
 GLO.GLO.prototype.display_edges_as_curved_lines = function(opts){
-	this.active_edge_generation().forEach(function(gen){
+	this.correct_edge_gens(opts).forEach(function(gen){
 		gen.edge_format("curved_lines",opts)
 	})
 	return this
@@ -502,7 +522,7 @@ GLO.GLO.prototype.display_edges_as_outer_links = function(opts){
 	
 */
 GLO.GLO.prototype.display_edges_as_squares = function(opts){
-	this.active_edge_generation().forEach(function(gen){
+	this.correct_edge_gens(opts).forEach(function(gen){
 		gen.edge_format("squares",opts)
 	})
 	return this
@@ -513,7 +533,7 @@ GLO.GLO.prototype.display_edges_as_squares = function(opts){
 	
 */
 GLO.GLO.prototype.display_edges_as_straight_lines = function(opts){
-	this.active_edge_generation().forEach(function(gen){
+	this.correct_edge_gens(opts).forEach(function(gen){
 		gen.edge_format("straight_lines", opts)
 	})
 	return this
@@ -588,7 +608,7 @@ GLO.GLO.prototype.display_nodes_as_labels = function(attr,opts){
 GLO.GLO.prototype.size_edges_by = function(attr,opts){
 	TODO("size edges by multiple attrs")
 	TODO("size square edges")
-	this.active_edge_generation().forEach(function(gen){
+	this.correct_edge_gens(opts).forEach(function(gen){
 		gen.size_by(attr)
 	})
 	return this
@@ -596,7 +616,7 @@ GLO.GLO.prototype.size_edges_by = function(attr,opts){
 
 
 GLO.GLO.prototype.size_edges_by_constant = function(attr,opts){
-	this.active_edge_generation().forEach(function(gen){
+	this.correct_edge_gens(opts).forEach(function(gen){
 		gen.size_by_preset_constant()
 	})
 	return this
@@ -608,7 +628,7 @@ GLO.GLO.prototype.size_edges_by_constant = function(attr,opts){
 	attr is a string attrID
 */
 GLO.GLO.prototype.size_nodes_by = function(attr,opts){
-	this.active_node_generation().forEach(function(gen){
+	this.correct_node_gens(opts).forEach(function(gen){
 		gen.size_by(attr)
 	})
 	return this
@@ -616,7 +636,7 @@ GLO.GLO.prototype.size_nodes_by = function(attr,opts){
 
 //162	size nodes by {constant}
 GLO.GLO.prototype.size_nodes_by_constant = function(opts){
-	this.active_node_generation().forEach(function(gen){
+	this.correct_node_gens(opts).forEach(function(gen){
 		gen.size_by_preset_constant()
 	})
 	return this
@@ -688,7 +708,7 @@ GLO.GLO.prototype.remove_all_edge_waypoints = function(opts){
 */
 GLO.GLO.prototype.color_edges_by = function(attr,opts){
 	TODO("color_edges_by Multiple Attributes")
-	this.active_edge_generation().forEach(function(gen){
+	this.correct_edge_gens(opts).forEach(function(gen){
 		gen.color_by(attr)
 	})
 	return this
@@ -701,7 +721,7 @@ GLO.GLO.prototype.color_edges_by = function(attr,opts){
 	constant should be an HTML-recognizable color string
 */
 GLO.GLO.prototype.color_edges_by_constant = function(opts){
-	this.active_edge_generation().forEach(function(gen){
+	this.correct_edge_gens(opts).forEach(function(gen){
 		gen.color_by_preset_constant()
 	})
 	return this
@@ -715,7 +735,7 @@ GLO.GLO.prototype.color_edges_by_constant = function(opts){
 		divergent
 */
 GLO.GLO.prototype.color_nodes_by = function(attr,opts){
-	this.active_node_generation().forEach(function(gen){
+	this.correct_node_gens(opts).forEach(function(gen){
 		gen.color_by(attr)
 	})
 	return this
@@ -727,7 +747,7 @@ GLO.GLO.prototype.color_nodes_by = function(attr,opts){
 	constant should be an HTML-recognizable color string
 */
 GLO.GLO.prototype.color_nodes_by_constant = function(opts){
-	this.active_node_generation().forEach(function(gen){
+	this.correct_node_gens(opts).forEach(function(gen){
 		gen.color_by_preset_constant()
 	})
 	return this
@@ -786,7 +806,7 @@ GLO.GLO.prototype.partition_on = function(axis,opts){
 		scaler = 2.0
 	}
 
-	this.active_canvas_set().forEach(function(canvas){
+	this.correct_canvases(opts).forEach(function(canvas){
 		canvas.partition(axis,scaler)
 	})
 	return this
@@ -903,7 +923,7 @@ GLO.GLO.prototype.hide_meta_axis = function(axis,opts){
 	
 */
 GLO.GLO.prototype.show_axis = function(axis,opts){
-	this.active_canvas_set().forEach(function(canvas){
+	this.correct_canvases(opts).forEach(function(canvas){
 		if(axis=="x"){
 			canvas.show_x_axis(true)
 		}else if(axis=="y"){
@@ -921,7 +941,7 @@ GLO.GLO.prototype.show_axis = function(axis,opts){
 	
 */
 GLO.GLO.prototype.hide_axis = function(axis,opts){
-	this.active_canvas_set().forEach(function(canvas){
+	this.correct_canvases(opts).forEach(function(canvas){
 		if(axis=="x"){
 			canvas.show_x_axis(false)
 		}else if(axis=="y"){
@@ -949,7 +969,7 @@ GLO.GLO.prototype.hide_axis = function(axis,opts){
 	Highlights neighbors
 */
 GLO.GLO.prototype.highlight_neighbors = function(opts){
-	this.active_node_generation().forEach(function(gen){
+	this.correct_node_gens(opts).forEach(function(gen){
 		gen.highlight_neighbors(true)
 	})
 	return this
@@ -971,7 +991,7 @@ GLO.GLO.prototype.highlight_in_out_neighbors = function(opts){
 	
 */
 GLO.GLO.prototype.stop_highlighting = function(opts){
-	this.active_node_generation().forEach(function(gen){
+	this.correct_node_gens(opts).forEach(function(gen){
 		gen.highlight_neighbors(false)
 	})
 	return this
