@@ -768,10 +768,16 @@ GLO.EdgeGeneration.prototype.curved_lines = function(d){
 	var h = self.hscale(dist)
 	var rise = Math.abs(d.endy(self)-d.starty(self))
 	var run = Math.abs(d.endx(self)-d.startx(self))
+
+
+
 	var dx, dy
-	
 	dx = (rise/(rise+run))*h
 	dy = -(run/(rise+run))*h
+	if(rise==0 && run==0){
+		dx = 0
+		dy = 0
+	}
 	
 	//Curve up or curve down
 	var direction
@@ -786,6 +792,9 @@ GLO.EdgeGeneration.prototype.curved_lines = function(d){
 	p += " Q"+cx_prime+","+cy_prime+" "
 	p += d.endx(self)+","+d.endy(self)
 
+	// if(d.id==0){
+	// 	debugger
+	// }
 
 	return p
 }
