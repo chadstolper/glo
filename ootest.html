@@ -137,15 +137,19 @@
 
 							.select_canvas(0)
 							.size_nodes_by("degree")
-							.apply_force_directed_algorithm_to_nodes()
-							
+							// .apply_force_directed_algorithm_to_nodes()
+							.evenly_distribute_nodes_on("x")
+							.evenly_distribute_nodes_on("y")
 
 							// .position_nodes_on("y","modularity_class")
 							// .position_nodes_stacked_within("left","modularity_class")
 							// .hide_edges()
 							// .show_axis("y")
 
-
+							.select_canvas(1)
+							.aggregate_nodes_by("modularity_class","mean",{all_gens: true})
+							.aggregate_edges_by(["source.modularity_class","target.modularity_class"],"mean",{all_gens: true})
+							.size_edges_by("count",{all_gens: true})
 
 
 				})

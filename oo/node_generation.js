@@ -282,6 +282,10 @@ GLO.NodeGeneration.prototype.aggregate = function(attr, method){
 		new_node.r_list = new Map()
 		new_node.rho_list = new Map()
 		new_node.theta_list = new Map()
+
+		// new_node.in_edges = new Set()
+		// new_node.out_edges = new Set()
+
 		// new_node.hover_list = new Map()
 		new_node.hover_value = false
 		new_node.in_hover_value = false
@@ -339,6 +343,14 @@ GLO.NodeGeneration.prototype.aggregate = function(attr, method){
 		// new_node.hover_list.set(agg_gen.gen_id, false)
 		new_node.fill_list[agg_gen.gen_id] = list[0].fill_list[this.gen_id]
 
+		// list.forEach(function(d){
+		// 	d.in_edges.forEach(function(e){
+		// 		new_node.in_edges.add(e)
+		// 	})
+		// 	d.out_edges.forEach(function(e){
+		// 		new_node.out_edges.add(e)
+		// 	})
+		// })
 
 		//EXTERNAL PROPERTIES
 		var node_attrs = this.canvas.glo.node_attr()
@@ -524,8 +536,8 @@ GLO.NodeGeneration.prototype.down_propagate_hover = function(){
 			for(var d in list){
 				d = list[d]
 				d.hover_value = n.hover_value
-				d.out_hover_value = n.out_hover_value
-				d.in_hover_value = n.in_hover_value
+				// d.out_hover_value = n.out_hover_value
+				// d.in_hover_value = n.in_hover_value
 			}
 		}
 	}
@@ -551,24 +563,47 @@ GLO.NodeGeneration.prototype.init_draw = function(){
 		})
 		.on('mouseover', function(d){
 			d.hover_value = true
-			d.out_edges.forEach(function(e){
-				e.target.in_hover_value = true
-			})
-			d.in_edges.forEach(function(e){
-				e.source.out_hover_value = true
-			})
+			if(!self.is_aggregated){
+				d.out_edges.forEach(function(e){
+					e.target.in_hover_value = true
+				})
+				d.in_edges.forEach(function(e){
+					e.source.out_hover_value = true
+				})
+			}else{
+				self.aggregate_node_map.get(d).forEach(function(n){
+					n.out_edges.forEach(function(e){
+						e.target.in_hover_value = true
+					})
+					n.in_edges.forEach(function(e){
+						e.source.out_hover_value = true
+					})
+				})
+			}
+			
 			self.down_propagate_hover()
 			self.update()
 			self.update_all()
 		})
 		.on('mouseout', function(d){
 			d.hover_value = false
-			d.out_edges.forEach(function(e){
-				e.target.in_hover_value = false
-			})
-			d.in_edges.forEach(function(e){
-				e.source.out_hover_value = false
-			})
+			if(!self.is_aggregated){
+				d.out_edges.forEach(function(e){
+					e.target.in_hover_value = false
+				})
+				d.in_edges.forEach(function(e){
+					e.source.out_hover_value = false
+				})
+			}else{
+				self.aggregate_node_map.get(d).forEach(function(n){
+					n.out_edges.forEach(function(e){
+						e.target.in_hover_value = false
+					})
+					n.in_edges.forEach(function(e){
+						e.source.out_hover_value = false
+					})
+				})
+			}
 			self.down_propagate_hover()
 			self.update()
 			self.update_all()
