@@ -846,6 +846,9 @@ GLO.NodeGeneration.prototype.apply_force_directed = function(edges){
 			})
 			self.update()
 		})
+		.on("end", function(){
+			console.log("Force-Directed Finished")
+		})
 		// .start()
 		.start(10,15,20)
 
