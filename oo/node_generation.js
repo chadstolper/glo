@@ -985,6 +985,10 @@ GLO.NodeGeneration.prototype.position_by_continuous = function(axis,attr,opts){
 			.range([3*Math.PI/2,7*Math.PI/2])
 
 		this.nodes.forEach(function(d){
+			if(d.x_list[self.gen_id]==self.canvas.center() && d.y_list[self.gen_id]==self.canvas.middle()){
+				d.x_list[self.gen_id] = self.canvas.center()+0.0001
+				d.y_list[self.gen_id] = self.canvas.middle()+0.0001
+			}
 			d.theta_list[self.gen_id] = scale(d[attr])
 			var new_coords = self.theta_shift(d, d.theta_list[self.gen_id])
 			d.x_list[self.gen_id] = new_coords.x
@@ -1054,6 +1058,10 @@ GLO.NodeGeneration.prototype.position_by_discrete = function(axis,attr,opts){
 			.rangePoints([3*Math.PI/2,7*Math.PI/2],this.discrete_range_padding)
 
 		this.nodes.forEach(function(d){
+			if(d.x_list[self.gen_id]==self.canvas.center() && d.y_list[self.gen_id]==self.canvas.middle()){
+				d.x_list[self.gen_id] = self.canvas.center()+0.0001
+				d.y_list[self.gen_id] = self.canvas.middle()+0.0001
+			}
 			d.theta_list[self.gen_id] = scale(d[attr])
 			var new_coords = self.theta_shift(d, d.theta_list[self.gen_id])
 			d.x_list[self.gen_id] = new_coords.x
@@ -1136,6 +1144,10 @@ GLO.NodeGeneration.prototype.position_by_constant = function(axis,constant,opts)
 		this.theta_scale = scale
 
 		this.nodes.forEach(function(d){
+			if(d.x_list[self.gen_id]==self.canvas.center() && d.y_list[self.gen_id]==self.canvas.middle()){
+				d.x_list[self.gen_id] = self.canvas.center()+0.0001
+				d.y_list[self.gen_id] = self.canvas.middle()+0.0001
+			}
 			d.theta_list[self.gen_id] = constant*(Math.PI/180)
 			var new_coords = self.theta_shift(d, d.theta_list[self.gen_id])
 			d.x_list[self.gen_id] = new_coords.x
@@ -1298,6 +1310,10 @@ GLO.NodeGeneration.prototype.distribute = function(axis,by_prop,opts){
 			.rangePoints([3*Math.PI/2,7*Math.PI/2],this.discrete_range_padding)
 
 		this.nodes.forEach(function(d){
+			if(d.x_list[self.gen_id]==self.canvas.center() && d.y_list[self.gen_id]==self.canvas.middle()){
+				d.x_list[self.gen_id] = self.canvas.center()+0.0001
+				d.y_list[self.gen_id] = self.canvas.middle()+0.0001
+			}
 			d.theta_list[self.gen_id] = scale(d.index)
 			var new_coords = self.theta_shift(d, d.theta_list[self.gen_id])
 			d.x_list[self.gen_id] = new_coords.x
@@ -1538,6 +1554,10 @@ GLO.NodeGeneration.prototype.distribute_on_within = function(axis,within_prop,by
 				.rangePoints([3*Math.PI/2,7*Math.PI/2],this.discrete_range_padding)
 
 			nodes.forEach(function(d){
+				if(d.x_list[self.gen_id]==self.canvas.center() && d.y_list[self.gen_id]==self.canvas.middle()){
+					d.x_list[self.gen_id] = self.canvas.center()+0.0001
+					d.y_list[self.gen_id] = self.canvas.middle()+0.0001
+				}
 				d.theta_list[self.gen_id] = scale(d.index)
 				var new_coords = self.theta_shift(d, d.theta_list[self.gen_id])
 				d.x_list[self.gen_id] = new_coords.x

@@ -122,6 +122,10 @@ GLO.NodeGroup.prototype.position_by_continuous = function(axis,attr){
 			.range([3*Math.PI/2,7*Math.PI/2])
 
 		this.nodes.forEach(function(d){
+			if(d.x_list[self.gen_id]==self.coordinates.center() && d.y_list[self.gen_id]==self.coordinates.middle()){
+				d.x_list[self.gen_id] = self.coordinates.center()+0.0001
+				d.y_list[self.gen_id] = self.coordinates.middle()+0.0001
+			}
 			d.theta_list[self.gen.gen_id] = scale(d[attr])
 			var new_coords = self.theta_shift(d, d.theta_list[self.gen.gen_id])
 			d.x_list[self.gen.gen_id] = new_coords.x
@@ -182,6 +186,10 @@ GLO.NodeGroup.prototype.position_by_discrete = function(axis,attr){
 			.rangePoints([3*Math.PI/2,7*Math.PI/2],this.gen.discrete_range_padding)
 
 		this.nodes.forEach(function(d){
+			if(d.x_list[self.gen_id]==self.coordinates.center() && d.y_list[self.gen_id]==self.coordinates.middle()){
+				d.x_list[self.gen_id] = self.coordinates.center()+0.0001
+				d.y_list[self.gen_id] = self.coordinates.middle()+0.0001
+			}
 			d.theta_list[self.gen.gen_id] = scale(d[attr])
 			var new_coords = self.theta_shift(d, d.theta_list[self.gen.gen_id])
 			d.x_list[self.gen.gen_id] = new_coords.x
@@ -250,6 +258,10 @@ GLO.NodeGroup.prototype.position_by_constant = function(axis,constant){
 		this.theta_scale = scale
 
 		this.nodes.forEach(function(d){
+			if(d.x_list[self.gen_id]==self.coordinates.center() && d.y_list[self.gen_id]==self.coordinates.middle()){
+				d.x_list[self.gen_id] = self.coordinates.center()+0.0001
+				d.y_list[self.gen_id] = self.coordinates.middle()+0.0001
+			}
 			d.theta_list[self.gen.gen_id] = constant*(Math.PI/180)
 			var new_coords = self.theta_shift(d, d.theta_list[self.gen.gen_id])
 			d.x_list[self.gen.gen_id] = new_coords.x
@@ -321,6 +333,10 @@ GLO.NodeGroup.prototype.distribute = function(axis,by_prop){
 			.rangePoints([3*Math.PI/2,7*Math.PI/2],this.gen.discrete_range_padding)
 
 		this.nodes.forEach(function(d){
+			if(d.x_list[self.gen_id]==self.coordinates.center() && d.y_list[self.gen_id]==self.coordinates.middle()){
+				d.x_list[self.gen_id] = self.coordinates.center()+0.0001
+				d.y_list[self.gen_id] = self.coordinates.middle()+0.0001
+			}
 			d.theta_list[self.gen.gen_id] = scale(d.index)
 			var new_coords = self.theta_shift(d, d.theta_list[self.gen.gen_id])
 			d.x_list[self.gen.gen_id] = new_coords.x
