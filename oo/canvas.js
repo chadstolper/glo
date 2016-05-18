@@ -388,3 +388,26 @@ GLO.Canvas.prototype.draw_y_axis = function(){
 
 	return this
 }
+
+
+
+GLO.Canvas.prototype.partition = function(axis,scaler){
+	var self = this
+
+	var width = self.width()
+	var height = self.height()
+	self.scale(axis, 1/scaler)
+	
+	for(var i=1; i<scaler; i++){
+		var x_offset = 0
+		var y_offset = 0
+		if(axis=="x"){
+			x_offset = self.x_offset() + ((width/scaler)*i)
+		}
+		if(axis=="y"){
+			y_offset = self.y_offset() + ((height/scaler)*i)
+		}
+		var new_canvas = self.clone(x_offset, y_offset)
+	}
+
+}

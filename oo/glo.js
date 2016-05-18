@@ -45,12 +45,73 @@ GLO.GLO.prototype.active_canvas = function(value){
 	return this
 }
 
+GLO.GLO.prototype.active_canvas_set = function(){
+	var canvases = new Set()
+	canvases.add (this.active_canvas())
+	return canvases
+}
+
+GLO.GLO.prototype.all_canvases = function(){
+	return this.canvases.values()
+}
+
+GLO.GLO.prototype.all_active_node_generations = function(){
+	var gens = new Set()
+	this.canvases.forEach(function(canvas){
+		gens.add( canvas.active_node_generation() )
+	})
+	return gens
+}
+
+
+GLO.GLO.prototype.all_active_edge_generations = function(){
+	var gens = new Set()
+	this.canvases.forEach(function(canvas){
+		gens.add( canvas.active_edge_generation() )
+	})
+	return gens
+}
+
+
+GLO.GLO.prototype.all_node_generations = function(){
+	var gens = new Set()
+	this.canvases.forEach(function(canvas){
+		canvas.node_generations.forEach(function(gen){
+			gens.add( gen )
+		})
+	})
+	return gens
+}
+
+GLO.GLO.prototype.all_edge_generations = function(){
+	var gens = new Set()
+	this.canvases.forEach(function(canvas){
+		canvas.edge_generations.forEach(function(gen){
+			gens.add( gen )
+		})
+	})
+	return gens
+}
+
+
 GLO.GLO.prototype.active_node_generation = function(){
-	return this.active_canvas().active_node_generation()
+	var gens = new Set()
+	gens.add( this.active_canvas().active_node_generation() )
+	return gens
 }
 
 GLO.GLO.prototype.active_edge_generation = function(){
-	return this.active_canvas().active_edge_generation()
+	var gens = new Set()
+	gens.add( this.active_canvas().active_edge_generation() )
+	return gens
+}
+
+GLO.GLO.prototype.current_node_generations = function(){
+	return this.active_canvas().node_generations.values()
+}
+
+GLO.GLO.prototype.current_edge_generations = function(){
+	return this.active_canvas().edge_generations.values()
 }
 
 GLO.GLO.prototype._next_node_gen = function(){
@@ -181,8 +242,6 @@ GLO.GLO.prototype._init_graph = function(){
 
 	return this
 }
-
-
 
 
 GLO.GLO.prototype._init_directional_gradients = function(){

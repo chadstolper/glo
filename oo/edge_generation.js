@@ -113,6 +113,19 @@ GLO.EdgeGeneration.prototype.update = function(){
 }
 
 
+GLO.EdgeGeneration.prototype.color_by_preset_constant = function(){
+	var self = this
+
+	this.edges.forEach(function(d){
+		d.color_list[self.gen_id] = self.default_stroke
+	})
+
+	this.update()
+	return this
+}
+
+
+
 
 GLO.EdgeGeneration.prototype.color_by_constant = function(constant){
 	var self = this
@@ -208,9 +221,15 @@ GLO.EdgeGeneration.prototype.color_by_color_attr = function(attr){
 
 
 
+GLO.EdgeGeneration.prototype.size_by_preset_constant = function(constant){
+	var self = this
+	this.edges.forEach(function(d){
+		d.stroke_width_list[self.gen_id] = self.default_stroke_width
+	})
 
-
-
+	this.update()
+	return this
+}
 
 
 GLO.EdgeGeneration.prototype.size_by_constant = function(constant){

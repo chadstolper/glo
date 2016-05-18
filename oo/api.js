@@ -9,12 +9,12 @@ function TODO(x) {
 	For each function, the final parameter is an optional options
 	parameter. It should be an object{} with any
 	combination of the three options:
-		* groupby:	discrete attribute name as string
-		* allgens:	boolean value, true to apply to all
+		* group_by:	discrete attribute name as string
+		* all_gens:	boolean value, true to apply to all
 								generations in current canvas
-		* allparts:	boolean value, true to apply
-								true to apply to all gens in all
-								parititions
+		* all_canvases:	boolean value, true to apply
+										true to apply to all gens in all
+										parititions
 
 	For some functions, there are additional optional values
 		* by: a sorting function used for index-based positioning
@@ -34,7 +34,9 @@ function TODO(x) {
 			of attributes.
 */
 GLO.GLO.prototype.aggregate_edges_by = function(attr,method,opts){
-	this.active_edge_generation().aggregate(attr,method)
+	this.active_edge_generation().forEach(function(gen){
+		gen.aggregate(attr,method)
+	})
 	return this
 }
 
@@ -45,7 +47,9 @@ GLO.GLO.prototype.aggregate_edges_by = function(attr,method,opts){
 	If active generation is not aggregated, then nop
 */
 GLO.GLO.prototype.deaggregate_edges = function(opts){
-	this.active_edge_generation().deaggregate()
+	this.active_edge_generation().forEach(function(gen){
+		gen.deaggregate()
+	})
 	return this
 }
 
@@ -59,7 +63,9 @@ GLO.GLO.prototype.deaggregate_edges = function(opts){
 			of strings for attributes.
 */
 GLO.GLO.prototype.aggregate_nodes_by = function(attr,method,opts){
-	this.active_node_generation().aggregate(attr,method)
+	this.active_node_generation().forEach(function(gen){
+		gen.aggregate(attr,method)
+	})
 	return this
 }
 
@@ -70,7 +76,9 @@ GLO.GLO.prototype.aggregate_nodes_by = function(attr,method,opts){
 	If active generation is not aggregated, then nop
 */
 GLO.GLO.prototype.deaggregate_nodes = function(opts){
-	this.active_node_generation().deaggregate()
+	this.active_node_generation().forEach(function(gen){
+		gen.deaggregate()
+	})
 	return this
 }
 
@@ -104,7 +112,9 @@ GLO.GLO.prototype.align_edges = function(dir,opts){
 	Shorthand for position_nodes_by(constant)
 */
 GLO.GLO.prototype.align_nodes = function(dir,opts){
-	this.active_node_generation().align(dir,opts)
+	this.active_node_generation().forEach(function(gen){
+		gen.align(dir,opts)
+	})
 	return this
 }
 
@@ -131,14 +141,17 @@ GLO.GLO.prototype.position_edges_by = function(xattr,yattr,opts){
 	theta constants are expressed in degrees, not radians
 */
 GLO.GLO.prototype.position_nodes_on = function(axis,val,opts){
-	this.active_node_generation().position_on(axis,val,opts)
+	this.active_node_generation().forEach(function(gen){
+		gen.position_on(axis,val,opts)
+	})
 	return this
 }
 
 //145	position nodes on {axis} by {constant}
 GLO.GLO.prototype.position_nodes_by_constant_on = function(axis,opts){
-	this.active_node_generation().position_by_preset_constant(axis,opts)
-
+	this.active_node_generation().forEach(function(gen){
+		gen.position_by_preset_constant(axis,opts)
+	})
 	return this
 }
 
@@ -148,7 +161,9 @@ GLO.GLO.prototype.position_nodes_by_constant_on = function(axis,opts){
 */
 GLO.GLO.prototype.position_nodes_stacked = function(direction,opts){
 	TODO("position_nodes_stacked --- group_by")
-	this.active_node_generation().stack(direction,opts)
+	this.active_node_generation().forEach(function(gen){
+		gen.stack(direction,opts)
+	})
 	return this
 }
 
@@ -158,7 +173,9 @@ GLO.GLO.prototype.position_nodes_stacked = function(direction,opts){
 */
 GLO.GLO.prototype.position_nodes_stacked_within = function(direction,within_prop,opts){
 	TODO("position_nodes_stacked_within --- group_by")
-	this.active_node_generation().stack_within(direction,within_prop,opts)
+	this.active_node_generation().forEach(function(gen){
+		gen.stack_within(direction,within_prop,opts)
+	})
 	return this
 }
 
@@ -175,11 +192,14 @@ GLO.GLO.prototype.evenly_distribute_edges_on = function(axis,opts){
 	opts includes by option
 */
 GLO.GLO.prototype.evenly_distribute_nodes_on = function(axis,opts){
-	if(opts && opts.by){
-		this.active_node_generation().distribute(axis,opts.by,opts)
-	}else{
-		this.active_node_generation().distribute(axis,null,opts)
-	}
+	this.active_node_generation().forEach(function(gen){
+		if(opts && opts.by){
+			gen.distribute(axis,opts.by,opts)
+		}else{
+			gen.distribute(axis,null,opts)
+		}
+	})
+	
 
 	return this
 
@@ -189,12 +209,13 @@ GLO.GLO.prototype.evenly_distribute_nodes_on = function(axis,opts){
 	opts includes by option
 */
 GLO.GLO.prototype.evenly_distribute_nodes_on_within = function(axis,attr,opts){
-	if(opts && opts.by){
-		this.active_node_generation().distribute_on_within(axis,attr,opts.by,opts)
-	}else{
-		this.active_node_generation().distribute_on_within(axis,attr,opts)
-	}
-
+	this.active_node_generation().forEach(function(gen){
+		if(opts && opts.by){
+			gen.distribute_on_within(axis,attr,opts.by,opts)
+		}else{
+			gen.distribute_on_within(axis,attr,opts)
+		}
+	})
 	return this
 
 }
@@ -206,9 +227,10 @@ GLO.GLO.prototype.evenly_distribute_nodes_on_within = function(axis,attr,opts){
 	
 */
 GLO.GLO.prototype.apply_force_directed_algorithm_to_nodes = function(opts){
-	var node_gen = this.active_node_generation()
-		.apply_force_directed(this.edges())
-
+	var self = this
+	this.active_node_generation().forEach(function(gen){
+		gen.apply_force_directed(self.edges())
+	})
 	return this
 }
 
@@ -229,7 +251,9 @@ GLO.GLO.prototype.apply_force_directed_algorithm_to_nodes = function(opts){
 	generation as the active generation
 */
 GLO.GLO.prototype.clone_edges = function(opts){
-	this.active_edge_generation().clone()
+	this.active_edge_generation().forEach(function(gen){
+		gen.clone()
+	})
 	return this
 }
 
@@ -239,7 +263,9 @@ GLO.GLO.prototype.clone_edges = function(opts){
 	generation as the active generation
 */
 GLO.GLO.prototype.clone_nodes = function(opts){
-	this.active_node_generation().clone()
+	this.active_node_generation().forEach(function(gen){
+		gen.clone()
+	})
 	return this
 }
 
@@ -273,7 +299,9 @@ GLO.GLO.prototype.select_node_generation = function(gen,opts){
 */
 GLO.GLO.prototype.set_source_generation = function(gen,opts){
 	var gen_inst = this.active_canvas().node_generations.get(gen)
-	this.active_edge_generation().source_generation(gen_inst)
+	this.active_edge_generation().forEach(function(gen){
+		gen.source_generation(gen_inst)
+	})
 	return this
 }
 
@@ -283,7 +311,9 @@ GLO.GLO.prototype.set_source_generation = function(gen,opts){
 */
 GLO.GLO.prototype.set_target_generation = function(gen,opts){
 	var gen_inst = this.active_canvas().node_generations.get(gen)
-	this.active_edge_generation().target_generation(gen_inst)
+	this.active_edge_generation().forEach(function(gen){
+		gen.target_generation(gen_inst)
+	})
 	return this
 }
 
@@ -354,7 +384,7 @@ GLO.GLO.prototype.remove_all_cloned_nodes = function(opts){
 
 //29	draw convex hulls
 /*
-	groupby value in opts, otherwise convex hull for
+	group_by value in opts, otherwise convex hull for
 	all nodes
 */
 GLO.GLO.prototype.show_convex_hulls = function(opts){
@@ -376,7 +406,9 @@ GLO.GLO.prototype.hide_convex_hulls = function(opts){
 	
 */
 GLO.GLO.prototype.show_all_edges = function(opts){
-	this.active_edge_generation().show_mode("show_all_edges",opts)
+	this.active_edge_generation().forEach(function(gen){
+		gen.show_mode("show_all_edges",opts)
+	})
 	return this
 }
 
@@ -411,7 +443,9 @@ GLO.GLO.prototype.show_faded_and_incident_edges = function(opts){
 	to mousedover node shown as solid
 */
 GLO.GLO.prototype.show_incident_edges = function(opts){
-	this.active_edge_generation().show_mode("show_incident_edges",opts)
+	this.active_edge_generation().forEach(function(gen){
+		gen.show_mode("show_incident_edges",opts)
+	})
 	return this
 }
 
@@ -421,7 +455,9 @@ GLO.GLO.prototype.show_incident_edges = function(opts){
 	
 */
 GLO.GLO.prototype.hide_edges = function(opts){
-	this.active_edge_generation().show_mode("hide_edges",opts)
+	this.active_edge_generation().forEach(function(gen){
+		gen.show_mode("hide_edges",opts)
+	})
 	return this
 }
 
@@ -438,7 +474,9 @@ GLO.GLO.prototype.display_edges_as_bars = function(opts){
 	
 */
 GLO.GLO.prototype.display_edges_as_curved_lines = function(opts){
-	this.active_edge_generation().edge_format("curved_lines",opts)
+	this.active_edge_generation().forEach(function(gen){
+		gen.edge_format("curved_lines",opts)
+	})
 	return this
 }
 
@@ -464,7 +502,9 @@ GLO.GLO.prototype.display_edges_as_outer_links = function(opts){
 	
 */
 GLO.GLO.prototype.display_edges_as_squares = function(opts){
-	this.active_edge_generation().edge_format("squares",opts)
+	this.active_edge_generation().forEach(function(gen){
+		gen.edge_format("squares",opts)
+	})
 	return this
 }
 
@@ -473,7 +513,9 @@ GLO.GLO.prototype.display_edges_as_squares = function(opts){
 	
 */
 GLO.GLO.prototype.display_edges_as_straight_lines = function(opts){
-	this.active_edge_generation().edge_format("straight_lines", opts)
+	this.active_edge_generation().forEach(function(gen){
+		gen.edge_format("straight_lines", opts)
+	})
 	return this
 }
 
@@ -546,13 +588,17 @@ GLO.GLO.prototype.display_nodes_as_labels = function(attr,opts){
 GLO.GLO.prototype.size_edges_by = function(attr,opts){
 	TODO("size edges by multiple attrs")
 	TODO("size square edges")
-	this.active_edge_generation().size_by(attr)
+	this.active_edge_generation().forEach(function(gen){
+		gen.size_by(attr)
+	})
 	return this
 }
 
 
 GLO.GLO.prototype.size_edges_by_constant = function(attr,opts){
-	this.active_edge_generation().size_by_constant(this.active_edge_generation().default_stroke_width)
+	this.active_edge_generation().forEach(function(gen){
+		gen.size_by_preset_constant()
+	})
 	return this
 }
 
@@ -562,13 +608,17 @@ GLO.GLO.prototype.size_edges_by_constant = function(attr,opts){
 	attr is a string attrID
 */
 GLO.GLO.prototype.size_nodes_by = function(attr,opts){
-	this.active_node_generation().size_by(attr)
+	this.active_node_generation().forEach(function(gen){
+		gen.size_by(attr)
+	})
 	return this
 }
 
 //162	size nodes by {constant}
 GLO.GLO.prototype.size_nodes_by_constant = function(opts){
-	this.active_node_generation().size_by_constant(GLO.NodeGeneration.prototype.default_r)
+	this.active_node_generation().forEach(function(gen){
+		gen.size_by_preset_constant()
+	})
 	return this
 }
 
@@ -638,7 +688,9 @@ GLO.GLO.prototype.remove_all_edge_waypoints = function(opts){
 */
 GLO.GLO.prototype.color_edges_by = function(attr,opts){
 	TODO("color_edges_by Multiple Attributes")
-	this.active_edge_generation().color_by(attr)
+	this.active_edge_generation().forEach(function(gen){
+		gen.color_by(attr)
+	})
 	return this
 }
 
@@ -649,7 +701,9 @@ GLO.GLO.prototype.color_edges_by = function(attr,opts){
 	constant should be an HTML-recognizable color string
 */
 GLO.GLO.prototype.color_edges_by_constant = function(opts){
-	this.active_edge_generation().color_by_constant(GLO.EdgeGeneration.prototype.default_stroke)
+	this.active_edge_generation().forEach(function(gen){
+		gen.color_by_preset_constant()
+	})
 	return this
 }
 
@@ -661,7 +715,9 @@ GLO.GLO.prototype.color_edges_by_constant = function(opts){
 		divergent
 */
 GLO.GLO.prototype.color_nodes_by = function(attr,opts){
-	this.active_node_generation().color_by(attr)
+	this.active_node_generation().forEach(function(gen){
+		gen.color_by(attr)
+	})
 	return this
 }
 
@@ -671,7 +727,9 @@ GLO.GLO.prototype.color_nodes_by = function(attr,opts){
 	constant should be an HTML-recognizable color string
 */
 GLO.GLO.prototype.color_nodes_by_constant = function(opts){
-	this.active_node_generation().color_by_constant(GLO.NodeGeneration.prototype.default_fill)
+	this.active_node_generation().forEach(function(gen){
+		gen.color_by_preset_constant()
+	})
 	return this
 }
 
@@ -727,22 +785,10 @@ GLO.GLO.prototype.partition_on = function(axis,opts){
 	}else{
 		scaler = 2.0
 	}
-	this.active_canvas().scale(axis, 1/scaler)
-	
-	for(var i=1; i<scaler; i++){
-		var x_offset = 0
-		var y_offset = 0
-		if(axis=="x"){
-			x_offset = ((this.width()/scaler)*i)
-		}
-		if(axis=="y"){
-			y_offset = ((this.height()/scaler)*i)
-		}
-		var new_canvas = this.active_canvas().clone(x_offset, y_offset)
-		
-		// new_canvas.update_chart()
-	}
 
+	this.active_canvas_set().forEach(function(canvas){
+		canvas.partition(axis,scaler)
+	})
 	return this
 }
 
@@ -857,13 +903,15 @@ GLO.GLO.prototype.hide_meta_axis = function(axis,opts){
 	
 */
 GLO.GLO.prototype.show_axis = function(axis,opts){
-	if(axis=="x"){
-		this.active_canvas().show_x_axis(true)
-	}else if(axis=="y"){
-		this.active_canvas().show_y_axis(true)
-	}else{
-		throw "Invalid axis for showing. Only x and y permitted."
-	}
+	this.active_canvas_set().forEach(function(canvas){
+		if(axis=="x"){
+			canvas.show_x_axis(true)
+		}else if(axis=="y"){
+			canvas.show_y_axis(true)
+		}else{
+			throw "Invalid axis for showing. Only x and y permitted."
+		}
+	})
 	return this
 }
 
@@ -873,13 +921,15 @@ GLO.GLO.prototype.show_axis = function(axis,opts){
 	
 */
 GLO.GLO.prototype.hide_axis = function(axis,opts){
-	if(axis=="x"){
-		this.active_canvas().show_x_axis(false)
-	}else if(axis=="y"){
-		this.active_canvas().show_y_axis(false)
-	}else{
-		throw "Invalid axis for showing. Only x and y permitted."
-	}
+	this.active_canvas_set().forEach(function(canvas){
+		if(axis=="x"){
+			canvas.show_x_axis(false)
+		}else if(axis=="y"){
+			canvas.show_y_axis(false)
+		}else{
+			throw "Invalid axis for showing. Only x and y permitted."
+		}
+	})
 	return this
 }
 
@@ -899,7 +949,9 @@ GLO.GLO.prototype.hide_axis = function(axis,opts){
 	Highlights neighbors
 */
 GLO.GLO.prototype.highlight_neighbors = function(opts){
-	this.active_node_generation().highlight_neighbors(true)
+	this.active_node_generation().forEach(function(gen){
+		gen.highlight_neighbors(true)
+	})
 	return this
 }
 
@@ -919,7 +971,9 @@ GLO.GLO.prototype.highlight_in_out_neighbors = function(opts){
 	
 */
 GLO.GLO.prototype.stop_highlighting = function(opts){
-	this.active_node_generation().highlight_neighbors(false)
+	this.active_node_generation().forEach(function(gen){
+		gen.highlight_neighbors(false)
+	})
 	return this
 }
 

@@ -581,6 +581,17 @@ GLO.NodeGeneration.prototype.init_draw = function(){
 	return this
 }
 
+GLO.NodeGeneration.prototype.size_by_preset_constant = function(){
+	var self = this
+
+	this.nodes.forEach(function(d){
+		d.r_list[self.gen_id] = self.default_r
+	})
+
+	this.update()
+	return this
+}
+
 GLO.NodeGeneration.prototype.size_by_constant = function(constant){
 	var self = this
 
@@ -673,6 +684,20 @@ GLO.NodeGeneration.prototype.size_by_continuous = function(attr){
 	return this
 
 }
+
+
+GLO.NodeGeneration.prototype.color_by_preset_constant = function(){
+	var self = this
+
+	this.nodes.forEach(function(d){
+		d.fill_list[self.gen_id] = self.default_fill
+	})
+
+	this.update()
+	return this
+}
+
+
 
 
 GLO.NodeGeneration.prototype.color_by_constant = function(constant){
