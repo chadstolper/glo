@@ -831,6 +831,12 @@ GLO.NodeGeneration.prototype.color_by_color_attr = function(attr){
 
 GLO.NodeGeneration.prototype.apply_force_directed = function(edges){
 	var self = this
+
+	self.nodes.forEach(function(d){
+		d.x = self.canvas.center()
+		d.y = self.canvas.middle()
+	})
+
 	var force = cola.d3adaptor()
 	// var force = d3.layout.force()
 		// .linkDistance(30)
