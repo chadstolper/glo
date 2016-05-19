@@ -65,7 +65,7 @@ GLO.EdgeGeneration.prototype.update = function(){
 	if(typeof this.edge_glyphs === "undefined"){ return this; }
 
 	var min_dimension = Math.min(this.canvas.canvas_width(),this.canvas.canvas_height())
-	this.max_link_curve_r = .7 * Math.sqrt(min_dimension)
+	this.max_link_curve_r = .5 * Math.sqrt(min_dimension)
 	this.hscale = d3.scale.linear()
 		.range([3,this.max_link_curve_r])
 		.domain([0,min_dimension])
@@ -218,11 +218,6 @@ GLO.EdgeGeneration.prototype.color_by_color_attr = function(attr){
 	this.update()
 	return this
 }
-
-
-
-
-
 
 
 GLO.EdgeGeneration.prototype.size_by_preset_constant = function(constant){
@@ -758,9 +753,6 @@ GLO.EdgeGeneration.prototype.straight_lines_fill = function(d){
 }
 
 
-
-
-
 GLO.EdgeGeneration.prototype.curved_lines = function(d){
 	var self = this
 
@@ -796,10 +788,6 @@ GLO.EdgeGeneration.prototype.curved_lines = function(d){
 	
 	p += " Q"+cx_prime+","+cy_prime+" "
 	p += d.endx(self)+","+d.endy(self)
-
-	// if(d.id==0){
-	// 	debugger
-	// }
 
 	return p
 }

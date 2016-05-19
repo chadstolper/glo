@@ -171,9 +171,12 @@
 							// .Technique_Semantic_Substrates("modularity_class","degree")
 							// .Technique_PivotGraph("modularity_class","gender","mean")
 							// .Technique_MatLink("modularity_class","weight")
-							.Technique_ListView("gender", "modularity_class")
-
-
+							// .Technique_ListView("gender", "modularity_class")
+							// .Technique_Honeycomb(["modularity_class","gender"],"mean","count","modularity_class")
+							// .Technique_GraphDice_Segment("betweenness_centrality","degree","degree")
+							// .Technique_GraphDice_3x3("modularity_class","gender","degree","degree")
+							// .Technique_Hive_Plot("modularity_class", "degree")
+							.Technique_Hive_Panel_2x3("modularity_class","gender","degree","page_rank","betweenness_centrality")
 
 				})
 			})

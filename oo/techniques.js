@@ -197,12 +197,170 @@ GLO.GLO.prototype.Technique_ListView = function(discrete1, sort_attr){
 	this.position_nodes_on("x",discrete1)
 	this.position_nodes_stacked_within("bottom",discrete1,{by:sort_attr})
 	this.display_edges_as_curved_lines()
+	this.show_faded_and_incident_edges()
+	this.show_axis("x")
+
+	return this
+}
+
+
+GLO.GLO.prototype.Techniques_Edge_Label_Centric = function(){
+	TOOD("Edge Label Centric")
+}
+
+
+GLO.GLO.prototype.Technique_Honeycomb = function(discretes, agg_method, edge_color_attr, sort_attr){
+	if(sort_attr==null){
+		delete sort_attr
+	}
+	var edge_agg_array = []
+	if(Array.isArray(discretes)){
+		discretes.forEach(function(attr){
+			edge_agg_array.push("source."+attr)
+			edge_agg_array.push("target."+attr)
+		})
+	}else{
+		edge_agg_array.push("source."+discretes)
+		edge_agg_array.push("target."+discretes)
+	}
+
+	this.aggregate_nodes_by(discretes,agg_method)
+	this.align_nodes("left")
+	this.size_nodes_by("count")
+	this.evenly_distribute_nodes_on("y",{by:sort_attr})
+	this.clone_nodes()
+	this.align_nodes("bottom")
+	this.evenly_distribute_nodes_on("x",{by:sort_attr})
+	this.set_target_generation(3)
+	this.aggregate_edges_by(edge_agg_array, agg_method)
+	this.display_edges_as_squares()
+	this.color_edges_by(edge_color_attr)
+
+	return this
+}
+
+
+GLO.GLO.prototype.Technique_GraphDice_Segment = function(attr1, attr2, size_nodes_attr){
+	this.position_nodes_on("x", attr1)
+	this.position_nodes_on("y", attr2)
+	this.size_nodes_by(size_nodes_attr)
+	this.display_edges_as_curved_lines()
+	this.show_all_edges()
+	this.show_axis("x")
+	this.show_axis("y")
+
+	return this
+}
+
+
+GLO.GLO.prototype.Technique_GraphDice_3x3 = function(attr1, attr2, attr3, size_nodes_attr){
+	/*
+		0 1 2
+		3 5 7
+		4 6 8
+	*/
+
+	this.size_nodes_by(size_nodes_attr)
+	this.size_edges_by_constant()
+	this.position_nodes_on("x",attr1)
+	this.position_nodes_on("y",attr1)
+	this.display_edges_as_curved_lines()
+	this.show_axis("x")
+	this.show_axis("y")
+	this.partition_on("x",{parts:3})
+	this.select_canvas(1)
+	this.position_nodes_on("x",attr2)
+	this.select_canvas(2)
+	this.position_nodes_on("x",attr3)
+	this.partition_on("y",{parts:3,all_canvases:true})
+
+	this.select_canvas(3)
+	this.position_nodes_on("y",attr2)
+	this.select_canvas(5)
+	this.position_nodes_on("y", attr2)
+	this.select_canvas(7)
+	this.position_nodes_on("y", attr2)
+
+	this.select_canvas(4)
+	this.position_nodes_on("y",attr3)
+	this.select_canvas(6)
+	this.position_nodes_on("y", attr3)
+	this.select_canvas(8)
+	this.position_nodes_on("y", attr3)
+
+	return this
+}
+
+
+GLO.GLO.prototype.Technique_GMap = function(){
+	TODO("GMap")
+	return this
+}
+
+GLO.GLO.prototype.Technique_Attribute_Matrix = function(){
+	TODO("Attribute_Matrix")
+	return this
+}
+
+GLO.GLO.prototype.Technique_Radial_Chord = function(){
+	TODO("Radial Chord")
+	return this
+}
+
+GLO.GLO.prototype.Technique_EdgeMap_FD = function(size_nodes_attr){
+	TODO("EdgeMap FD")
+	return this
+}
+
+GLO.GLO.prototype.Technique_EdgeMap_Arc = function(size_nodes_attr,sort_attr){
+	TODO("EdgeMap Arc")
+	return this
+}
+
+GLO.GLO.prototype.Technique_Hive_Plot = function(discrete1, attr2){
+	this.size_nodes_by_constant()
+	this.size_edges_by_constant()
+	this.color_edges_by_constant()
+
+	this.position_nodes_on("theta",discrete1)
+	this.position_nodes_on("rho", attr2)
+	this.display_edges_as_curved_lines()
 
 	this.show_faded_and_incident_edges()
-	// this.show_edges_as_faded()
-	// this.clone_edges()
-	// this.show_incident_edges()
-	this.show_axis("x")
+
+	return this
+}
+
+
+GLO.GLO.prototype.Technique_Hive_Panel_2x3 = function(discrete1, discrete2, attr1, attr2, attr3){
+	/*
+		0 1 2
+		3 4 5
+	*/
+
+
+	this.size_nodes_by_constant()
+	this.size_edges_by_constant()
+	this.color_edges_by_constant()
+	this.display_edges_as_curved_lines()
+	this.show_faded_and_incident_edges()
+
+	this.position_nodes_on("theta",discrete1)
+	this.position_nodes_on("rho", attr1)
+
+	this.partition_on("x",{parts:3})
+	this.select_canvas(1)
+	this.position_nodes_on("rho", attr2)
+	this.select_canvas(2)
+	this.position_nodes_on("rho", attr3)
+
+	this.partition_on("y",{parts:2, all_canvases:true})
+	this.select_canvas(3)
+	this.position_nodes_on("theta",discrete2)
+	this.select_canvas(4)
+	this.position_nodes_on("theta",discrete2)
+	this.select_canvas(5)
+	this.position_nodes_on("theta",discrete2)
 
 	return this
 }
