@@ -418,33 +418,32 @@ GLO.GLO.prototype.Technique_DOSA = function(discrete, attr1, attr2){
 
 
 GLO.GLO.prototype.Technique_NodeTrix = function(discrete){
-	this
-		.color_nodes_by("modularity_class")
-		.display_edges_as_curved_lines()
+	this.color_nodes_by("modularity_class")
+	this.display_edges_as_curved_lines()
 
-		.color_nodes_by(discrete)
-		.position_nodes_by_constant_on("rho")
-		.evenly_distribute_nodes_on("theta",{by:discrete})
+	this.color_nodes_by(discrete)
+	this.position_nodes_by_constant_on("rho")
+	this.evenly_distribute_nodes_on("theta",{by:discrete})
 
-		.position_nodes_by_constant_on("rho",{group_by:discrete})
-		.evenly_distribute_nodes_on("theta",{group_by:discrete})
+	this.position_nodes_by_constant_on("rho",{group_by:discrete})
+	this.evenly_distribute_nodes_on("theta",{group_by:discrete})
 
-		.align_nodes("left",{group_by:discrete})
-		.evenly_distribute_nodes_on("y",{group_by:discrete})
-		.clone_nodes()
-		.evenly_distribute_nodes_on("x",{group_by:discrete})
-		.align_nodes("bottom",{group_by:discrete})
-		.set_target_generation(1)
+	this.align_nodes("left",{group_by:discrete})
+	this.evenly_distribute_nodes_on("y",{group_by:discrete})
+	this.clone_nodes()
+	this.evenly_distribute_nodes_on("x",{group_by:discrete})
+	this.align_nodes("bottom",{group_by:discrete})
+	this.set_target_generation(1)
 
-		.show_faded_and_incident_edges()
-		.display_edges_as_curved_lines()
-		.display_edges_as_squares({group_by:discrete})
-		.show_all_edges({group_by:discrete})
+	this.show_faded_and_incident_edges()
+	this.display_edges_as_curved_lines()
+	this.display_edges_as_squares({group_by:discrete})
+	this.show_all_edges({group_by:discrete})
 
-		.clone_edges()
-		.hide_edges({group_by:discrete})
-		.set_source_generation(1)
-		.set_target_generation(0)
+	this.clone_edges()
+	this.hide_edges({group_by:discrete})
+	this.set_source_generation(1)
+	this.set_target_generation(0)
 
 	return this
 }
