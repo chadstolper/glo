@@ -364,3 +364,87 @@ GLO.GLO.prototype.Technique_Hive_Panel_2x3 = function(discrete1, discrete2, attr
 
 	return this
 }
+
+
+GLO.GLO.prototype.Technique_Scatternet = function(attr1, attr2, color_nodes_attr){
+	this.display_edges_as_straight_lines()
+	this.size_nodes_by_constant()
+	this.size_edges_by_constant()
+	this.color_edges_by_constant()
+	this.color_nodes_by(color_nodes_attr)
+	this.position_nodes_on("x", attr1)
+	this.position_nodes_on("y", attr2)
+	this.show_axis("x")
+	this.show_axis("y")
+	this.show_incident_edges()
+
+	return this
+}
+
+
+GLO.GLO.prototype.Technique_Citevis = function(discrete,color_attr,sort_attr){
+	if(sort_attr==null){
+		delete sort_attr
+	}
+	this.hide_edges()
+	this.highlight_neighbors()
+	this.size_nodes_by_constant()
+	this.position_nodes_on("y",discrete)
+	this.show_axis("y")
+	this.position_nodes_stacked_within("left",discrete,{by:sort_attr})
+	this.color_nodes_by(color_attr)
+
+	return this
+}
+
+
+GLO.GLO.prototype.Technique_DOSA = function(discrete, attr1, attr2){
+	this.color_nodes_by(discrete)
+	this.position_nodes_on("x", attr1)
+	this.position_nodes_on("y", attr2)
+	this.show_axis("x")
+	this.show_axis("y")
+	this.display_edges_as_curved_lines()
+	this.partition_on("x",{parts:2})
+	this.hide_axis("x")
+	this.hide_axis("y")
+	this.aggregate_nodes_by(discrete,"mean")
+	this.aggregate_edges_by(["source."+discrete,"target."+discrete],"mean")
+	this.size_nodes_by("count")
+	this.size_edges_by("count")
+
+	return this
+}
+
+
+GLO.GLO.prototype.Technique_NodeTrix = function(discrete){
+	this
+		.color_nodes_by("modularity_class")
+		.display_edges_as_curved_lines()
+
+		.color_nodes_by(discrete)
+		.position_nodes_by_constant_on("rho")
+		.evenly_distribute_nodes_on("theta",{by:discrete})
+
+		.position_nodes_by_constant_on("rho",{group_by:discrete})
+		.evenly_distribute_nodes_on("theta",{group_by:discrete})
+
+		.align_nodes("left",{group_by:discrete})
+		.evenly_distribute_nodes_on("y",{group_by:discrete})
+		.clone_nodes()
+		.evenly_distribute_nodes_on("x",{group_by:discrete})
+		.align_nodes("bottom",{group_by:discrete})
+		.set_target_generation(1)
+
+		.show_faded_and_incident_edges()
+		.display_edges_as_curved_lines()
+		.display_edges_as_squares({group_by:discrete})
+		.show_all_edges({group_by:discrete})
+
+		.clone_edges()
+		.hide_edges({group_by:discrete})
+		.set_source_generation(1)
+		.set_target_generation(0)
+
+	return this
+}
