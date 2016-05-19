@@ -457,7 +457,10 @@ GLO.GLO.prototype.show_edges_as_solid = function(opts){
 	to mousedover node shown as solid
 */
 GLO.GLO.prototype.show_faded_and_incident_edges = function(opts){
-	TODO("show_faded_and_incident_edges")
+	this.correct_edge_gens(opts).forEach(function(gen){
+		gen.show_mode("show_faded_and_incident_edges",opts)
+	})
+	return this
 }
 
 //79	show incident edges

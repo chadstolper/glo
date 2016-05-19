@@ -13,7 +13,6 @@ GLO.EdgeGeneration = function(canvas, edges, is_aggregated){
 	this._show_mode = "show_all_edges"
 
 	this._is_displayed = true
-	this._opacity = this.default_opacity
 
 	return this
 }
@@ -26,15 +25,6 @@ GLO.EdgeGeneration.prototype.min_stroke_width = 1
 GLO.EdgeGeneration.prototype.max_stroke_width = 50
 
 GLO.EdgeGeneration.prototype.max_link_curve_r = 11
-
-
-GLO.EdgeGeneration.prototype.opacity = function(value){
-	if(!value){
-		return this._opacity
-	}
-	this._opacity = value
-	return this
-}
 
 
 GLO.EdgeGeneration.prototype.source_generation = function(value){
@@ -111,12 +101,14 @@ GLO.EdgeGeneration.prototype.update = function(){
 		.style("stroke", function(d){
 			return d.stroke_list[self.gen_id]
 		})
+		
+
+	this.edge_glyphs
+		.style("display", function(d){
+			return d.display_list[self.gen_id]
+		})
 		.style("opacity", function(d){
 			return d.opacity_list[self.gen_id]
-		})
-
-	this.edge_glyphs.style("display", function(d){
-			return d.display_list[self.gen_id]
 		})
 
 		
@@ -904,7 +896,8 @@ GLO.EdgeGeneration.prototype.show_all_edges = function(d){
 
 GLO.EdgeGeneration.prototype.show_faded_edges = function(d){
 	var self = this
-	d.opacity_list[self.gen_id] = .05
+	d.display_list[self.gen_id] = null
+	d.opacity_list[self.gen_id] = 0.05
 }
 
 
@@ -918,6 +911,20 @@ GLO.EdgeGeneration.prototype.show_incident_edges = function(d){
 		d.display_list[self.gen_id] = "none"
 	}
 	d.opacity_list[self.gen_id] = self.default_opacity
+}
+
+GLO.EdgeGeneration.prototype.show_faded_and_incident_edges = function(d){
+	var self = this
+	var source_hover = d.source.hover_value
+	var target_hover = d.target.hover_value
+
+	d.display_list[self.gen_id] = null
+
+	if(source_hover || target_hover){
+		d.opacity_list[self.gen_id] = self.default_opacity
+	}else{
+		d.opacity_list[self.gen_id] = 0.05
+	}
 }
 
 GLO.EdgeGeneration.prototype.hide_edges = function(d){

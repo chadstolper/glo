@@ -198,11 +198,10 @@ GLO.GLO.prototype.Technique_ListView = function(discrete1, sort_attr){
 	this.position_nodes_stacked_within("bottom",discrete1,{by:sort_attr})
 	this.display_edges_as_curved_lines()
 
-	// this.show_faded_and_incident_edges()
-	this.show_edges_as_faded()
-	// this.show_all_edges()
-	this.clone_edges()
-	this.show_incident_edges()
+	this.show_faded_and_incident_edges()
+	// this.show_edges_as_faded()
+	// this.clone_edges()
+	// this.show_incident_edges()
 	this.show_axis("x")
 
 	return this
