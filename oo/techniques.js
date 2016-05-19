@@ -33,6 +33,9 @@ GLO.GLO.prototype.Technique_Matrix_Plot = function(sort_attr,edge_color_attr){
 
 
 GLO.GLO.prototype.Technique_Cluster_Circles = function(group_by_attr, internal_sort_attr){
+	if(typeof internal_sort_attr == "undefined"){
+		delete internal_sort_attr
+	}
 	this.show_all_edges()
 	this.display_edges_as_straight_lines()
 	this.color_edges_by_constant()
