@@ -111,8 +111,8 @@
 					
 
 					svg = d3.select("#canvas")
-						.style("width",800)
-						.style("height",500)
+						.style("width",1000)
+						.style("height",600)
 					glo = new GLO.GLO(svg)
 						.nodes(nodes)
 						.edges(edges)
@@ -166,7 +166,15 @@
 							// .Technique_Circle_Graph("modularity_class")
 							// .Technique_GeneVis_A("degree")
 							// .Technique_GeneVis_B("modularity_class","degree")
-							.Technique_Arc_Diagram("modularity_class")
+							// .Technique_Arc_Diagram("modularity_class")
+							// .Technique_Matrix_Explorer("modularity_class","weight")
+							// .Technique_Semantic_Substrates("modularity_class","degree")
+							// .Technique_PivotGraph("modularity_class","gender","mean")
+							// .Technique_MatLink("modularity_class","weight")
+							.Technique_ListView("gender", "modularity_class")
+
+
+
 				})
 			})
 		})

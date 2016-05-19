@@ -437,7 +437,10 @@ GLO.GLO.prototype.show_all_edges = function(opts){
 	
 */
 GLO.GLO.prototype.show_edges_as_faded = function(opts){
-	TODO("show_edges_as_faded")
+	this.correct_edge_gens(opts).forEach(function(gen){
+		gen.show_mode("show_faded_edges",opts)
+	})
+	return this
 }
 
 //28	show edges as solid
