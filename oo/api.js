@@ -159,8 +159,8 @@ GLO.GLO.prototype.position_nodes_by_constant_on = function(axis,opts){
 /*
 	Utilizes by from opts
 */
-GLO.GLO.prototype.position_nodes_stacked = function(direction,opts){
-	TODO("position_nodes_stacked --- group_by")
+GLO.GLO.prototype.position_nodes_evenly_stacked = function(direction,opts){
+	TODO("position_nodes_evenly_stacked --- group_by")
 	this.correct_node_gens(opts).forEach(function(gen){
 		gen.stack(direction,opts)
 	})
@@ -171,8 +171,8 @@ GLO.GLO.prototype.position_nodes_stacked = function(direction,opts){
 /*
 	Utilizes by from opts
 */
-GLO.GLO.prototype.position_nodes_stacked_within = function(direction,within_prop,opts){
-	TODO("position_nodes_stacked_within --- group_by")
+GLO.GLO.prototype.position_nodes_evenly_stacked_within = function(direction,within_prop,opts){
+	TODO("position_nodes_evenly_stacked_within --- group_by")
 	this.correct_node_gens(opts).forEach(function(gen){
 		gen.stack_within(direction,within_prop,opts)
 	})

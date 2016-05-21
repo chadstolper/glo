@@ -198,7 +198,7 @@ GLO.GLO.prototype.Technique_ListView = function(discrete1, sort_attr){
 	this.size_edges_by_constant()
 	this.color_edges_by_constant()
 	this.position_nodes_on("x",discrete1)
-	this.position_nodes_stacked_within("bottom",discrete1,{by:sort_attr})
+	this.position_nodes_evenly_stacked_within("bottom",discrete1,{by:sort_attr})
 	this.display_edges_as_curved_lines()
 	this.show_faded_and_incident_edges()
 	this.show_axis("x")
@@ -394,7 +394,7 @@ GLO.GLO.prototype.Technique_Citevis = function(discrete,color_attr,sort_attr){
 	this.size_nodes_by_constant()
 	this.position_nodes_on("y",discrete)
 	this.show_axis("y")
-	this.position_nodes_stacked_within("left",discrete,{by:sort_attr})
+	this.position_nodes_evenly_stacked_within("left",discrete,{by:sort_attr})
 	this.color_nodes_by(color_attr)
 
 	return this
