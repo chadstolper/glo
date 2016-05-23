@@ -82,118 +82,102 @@
 	// 						.partition_on("x",{parts:3})
 	// 						.evenly_distribute_nodes_on("y",{by:"color"})
 
-	d3.csv('data/LesMis/nodes.csv', function(nodes){
-		d3.csv('data/LesMis/edges.csv', function(edges){
-			d3.json('data/LesMis/node_attr.json', function(node_attr){
-				d3.json('data/LesMis/edge_attr.json', function(edge_attr){
+	// d3.csv('data/LesMis/nodes.csv', function(nodes){
+	// 	d3.csv('data/LesMis/edges.csv', function(edges){
+	// 		d3.json('data/LesMis/node_attr.json', function(node_attr){
+	// 			d3.json('data/LesMis/edge_attr.json', function(edge_attr){
 					
-					nodes.forEach(function(d){
-						d.id = +d.id
-						d.modularity_class = +d.modularity_class
-						d.degree = +d.degree
-						d.weighted_degree = +d.weighted_degree
-						d.eccentricity = +d.eccentricity
-						d.closeness_centrality = +d.closeness_centrality
-						d.betweenness_centrality = +d.betweenness_centrality
-						d.authority = +d.authority
-						d.hub = +d.hub
-						d.page_rank = +d.page_rank
-						d.component_id = +d.component_id
-						d.clustering_coefficient = +d.clustering_coefficient
-						d.number_of_triangles = +d.number_of_triangles
-						d.eigenvector_centrality = +d.eigenvector_centrality
-					})
+	// 				nodes.forEach(function(d){
+	// 					d.id = +d.id
+	// 					d.modularity_class = +d.modularity_class
+	// 					d.degree = +d.degree
+	// 					d.weighted_degree = +d.weighted_degree
+	// 					d.eccentricity = +d.eccentricity
+	// 					d.closeness_centrality = +d.closeness_centrality
+	// 					d.betweenness_centrality = +d.betweenness_centrality
+	// 					d.authority = +d.authority
+	// 					d.hub = +d.hub
+	// 					d.page_rank = +d.page_rank
+	// 					d.component_id = +d.component_id
+	// 					d.clustering_coefficient = +d.clustering_coefficient
+	// 					d.number_of_triangles = +d.number_of_triangles
+	// 					d.eigenvector_centrality = +d.eigenvector_centrality
+	// 				})
 
-					edges.forEach(function(d){
-						d.source = +d.source
-						d.target = +d.target
-						d.id = +d.id
-						d.weight = +d.weight
-					})
+	// 				edges.forEach(function(d){
+	// 					d.source = +d.source
+	// 					d.target = +d.target
+	// 					d.id = +d.id
+	// 					d.weight = +d.weight
+	// 				})
 					
 
-					svg = d3.select("#canvas")
-						.style("width",1000)
-						.style("height",400)
-						.attr("version", "1.1")
-						.attr("xmlns","http://www.w3.org/2000/svg")
-						.attr("baseProfile","full")
-					glo = new GLO.GLO(svg)
-						.nodes(nodes)
-						.edges(edges)
-						.node_attr(node_attr)
-						.edge_attr(edge_attr)
-						.draw()
-							// .color_nodes_by("modularity_class")
-							// .highlight_neighbors()
-							// .partition_on("x",{parts:2})
-							// .select_canvas(1)
-							// .evenly_distribute_nodes_on("y",{by:"modularity_class"})
-							// .align_nodes("left")
-							// .display_edges_as_curved_lines()
-							// .clone_edges()
-							// .clone_nodes()
-							// .align_nodes("bottom")
-							// .evenly_distribute_nodes_on("x",{by:"modularity_class"})
-							// .set_source_generation(2)
-							// .set_target_generation(2)
-							// .clone_edges()
-							// .set_source_generation(1)
-							// .display_edges_as_squares()
+	// 				svg = d3.select("#canvas")
+	// 					.style("width",800)
+	// 					.style("height",800)
+	// 					.attr("version", "1.1")
+	// 					.attr("xmlns","http://www.w3.org/2000/svg")
+	// 					.attr("baseProfile","full")
+	// 				glo = new GLO.GLO(svg)
+	// 					.nodes(nodes)
+	// 					.edges(edges)
+	// 					.node_attr(node_attr)
+	// 					.edge_attr(edge_attr)
+	// 					.draw()
+	// 						.color_nodes_by("modularity_class")
+	// 						// .Technique_Force_Directed("modularity_class")
+	// 						.Technique_Matrix_Plot("modularity_class")
+	// 						// .Technique_Cluster_Circles("modularity_class")
+	// 						// .Technique_Circle_Graph("modularity_class")
+	// 						// .Technique_GeneVis_A("degree")
+	// 						// .Technique_GeneVis_B("modularity_class","degree")
+	// 						// .Technique_Arc_Diagram("modularity_class")
+	// 						// .Technique_Matrix_Explorer("modularity_class","weight")
+	// 						// .Technique_Semantic_Substrates("modularity_class","degree")
+	// 						// .Technique_PivotGraph("modularity_class","gender","mean")
+	// 						// .Technique_MatLink("modularity_class","weight")
+	// 						// .Technique_ListView("gender", "modularity_class")
+	// 						// .Technique_Honeycomb(["modularity_class","gender"],"mean","count","modularity_class")
+	// 						// .Technique_GraphDice_Segment("betweenness_centrality","degree","degree")
+	// 						// .Technique_GraphDice_3x3("modularity_class","gender","degree","degree")
+	// 						// .Technique_Hive_Plot("modularity_class", "degree")
+	// 						// .Technique_Hive_Panel_2x3("modularity_class","gender","degree","page_rank","betweenness_centrality")
+	// 						// .Technique_Scatternet("degree","betweenness_centrality","modularity_class")
+	// 						// .Technique_Citevis("modularity_class","betweenness_centrality","degree")
+	// 						// .Technique_DOSA("modularity_class","clustering_coefficient","number_of_triangles")
+	// 						// .Technique_NodeTrix("modularity_class")
+
+
+	// 					// figure_logo(glo)
+	// 			})
+	// 		})
+	// 	})
+	// })
 
 
 
-							// // .position_nodes_on("y","modularity_class")
-							// // .position_nodes_stacked_within("left","modularity_class")
-							// // .hide_edges()
-							// // .show_axis("y")
+d3.json("data/glo_graph/technique_glo_graph.json",function(result){
+	svg = d3.select("#canvas")
+			.style("width",800)
+			.style("height",800)
+			.attr("version", "1.1")
+			.attr("xmlns","http://www.w3.org/2000/svg")
+			.attr("baseProfile","full")
+		glo = new GLO.GLO(svg)
+			.nodes(result.nodes)
+			.edges(result.edges)
+			.node_attr(result.node_attrs)
+			.edge_attr(result.edge_attrs)
+			.draw()
+				// .evenly_distribute_nodes_on("x",{by:"glo:display edges as squares"})
+				// .evenly_distribute_nodes_on("y",{by:"glo:display edges as squares"})
+				// .display_edges_as_squares()
+				// // .show_edges_as_faded()
+				// // .color_edges_by("set_difference")
+				// .color_edges_by("glo_distance_full")
+				.color_nodes_by("glo:display edges as squares")
+				.Technique_Matrix_Plot("glo:display edges as squares","glo_distance_full")
+})
 
-							// .select_canvas(1)
-							// .aggregate_nodes_by("modularity_class","mean",{all_gens: true})
-							// .aggregate_edges_by(["source.modularity_class","target.modularity_class"],"mean",{all_gens: true})
-							// .size_edges_by("count",{all_gens: true})
-							// .size_nodes_by("count",{all_gens: true})
-							// .evenly_distribute_nodes_on("x")
-							// .select_node_generation(3)
-							// .evenly_distribute_nodes_on("y")
-							// .color_edges_by("count",{all_gens:true})
-
-							// .select_canvas(0)
-							// .size_nodes_by("degree")
-							// .apply_force_directed_algorithm_to_nodes()
-
-
-
-							// .color_nodes_by("modularity_class")
-							// .Technique_Force_Directed("modularity_class")
-							// .Technique_Matrix_Plot("modularity_class","weight")
-							// .Technique_Cluster_Circles("modularity_class")
-							// .Technique_Circle_Graph("modularity_class")
-							// .Technique_GeneVis_A("degree")
-							// .Technique_GeneVis_B("modularity_class","degree")
-							// .Technique_Arc_Diagram("modularity_class")
-							// .Technique_Matrix_Explorer("modularity_class","weight")
-							// .Technique_Semantic_Substrates("modularity_class","degree")
-							// .Technique_PivotGraph("modularity_class","gender","mean")
-							// .Technique_MatLink("modularity_class","weight")
-							// .Technique_ListView("gender", "modularity_class")
-							// .Technique_Honeycomb(["modularity_class","gender"],"mean","count","modularity_class")
-							// .Technique_GraphDice_Segment("betweenness_centrality","degree","degree")
-							// .Technique_GraphDice_3x3("modularity_class","gender","degree","degree")
-							// .Technique_Hive_Plot("modularity_class", "degree")
-							// .Technique_Hive_Panel_2x3("modularity_class","gender","degree","page_rank","betweenness_centrality")
-							// .Technique_Scatternet("degree","betweenness_centrality","modularity_class")
-							// .Technique_Citevis("modularity_class","betweenness_centrality","degree")
-							// .Technique_DOSA("modularity_class","clustering_coefficient","number_of_triangles")
-							// .Technique_NodeTrix("modularity_class")
-
-
-						figure_logo(glo)
-				})
-			})
-		})
-	})
-
-	
 
 </script>

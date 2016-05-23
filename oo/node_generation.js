@@ -1267,6 +1267,11 @@ GLO.NodeGeneration.prototype.distribute = function(axis,by_prop,opts){
 		by_prop = "id"
 	}
 
+	var invert = false
+	if(typeof opts !== "undefined" && typeof opts.invert !== "undefined"){
+		invert = opts.invert
+	}
+
 	self.nodes.sort(function(a,b){
 		var val
 		if(_.isNumber(a[by_prop])){
@@ -1275,7 +1280,10 @@ GLO.NodeGeneration.prototype.distribute = function(axis,by_prop,opts){
 			val = a[by_prop].localeCompare(b[by_prop])
 		}
 		if (val==0){
-			return a.id-b.id
+			val = a.id-b.id
+		}
+		if(invert){
+			val *= -1
 		}
 		return val
 	}).forEach(function(d,i){

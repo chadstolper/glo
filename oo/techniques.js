@@ -16,10 +16,10 @@ GLO.GLO.prototype.Technique_Matrix_Plot = function(sort_attr,edge_color_attr){
 		delete sort_attr
 	}
 	this.size_nodes_by_constant()
-	this.evenly_distribute_nodes_on("y",{by:sort_attr})
+	this.evenly_distribute_nodes_on("y",{by:sort_attr,invert:true})
 	this.align_nodes("left")
 	this.clone_nodes()
-	this.align_nodes("bottom")
+	this.align_nodes("top")
 	this.evenly_distribute_nodes_on("x",{by:sort_attr})
 	this.set_target_generation(1)
 	this.display_edges_as_squares()
@@ -108,10 +108,10 @@ GLO.GLO.prototype.Technique_Matrix_Explorer = function(sort_attr,edge_color_attr
 	this.size_nodes_by_constant()
 	this.size_edges_by_constant()
 	this.partition_on("x")
-	this.evenly_distribute_nodes_on("y",{by:sort_attr})
+	this.evenly_distribute_nodes_on("y",{by:sort_attr,invert:true})
 	this.align_nodes("left")
 	this.clone_nodes()
-	this.align_nodes("bottom")
+	this.align_nodes("top")
 	this.evenly_distribute_nodes_on("x",{by:sort_attr})
 	this.set_target_generation(2)
 	this.display_edges_as_squares()
@@ -169,7 +169,7 @@ GLO.GLO.prototype.Technique_MatLink = function(sort_attr,edge_color_attr){
 		delete sort_attr
 	}
 	this.size_nodes_by_constant()
-	this.evenly_distribute_nodes_on("y",{by:sort_attr})
+	this.evenly_distribute_nodes_on("y",{by:sort_attr, invert:true})
 	this.align_nodes("left")
 	this.display_edges_as_curved_lines()
 	this.show_incident_edges()
@@ -178,7 +178,7 @@ GLO.GLO.prototype.Technique_MatLink = function(sort_attr,edge_color_attr){
 	this.set_source_generation(1)
 	this.set_target_generation(1)
 	this.clone_edges()
-	this.align_nodes("bottom")
+	this.align_nodes("top")
 	this.evenly_distribute_nodes_on("x",{by:sort_attr})
 	this.set_source_generation(0)
 	this.display_edges_as_squares()
@@ -432,10 +432,10 @@ GLO.GLO.prototype.Technique_NodeTrix = function(discrete){
 	this.evenly_distribute_nodes_on("theta",{group_by:discrete})
 
 	this.align_nodes("left",{group_by:discrete})
-	this.evenly_distribute_nodes_on("y",{group_by:discrete})
+	this.evenly_distribute_nodes_on("y",{group_by:discrete,invert:true})
 	this.clone_nodes()
 	this.evenly_distribute_nodes_on("x",{group_by:discrete})
-	this.align_nodes("bottom",{group_by:discrete})
+	this.align_nodes("top",{group_by:discrete})
 	this.set_target_generation(1)
 
 	this.show_faded_and_incident_edges()

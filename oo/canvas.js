@@ -10,7 +10,7 @@ GLO.Canvas = function(glo,width,height,x_offset,y_offset){
 	this._y_offset = y_offset || 0
 
 	this._x_buffer = 10
-	this._y_buffer = 10
+	this._y_buffer = 20
 
 	this.node_generations = new Map()
 	this.edge_generations = new Map()

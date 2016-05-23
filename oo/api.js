@@ -19,6 +19,7 @@ function TODO(x) {
 	For some functions, there are additional optional values
 		* by: a sorting function used for index-based positioning
 		* parts: number of partitions
+		* invert: invert the sorting function
 */
 
 
