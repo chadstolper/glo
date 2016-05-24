@@ -283,6 +283,11 @@ GLO.NodeGroup.prototype.distribute = function(axis,by_prop){
 		by_prop = "id"
 	}
 
+	var invert = false
+	if(typeof opts !== "undefined" && typeof opts.invert !== "undefined"){
+		invert = opts.invert
+	}
+
 	self.nodes.sort(function(a,b){
 		var val
 		if(_.isNumber(a[by_prop])){
@@ -291,7 +296,10 @@ GLO.NodeGroup.prototype.distribute = function(axis,by_prop){
 			val = a[by_prop].localeCompare(b[by_prop])
 		}
 		if (val==0){
-			return a.id-b.id
+			val = a.id-b.id
+		}
+		if(invert){
+			val *= -1
 		}
 		return val
 	}).forEach(function(d,i){
@@ -483,7 +491,7 @@ GLO.NodeGroup.prototype.align = function(dir){
 	if(dir=="top"){
 		this.nodes
 			.forEach(function(d){
-				d.y_list[self.gen.gen_id] = self.coordinates.top()
+				d.y_list[self.gen.gen_id] = self.coordinates.top()-self.gen.default_r
 			})
 	}
 
@@ -497,14 +505,14 @@ GLO.NodeGroup.prototype.align = function(dir){
 	if(dir=="bottom"){
 		this.nodes
 			.forEach(function(d){
-				d.y_list[self.gen.gen_id] = self.coordinates.bottom()
+				d.y_list[self.gen.gen_id] = self.coordinates.bottom()+self.gen.default_r
 			})
 	}
 
 	if(dir=="left"){
 		this.nodes
 			.forEach(function(d){
-				d.x_list[self.gen.gen_id] = self.coordinates.left()
+				d.x_list[self.gen.gen_id] = self.coordinates.left()-self.gen.default_r
 			})
 	}
 
@@ -518,7 +526,7 @@ GLO.NodeGroup.prototype.align = function(dir){
 	if(dir=="right"){
 		this.nodes
 			.forEach(function(d){
-				d.x_list[self.gen.gen_id] = self.coordinates.right()
+				d.x_list[self.gen.gen_id] = self.coordinates.right()+self.gen.default_r
 			})
 	}
 
