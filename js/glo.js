@@ -1,793 +1,430 @@
-function print(x){
-	console.log(x);
-}
-function TODO(x){
-	print("TODO: "+x)
-}
-
-/*
-	For each function, the final parameter is an optional options
-	parameter. It should be an object{} with any
-	combination of the three options:
-		* within:		discrete attribute name as string
-		* allgens:	boolean value, true to apply to all
-								generations in current canvas
-		* allparts:	boolean value, true to apply
-								true to apply to all gens in all
-								parititions
-
-	For some functions, there are additional optional values
-		* by: a sorting function used for index-based positioning
-*/
-
-
-/*************************
-	******AGGREGATION*******
-/*************************
-
-// 2	aggregate edges by {discrete} and {discrete} using {method}
-// 29	aggregate edges by {discrete} using {method}
-/*
-	Aggregates edges by attributes using method.
-	* attr can be either a string for the attribute or a list
-			of attributes.
-*/
-function aggregate_edges_by(attr,method,opts) {
-	TODO("aggregate_edges_by");
-}
-
-//84	deaggregate edges
-/*
-	Deaggregates the active generation and selects the generation
-	previously aggregated to create the aggregation.
-	If active generation is not aggregated, then nop
-*/
-function deaggregate_edges(opts){
-	TODO("deaggregate_edges")
-}
-
-
-
-// 52	aggregate nodes by {discrete} and {discrete} using {method}
-// 113	aggregate nodes by {discrete} using {method}
-/*
-	Aggregates nodes by attribute(s) using method.
-	* attr can be either a string for the attribute or a list
-			of attributes.
-*/
-function aggregate_nodes_by(attr,method,opts){
-	TODO("aggregate_nodes_by")
-}
-
-//107	deaggregate nodes
-/*
-	Deaggregates the active generation and selects the generation
-	previously aggregated to create the aggregation.
-	If active generation is not aggregated, then nop
-*/
-function deaggregate_nodes(opts){
-	TODO("deaggregate_nodes")
-}
-
-
-
-
-
-
-
-
-
-
-/*************************
-	******POSITIONING*******
-/*************************
-
-
-
-// 28	align edges {dir}
-/*
-	Aligns edges to a specificed direction.
-	Shorthand for position_edges_by(constant)
-*/
-function align_edges(dir,opts){
-	TODO("align_edges")
-}
-
-//433	align nodes {dir}
-/*
-	Aligns nodes to a specified direction.
-	Shorthand for position_nodes_by(constant)
-*/
-function align_nodes(dir,opts){
-	TODO("align_nodes")
-}
-
-
-//168	position edges by {attr},{attr}
-/*
-	
-*/
-function position_edges_by(xattr,yattr,opts){
-	TODO("position_edges_by")
-}
-
-//728	position nodes on {axis} by {attr}
-//145	position nodes on {axis} by {constant}
-/*
-	attr is either a string attrID or a numerical constant
-*/
-function position_nodes_on(axis,attr,opts){
-	TODO("position_nodes_on")
-}
-
-//29	position nodes {dir} on {axis} (by {attr})
-/*
-	Utilizes by from opts
-*/
-function position_nodes_stacked_on(axis,opts){
-	TODO("position_nodes_stacked_on")
-}
-
-//29	evenly distribute edges on {axis} (by {attr})
-/*
-	opts includes by option
-*/
-function evenly_distribute_edges_on(axis,opts){
-	TODO("evenly_distribute_edges_on")
-}
-
-//641	evenly distribute nodes on {axis} (by {attr})
-/*
-	opts includes by option
-*/
-function evenly_distribute_nodes_on(axis,opts){
-	TODO("evenly_distribute_nodes_on")
-}
-
-
-
-//123	apply force-directed algorithm to nodes
-/*
-	
-*/
-function apply_force_directed_algorithm_to_nodes(opts){
-	TODO("apply_force_directed_algorithm_to_nodes")
-}
-
-
-
-
-
-
-/*************************
-	******CLONING*******
-/*************************
-
-
-
-//107	clone edges
-/*
-	Clones the active generation of edges and selects the new
-	generation as the active generation
-*/
-function clone_edges(opts){
-	TODO("clone_edges")
-}
-
-//234	clone nodes
-/*
-	Clones the active generation of nodes and selects the new
-	generation as the active generation
-*/
-function clone_nodes(opts){
-	TODO("clone_nodes")
-}
-
-
-
-//36	select edge generation {num}
-/*
-	
-*/
-function select_edge_generation(gen,opts){
-	TODO("select_edge_generation")
-}
-
-//88	select node generation {num}
-/*
-	
-*/
-function select_node_generation(gen,opts){
-	TODO("select_node_generation")
-}
-
-
-
-//78	set source generation {num}
-/*
-	
-*/
-function set_source_generation(gen,opts){
-	TODO("set_source_generation")
-}
-
-//217	set target generation {num}
-/*
-	
-*/
-function set_target_generation(gen,opts){
-	TODO("set_target_generation")
-}
-
-
-
-
-
-//41	remove edge generation {num}
-/*
-	Removes the provided edge generation
-	Cannot remove the only generation. If so, nop.
-	If gen is active generation, selects a different generation
-*/
-function remove_edge_generation(gen,opts){
-	TODO("remove_edge_generation")
-}
-
-//39	remove node generation {num}
-/*
-	Removes the provided node generation
-	Cannot remove the only generation. If so, nop.
-	If gen is active generation, selects a different generation
-*/
-function remove_node_generation(gen,opts){
-	TODO("remove_node_generation")
-}
-
-
-
-//156	remove all cloned edges
-/*
-	Removes all edges except a single generation and sets that
-	generation as active.
-*/
-function remove_all_cloned_edges(opts){
-	TODO("remove_all_cloned_edges")
-}
-
-//219	remove all cloned nodes
-/*
-	Removes all nodes except a single generation and sets that
-	generation as active.
-*/
-function remove_all_cloned_nodes(opts){
-	TODO("remove_all_cloned_nodes")
-}
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-/*************************
-	*****GLYPHS******
-/*************************
-
-
-
-
-
-//29	draw convex hulls
-/*
-	within value in opts, otherwise convex hull for
-	all nodes
-*/
-function show_convex_hulls(opts){
-	TODO("show_convex_hulls")
-}
-
-//28	remove convex hulls
-/*
-	
-*/
-function hide_convex_hulls(opts){
-	TODO("hide_convex_hulls")
-}
-
-
-
-//152	show all edges
-/*
-	
-*/
-function show_all_edges(opts){
-	TODO("show_all_edges")
-}
-
-//27	show edges as faded
-/*
-	
-*/
-function show_edges_as_faded(opts){
-	TODO("show_edges_as_faded")
-}
-
-//28	show edges as solid
-/*
-	
-*/
-function show_edges_as_solid(opts){
-	TODO("show_edges_as_solid")
-}
-
-//28	show faded and incident edges
-/*
-	All edges as shown as faded, except for incident edges
-	to mousedover node shown as solid
-*/
-function show_faded_and_incident_edges(opts){
-	TODO("show_faded_and_incident_edges")
-}
-
-//79	show incident edges
-/*
-	All edges hidden, except for incident edges
-	to mousedover node shown as solid
-*/
-function show_incident_edges(opts){
-	TODO("show_incident_edges")
-}
-
-
-//79	hide edges
-/*
-	
-*/
-function hide_edges(opts){
-	TODO("hide_edges")
-}
-
-//28	display edges as bars
-/*
-	
-*/
-function display_edges_as_bars(opts){
-	TODO("display_edges_as_bars")
-}
-
-//213	display edges as curved lines
-/*
-	
-*/
-function display_edges_as_curved_lines(opts){
-	TODO("display_edges_as_curved_lines")
-}
-
-//28	display edges as in-out-links
-/*
-	
-*/
-function display_edges_as_in_out_links(opts){
-	TODO("display_edges_as_in_out_links")
-}
-
-//72	display edges as outer links
-/*
-	Curved edges that avoid crossing through the vis,
-	prefering to go outside of the glyphs
-*/
-function display_edges_as_outer_links(opts){
-	TODO("display_edges_as_outer_links")
-}
-
-//148	display edges as squares
-/*
-	
-*/
-function display_edges_as_squares(opts){
-	TODO("display_edges_as_squares")
-}
-
-//165	display edges as straight lines
-/*
-	
-*/
-function display_edges_as_straight_lines(opts){
-	TODO("display_edges_as_straight_lines")
-}
-
-//28	display edges as y->x right-angles
-/*
-	dirarr is a 2d array of directions (left,right,top,bottom)
-	the angle is drawn from either the min or the max of x
-	to either the min or the max of y based upon
-*/
-function display_edges_as_right_angles(opts){
-	TODO("display_edges_as_right_angles")
-}
-
-//28	display edges as {attr} labels
-/*
-	
-*/
-function display_edges_as_labels(attr,opts){
-	TODO("display_edges_as_labels")
-}
+/**
+	Top-level glo object storing 
+*/
+GLO.GLO = function(svg){
+	this.svg = svg;
+	this._width = parseInt(svg.style("width"))
+	this._height = parseInt(svg.style("height"))
 
+	this.node_gen_counter = 0
+	this.edge_gen_counter = 0
+	this.canvas_id_counter = 0
+
+	this.canvases = new Map()
+	new GLO.Canvas(this,this.width(),this.height())
+	// this.canvases.set(0, new GLO.Canvas(this,this.width(),this.height()))
 
-//28	display nodes as arcs
-/*
-	
-*/
-function display_nodes_as_arcs(opts){
-	TODO("display_nodes_as_arcs")
-}
-
-//89	display nodes as bars
-/*
-	
-*/
-function display_nodes_as_bars(opts){
-	TODO("display_nodes_as_bars")
-}
+	// this._active_canvas = 0
 
-//208	display nodes as circles
-/*
-	
-*/
-function display_nodes_as_circles(opts){
-	TODO("display_nodes_as_circles")
-}
+	this.transition_duration = 500;
 
-//237	display nodes as {attr} labels
-/*
-	
-*/
-function display_nodes_as_labels(attr,opts){
-	TODO("display_nodes_as_labels")
+	return this
+}
+
+GLO.GLO.prototype.width = function(value){
+	if(!value){
+		return this._width
+	}
+	this._width = value
+	return this
+}
+
+GLO.GLO.prototype.height = function(value){
+	if(!value){
+		return this._height
+	}
+	this._height = value
+	return this
 }
-
-
 
-//202	size edges by {attr}
-//29	size edges by {attr} and {attr}
-//199	size edges by {constant}
-/*
-	attr can be either an attrID, 2-element array of attrIDs,
-	3-element array of attrIDs, or a number.
-	2-element is source-end-->target-end.
-	3-element is source-end, middle, target-end.
-	number is a constant
-
-	If non-line-based edge display (e.g. label, square, bar), only
-	first attrID is used.
-*/
-function size_edges_by_attr(attr,opts){
-	TODO("size_edges_by_attr")
+GLO.GLO.prototype.active_canvas = function(value){
+	if(typeof value == "undefined"){
+		return this.canvases.get(this._active_canvas)
+	}
+	this._active_canvas = value
+	return this
 }
 
-
-//242	size nodes by {attr}
-//162	size nodes by {constant}
-/*
-	attr can be either an attrID or a number
-*/
-function size_nodes_by(attr,opts){
-	TODO("size_nodes_by")
+GLO.GLO.prototype.active_canvas_set = function(){
+	var canvi = new Set()
+	canvi.add (this.active_canvas())
+	return canvi
 }
-
 
 
-
-
-//162	rotate nodes {num} degrees
-/*
-	Rotates nodes clockwise deg degrees
-*/
-function rotate_nodes(deg,opts){
-	TODO("rotate_nodes")
+GLO.GLO.prototype.correct_node_gens = function(opts){
+	if(typeof opts !== "undefined"){
+		if(typeof opts.all_canvases !== "undefined" && opts.all_canvases == true){
+			if(typeof opts.all_gens !== "undefined" && opts.all_gens == true){
+				return this.all_node_generations()
+			}else{
+				return this.all_active_node_generations()
+			}
+		}
+		if(typeof opts.all_gens !== "undefined" && opts.all_gens == true){
+				return this.current_node_generations()
+		}
+	}
+	return this.active_node_generation()
 }
-
 
-
-//28	set edge waypoint edge generation {num}
-/*
-	
-*/
-function set_edge_waypoint_edge_generation(gen,opts){
-	TODO("set_edge_waypoint_edge_generation")
+GLO.GLO.prototype.correct_edge_gens = function(opts){
+	if(typeof opts !== "undefined"){
+		if(typeof opts.all_canvases !== "undefined" && opts.all_canvases == true){
+			if(typeof opts.all_gens !== "undefined" && opts.all_gens == true){
+				return this.all_edge_generations()
+			}else{
+				return this.all_active_edge_generations()
+			}
+		}
+		if(typeof opts.all_gens !== "undefined" && opts.all_gens == true){
+				return this.current_edge_generations()
+		}
+	}
+	return this.active_edge_generation()
 }
 
-
-
-//28	remove all edge waypoints
-/*
-	
-*/
-function remove_all_edge_waypoints(opts){
-	TODO("remove_all_edge_waypoints")
+GLO.GLO.prototype.correct_canvases = function(opts){
+	if(typeof opts !== "undefined"){
+		if(typeof opts.all_canvases !== "undefined" && opts.all_canvases == true){
+			return new Set(this.canvases.values())
+		}
+	}
+	return this.active_canvas_set()
 }
-
-
-
-
-
-
-
-
-
-
 
 
-
-
-
-
-
-
-/*************************
-	******COLORING ELEMENTS*
-/*************************
-
-
-//249	color edges by {attr}
-//28	color edges by {attr}->{attr}
-/*
-	Colors edges by an appropriate color choice for attr:
-		discrete
-		continuous
-		divergent
-	attr can also be a 2-item array where the first item is the
-	source-end color and the second item is the target-end color
-*/
-function color_edges_by(attr,opts){
-	TODO("color_edges_by")
+GLO.GLO.prototype.all_active_node_generations = function(){
+	var gens = new Set()
+	this.canvases.forEach(function(canvas){
+		gens.add( canvas.active_node_generation() )
+	})
+	return gens
 }
 
 
-//196	color edges by {constant}
-/*
-	Colors edges by a constant
-	constant should be an HTML-recognizable color string
-*/
-function color_edges_by_constant(constant,opts){
-	TODO("color_edges_by_constant")
+GLO.GLO.prototype.all_active_edge_generations = function(){
+	var gens = new Set()
+	this.canvases.forEach(function(canvas){
+		gens.add( canvas.active_edge_generation() )
+	})
+	return gens
 }
 
-//144	color nodes by {attr}
-/*
-	Colors nodes by an appropriate color choice for attr:
-		discrete
-		continuous
-		divergent
-*/
-function color_nodes_by(attr,opts){
-	TODO("color_nodes_by")
-}
 
-//149	color nodes by {constant}
-/*
-	Colors nodes by a constant
-	constant should be an HTML-recognizable color string
-*/
-function color_nodes_by_constant(constant,opts){
-	TODO("color_nodes_by_constant")
+GLO.GLO.prototype.all_node_generations = function(){
+	var gens = new Set()
+	this.canvases.forEach(function(canvas){
+		canvas.node_generations.forEach(function(gen){
+			gens.add( gen )
+		})
+	})
+	return gens
 }
-
-
-//29	color convex hulls by {attr}
-/*
 
-*/
-function color_convex_hulls_by(attr,opts){
-	TODO("color_convex_hulls_by")
+GLO.GLO.prototype.all_edge_generations = function(){
+	var gens = new Set()
+	this.canvases.forEach(function(canvas){
+		canvas.edge_generations.forEach(function(gen){
+			gens.add( gen )
+		})
+	})
+	return gens
 }
 
 
-/*
-	Colors hulls by a constant
-	constant should be an HTML-recognizable color string
-*/
-function color_convex_hulls_by_constant(constant,opts){
-	TODO("color_convex_hulls_by_constant")
+GLO.GLO.prototype.active_node_generation = function(){
+	var gens = new Set()
+	gens.add( this.active_canvas().active_node_generation() )
+	return gens
 }
-
-
-
 
-
-
-
-
-
-
-
-
-
-
-
-
-/*************************
-		***PARTITIONS**
-/*************************
-
-
-//198	partition canvas on {axis} (by {num})
-/*
-	Partitions the current display along the given axis
-	all gens in the current display are cloned into the new display.
-	Default is a 2-way split; the by option can be used to specify a
-	larger number. Splits are always even.
-*/
-function partition_on(axis,opts){
-	TODO("partition_on")
+GLO.GLO.prototype.active_edge_generation = function(){
+	var gens = new Set()
+	gens.add( this.active_canvas().active_edge_generation() )
+	return gens
 }
-
 
-
-
-//58	filter partition canvas on {axis} by {discrete}
-/*
-	opts includes by option
-	if not included, then equiv. to partition(2)
-*/
-function filter_partition_on(axis,opts){
-	TODO("filter_partition_on")
+GLO.GLO.prototype.current_node_generations = function(){
+	return new Set(this.active_canvas().node_generations.values())
 }
 
-
-//175	select canvas {num}
-/*
-	Selects the provided canvas
-	Selects the most recent active generations of that canvas
-*/
-function select_canvas(canvas,opts){
-	TODO("select_canvas")
+GLO.GLO.prototype.current_edge_generations = function(){
+	return new Set(this.active_canvas().edge_generations.values())
 }
 
-//3	select column {num}
-/*
-	Selects the active generations of all canvases in col
-*/
-function select_column(col,opts){
-	TODO("select_column")
+GLO.GLO.prototype._next_node_gen = function(){
+	return this.node_gen_counter++;
 }
-
 
-//117	select row {num}
-/*
-	Selects the active generations of all canvases in row
-*/
-function select_row(row,opts){
-	TODO("select_row")
+GLO.GLO.prototype._next_edge_gen = function(){
+	return this.edge_gen_counter++;
 }
-
 
-
-
-//55	remove canvas {num}
-/*
-	TODO: Figure this out
-*/
-function remove_canvas(canvas,opts){
-	TODO("remove_canvas")
+GLO.GLO.prototype._next_canvas_id = function(){
+	return this.canvas_id_counter++;
 }
 
 
-//115	remove all partitions
-/*
-	Removes all partitions. Generations in removed partitions
-	are cloned into the remaining partition
-*/
-function remove_all_partitions(opts){
-	TODO("remove_all_partitions")
+GLO.GLO.prototype.update_all_node_generations = function(){
+	this.canvases.forEach(function(canvas,id){
+		canvas.node_generations.forEach(function(node_gen,gen_id){
+			node_gen.update()
+		})
+	})
+	return this
 }
-
 
-
-//56	show meta {axis} axis
-/*
-	
-*/
-function show_meta_axis(axis,opts){
-	TODO("show_meta_axis")
+GLO.GLO.prototype.nodes = function(value){
+	if(!value){
+		return this._nodes
+	}
+	this._nodes = value
+	return this
 }
-
 
-
-//56	hide meta {axis} axis
-/*
-	meta axis used for filter_partitions
-*/
-function hide_meta_axis(axis,opts){
-	TODO("hide_meta_axis")
+GLO.GLO.prototype.edges = function(value){
+	if(!value){
+		return this._edges
+	}
+	this._edges = value
+	return this
 }
-
-
-
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-/*************************
-	***DISPLAY PROPERTIES**
-/*************************
-
-
-//224	show {axis} axis
-/*
-	
-*/
-function show_axis(axis,opts){
-	TODO("show_axis")
+GLO.GLO.prototype.node_attr = function(value){
+	if(!value){
+		return this._node_attr
+	}
+	this._node_attr = value
+	this._node_attr.count = "continuous"
+	this._node_attr.degree = "continuous"
+	this._node_attr.in_degree = "continuous"
+	this._node_attr.out_degree = "continuous"
+	return this
 }
-
 
-//213	hide {axis} axis
-/*
-	
-*/
-function hide_axis(axis,opts){
-	TODO("hide_axis")
+GLO.GLO.prototype.edge_attr = function(value){
+	if(!value){
+		return this._edge_attr
+	}
+	this._edge_attr = value
+	this._edge_attr.count = "continuous"
+	return this
 }
-
-
-
-
-
-
-
 
-/*************************
-		***INTERACTION**
-/*************************
-
-
-/*
-	Highlights neighbors
-*/
-function highlight_neighbors(opts){
-	TODO("highlight_neighbors")
+GLO.GLO.prototype.draw = function(){
+	this._init_graph()
+	this._init_directional_gradients()
+	this.canvases.get(0).init()
+	return this
 }
 
-
-//28	highlight in-out neighbors
-/*
-	Highlights in- and out- neighbors differently
+/**
+	Initializes a graph object using provided
+	node- and edge-lists.
 */
-function highlight_in_out_neighbors(opts){
-	TODO("highlight_in_out_neighbors")
-}
+GLO.GLO.prototype._init_graph = function(){
+	var nodes = this.nodes()
+	var edges = this.edges()
 
-
-
-//28	stop highlight in-out neighbors
-/*
-	
-*/
-function stop_highlighting(opts){
-	TODO("stop_highlighting")
+	for(var e in edges){
+		e = edges[e]
+		e.source = nodes[e.source]
+		e.target = nodes[e.target]
+
+		e.stroke_list = new Map()
+		e.stroke_width_list = new Map()
+		e.fill_list = new Map()
+		e.color_list = new Map()
+		e.opacity_list = new Map()
+
+		e.display_list = new Map()
+
+		e.show_mode_list = new Map()
+		e.edge_format_list = new Map()
+
+		e.startx = function(edge_gen){ return this.source.x_list[edge_gen.source_generation().gen_id]; }
+		e.starty = function(edge_gen){ return this.source.y_list[edge_gen.source_generation().gen_id]; }
+		e.endx = function(edge_gen){ return this.target.x_list[edge_gen.target_generation().gen_id]; }
+		e.endy = function(edge_gen){ return this.target.y_list[edge_gen.target_generation().gen_id]; }
+
+		e.count = 1
+	}
+
+	nodes.forEach(function(d){
+		d.in_edges = []
+		d.out_edges = []
+		d.x_list = new Map()
+		d.y_list = new Map()
+		d.r_list = new Map()
+		d.rho_list = new Map()
+		d.theta_list = new Map()
+
+		d.hover_value = false
+		d.in_hover_value = false
+		d.out_hover_value = false
+
+		d.fill_list = new Map()
+
+		d.count = 1
+		
+	})
+	edges.forEach(function(d){
+		d.target.in_edges.push(d)
+		d.source.out_edges.push(d)
+	})
+
+	nodes.forEach(function(d){
+		d.degree = d.in_edges.length + d.out_edges.length
+		d.in_degree =  d.in_edges.length
+		d.out_degree = d.out_edges.length
+	})
+
+	return this
+}
+
+
+GLO.GLO.prototype._init_directional_gradients = function(){
+		//http://stackoverflow.com/questions/11368339/drawing-multiple-edges-between-two-nodes-with-d3
+	// Per-type markers, as they don't inherit styles.
+	var defs = this.svg
+		.append("svg:defs")
+
+	defs.append("svg:marker")
+		.attr("id", "arrow")
+		.attr("viewBox", "0 -5 10 10")
+		.attr("refX", 5)
+		.attr("refY", 0)
+		.attr("markerWidth", 6)
+		.attr("markerHeight", 6)
+		.attr("orient", "auto")
+		.attr("fill","none")
+		.attr("stroke","black")
+		.attr("opacity",0.45)
+	.append("svg:path")
+		.attr("d", "M0,-1L4,0L0,1");
+
+	var grad = defs.append("svg:linearGradient")
+			.attr("id","nxny")
+			.attr("x1","0%")
+			.attr("x2","100%")
+			.attr("y1","0%")
+			.attr("y2","100%")
+		grad.append("stop")
+			.attr("offset","0%")
+			.style("stop-opacity",0.0)
+			.style("stop-color","black")
+		grad.append("stop")
+			.attr("offset","100%")
+			.style("stop-opacity",1)
+			.style("stop-color","black")
+
+	var grad = defs.append("svg:linearGradient")
+			.attr("id","nxpy")
+			.attr("x1","0%")
+			.attr("x2","100%")
+			.attr("y1","100%")
+			.attr("y2","0%")
+		grad.append("stop")
+			.attr("offset","0%")
+			.style("stop-opacity",0.0)
+			.style("stop-color","black")
+		grad.append("stop")
+			.attr("offset","100%")
+			.style("stop-opacity",1)
+			.style("stop-color","black")
+
+	var grad = defs.append("svg:linearGradient")
+			.attr("id","pxny")
+			.attr("x1","100%")
+			.attr("x2","0%")
+			.attr("y1","0%")
+			.attr("y2","100%")
+		grad.append("stop")
+			.attr("offset","0%")
+			.style("stop-opacity",0.0)
+			.style("stop-color","black")
+		grad.append("stop")
+			.attr("offset","100%")
+			.style("stop-opacity",1)
+			.style("stop-color","black")
+
+	var grad = defs.append("svg:linearGradient")
+			.attr("id","pxpy")
+			.attr("x1","100%")
+			.attr("x2","0%")
+			.attr("y1","100%")
+			.attr("y2","0%")
+		grad.append("stop")
+			.attr("offset","0%")
+			.style("stop-opacity",0.0)
+			.style("stop-color","black")
+		grad.append("stop")
+			.attr("offset","100%")
+			.style("stop-opacity",1)
+			.style("stop-color","black")
+
+	var grad = defs.append("svg:linearGradient")
+			.attr("id","down")
+			.attr("gradientUnits","userSpaceOnUse")
+			.attr("x1","0%")
+			.attr("x2","0%")
+			.attr("y1","100%")
+			.attr("y2","0%")
+		grad.append("stop")
+			.attr("offset","0%")
+			.style("stop-opacity",0.0)
+			.style("stop-color","black")
+		grad.append("stop")
+			.attr("offset","100%")
+			.style("stop-opacity",1)
+			.style("stop-color","black")
+
+	var grad = defs.append("svg:linearGradient")
+			.attr("id","up")
+			.attr("gradientUnits","userSpaceOnUse")
+			.attr("x1","0%")
+			.attr("x2","0%")
+			.attr("y1","0%")
+			.attr("y2","100%")
+		grad.append("stop")
+			.attr("offset","0%")
+			.style("stop-opacity",0.0)
+			.style("stop-color","black")
+		grad.append("stop")
+			.attr("offset","100%")
+			.style("stop-opacity",1)
+			.style("stop-color","black")
+
+	var grad = defs.append("svg:linearGradient")
+			.attr("id","right")
+			.attr("gradientUnits","userSpaceOnUse")
+			.attr("x1","0%")
+			.attr("x2","100%")
+			.attr("y1","0%")
+			.attr("y2","0%")
+		grad.append("stop")
+			.attr("offset","0%")
+			.style("stop-opacity",0.0)
+			.style("stop-color","black")
+		grad.append("stop")
+			.attr("offset","100%")
+			.style("stop-opacity",1)
+			.style("stop-color","black")
+
+	var grad = defs.append("svg:linearGradient")
+			.attr("id","left")
+			.attr("gradientUnits","userSpaceOnUse")
+			.attr("x1","100%")
+			.attr("x2","0%")
+			.attr("y1","0%")
+			.attr("y2","0%")
+		grad.append("stop")
+			.attr("offset","0%")
+			.style("stop-opacity",0.0)
+			.style("stop-color","black")
+		grad.append("stop")
+			.attr("offset","100%")
+			.style("stop-opacity",1)
+			.style("stop-color","black")
 }
-
-
