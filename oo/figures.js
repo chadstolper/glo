@@ -8,13 +8,14 @@ var figure_logo = function(glo){
 		.partition_on("x",{parts:3})
 
 		.select_canvas(0)
-		.evenly_distribute_nodes_on("rho",{by:"modularity_class"})
 		.evenly_distribute_nodes_on("theta",{by:"modularity_class"})
+		.evenly_distribute_nodes_on("rho",{by:"modularity_class"})
+
 
 		.select_canvas(1)
 		.display_edges_as_squares()
 		.align_nodes("left")
-		.evenly_distribute_nodes_on("y",{by:"modularity_class"})
+		.evenly_distribute_nodes_on("y",{by:"modularity_class",invert:true})
 		.clone_nodes()
 		.set_target_generation(3)
 		.align_nodes("bottom")
