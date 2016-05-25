@@ -113,11 +113,12 @@
 					
 
 					svg = d3.select("#canvas")
-						.style("width",1000)
-						.style("height",400)
+						.attr("width",1000)
+						.attr("height",400)
 						.attr("version", "1.1")
 						.attr("xmlns","http://www.w3.org/2000/svg")
 						.attr("baseProfile","full")
+					svg.append("title").text("filename goes here")
 					glo = new GLO.GLO(svg)
 						.nodes(nodes)
 						.edges(edges)
