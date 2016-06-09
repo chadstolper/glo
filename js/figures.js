@@ -1,4 +1,6 @@
 var figure_logo = function(glo){
+	//width: 1000
+	//height: 400
 	glo
 		.color_nodes_by("modularity_class")
 		.size_nodes_by_constant()
@@ -26,4 +28,39 @@ var figure_logo = function(glo){
 		.position_nodes_by_constant_on("rho")
 		.display_edges_as_curved_lines()
 
+}
+
+
+var figure_incident_pivotgraph = function(glo){
+	glo
+		.color_nodes_by("modularity_class")
+		.Technique_PivotGraph("modularity_class","gender","mean")
+		.show_incident_edges()
+}
+
+var figure_array_of_arcs = function(glo){
+	glo
+		.color_nodes_by("modularity_class")
+		.position_nodes_on("y","modularity_class")
+		.evenly_distribute_nodes_on("x",{within: "modularity_class"})
+		.display_edges_as_curved_lines()
+		.hide_edges()
+		.show_all_edges({group_by:"modularity_class"})
+}
+
+
+var figure_not_within = function(glo){
+	glo
+		.color_nodes_by("modularity_class")
+		.hide_edges()
+		.position_nodes_on("y","modularity_class")
+		.evenly_distribute_nodes_on("x",{by:"modularity_class"})
+}
+
+var figure_with_within = function(glo){
+	glo
+		.color_nodes_by("modularity_class")
+		.hide_edges()
+		.position_nodes_on("y","modularity_class")
+		.evenly_distribute_nodes_on("x",{within:"modularity_class",by:"modularity_class"})
 }

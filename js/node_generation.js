@@ -1512,7 +1512,7 @@ GLO.NodeGeneration.prototype.distribute_on_within = function(axis,within_prop,by
 
 	var self = this
 
-	if(typeof by_prop === "undefined"){
+	if(typeof by_prop === "undefined" || by_prop == null){
 		by_prop = "id"
 	}
 

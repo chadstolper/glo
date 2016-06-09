@@ -162,23 +162,31 @@ GLO.GLO.prototype.position_nodes_by_constant_on = function(axis,opts){
 */
 GLO.GLO.prototype.position_nodes_evenly_stacked = function(direction,opts){
 	TODO("position_nodes_evenly_stacked --- group_by")
+
+	if(opts && opts.within){
+		this.correct_node_gens(opts).forEach(function(gen){
+			gen.stack_within(direction,opts.within,opts)
+		})
+		return this
+	}
+
 	this.correct_node_gens(opts).forEach(function(gen){
 		gen.stack(direction,opts)
 	})
 	return this
 }
 
-//29	position nodes {dir} on {axis} (by {attr})
-/*
-	Utilizes by from opts
-*/
-GLO.GLO.prototype.position_nodes_evenly_stacked_within = function(direction,within_prop,opts){
-	TODO("position_nodes_evenly_stacked_within --- group_by")
-	this.correct_node_gens(opts).forEach(function(gen){
-		gen.stack_within(direction,within_prop,opts)
-	})
-	return this
-}
+// //29	position nodes {dir} on {axis} (by {attr})
+// /*
+// 	Utilizes by from opts
+// */
+// GLO.GLO.prototype.position_nodes_evenly_stacked_within = function(direction,within_prop,opts){
+// 	TODO("position_nodes_evenly_stacked_within --- group_by")
+// 	this.correct_node_gens(opts).forEach(function(gen){
+// 		gen.stack_within(direction,within_prop,opts)
+// 	})
+// 	return this
+// }
 
 //29	evenly distribute edges on {axis} (by {attr})
 /*
@@ -193,6 +201,17 @@ GLO.GLO.prototype.evenly_distribute_edges_on = function(axis,opts){
 	opts includes by option
 */
 GLO.GLO.prototype.evenly_distribute_nodes_on = function(axis,opts){
+	if(opts && opts.within){
+		this.correct_node_gens(opts).forEach(function(gen){
+			if(opts && opts.by){
+				gen.distribute_on_within(axis,opts.within,opts.by,opts)
+			}else{
+				gen.distribute_on_within(axis,opts.within,null,opts)
+			}
+		})
+		return this
+	}
+
 	this.correct_node_gens(opts).forEach(function(gen){
 		if(opts && opts.by){
 			gen.distribute(axis,opts.by,opts)
@@ -206,20 +225,20 @@ GLO.GLO.prototype.evenly_distribute_nodes_on = function(axis,opts){
 
 }
 
-/*
-	opts includes by option
-*/
-GLO.GLO.prototype.evenly_distribute_nodes_on_within = function(axis,attr,opts){
-	this.correct_node_gens(opts).forEach(function(gen){
-		if(opts && opts.by){
-			gen.distribute_on_within(axis,attr,opts.by,opts)
-		}else{
-			gen.distribute_on_within(axis,attr,opts)
-		}
-	})
-	return this
+// /*
+// 	opts includes by option
+// */
+// GLO.GLO.prototype.evenly_distribute_nodes_on_within = function(axis,attr,opts){
+// 	this.correct_node_gens(opts).forEach(function(gen){
+// 		if(opts && opts.by){
+// 			gen.distribute_on_within(axis,attr,opts.by,opts)
+// 		}else{
+// 			gen.distribute_on_within(axis,attr,opts)
+// 		}
+// 	})
+// 	return this
 
-}
+// }
 
 
 
