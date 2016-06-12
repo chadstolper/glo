@@ -64,3 +64,48 @@ var figure_with_within = function(glo){
 		.position_nodes_on("y","modularity_class")
 		.evenly_distribute_nodes_on("x",{within:"modularity_class",by:"modularity_class"})
 }
+
+var figure_groupby_start = function(glo){
+	glo
+		.color_nodes_by("modularity_class")
+		.hide_edges()
+		.position_nodes_by_constant_on("rho")
+		.evenly_distribute_nodes_on("theta",{by:"modularity_class"})
+}
+
+var figure_without_groupby = function(glo){
+	glo
+		.color_nodes_by("modularity_class")
+		.hide_edges()
+		.position_nodes_by_constant_on("rho")
+		.evenly_distribute_nodes_on("theta",{by:"modularity_class"})
+		.align_nodes("center")
+}
+
+var figure_with_groupby = function(glo){
+	glo
+		.color_nodes_by("modularity_class")
+		.hide_edges()
+		.position_nodes_by_constant_on("rho")
+		.evenly_distribute_nodes_on("theta",{by:"modularity_class"})
+		.align_nodes("center",{group_by:"modularity_class"})
+}
+
+
+var figure_cosine_curve = function(glo){
+	glo
+		.color_nodes_by("modularity_class")
+		.hide_edges()
+		.position_nodes_by_constant_on("rho")
+		.evenly_distribute_nodes_on("theta",{by:"modularity_class"})
+		.evenly_distribute_nodes_on("x",{by:"modularity_class"})
+}
+
+var figure_sideways_sine_curve = function(glo){
+	glo
+		.color_nodes_by("modularity_class")
+		.hide_edges()
+		.position_nodes_by_constant_on("rho")
+		.evenly_distribute_nodes_on("theta",{by:"modularity_class"})
+		.evenly_distribute_nodes_on("y",{by:"modularity_class"})
+}

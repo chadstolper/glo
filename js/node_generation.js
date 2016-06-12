@@ -1187,6 +1187,11 @@ GLO.NodeGeneration.prototype.stack = function(direction,opts){
 		by_prop = opts.by
 	}
 
+	var invert = false
+	if(typeof opts === "undefined" || typeof opts.invert == true){
+		invert = true
+	}
+
 	self.nodes.sort(function(a,b){
 		var val
 		if(_.isNumber(a[by_prop])){
@@ -1195,7 +1200,10 @@ GLO.NodeGeneration.prototype.stack = function(direction,opts){
 			val = a[by_prop].localeCompare(b[by_prop])
 		}
 		if (val==0){
-			return a.id-b.id
+			val = a.id-b.id
+		}
+		if(invert==true){
+			val = -1*val
 		}
 		return val
 	}).forEach(function(d,i){
@@ -1385,7 +1393,7 @@ GLO.NodeGeneration.prototype.stack_within = function(direction,within_prop,opts)
 	if(typeof opts !== "undefined" && typeof opts.group_by !== "undefined"){
 		var groups = this.get_group_by_groups(opts.group_by)
 		groups.forEach(function(group){
-			group.distribute_on_within(axis,within_prop,by_prop)
+			group.distribute_on_within(axis,within_prop,by_prop,opts)
 		})
 		return this
 	}
@@ -1397,6 +1405,10 @@ GLO.NodeGeneration.prototype.stack_within = function(direction,within_prop,opts)
 		by_prop = "id"
 	}else{
 		by_prop = opts.by
+	}
+
+	if(typeof opts !== "undefined" && typeof opts.invert !== "undefined"){
+		invert = opts.invert
 	}
 
 
@@ -1447,7 +1459,10 @@ GLO.NodeGeneration.prototype.stack_within = function(direction,within_prop,opts)
 				val = a[by_prop].localeCompare(b[by_prop])
 			}
 			if (val==0){
-				return a.id-b.id
+				val = a.id-b.id
+			}
+			if(invert==true){
+				val = -1*val
 			}
 			return val
 		}).forEach(function(d,i){

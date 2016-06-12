@@ -378,11 +378,16 @@ GLO.NodeGroup.prototype._group_by = function(discrete){
 }
 
 
-GLO.NodeGroup.prototype.distribute_on_within = function(axis,within_prop,by_prop){
+GLO.NodeGroup.prototype.distribute_on_within = function(axis,within_prop,by_prop,opts){
 	var self = this
 
 	if(typeof by_prop === "undefined"){
 		by_prop = "id"
+	}
+
+	var invert = false
+	if(typeof opts !== "undefined" && typeof opts.invert !== "undefined"){
+		invert = opts.invert
 	}
 
 	var groups = this._group_by(within_prop) //within_prop-->[nodes] map
@@ -397,7 +402,10 @@ GLO.NodeGroup.prototype.distribute_on_within = function(axis,within_prop,by_prop
 				val = a[by_prop].localeCompare(b[by_prop])
 			}
 			if (val==0){
-				return a.id-b.id
+				val = a.id-b.id
+			}
+			if(invert==true){
+				val = -1*val
 			}
 			return val
 		}).forEach(function(d,i){

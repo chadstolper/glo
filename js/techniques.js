@@ -394,7 +394,7 @@ GLO.GLO.prototype.Technique_Citevis = function(discrete,color_attr,sort_attr){
 	this.size_nodes_by_constant()
 	this.position_nodes_on("y",discrete)
 	this.show_axis("y")
-	this.position_nodes_evenly_stacked("left",{by:sort_attr, within:discrete})
+	this.position_nodes_evenly_stacked("left",{by:sort_attr, within:discrete, invert:true})
 	this.color_nodes_by(color_attr)
 
 	return this
