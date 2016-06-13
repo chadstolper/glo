@@ -145,7 +145,14 @@ GLO.EdgeGeneration.prototype.color_by_constant = function(constant){
 
 GLO.EdgeGeneration.prototype.color_by = function(attr){
 	var self = this
-	var type = this.canvas.glo.edge_attr()[attr]
+
+	var type, short_attr
+	if(attr == "source" || attr == "target"){
+		type = "color"
+	}else{
+		type = this.canvas.glo.edge_attr()[attr]
+	}
+
 	if(type=="color"){
 		this.color_by_color_attr(attr)
 	}else if(type=="continuous"){
@@ -211,9 +218,17 @@ GLO.EdgeGeneration.prototype.color_by_discrete = function(attr){
 GLO.EdgeGeneration.prototype.color_by_color_attr = function(attr){
 	var self = this
 
-	this.edges.forEach(function(d){
-		d.color_list[self.gen_id] = d[attr]
-	})
+	if(attr == "source" || attr == "target"){
+		this.edges.forEach(function(d){
+			d.color_list[self.gen_id] = d[attr].fill_list[self[attr+"_generation"]().gen_id]
+		})
+	}else{
+		this.edges.forEach(function(d){
+			d.color_list[self.gen_id] = d[attr]
+		})
+	}
+
+	
 
 	this.update()
 	return this

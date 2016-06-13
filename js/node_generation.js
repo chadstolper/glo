@@ -1407,6 +1407,7 @@ GLO.NodeGeneration.prototype.stack_within = function(direction,within_prop,opts)
 		by_prop = opts.by
 	}
 
+	invert = false
 	if(typeof opts !== "undefined" && typeof opts.invert !== "undefined"){
 		invert = opts.invert
 	}

@@ -1,24 +1,29 @@
 
 GLO.GLO.prototype.Technique_Force_Directed = function(){
+	this.display_nodes_as_circles()
 	this.display_edges_as_straight_lines()
 	this.show_all_edges()
 	this.size_nodes_by_constant()
 	this.size_edges_by_constant()
 	this.color_edges_by_constant()
+	this.color_nodes_by_constant()
 	this.apply_force_directed_algorithm_to_nodes()
 
 	return this
 }
 
 
-GLO.GLO.prototype.Technique_Matrix_Plot = function(sort_attr,edge_color_attr){
+GLO.GLO.prototype.Technique_Matrix_Plot = function(sort_attr,edge_color_attr,label_attr){
 	if(sort_attr==null){
 		delete sort_attr
 	}
+	this.color_nodes_by_constant()
 	this.size_nodes_by_constant()
 	this.evenly_distribute_nodes_on("y",{by:sort_attr,invert:true})
 	this.align_nodes("left")
+	this.display_nodes_as_labels(label_attr)
 	this.clone_nodes()
+	this.rotate_nodes(90)
 	this.align_nodes("top")
 	this.evenly_distribute_nodes_on("x",{by:sort_attr})
 	this.set_target_generation(1)
@@ -36,9 +41,11 @@ GLO.GLO.prototype.Technique_Cluster_Circles = function(group_by_attr, internal_s
 	if(typeof internal_sort_attr == "undefined"){
 		delete internal_sort_attr
 	}
+	this.display_nodes_as_circles()
 	this.show_all_edges()
 	this.display_edges_as_straight_lines()
 	this.color_edges_by_constant()
+	this.color_nodes_by_constant()
 	this.size_nodes_by_constant()
 	this.size_edges_by_constant()
 	this.evenly_distribute_nodes_on("theta",{by:group_by_attr})
@@ -52,9 +59,11 @@ GLO.GLO.prototype.Technique_Cluster_Circles = function(group_by_attr, internal_s
 
 
 GLO.GLO.prototype.Technique_Circle_Graph = function(sort_attr){
+	this.display_nodes_as_circles()
 	this.show_all_edges()
 	this.display_edges_as_straight_lines()
 	this.color_edges_by_constant()
+	this.color_nodes_by_constant()
 	this.size_edges_by_constant()
 	this.size_nodes_by_constant()
 	this.evenly_distribute_nodes_on("theta",{by:sort_attr})
@@ -65,15 +74,20 @@ GLO.GLO.prototype.Technique_Circle_Graph = function(sort_attr){
 
 
 GLO.GLO.prototype.Technique_GeneVis_A = function(position_attr){
+	this.display_nodes_as_circles()
 	this.hide_edges()
 	this.position_nodes_on("theta",position_attr)
 	this.position_nodes_by_constant_on("rho")
 	this.size_nodes_by_constant()
+	this.color_nodes_by_constant()
 
 	return this
 }
 
 GLO.GLO.prototype.Technique_GeneVis_B = function(discrete1,attr2){
+	this.size_nodes_by_constant()
+	this.color_nodes_by_constant()
+	this.display_nodes_as_circles()
 	this.show_all_edges()
 	this.display_edges_as_curved_lines()
 	this.size_edges_by_constant()
@@ -85,6 +99,9 @@ GLO.GLO.prototype.Technique_GeneVis_B = function(discrete1,attr2){
 }
 
 GLO.GLO.prototype.Technique_Arc_Diagram = function(sort_attr){
+	this.size_nodes_by_constant()
+	this.color_nodes_by_constant()
+	this.display_nodes_as_circles()
 	this.display_edges_as_curved_lines()
 	this.size_edges_by_constant()
 	this.color_edges_by_constant()
@@ -96,7 +113,7 @@ GLO.GLO.prototype.Technique_Arc_Diagram = function(sort_attr){
 }
 
 
-GLO.GLO.prototype.Technique_Matrix_Browswer = function(){
+GLO.GLO.prototype.Technique_Matrix_Browser = function(){
 	TODO("Matrix_Browswer")
 }
 
@@ -104,22 +121,33 @@ GLO.GLO.prototype.Technique_Matrix_With_Bars = function(){
 	TODO("Matrix_With_Bars")
 }
 
-GLO.GLO.prototype.Technique_Matrix_Explorer = function(sort_attr,edge_color_attr){
+GLO.GLO.prototype.Technique_Matrix_Explorer = function(sort_attr,edge_color_attr,label_attr,node_size_attr){
 	this.size_nodes_by_constant()
 	this.size_edges_by_constant()
+	this.color_nodes_by_constant()
+	this.show_all_edges()
 	this.partition_on("x")
+	this.display_nodes_as_bars()
 	this.evenly_distribute_nodes_on("y",{by:sort_attr,invert:true})
 	this.align_nodes("left")
+	this.size_nodes_by(node_size_attr)
 	this.clone_nodes()
+	this.size_nodes_by_constant()
+	this.display_nodes_as_labels(label_attr)
+	this.select_node_generation(1)
+	this.clone_nodes()
+	this.rotate_nodes(90)
 	this.align_nodes("top")
 	this.evenly_distribute_nodes_on("x",{by:sort_attr})
-	this.set_target_generation(2)
+	this.clone_nodes()
+	this.size_nodes_by_constant()
+	this.display_nodes_as_labels(node_size_attr)
+	this.set_target_generation(4)
 	this.display_edges_as_squares()
-	this.show_all_edges()
 	this.color_edges_by(edge_color_attr)
 	this.select_canvas(0)
+	this.size_nodes_by(node_size_attr)
 	this.display_edges_as_straight_lines()
-	this.show_all_edges()
 	this.color_edges_by_constant()
 	this.apply_force_directed_algorithm_to_nodes()
 
@@ -131,9 +159,12 @@ GLO.GLO.prototype.Technique_NetLens = function(){
 }
 
 GLO.GLO.prototype.Technique_Semantic_Substrates = function(discrete1,size_nodes_by_attr){
+	this.display_nodes_as_circles()
 	this.color_nodes_by(discrete1)
 	this.show_incident_edges()
 	this.size_nodes_by(size_nodes_by_attr)
+	this.size_edges_by_constant()
+	this.color_edges_by_constant()
 	this.position_nodes_on("y", discrete1)
 	this.show_axis("y")
 	this.evenly_distribute_nodes_on("x",{within:discrete1})
@@ -142,16 +173,20 @@ GLO.GLO.prototype.Technique_Semantic_Substrates = function(discrete1,size_nodes_
 	return this
 }
 
-GLO.GLO.prototype.Technique_PivotGraph = function(discrete1,discrete2,agg_method,size_attr,edge_size_attr){
+GLO.GLO.prototype.Technique_PivotGraph = function(discrete1,discrete2,agg_method,size_attr,edge_size_attr,node_color_attr){
 	if(typeof size_attr == "undefined" || size_attr == null){
 		size_attr = "count"
 	}
 	if(typeof edge_size_attr == "undefined" || edge_size_attr == null){
 		edge_size_attr = "count"
 	}
-	this.color_nodes_by(discrete1)
+	if(typeof node_color_attr == "undefined" || node_color_attr == null){
+		node_color_attr = "in_degree"
+	}
+	this.show_all_edges()
 	this.aggregate_nodes_by([discrete1,discrete2],agg_method)
 	this.size_nodes_by(size_attr)
+	this.color_nodes_by(node_color_attr)
 	this.aggregate_edges_by(["source."+discrete1,"source."+discrete2,"target."+discrete1,"target."+discrete2],agg_method)
 	this.display_edges_as_curved_lines()
 	this.size_edges_by(edge_size_attr)
@@ -164,20 +199,24 @@ GLO.GLO.prototype.Technique_PivotGraph = function(discrete1,discrete2,agg_method
 	return this
 }
 
-GLO.GLO.prototype.Technique_MatLink = function(sort_attr,edge_color_attr){
+GLO.GLO.prototype.Technique_MatLink = function(sort_attr,edge_color_attr,label_attr){
 	if(sort_attr==null){
 		delete sort_attr
 	}
+	this.color_nodes_by_constant()
 	this.size_nodes_by_constant()
+	this.display_nodes_as_labels(label_attr)
 	this.evenly_distribute_nodes_on("y",{by:sort_attr, invert:true})
 	this.align_nodes("left")
 	this.display_edges_as_curved_lines()
+	this.color_edges_by_constant()
 	this.show_incident_edges()
 	this.clone_nodes()
 	this.clone_edges()
 	this.set_source_generation(1)
 	this.set_target_generation(1)
 	this.clone_edges()
+	this.rotate_nodes(90)
 	this.align_nodes("top")
 	this.evenly_distribute_nodes_on("x",{by:sort_attr})
 	this.set_source_generation(0)
@@ -190,13 +229,15 @@ GLO.GLO.prototype.Technique_MatLink = function(sort_attr,edge_color_attr){
 }
 
 
-GLO.GLO.prototype.Technique_ListView = function(discrete1, sort_attr){
+GLO.GLO.prototype.Technique_ListView = function(discrete1, sort_attr, label_attr){
 	if(sort_attr==null){
 		delete sort_attr
 	}
+	this.display_nodes_as_labels(label_attr)
 	this.size_nodes_by_constant()
 	this.size_edges_by_constant()
 	this.color_edges_by_constant()
+	this.color_nodes_by_constant()
 	this.position_nodes_on("x",discrete1)
 	this.position_nodes_evenly_stacked("bottom",{by:sort_attr,within:discrete1})
 	this.display_edges_as_curved_lines()
@@ -226,18 +267,21 @@ GLO.GLO.prototype.Technique_Honeycomb = function(discretes, agg_method, edge_col
 		edge_agg_array.push("source."+discretes)
 		edge_agg_array.push("target."+discretes)
 	}
-
+	this.show_all_edges()
+	this.color_nodes_by_constant()
+	this.size_nodes_by_constant()
 	this.aggregate_nodes_by(discretes,agg_method)
+	this.display_nodes_as_labels("label")
 	this.align_nodes("left")
-	this.size_nodes_by("count")
-	this.evenly_distribute_nodes_on("y",{by:sort_attr})
+	this.evenly_distribute_nodes_on("y",{by:sort_attr, invert:true})
 	this.clone_nodes()
-	this.align_nodes("bottom")
+	this.align_nodes("top")
 	this.evenly_distribute_nodes_on("x",{by:sort_attr})
 	this.set_target_generation(3)
 	this.aggregate_edges_by(edge_agg_array, agg_method)
 	this.display_edges_as_squares()
 	this.color_edges_by(edge_color_attr)
+	this.size_edges_by_constant()
 
 	return this
 }
@@ -247,8 +291,11 @@ GLO.GLO.prototype.Technique_GraphDice_Segment = function(attr1, attr2, size_node
 	this.position_nodes_on("x", attr1)
 	this.position_nodes_on("y", attr2)
 	this.size_nodes_by(size_nodes_attr)
+	this.color_nodes_by_constant()
 	this.display_edges_as_curved_lines()
 	this.show_all_edges()
+	this.size_edges_by_constant()
+	this.color_edges_by_constant()
 	this.show_axis("x")
 	this.show_axis("y")
 
@@ -256,14 +303,17 @@ GLO.GLO.prototype.Technique_GraphDice_Segment = function(attr1, attr2, size_node
 }
 
 
-GLO.GLO.prototype.Technique_GraphDice_3x3 = function(attr1, attr2, attr3, size_nodes_attr){
+GLO.GLO.prototype.Technique_GraphDice_3x3 = function(attr1, attr2, attr3){
 	/*
 		0 1 2
 		3 5 7
 		4 6 8
 	*/
 
-	this.size_nodes_by(size_nodes_attr)
+	this.show_all_edges()
+	this.color_nodes_by_constant()
+	this.color_edges_by_constant()
+	this.size_nodes_by_constant()
 	this.size_edges_by_constant()
 	this.position_nodes_on("x",attr1)
 	this.position_nodes_on("y",attr1)
@@ -305,17 +355,17 @@ GLO.GLO.prototype.Technique_Attribute_Matrix = function(){
 	return this
 }
 
-GLO.GLO.prototype.Technique_Radial_Chord = function(){
-	TODO("Radial Chord")
+GLO.GLO.prototype.Technique_Sankey_Diagram = function(){
+	TODO("Sankey Diagram")
 	return this
 }
 
-GLO.GLO.prototype.Technique_EdgeMap_FD = function(size_nodes_attr){
+GLO.GLO.prototype.Technique_EdgeMap_A = function(size_nodes_attr){
 	TODO("EdgeMap FD")
 	return this
 }
 
-GLO.GLO.prototype.Technique_EdgeMap_Arc = function(size_nodes_attr,sort_attr){
+GLO.GLO.prototype.Technique_EdgeMap_B = function(size_nodes_attr,sort_attr){
 	TODO("EdgeMap Arc")
 	return this
 }
@@ -324,11 +374,10 @@ GLO.GLO.prototype.Technique_Hive_Plot = function(discrete1, attr2){
 	this.size_nodes_by_constant()
 	this.size_edges_by_constant()
 	this.color_edges_by_constant()
-
+	this.color_nodes_by(discrete1)
 	this.position_nodes_on("theta",discrete1)
 	this.position_nodes_on("rho", attr2)
 	this.display_edges_as_curved_lines()
-
 	this.show_faded_and_incident_edges()
 
 	return this
@@ -345,6 +394,7 @@ GLO.GLO.prototype.Technique_Hive_Panel_2x3 = function(discrete1, discrete2, attr
 	this.size_nodes_by_constant()
 	this.size_edges_by_constant()
 	this.color_edges_by_constant()
+	this.color_nodes_by(discrete1)
 	this.display_edges_as_curved_lines()
 	this.show_faded_and_incident_edges()
 
@@ -403,12 +453,16 @@ GLO.GLO.prototype.Technique_Citevis = function(discrete,color_attr,sort_attr){
 
 GLO.GLO.prototype.Technique_DOSA = function(discrete, attr1, attr2){
 	this.color_nodes_by(discrete)
+	// this.color_edges_by(["source","target"]) //proper
+	this.color_edges_by("target") //working
+	this.size_nodes_by_constant()
+	this.size_edges_by_constant()
 	this.position_nodes_on("x", attr1)
 	this.position_nodes_on("y", attr2)
 	this.show_axis("x")
 	this.show_axis("y")
 	this.display_edges_as_curved_lines()
-	this.partition_on("x",{parts:2})
+	this.partition_on("x")
 	this.hide_axis("x")
 	this.hide_axis("y")
 	this.aggregate_nodes_by(discrete,"mean")
@@ -420,29 +474,28 @@ GLO.GLO.prototype.Technique_DOSA = function(discrete, attr1, attr2){
 }
 
 
-GLO.GLO.prototype.Technique_NodeTrix = function(discrete){
-	this.color_nodes_by("modularity_class")
+GLO.GLO.prototype.Technique_NodeTrix = function(discrete, label_attr){
+	this.color_nodes_by_constant()
+	this.size_nodes_by_constant()
+	this.size_edges_by_constant()
+	this.color_edges_by_constant()
 	this.display_edges_as_curved_lines()
-
-	this.color_nodes_by(discrete)
 	this.position_nodes_by_constant_on("rho")
 	this.evenly_distribute_nodes_on("theta",{by:discrete})
-
 	this.position_nodes_by_constant_on("rho",{group_by:discrete})
 	this.evenly_distribute_nodes_on("theta",{group_by:discrete})
-
+	this.display_nodes_as_labels(label_attr)
 	this.align_nodes("left",{group_by:discrete})
 	this.evenly_distribute_nodes_on("y",{group_by:discrete,invert:true})
 	this.clone_nodes()
+	this.rotate_nodes(90)
 	this.evenly_distribute_nodes_on("x",{group_by:discrete})
 	this.align_nodes("top",{group_by:discrete})
 	this.set_target_generation(1)
-
-	this.show_faded_and_incident_edges()
+	this.show_edges_as_faded()
 	this.display_edges_as_curved_lines()
 	this.display_edges_as_squares({group_by:discrete})
 	this.show_all_edges({group_by:discrete})
-
 	this.clone_edges()
 	this.hide_edges({group_by:discrete})
 	this.set_source_generation(1)

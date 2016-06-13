@@ -105,6 +105,7 @@ GLO.GLO.prototype.deaggregate_nodes = function(opts){
 */
 GLO.GLO.prototype.align_edges = function(dir,opts){
 	TODO("align_edges")
+	return this
 }
 
 //433	align nodes {dir}
@@ -133,6 +134,7 @@ GLO.GLO.prototype.align_nodes = function(dir,opts){
 */
 GLO.GLO.prototype.position_edges_by = function(xattr,yattr,opts){
 	TODO("position_edges_by")
+	return this
 }
 
 //728	position nodes on {axis} by {attr}
@@ -183,6 +185,7 @@ GLO.GLO.prototype.position_nodes_evenly_stacked = function(direction,opts){
 */
 GLO.GLO.prototype.evenly_distribute_edges_on = function(axis,opts){
 	TODO("evenly_distribute_edges_on")
+	return this
 }
 
 //641	evenly distribute nodes on {axis} (by {attr})
@@ -343,6 +346,7 @@ GLO.GLO.prototype.set_target_generation = function(gen,opts){
 */
 GLO.GLO.prototype.remove_edge_generation = function(gen,opts){
 	TODO("remove_edge_generation")
+	return this
 }
 
 //39	remove node generation {num}
@@ -353,6 +357,7 @@ GLO.GLO.prototype.remove_edge_generation = function(gen,opts){
 */
 GLO.GLO.prototype.remove_node_generation = function(gen,opts){
 	TODO("remove_node_generation")
+	return this
 }
 
 
@@ -364,6 +369,7 @@ GLO.GLO.prototype.remove_node_generation = function(gen,opts){
 */
 GLO.GLO.prototype.remove_all_cloned_edges = function(opts){
 	TODO("remove_all_cloned_edges")
+	return this
 }
 
 //219	remove all cloned nodes
@@ -373,6 +379,7 @@ GLO.GLO.prototype.remove_all_cloned_edges = function(opts){
 */
 GLO.GLO.prototype.remove_all_cloned_nodes = function(opts){
 	TODO("remove_all_cloned_nodes")
+	return this
 }
 
 
@@ -403,6 +410,7 @@ GLO.GLO.prototype.remove_all_cloned_nodes = function(opts){
 */
 GLO.GLO.prototype.show_convex_hulls = function(opts){
 	TODO("show_convex_hulls")
+	return this
 }
 
 //28	remove convex hulls
@@ -411,6 +419,7 @@ GLO.GLO.prototype.show_convex_hulls = function(opts){
 */
 GLO.GLO.prototype.hide_convex_hulls = function(opts){
 	TODO("hide_convex_hulls")
+	return this
 }
 
 
@@ -443,6 +452,7 @@ GLO.GLO.prototype.show_edges_as_faded = function(opts){
 */
 GLO.GLO.prototype.show_edges_as_solid = function(opts){
 	TODO("show_edges_as_solid")
+	return this
 }
 
 //28	show faded and incident edges
@@ -487,6 +497,7 @@ GLO.GLO.prototype.hide_edges = function(opts){
 */
 GLO.GLO.prototype.display_edges_as_bars = function(opts){
 	TODO("display_edges_as_bars")
+	return this
 }
 
 //213	display edges as curved lines
@@ -506,6 +517,7 @@ GLO.GLO.prototype.display_edges_as_curved_lines = function(opts){
 */
 GLO.GLO.prototype.display_edges_as_in_out_links = function(opts){
 	TODO("display_edges_as_in_out_links")
+	return this
 }
 
 //72	display edges as outer links
@@ -515,6 +527,7 @@ GLO.GLO.prototype.display_edges_as_in_out_links = function(opts){
 */
 GLO.GLO.prototype.display_edges_as_outer_links = function(opts){
 	TODO("display_edges_as_outer_links")
+	return this
 }
 
 //148	display edges as squares
@@ -547,6 +560,7 @@ GLO.GLO.prototype.display_edges_as_straight_lines = function(opts){
 */
 GLO.GLO.prototype.display_edges_as_right_angles = function(opts){
 	TODO("display_edges_as_right_angles")
+	return this
 }
 
 //28	display edges as {attr} labels
@@ -555,6 +569,7 @@ GLO.GLO.prototype.display_edges_as_right_angles = function(opts){
 */
 GLO.GLO.prototype.display_edges_as_labels = function(attr,opts){
 	TODO("display_edges_as_labels")
+	return this
 }
 
 
@@ -564,6 +579,7 @@ GLO.GLO.prototype.display_edges_as_labels = function(attr,opts){
 */
 GLO.GLO.prototype.display_nodes_as_arcs = function(opts){
 	TODO("display_nodes_as_arcs")
+	return this
 }
 
 //89	display nodes as bars
@@ -572,6 +588,7 @@ GLO.GLO.prototype.display_nodes_as_arcs = function(opts){
 */
 GLO.GLO.prototype.display_nodes_as_bars = function(opts){
 	TODO("display_nodes_as_bars")
+	return this
 }
 
 //208	display nodes as circles
@@ -580,6 +597,7 @@ GLO.GLO.prototype.display_nodes_as_bars = function(opts){
 */
 GLO.GLO.prototype.display_nodes_as_circles = function(opts){
 	TODO("display_nodes_as_circles")
+	return this
 }
 
 //237	display nodes as {attr} labels
@@ -588,6 +606,7 @@ GLO.GLO.prototype.display_nodes_as_circles = function(opts){
 */
 GLO.GLO.prototype.display_nodes_as_labels = function(attr,opts){
 	TODO("display_nodes_as_labels")
+	return this
 }
 
 
@@ -652,6 +671,7 @@ GLO.GLO.prototype.size_nodes_by_constant = function(opts){
 */
 GLO.GLO.prototype.rotate_nodes = function(deg,opts){
 	TODO("rotate_nodes")
+	return this
 }
 
 
@@ -662,6 +682,7 @@ GLO.GLO.prototype.rotate_nodes = function(deg,opts){
 */
 GLO.GLO.prototype.set_edge_waypoint_edge_generation = function(gen,opts){
 	TODO("set_edge_waypoint_edge_generation")
+	return this
 }
 
 
@@ -672,6 +693,7 @@ GLO.GLO.prototype.set_edge_waypoint_edge_generation = function(gen,opts){
 */
 GLO.GLO.prototype.remove_all_edge_waypoints = function(opts){
 	TODO("remove_all_edge_waypoints")
+	return this
 }
 
 
@@ -760,6 +782,7 @@ GLO.GLO.prototype.color_nodes_by_constant = function(opts){
 */
 GLO.GLO.prototype.color_convex_hulls_by = function(attr,opts){
 	TODO("color_convex_hulls_by")
+	return this
 }
 
 
@@ -769,6 +792,7 @@ GLO.GLO.prototype.color_convex_hulls_by = function(attr,opts){
 */
 GLO.GLO.prototype.color_convex_hulls_by_constant = function(constant,opts){
 	TODO("color_convex_hulls_by_constant")
+	return this
 }
 
 
@@ -822,6 +846,7 @@ GLO.GLO.prototype.partition_on = function(axis,opts){
 */
 GLO.GLO.prototype.filter_partition_on = function(axis,opts){
 	TODO("filter_partition_on")
+	return this
 }
 
 
@@ -841,6 +866,7 @@ GLO.GLO.prototype.select_canvas = function(canvas,opts){
 */
 GLO.GLO.prototype.select_column = function(col,opts){
 	TODO("select_column")
+	return this
 }
 
 
@@ -850,6 +876,7 @@ GLO.GLO.prototype.select_column = function(col,opts){
 */
 GLO.GLO.prototype.select_row = function(row,opts){
 	TODO("select_row")
+	return this
 }
 
 
@@ -861,6 +888,7 @@ GLO.GLO.prototype.select_row = function(row,opts){
 */
 GLO.GLO.prototype.remove_canvas = function(canvas,opts){
 	TODO("remove_canvas")
+	return this
 }
 
 
@@ -871,6 +899,7 @@ GLO.GLO.prototype.remove_canvas = function(canvas,opts){
 */
 GLO.GLO.prototype.remove_all_partitions = function(opts){
 	TODO("remove_all_partitions")
+	return this
 }
 
 
@@ -881,6 +910,7 @@ GLO.GLO.prototype.remove_all_partitions = function(opts){
 */
 GLO.GLO.prototype.show_meta_axis = function(axis,opts){
 	TODO("show_meta_axis")
+	return this
 }
 
 
@@ -891,6 +921,7 @@ GLO.GLO.prototype.show_meta_axis = function(axis,opts){
 */
 GLO.GLO.prototype.hide_meta_axis = function(axis,opts){
 	TODO("hide_meta_axis")
+	return this
 }
 
 
@@ -982,6 +1013,7 @@ GLO.GLO.prototype.highlight_neighbors = function(opts){
 */
 GLO.GLO.prototype.highlight_in_out_neighbors = function(opts){
 	TODO("highlight_in_out_neighbors")
+	return this
 }
 
 
