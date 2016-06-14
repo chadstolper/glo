@@ -85,6 +85,7 @@ GLO.GLO.prototype.Technique_GeneVis_A = function(position_attr){
 }
 
 GLO.GLO.prototype.Technique_GeneVis_B = function(discrete1,attr2){
+	this.display_nodes_as_circles()
 	this.size_nodes_by_constant()
 	this.color_nodes_by_constant()
 	this.display_nodes_as_circles()
@@ -99,6 +100,7 @@ GLO.GLO.prototype.Technique_GeneVis_B = function(discrete1,attr2){
 }
 
 GLO.GLO.prototype.Technique_Arc_Diagram = function(sort_attr){
+	this.display_nodes_as_circles()
 	this.size_nodes_by_constant()
 	this.color_nodes_by_constant()
 	this.display_nodes_as_circles()
@@ -183,6 +185,7 @@ GLO.GLO.prototype.Technique_PivotGraph = function(discrete1,discrete2,agg_method
 	if(typeof node_color_attr == "undefined" || node_color_attr == null){
 		node_color_attr = "in_degree"
 	}
+	this.display_nodes_as_circles()
 	this.show_all_edges()
 	this.aggregate_nodes_by([discrete1,discrete2],agg_method)
 	this.size_nodes_by(size_attr)
@@ -288,6 +291,7 @@ GLO.GLO.prototype.Technique_Honeycomb = function(discretes, agg_method, edge_col
 
 
 GLO.GLO.prototype.Technique_GraphDice_Segment = function(attr1, attr2, size_nodes_attr){
+	this.display_nodes_as_circles()
 	this.position_nodes_on("x", attr1)
 	this.position_nodes_on("y", attr2)
 	this.size_nodes_by(size_nodes_attr)
@@ -310,6 +314,7 @@ GLO.GLO.prototype.Technique_GraphDice_3x3 = function(attr1, attr2, attr3){
 		4 6 8
 	*/
 
+	this.display_nodes_as_circles()
 	this.show_all_edges()
 	this.color_nodes_by_constant()
 	this.color_edges_by_constant()
@@ -371,6 +376,7 @@ GLO.GLO.prototype.Technique_EdgeMap_B = function(size_nodes_attr,sort_attr){
 }
 
 GLO.GLO.prototype.Technique_Hive_Plot = function(discrete1, attr2){
+	this.display_nodes_as_circles()
 	this.size_nodes_by_constant()
 	this.size_edges_by_constant()
 	this.color_edges_by_constant()
@@ -390,7 +396,7 @@ GLO.GLO.prototype.Technique_Hive_Panel_2x3 = function(discrete1, discrete2, attr
 		3 4 5
 	*/
 
-
+	this.display_nodes_as_circles()
 	this.size_nodes_by_constant()
 	this.size_edges_by_constant()
 	this.color_edges_by_constant()
@@ -420,6 +426,7 @@ GLO.GLO.prototype.Technique_Hive_Panel_2x3 = function(discrete1, discrete2, attr
 
 
 GLO.GLO.prototype.Technique_Scatternet = function(attr1, attr2, color_nodes_attr){
+	this.display_nodes_as_circles()
 	this.display_edges_as_straight_lines()
 	this.size_nodes_by_constant()
 	this.size_edges_by_constant()
@@ -439,6 +446,7 @@ GLO.GLO.prototype.Technique_Citevis = function(discrete,color_attr,sort_attr){
 	if(sort_attr==null){
 		delete sort_attr
 	}
+	this.display_nodes_as_circles()
 	this.hide_edges()
 	this.highlight_neighbors()
 	this.size_nodes_by_constant()
@@ -452,6 +460,7 @@ GLO.GLO.prototype.Technique_Citevis = function(discrete,color_attr,sort_attr){
 
 
 GLO.GLO.prototype.Technique_DOSA = function(discrete, attr1, attr2){
+	this.display_nodes_as_circles()
 	this.color_nodes_by(discrete)
 	// this.color_edges_by(["source","target"]) //proper
 	this.color_edges_by("target") //working
