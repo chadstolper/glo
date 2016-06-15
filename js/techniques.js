@@ -99,14 +99,13 @@ GLO.GLO.prototype.Technique_GeneVis_B = function(discrete1,attr2){
 	return this
 }
 
-GLO.GLO.prototype.Technique_Arc_Diagram = function(sort_attr){
+GLO.GLO.prototype.Technique_Arc_Diagram = function(sort_attr, node_color_attr, edge_color_attr){
 	this.display_nodes_as_circles()
 	this.size_nodes_by_constant()
-	this.color_nodes_by_constant()
-	this.display_nodes_as_circles()
+	this.color_nodes_by(node_color_attr)
 	this.display_edges_as_curved_lines()
 	this.size_edges_by_constant()
-	this.color_edges_by_constant()
+	this.color_edges_by(edge_color_attr)
 	this.show_all_edges()
 	this.align_nodes("middle")
 	this.evenly_distribute_nodes_on("x",{by:sort_attr})
@@ -123,7 +122,7 @@ GLO.GLO.prototype.Technique_Matrix_With_Bars = function(){
 	TODO("Matrix_With_Bars")
 }
 
-GLO.GLO.prototype.Technique_Matrix_Explorer = function(sort_attr,edge_color_attr,label_attr,node_size_attr){
+GLO.GLO.prototype.Technique_Matrix_Explorer = function(sort_attr,edge_attr,label_attr,node_size_attr){
 	this.size_nodes_by_constant()
 	this.size_edges_by_constant()
 	this.color_nodes_by_constant()
@@ -146,9 +145,10 @@ GLO.GLO.prototype.Technique_Matrix_Explorer = function(sort_attr,edge_color_attr
 	this.display_nodes_as_labels(node_size_attr)
 	this.set_target_generation(4)
 	this.display_edges_as_squares()
-	this.color_edges_by(edge_color_attr)
+	this.color_edges_by(edge_attr)
 	this.select_canvas(0)
 	this.size_nodes_by(node_size_attr)
+	this.size_edges_by(edge_attr)
 	this.display_edges_as_straight_lines()
 	this.color_edges_by_constant()
 	this.apply_force_directed_algorithm_to_nodes()
@@ -166,7 +166,7 @@ GLO.GLO.prototype.Technique_Semantic_Substrates = function(discrete1,size_nodes_
 	this.show_incident_edges()
 	this.size_nodes_by(size_nodes_by_attr)
 	this.size_edges_by_constant()
-	this.color_edges_by_constant()
+	this.color_edges_by("target")
 	this.position_nodes_on("y", discrete1)
 	this.show_axis("y")
 	this.evenly_distribute_nodes_on("x",{within:discrete1})
@@ -389,8 +389,7 @@ GLO.GLO.prototype.Technique_Hive_Plot = function(discrete1, attr2){
 	this.position_nodes_on("theta",discrete1)
 	this.position_nodes_on("rho", attr2)
 	this.display_edges_as_curved_lines()
-	this.show_faded_and_incident_edges()
-
+	this.show_all_edges()
 	return this
 }
 
@@ -413,6 +412,8 @@ GLO.GLO.prototype.Technique_Hive_Panel_2x3 = function(discrete1, discrete2, attr
 	this.position_nodes_on("rho", attr1)
 
 	this.partition_on("x",{parts:3})
+	this.select_canvas(0)
+	this.position_nodes_on("rho", attr1)
 	this.select_canvas(1)
 	this.position_nodes_on("rho", attr2)
 	this.select_canvas(2)
@@ -426,7 +427,7 @@ GLO.GLO.prototype.Technique_Hive_Panel_2x3 = function(discrete1, discrete2, attr
 	this.select_canvas(5)
 	this.position_nodes_on("theta",discrete2)
 
-	this.color_edges_by("target",{all_canvases:true})
+	this.color_edges_by("source",{all_canvases:true})
 
 	return this
 }
@@ -475,12 +476,8 @@ GLO.GLO.prototype.Technique_DOSA = function(discrete, attr1, attr2){
 	this.size_edges_by_constant()
 	this.position_nodes_on("x", attr1)
 	this.position_nodes_on("y", attr2)
-	this.show_axis("x")
-	this.show_axis("y")
 	this.display_edges_as_curved_lines()
 	this.partition_on("x")
-	this.hide_axis("x")
-	this.hide_axis("y")
 	this.aggregate_nodes_by(discrete,"mean")
 	this.aggregate_edges_by(["source."+discrete,"target."+discrete],"mean")
 	this.size_nodes_by("count")
@@ -516,6 +513,5 @@ GLO.GLO.prototype.Technique_NodeTrix = function(discrete, label_attr, node_color
 	this.hide_edges({group_by:discrete})
 	this.set_source_generation(1)
 	this.set_target_generation(0)
-
 	return this
 }

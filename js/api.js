@@ -144,6 +144,10 @@ GLO.GLO.prototype.position_edges_by = function(xattr,yattr,opts){
 	theta constants are expressed in degrees, not radians
 */
 GLO.GLO.prototype.position_nodes_on = function(axis,val,opts){
+	if(opts && opts.invert){
+		TODO("Invert flag for position (done for distribute)")
+	}
+
 	this.correct_node_gens(opts).forEach(function(gen){
 		gen.position_on(axis,val,opts)
 	})

@@ -779,7 +779,7 @@ GLO.NodeGeneration.prototype.color_by_continuous = function(attr){
 		scale
 			.domain([extent[0], 0, extent[1]])
 			.range(["red", "#FDFDFD", "#000"])
-	}else if(extent[0]>0){
+	}else if(extent[0]>=0){
 		scale
 			.domain(extent)
 			.range(["#FDFDFD", "#000"])
