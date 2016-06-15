@@ -775,21 +775,20 @@ GLO.NodeGeneration.prototype.color_by_continuous = function(attr){
 
 
 	var scale = d3.scale.linear()
-	if(extent[0]<=0 && extent[1]>=0){
+	if(extent[0]<0 && extent[1]>=0){
 		scale
 			.domain([extent[0], 0, extent[1]])
-			.range(["red", "#FDFDFD", "black"])
+			.range(["red", "#FDFDFD", "#000"])
 	}else if(extent[0]>0){
-
 		scale
 			.domain(extent)
-			.range(["#FDFDFD", "#FFF"])
-	}else{// externt[0]<0
+			.range(["#FDFDFD", "#000"])
+	}else{// extent[0]=0
 		scale
 			.domain(extent)
 			.range(["red", "#FDFDFD"])
 	}
-	
+
 
 	this.nodes.forEach(function(d){
 		d.fill_list[self.gen_id] = scale(d[attr])

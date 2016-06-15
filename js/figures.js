@@ -109,3 +109,34 @@ var figure_sideways_sine_curve = function(glo){
 		.evenly_distribute_nodes_on("theta",{by:"modularity_class"})
 		.evenly_distribute_nodes_on("y",{by:"modularity_class"})
 }
+
+
+var figure_faded_and_incident_nodetrix = function(glo){
+	glo.color_nodes_by("modularity_class")
+	glo.size_nodes_by_constant()
+	glo.size_edges_by_constant()
+	glo.color_edges_by_constant()
+	glo.display_edges_as_curved_lines()
+	glo.position_nodes_by_constant_on("rho")
+	glo.evenly_distribute_nodes_on("theta",{by:"modularity_class"})
+	glo.position_nodes_by_constant_on("rho",{group_by:"modularity_class"})
+	glo.evenly_distribute_nodes_on("theta",{group_by:"modularity_class"})
+	glo.display_nodes_as_labels("label")
+	glo.align_nodes("left",{group_by:"modularity_class"})
+	glo.evenly_distribute_nodes_on("y",{group_by:"modularity_class",invert:true})
+	glo.clone_nodes()
+	glo.rotate_nodes(90)
+	glo.evenly_distribute_nodes_on("x",{group_by:"modularity_class"})
+	glo.align_nodes("top",{group_by:"modularity_class"})
+	glo.set_target_generation(1)
+	glo.show_faded_and_incident_edges()
+	glo.display_edges_as_curved_lines()
+	glo.display_edges_as_squares({group_by:"modularity_class"})
+	glo.show_all_edges({group_by:"modularity_class"})
+	glo.clone_edges()
+	glo.hide_edges({group_by:"modularity_class"})
+	glo.set_source_generation(1)
+	glo.set_target_generation(0)
+}
+
+

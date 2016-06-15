@@ -243,9 +243,14 @@ GLO.GLO.prototype.Technique_ListView = function(discrete1, sort_attr, label_attr
 	this.color_nodes_by_constant()
 	this.position_nodes_on("x",discrete1)
 	this.position_nodes_evenly_stacked("bottom",{by:sort_attr,within:discrete1})
-	this.display_edges_as_curved_lines()
+	this.display_edges_as_straight_lines()
 	this.show_faded_and_incident_edges()
 	this.show_axis("x")
+
+	this.clone_edges()
+	this.display_edges_as_curved_lines()
+	this.hide_edges()
+	this.show_faded_and_incident_edges({group_by:discrete1})
 
 	return this
 }
@@ -399,7 +404,7 @@ GLO.GLO.prototype.Technique_Hive_Panel_2x3 = function(discrete1, discrete2, attr
 	this.display_nodes_as_circles()
 	this.size_nodes_by_constant()
 	this.size_edges_by_constant()
-	this.color_edges_by_constant()
+	
 	this.color_nodes_by(discrete1)
 	this.display_edges_as_curved_lines()
 	this.show_faded_and_incident_edges()
@@ -420,6 +425,8 @@ GLO.GLO.prototype.Technique_Hive_Panel_2x3 = function(discrete1, discrete2, attr
 	this.position_nodes_on("theta",discrete2)
 	this.select_canvas(5)
 	this.position_nodes_on("theta",discrete2)
+
+	this.color_edges_by("target",{all_canvases:true})
 
 	return this
 }
@@ -483,11 +490,11 @@ GLO.GLO.prototype.Technique_DOSA = function(discrete, attr1, attr2){
 }
 
 
-GLO.GLO.prototype.Technique_NodeTrix = function(discrete, label_attr){
-	this.color_nodes_by_constant()
+GLO.GLO.prototype.Technique_NodeTrix = function(discrete, label_attr, node_color_attr, edge_color_attr){
+	this.color_nodes_by(node_color_attr)
 	this.size_nodes_by_constant()
 	this.size_edges_by_constant()
-	this.color_edges_by_constant()
+	this.color_edges_by(edge_color_attr)
 	this.display_edges_as_curved_lines()
 	this.position_nodes_by_constant_on("rho")
 	this.evenly_distribute_nodes_on("theta",{by:discrete})
