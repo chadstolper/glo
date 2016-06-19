@@ -370,13 +370,34 @@ GLO.GLO.prototype.Technique_Sankey_Diagram = function(){
 	return this
 }
 
-GLO.GLO.prototype.Technique_EdgeMap_A = function(size_nodes_attr){
-	TODO("EdgeMap FD")
+GLO.GLO.prototype.Technique_EdgeMap_A = function(node_size_attr, node_color_attr){
+	//"EdgeMap FD"
+
+	this.display_nodes_as_circles()
+	this.size_nodes_by(node_size_attr)
+	this.color_edges_by_constant()
+	this.size_edges_by_constant()
+	this.color_nodes_by(node_color_attr)
+	this.display_edges_as_curved_lines()
+	this.show_edges_as_in_out_links()
+	this.apply_force_directed_algorithm_to_nodes()
+
 	return this
 }
 
-GLO.GLO.prototype.Technique_EdgeMap_B = function(size_nodes_attr,sort_attr){
-	TODO("EdgeMap Arc")
+GLO.GLO.prototype.Technique_EdgeMap_B = function(sort_attr,node_size_attr,node_color_attr){
+	// "EdgeMap Arc"
+
+	this.display_nodes_as_circles()
+	this.size_nodes_by(node_size_attr)
+	this.color_edges_by_constant()
+	this.size_edges_by_constant()
+	this.color_nodes_by(node_color_attr)
+	this.display_edges_as_curved_lines()
+	this.show_edges_as_in_out_links()
+	this.align_nodes("middle")
+	this.evenly_distribute_nodes_on("x",{by:sort_attr})
+
 	return this
 }
 
@@ -501,17 +522,21 @@ GLO.GLO.prototype.Technique_NodeTrix = function(discrete, label_attr, node_color
 	this.align_nodes("left",{group_by:discrete})
 	this.evenly_distribute_nodes_on("y",{group_by:discrete,invert:true})
 	this.clone_nodes()
+	this.align_nodes("right",{group_by:discrete})
+	this.clone_nodes()
 	this.rotate_nodes(90)
 	this.evenly_distribute_nodes_on("x",{group_by:discrete})
 	this.align_nodes("top",{group_by:discrete})
-	this.set_target_generation(1)
+	this.set_target_generation(2)
+	this.clone_nodes()
+	this.align_nodes("bottom",{group_by:discrete})
 	this.show_edges_as_faded()
 	this.display_edges_as_curved_lines()
 	this.display_edges_as_squares({group_by:discrete})
 	this.show_all_edges({group_by:discrete})
 	this.clone_edges()
 	this.hide_edges({group_by:discrete})
-	this.set_source_generation(1)
+	this.set_source_generation(2)
 	this.set_target_generation(0)
 	return this
 }

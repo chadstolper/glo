@@ -1260,9 +1260,9 @@ GLO.NodeGeneration.prototype.distribute = function(axis,by_prop,opts){
 		var groups = this.get_group_by_groups(opts.group_by)
 		groups.forEach(function(group){
 			if(by_prop)
-				group.distribute(axis,by_prop)
+				group.distribute(axis,by_prop,opts)
 			else
-				group.distribute(axis)
+				group.distribute(axis,null,opts)
 		})
 		return this
 	}

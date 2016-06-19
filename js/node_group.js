@@ -275,7 +275,7 @@ GLO.NodeGroup.prototype.position_by_constant = function(axis,constant){
 }
 
 
-GLO.NodeGroup.prototype.distribute = function(axis,by_prop){
+GLO.NodeGroup.prototype.distribute = function(axis,by_prop,opts){
 	var self = this
 
 
@@ -287,6 +287,7 @@ GLO.NodeGroup.prototype.distribute = function(axis,by_prop){
 	if(typeof opts !== "undefined" && typeof opts.invert !== "undefined"){
 		invert = opts.invert
 	}
+
 
 	self.nodes.sort(function(a,b){
 		var val
@@ -389,6 +390,7 @@ GLO.NodeGroup.prototype.distribute_on_within = function(axis,within_prop,by_prop
 	if(typeof opts !== "undefined" && typeof opts.invert !== "undefined"){
 		invert = opts.invert
 	}
+
 
 	var groups = this._group_by(within_prop) //within_prop-->[nodes] map
 
