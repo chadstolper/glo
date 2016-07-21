@@ -1,20 +1,21 @@
 <html>
   <head>
     <title>GLO-STIX</title>
-    <script src="lib/d3/d3.v3.js" charset="utf-8"></script>
-    <script src="lib/jquery/jquery-1.10.2.js"></script>
+    <link rel="icon" href="icon.png"/>
 
-    <link rel="stylesheet" href="css/index.css"></link>
+    <script src="bower_components/d3/d3.js" charset="utf-8"></script>
+    <script src="bower_components/jquery/dist/jquery.min.js"></script>
+
+    
+
 
   	<!-- Below is for GUI -->
-    <!-- Latest compiled and minified CSS -->
-    <link rel="stylesheet" href="//ajax.googleapis.com/ajax/libs/jqueryui/1.10.4/themes/smoothness/jquery-ui.css" />
-    <!-- <link rel="stylesheet" href="lib/jquery-ui.css" /> -->
-  	<link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css">
-    <!-- <link rel="stylesheet" href="lib/bootstrap.min.css"> -->
-  	<link rel="stylesheet" type="text/css" href="css/gui.css">
-    <!-- <link href='http://fonts.googleapis.com/css?family=Nothing+You+Could+Do' rel='stylesheet' type='text/css'> -->
-    <link href='lib/nothing-you.css' rel='stylesheet' type='text/css'>
+    <link rel="stylesheet" href="bower_components/jquery-ui/themes/smoothness/jquery-ui.min.css" />
+  	<link rel="stylesheet" href="bower_components/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href='bower_components/nothingYouCouldDo/nothingYouCouldDo.css' />
+
+    <link rel="stylesheet" href="css/index.css"></link>
+  	<link rel="stylesheet" href="css/gui.css">
   </head>
   <body>
 
@@ -58,36 +59,39 @@
 
     <div style="width: 1px; height: 1px; overflow: hidden;"><svg id="defns"></svg></div>
     
-    <script src="js/vis_properties.js"></script>
-    <script src="js/svgdefs.js"></script>
-    <script src="js/les_mis_demo.js"></script>
-    <script src="js/functions.js"></script>
-    <script src="js/link_functions.js"></script>
-    <script src="js/node_functions.js"></script>
+    <script src="v1/init_functions.js"></script>
+    <script src="v1/vis_properties.js"></script>
+    <script src="v1/svgdefs.js"></script>
+    <script src="v1/les_mis_demo.js"></script>
+    <script src="v1/functions.js"></script>
+    <script src="v1/link_functions.js"></script>
+    <script src="v1/node_functions.js"></script>
     
-    <script src="js/distribute.js"></script>
-    <script src="js/cloning_functions.js"></script>
-    <script src="js/subgraph.js"></script>
-    <script src="js/radial.js"></script>
-    <script src="js/technique_functions.js"></script>
-    <script src="js/hivish_plot.js"></script>
-    <script src="js/parallel_coords.js"></script>
-    <script src="js/buttons_gui.js"></script>
-    <script src="//ajax.googleapis.com/ajax/libs/jqueryui/1.10.4/jquery-ui.min.js"></script>
-    <script type="text/javascript" src="js/gui.js"></script>
+    <script src="v1/distribute.js"></script>
+    <script src="v1/cloning_functions.js"></script>
+    <script src="v1/subgraph.js"></script>
+    <script src="v1/radial.js"></script>
+    <script src="v1/technique_functions.js"></script>
+    <script src="v1/hivish_plot.js"></script>
+    <script src="v1/parallel_coords.js"></script>
+    <script src="v1/buttons_gui.js"></script>
+    
 
 
 <!-- 
-    <script src="js/vis_properties.js"></script>
-    <script src="js/les_mis_demo.js"></script>
-    <script src="js/functions.js"></script>
-    <script src="js/node_functions.js"></script>
-    <script src="js/link_functions.js"></script>
-    <script src="js/buttons.js"></script>
+    <script src="v1/vis_properties.js"></script>
+    <script src="v1/les_mis_demo.js"></script>
+    <script src="v1/functions.js"></script>
+    <script src="v1/node_functions.js"></script>
+    <script src="v1/link_functions.js"></script>
+    <script src="v1/buttons.js"></script>
  -->
 
 	<!-- For GUI -->
 	<!-- Latest compiled and minified JavaScript -->
-	<script src="//netdna.bootstrapcdn.com/bootstrap/3.1.1/js/bootstrap.min.js"></script>
+  <script src="bower_components/jquery-ui/jquery-ui.js"></script>
+	<script src="bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
+
+  <script src="v1/gui.js"></script>
   </body>
 </html>

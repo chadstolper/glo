@@ -1,5 +1,5 @@
 var create_force_directed = function(){
-  // setTimeout(size_nodes_by_degree,0);
+  setTimeout(force_directed,transition_duration*0);
 }
 
 var create_semantic_substrates = function(){

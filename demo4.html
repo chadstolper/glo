@@ -1,0 +1,184 @@
+<title>GLO Logo</title>
+<div id="svg-wrapper">
+	<svg id="canvas"></svg>
+</div>
+
+<script src="bower_components/d3/d3.js" charset="utf-8"></script>
+<!-- <script src="https://d3js.org/d3.v4.0.0-alpha.40.min.js"></script> -->
+<script src="bower_components/jquery/dist/jquery.min.js"></script>
+<script src="bower_components/underscore/underscore-min.js"></script>
+
+<script src="bower_components/webcola/WebCola/cola.min.js"></script>
+
+<script src="js/namespace.js"></script>
+<script src="js/coordinates.js"></script>
+<script src="js/node_group.js"></script>
+<script src="js/canvas.js"></script>
+<script src="js/node_generation.js"></script>
+<script src="js/edge_generation.js"></script>
+
+
+<script src="js/helpers.js"></script>
+
+<script src="js/glo.js"></script>
+<script src="js/api.js"></script>
+<script src="js/techniques.js"></script>
+
+<script src="js/figures.js"></script>
+
+
+<style>
+	#svg-wrapper {
+		border: 3px solid black;
+		display: inline-block;
+	}
+
+	.axis {
+		shape-rendering: crispEdges;
+		font-size: 6pt;
+	}
+
+	.axis line, .axis path {
+		fill: none;
+		stroke: #000;
+	}
+</style>
+
+<script>
+	var test_nodes = [
+		{id:0, name:"Coconut", color:"brown", size:-5},
+		{id:1, name:"Banana", color:"yellow", size:-15},
+		{id:2, name:"Apple", color:"red", size:30},
+		{id:3, name:"Donut", color:"pink", size:50}
+	];
+	var test_edges = [
+		{id:0, source:0, target:2, weight:1.0},
+		{id:1, source:1, target:2, weight:2.0},
+		{id:2, source:2, target:3, weight:3.0}
+	];
+	var test_node_attr = {
+		name:"discrete",
+		color:"color",
+		size:"continuous"
+	};
+	var test_edge_attr = {
+		weight:"continuous"
+	}
+
+	// svg = d3.select("#canvas")
+	// 					.style("width",400)
+	// 					.style("height",300)
+	// 				glo = new GLO.GLO(svg)
+	// 					.nodes(test_nodes)
+	// 					.edges(test_edges)
+	// 					.node_attr(test_node_attr)
+	// 					.edge_attr(test_edge_attr)
+	// 					.draw()
+	// 						.evenly_distribute_nodes_on("x")
+	// 						.evenly_distribute_nodes_on("y")
+	// 						.display_edges_as_curved_lines()
+	// 						.color_nodes_by("color")
+	// 						.show_axis("x")
+	// 						.partition_on("x",{parts:3})
+	// 						.evenly_distribute_nodes_on("y",{by:"color"})
+
+
+
+
+
+
+
+	d3.csv('data/LesMis/nodes.csv', function(nodes){
+		d3.csv('data/LesMis/edges.csv', function(edges){
+			d3.json('data/LesMis/node_attr.json', function(node_attr){
+				d3.json('data/LesMis/edge_attr.json', function(edge_attr){
+					
+					nodes.forEach(function(d){
+						d.id = +d.id
+						d.modularity_class = +d.modularity_class
+						d.degree = +d.degree
+						d.weighted_degree = +d.weighted_degree
+						d.eccentricity = +d.eccentricity
+						d.closeness_centrality = +d.closeness_centrality
+						d.betweenness_centrality = +d.betweenness_centrality
+						d.authority = +d.authority
+						d.hub = +d.hub
+						d.page_rank = +d.page_rank
+						d.component_id = +d.component_id
+						d.clustering_coefficient = +d.clustering_coefficient
+						d.number_of_triangles = +d.number_of_triangles
+						d.eigenvector_centrality = +d.eigenvector_centrality
+					})
+
+					edges.forEach(function(d){
+						d.source = +d.source
+						d.target = +d.target
+						d.id = +d.id
+						d.weight = +d.weight
+					})
+					
+
+					svg = d3.select("#canvas")
+						.attr("width", 1000)
+						.attr("height",400)
+						.attr("version", "1.1")
+						.attr("xmlns","http://www.w3.org/2000/svg")
+						.attr("baseProfile","full")
+					svg.append("title").text("filename goes here")
+					glo = new GLO.GLO(svg)
+						.nodes(nodes)
+						.edges(edges)
+						.node_attr(node_attr)
+						.edge_attr(edge_attr)
+						.draw()
+							// .color_nodes_by("modularity_class")
+							// .Technique_Force_Directed()
+							// .Technique_Matrix_Plot("modularity_class","weight","label")
+							// .Technique_Cluster_Circles("modularity_class")
+							// .Technique_Circle_Graph("modularity_class")
+							// .Technique_GeneVis_A("degree")
+							// .Technique_GeneVis_B("modularity_class","degree")
+							// .Technique_Arc_Diagram("modularity_class","modularity_class","target")
+							// .Technique_Matrix_Explorer("modularity_class","weight","label","degree")
+							// .Technique_Semantic_Substrates("modularity_class","degree")
+							// .Technique_PivotGraph("modularity_class","gender","mean","count","count","in_degree")
+							// .Technique_MatLink("modularity_class","weight","label")
+							// .Technique_ListView("gender", "modularity_class", "label")
+							// .Technique_Honeycomb(["modularity_class","gender"],"mean","count","modularity_class")
+							// .Technique_GraphDice_Segment("betweenness_centrality","degree","degree")
+							// .Technique_GraphDice_3x3("modularity_class","gender","degree")
+							// .Technique_EdgeMap_A("degree","modularity_class")
+							// .Technique_EdgeMap_B("modularity_class","degree","modularity_class")
+							// .Technique_Hive_Plot("modularity_class", "degree")
+							// .Technique_Hive_Panel_2x3("modularity_class","gender","betweenness_centrality","page_rank","degree")
+							// .Technique_Scatternet("degree","betweenness_centrality","modularity_class")
+							// .Technique_Citevis("modularity_class","degree","betweenness_centrality")
+							// .Technique_DOSA("modularity_class","clustering_coefficient","number_of_triangles")
+							// .Technique_NodeTrix("modularity_class","label","degree","weight")
+
+
+							// .color_nodes_by("modularity_class",{all_gens:true})
+
+
+						figure_logo(glo)
+						// figure_incident_pivotgraph(glo)
+						// figure_not_within(glo)
+						// figure_with_within(glo)
+						// figure_groupby_start(glo)
+						// figure_without_groupby(glo)
+						// figure_with_groupby(glo)
+						// figure_faded_and_incident_nodetrix(glo)
+						// figure_cool(glo)
+				})
+			})
+		})
+	})
+
+
+
+
+
+
+
+
+</script>

@@ -1,0 +1,16 @@
+{
+	"modularity_class":"discrete",
+	"degree":"continuous",
+	"weighted_degree":"continuous",
+	"eccentricity":"continuous",
+	"closeness_centrality":"continuous",
+	"betweenness_centrality":"continuous",
+	"authority":"continuous",
+	"hub":"continuous",
+	"page_rank":"continuous",
+	"component_id":"continuous",
+	"clustering_coefficient":"continuous",
+	"number_of_triangles":"continuous",
+	"eigenvector_centrality":"continuous",
+	"gender":"discrete"
+}
