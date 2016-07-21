@@ -1,0 +1,97 @@
+<title>Distance Matrix</title>
+<div id="svg-wrapper">
+	<svg id="canvas"></svg>
+</div>
+
+<script src="bower_components/d3/d3.js" charset="utf-8"></script>
+<!-- <script src="https://d3js.org/d3.v4.0.0-alpha.40.min.js"></script> -->
+<script src="bower_components/jquery/dist/jquery.min.js"></script>
+<script src="bower_components/underscore/underscore-min.js"></script>
+
+<script src="bower_components/webcola/WebCola/cola.min.js"></script>
+
+<script src="js/namespace.js"></script>
+<script src="js/coordinates.js"></script>
+<script src="js/node_group.js"></script>
+<script src="js/canvas.js"></script>
+<script src="js/node_generation.js"></script>
+<script src="js/edge_generation.js"></script>
+
+
+<script src="js/helpers.js"></script>
+
+<script src="js/glo.js"></script>
+<script src="js/api.js"></script>
+<script src="js/techniques.js"></script>
+
+<script src="js/figures.js"></script>
+
+
+<style>
+	#svg-wrapper {
+		border: 3px solid black;
+		display: inline-block;
+	}
+
+	.axis {
+		shape-rendering: crispEdges;
+		font-size: 6pt;
+	}
+
+	.axis line, .axis path {
+		fill: none;
+		stroke: #000;
+	}
+</style>
+
+<script>
+
+
+
+
+
+
+
+
+d3.json("data/glo_graph/technique_analysis.json",function(result){
+	svg = d3.select("#canvas")
+			.style("width",800)
+			.style("height",800)
+			.attr("version", "1.1")
+			.attr("xmlns","http://www.w3.org/2000/svg")
+			.attr("baseProfile","full")
+		glo = new GLO.GLO(svg)
+			.nodes(result.nodes)
+			.edges(result.edges)
+			.node_attr(result.node_attrs)
+			.edge_attr(result.edge_attrs)
+			.draw()
+				// .evenly_distribute_nodes_on("x",{by:"glo:display edges as squares"})
+				// .evenly_distribute_nodes_on("y",{by:"glo:display edges as squares"})
+				// .display_edges_as_squares()
+				// // .show_edges_as_faded()
+				// // .color_edges_by("set_difference")
+				// .color_edges_by("glo_distance_full")
+				// .color_nodes_by("glo:display edges as squares")
+				// .Technique_Matrix_Plot("glo:display edges as squares","glo_distance_full")
+				
+				// .Technique_Matrix_Plot("kmeans_cluster","glo_distance_full")
+				// .color_nodes_by("kmeans_cluster",{all_gens:true})
+				// .Technique_Matrix_Plot("dbscan_cluster","glo_distance_full")
+				// .color_nodes_by("dbscan_cluster",{all_gens:true})
+
+		// cluster_matrix(glo, "agg_cluster_5", "glo_distance_non_sym")
+		// cluster_matrix(glo, "agg_cluster_5", "glo_distance_sym")
+		// cluster_matrix(glo, "spectral_cluster", "glo_distance_full")
+
+
+
+		cluster_matrix(glo, "hierarchical_sort", "glo_distance_sym")
+		// cluster_matrix(glo, "hierarchical_sort", "glo_distance")
+		glo.color_nodes_by("agg_cluster_7",{all_gens:true})
+})
+
+
+
+
+</script>

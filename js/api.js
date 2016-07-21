@@ -4,6 +4,9 @@ function print(x) {
 function TODO(x) {
 	print("TODO: "+x)
 }
+function SHOULDDO(x){
+	TODO(x)
+}
 
 /*
 	For each function, the final parameter is an optional options
@@ -145,7 +148,7 @@ GLO.GLO.prototype.position_edges_by = function(xattr,yattr,opts){
 */
 GLO.GLO.prototype.position_nodes_on = function(axis,val,opts){
 	if(opts && opts.invert){
-		TODO("Invert flag for position (done for distribute)")
+		SHOULDDO("Invert flag for position (done for distribute)")
 	}
 
 	this.correct_node_gens(opts).forEach(function(gen){
@@ -167,7 +170,7 @@ GLO.GLO.prototype.position_nodes_by_constant_on = function(axis,opts){
 	Utilizes by from opts
 */
 GLO.GLO.prototype.position_nodes_evenly_stacked = function(direction,opts){
-	TODO("position_nodes_evenly_stacked --- group_by")
+	SHOULDDO("position_nodes_evenly_stacked --- group_by")
 
 	if(opts && opts.within){
 		this.correct_node_gens(opts).forEach(function(gen){
@@ -519,20 +522,12 @@ GLO.GLO.prototype.display_edges_as_curved_lines = function(opts){
 /*
 	
 */
-GLO.GLO.prototype.display_edges_as_in_out_links = function(opts){
-	TODO("display_edges_as_in_out_links")
+GLO.GLO.prototype.show_edges_as_in_out_links = function(opts){
+	TODO("show_edges_as_in_out_links. Falling back to show incident edges")
+	this.show_incident_edges(opts)
 	return this
 }
 
-//72	display edges as outer links
-/*
-	Curved edges that avoid crossing through the vis,
-	prefering to go outside of the glyphs
-*/
-GLO.GLO.prototype.display_edges_as_outer_links = function(opts){
-	TODO("display_edges_as_outer_links")
-	return this
-}
 
 //148	display edges as squares
 /*
@@ -577,14 +572,6 @@ GLO.GLO.prototype.display_edges_as_labels = function(attr,opts){
 }
 
 
-//28	display nodes as arcs
-/*
-	
-*/
-GLO.GLO.prototype.display_nodes_as_arcs = function(opts){
-	TODO("display_nodes_as_arcs")
-	return this
-}
 
 //89	display nodes as bars
 /*
@@ -629,8 +616,8 @@ GLO.GLO.prototype.display_nodes_as_labels = function(attr,opts){
 	first attrID is used.
 */
 GLO.GLO.prototype.size_edges_by = function(attr,opts){
-	TODO("size edges by multiple attrs")
-	TODO("size square edges")
+	SHOULDDO("size edges by multiple attrs")
+	SHOULDDO("size square edges")
 	this.correct_edge_gens(opts).forEach(function(gen){
 		gen.size_by(attr)
 	})
@@ -733,11 +720,16 @@ GLO.GLO.prototype.remove_all_edge_waypoints = function(opts){
 	source-end color and the second item is the target-end color
 */
 GLO.GLO.prototype.color_edges_by = function(attr,opts){
-	TODO("color_edges_by Multiple Attributes")
+	SHOULDDO("color_edges_by Multiple Attributes")
 	this.correct_edge_gens(opts).forEach(function(gen){
 		gen.color_by(attr)
 	})
 	return this
+}
+
+
+GLO.GLO.prototype.color_edges_by_two = function(attr,opts){
+	TODO("color edges by two")
 }
 
 

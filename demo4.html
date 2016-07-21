@@ -1,4 +1,4 @@
-<title>GLO-CLI</title>
+<title>GLO Logo</title>
 <div id="svg-wrapper">
 	<svg id="canvas"></svg>
 </div>
@@ -119,7 +119,7 @@
 					
 
 					svg = d3.select("#canvas")
-						.attr("width", 600)
+						.attr("width", 1000)
 						.attr("height",400)
 						.attr("version", "1.1")
 						.attr("xmlns","http://www.w3.org/2000/svg")
@@ -160,7 +160,7 @@
 							// .color_nodes_by("modularity_class",{all_gens:true})
 
 
-						// figure_logo(glo)
+						figure_logo(glo)
 						// figure_incident_pivotgraph(glo)
 						// figure_not_within(glo)
 						// figure_with_within(glo)
@@ -177,46 +177,6 @@
 
 
 
-
-
-
-// d3.json("data/glo_graph/technique_analysis.json",function(result){
-// 	svg = d3.select("#canvas")
-// 			.style("width",800)
-// 			.style("height",800)
-// 			.attr("version", "1.1")
-// 			.attr("xmlns","http://www.w3.org/2000/svg")
-// 			.attr("baseProfile","full")
-// 		glo = new GLO.GLO(svg)
-// 			.nodes(result.nodes)
-// 			.edges(result.edges)
-// 			.node_attr(result.node_attrs)
-// 			.edge_attr(result.edge_attrs)
-// 			.draw()
-// 				// .evenly_distribute_nodes_on("x",{by:"glo:display edges as squares"})
-// 				// .evenly_distribute_nodes_on("y",{by:"glo:display edges as squares"})
-// 				// .display_edges_as_squares()
-// 				// // .show_edges_as_faded()
-// 				// // .color_edges_by("set_difference")
-// 				// .color_edges_by("glo_distance_full")
-// 				// .color_nodes_by("glo:display edges as squares")
-// 				// .Technique_Matrix_Plot("glo:display edges as squares","glo_distance_full")
-				
-// 				// .Technique_Matrix_Plot("kmeans_cluster","glo_distance_full")
-// 				// .color_nodes_by("kmeans_cluster",{all_gens:true})
-// 				// .Technique_Matrix_Plot("dbscan_cluster","glo_distance_full")
-// 				// .color_nodes_by("dbscan_cluster",{all_gens:true})
-
-// 		// cluster_matrix(glo, "agg_cluster_5", "glo_distance_non_sym")
-// 		// cluster_matrix(glo, "agg_cluster_5", "glo_distance_sym")
-// 		// cluster_matrix(glo, "spectral_cluster", "glo_distance_full")
-
-
-
-// 		cluster_matrix(glo, "hierarchical_sort", "glo_distance_sym")
-// 		// cluster_matrix(glo, "hierarchical_sort", "glo_distance")
-// 		glo.color_nodes_by("agg_cluster_7",{all_gens:true})
-// })
 
 
 

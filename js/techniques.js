@@ -213,7 +213,7 @@ GLO.GLO.prototype.Technique_MatLink = function(sort_attr,edge_color_attr,label_a
 	this.align_nodes("left")
 	this.display_edges_as_curved_lines()
 	this.color_edges_by_constant()
-	this.show_incident_edges()
+	this.show_faded_and_incident_edges()
 	this.clone_nodes()
 	this.clone_edges()
 	this.set_source_generation(1)
@@ -226,7 +226,7 @@ GLO.GLO.prototype.Technique_MatLink = function(sort_attr,edge_color_attr,label_a
 	this.display_edges_as_squares()
 	this.show_all_edges()
 	this.size_edges_by_constant()
-	this.color_edges_by(edge_color_attr)
+	this.color_edges_by_constant()
 
 	return this
 }
@@ -245,6 +245,7 @@ GLO.GLO.prototype.Technique_ListView = function(discrete1, sort_attr, label_attr
 	this.position_nodes_evenly_stacked("bottom",{by:sort_attr,within:discrete1})
 	this.display_edges_as_straight_lines()
 	this.show_faded_and_incident_edges()
+	this.hide_edges({group_by:discrete1})
 	this.show_axis("x")
 
 	this.clone_edges()
@@ -328,8 +329,8 @@ GLO.GLO.prototype.Technique_GraphDice_3x3 = function(attr1, attr2, attr3){
 	this.position_nodes_on("x",attr1)
 	this.position_nodes_on("y",attr1)
 	this.display_edges_as_curved_lines()
-	this.show_axis("x")
-	this.show_axis("y")
+	// this.show_axis("x")
+	// this.show_axis("y")
 	this.partition_on("x",{parts:3})
 	this.select_canvas(1)
 	this.position_nodes_on("x",attr2)
@@ -375,11 +376,12 @@ GLO.GLO.prototype.Technique_EdgeMap_A = function(node_size_attr, node_color_attr
 
 	this.display_nodes_as_circles()
 	this.size_nodes_by(node_size_attr)
-	this.color_edges_by_constant()
 	this.size_edges_by_constant()
 	this.color_nodes_by(node_color_attr)
+	this.color_edges_by("source")
 	this.display_edges_as_curved_lines()
 	this.show_edges_as_in_out_links()
+	this.highlight_neighbors()
 	this.apply_force_directed_algorithm_to_nodes()
 
 	return this
@@ -390,9 +392,9 @@ GLO.GLO.prototype.Technique_EdgeMap_B = function(sort_attr,node_size_attr,node_c
 
 	this.display_nodes_as_circles()
 	this.size_nodes_by(node_size_attr)
-	this.color_edges_by_constant()
 	this.size_edges_by_constant()
 	this.color_nodes_by(node_color_attr)
+	this.color_edges_by("source")
 	this.display_edges_as_curved_lines()
 	this.show_edges_as_in_out_links()
 	this.align_nodes("middle")
@@ -466,6 +468,7 @@ GLO.GLO.prototype.Technique_Scatternet = function(attr1, attr2, color_nodes_attr
 	this.show_axis("x")
 	this.show_axis("y")
 	this.show_incident_edges()
+	this.highlight_neighbors()
 
 	return this
 }
@@ -530,13 +533,13 @@ GLO.GLO.prototype.Technique_NodeTrix = function(discrete, label_attr, node_color
 	this.set_target_generation(2)
 	this.clone_nodes()
 	this.align_nodes("bottom",{group_by:discrete})
-	this.show_edges_as_faded()
+	// this.show_edges_as_faded()
 	this.display_edges_as_curved_lines()
 	this.display_edges_as_squares({group_by:discrete})
-	this.show_all_edges({group_by:discrete})
-	this.clone_edges()
-	this.hide_edges({group_by:discrete})
-	this.set_source_generation(2)
-	this.set_target_generation(0)
+	// this.show_all_edges({group_by:discrete})
+	// this.clone_edges()
+	// this.hide_edges({group_by:discrete})
+	// this.set_source_generation(2)
+	// this.set_target_generation(0)
 	return this
 }
