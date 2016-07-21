@@ -26,6 +26,7 @@
     "jquery": "^2.2.3",
     "nothingYouCouldDo": "https://google-fonts.azurewebsites.net/googleFonts/nothingYouCanDoFont?family=Nothing+You+Could+Do",
     "jquery-ui": "jqueryui#^1.11.4",
-    "underscore": "^1.8.3"
+    "underscore": "^1.8.3",
+    "webcola": "^3.1.3"
   }
 }
