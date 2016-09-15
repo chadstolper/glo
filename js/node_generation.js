@@ -842,7 +842,7 @@ GLO.NodeGeneration.prototype.apply_force_directed = function(edges){
 		.size([self.canvas.canvas_width(),self.canvas.canvas_height()])
 		.nodes(self.nodes)
 		.links(edges)
-		.jaccardLinkLengths(40,0.7)
+		// .jaccardLinkLengths(40,0.7)
 		// .avoidOverlaps(true)
 
 		.on('tick', function(){

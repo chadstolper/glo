@@ -1,8 +1,10 @@
 var force_directed =function(){
 
   if(!force){
+    // force = d3.layout.force()
     force = cola.d3adaptor()
-      .linkDistance(70)
+      // .linkDistance(40)
+      .jaccardLinkLengths(32,0.7)
       .size([width,height])
   }
 
@@ -37,7 +39,7 @@ var force_directed =function(){
     })
     .on("end",update_rolled_up())
     // .resume()
-    .start()
+    .start(10,15,20)
 }
 
 var force_directed_stop_immediately = function(){
