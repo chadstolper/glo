@@ -128,7 +128,7 @@ var aggregate_nodes = function(prop1,prop2){
           return d.visibility?"visible":"hidden"
         })
         .attr("generation",modes.link_generation)
-        .attr("stroke-width", 0)
+        .style("stroke-width", 0)
         .on("mouseover",function(d){
           d3.select('.node.gen-'+modes.source_generation+'[nodeid="'+d.source.id+'"]').attr("fill", color(d.source.modularity_class) )
           d3.select('.node.gen-'+modes.target_generation+'[nodeid="'+d.target.id+'"]').attr("fill", color(d.target.modularity_class) )
@@ -138,11 +138,10 @@ var aggregate_nodes = function(prop1,prop2){
           d3.select('.node.gen-'+modes.target_generation+'[nodeid="'+d.target.id+'"]').attr("fill", d3.rgb(color(d.target.modularity_class)).darker() )
         })
         
-        
-
   link_generations[modes.active_link_generation]
     .transition().duration(transition_duration)
-      .attr("stroke-width",0)
+      .style("stroke-width",0)
+      // .attr("display","none")
 
   agg_generations[modes.generation] = {}
   agg_generations[modes.generation].source_gen = modes.active_generation
@@ -178,7 +177,7 @@ var aggregate_nodes = function(prop1,prop2){
   
 
   link.transition().duration(transition_duration)
-    .attr("stroke-width", function(d) { return Math.sqrt(d.weight); })
+    .style("stroke-width", function(d) { return Math.sqrt(d.weight); })
     .call(link_function) //instead of update_links to prevent stacked transitions
     // .attr("marker-end", function(d) {
     //       if(d.startx()==d.endx() && d.starty()==d.endy()){
@@ -313,7 +312,7 @@ var aggregate_nodes_by_property = function(prop1){
           d.visibility = true
         })
         .classed("gen-"+modes.generation,true)
-        .attr("stroke-width", 0)
+        .style("stroke-width", 0)
         .on("mouseover",function(d){
           d3.select('.node[generation="'+modes.source_generation+'"][nodeid="'+d.source.id+'"]').attr("fill", color(d.source.modularity_class) )
           d3.select('.node[generation="'+modes.target_generation+'"][nodeid="'+d.target.id+'"]').attr("fill", color(d.target.modularity_class) )
@@ -327,7 +326,7 @@ var aggregate_nodes_by_property = function(prop1){
 
   link_generations[modes.active_link_generation]
     .transition().duration(transition_duration)
-      .attr("stroke-width",0)
+      .style("stroke-width",0)
 
   agg_generations[modes.generation] = {}
   agg_generations[modes.generation].source_gen = modes.active_generation
@@ -363,7 +362,7 @@ var aggregate_nodes_by_property = function(prop1){
 
 
   link.transition().duration(transition_duration)
-    .attr("stroke-width", function(d) { return Math.sqrt(d.weight); })
+    .style("stroke-width", function(d) { return Math.sqrt(d.weight); })
     .call(link_function) //instead of update_links to prevent stacked transitions
     // .attr("marker-end", function(d) {
     //       if(d.startx()==d.endx() && d.starty()==d.endy()){
@@ -409,7 +408,7 @@ var deaggregate_nodes = function(agg_gen){
       if(active_source==true || active_target==true){
         link_generations[agg_generations[agg_gen].link_gen]
           .transition().duration(transition_duration)
-            .attr("stroke-width",0)
+            .style("stroke-width",0)
           .remove()
         // link_generations[agg_generations[agg_gen].link_gen] = null
       }
@@ -426,7 +425,7 @@ var deaggregate_nodes = function(agg_gen){
         link_generations[modes.active_link_generation]
           .call(link_function) //instead of update_links to prevent stacked transitions
           .transition().duration(transition_duration)
-            .attr("stroke-width", function(d) { return Math.sqrt(d.weight); })
+            .style("stroke-width", function(d) { return Math.sqrt(d.weight); })
       }
     }
   // }catch(err){
@@ -465,6 +464,7 @@ var deaggregate_6 = function(){
 
 
 var aggregate_nodes_by_gender_and_category = function(){
+  console.log("got here!")
   aggregate_nodes("gender","modularity_class")
 }
 
