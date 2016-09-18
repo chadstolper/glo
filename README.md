@@ -1,8 +1,8 @@
 # GLO (Graph-Level Operations)
-by Charles D. Stolper, Minsuk (Brian) Kahng, Zhiyuan (Jerry) Lin, Florian Foerster, Aakash Goel, John Stasko, and Duen Horng (Polo) Chau at Georgia Tech
+by Charles D. (Chad) Stolper, Minsuk (Brian) Kahng, Zhiyuan (Jerry) Lin, Florian Foerster, Aakash Goel, John Stasko, and Duen Horng (Polo) Chau at Georgia Tech
 
 
-## What is GLO?
+## What are GLOs?
 
 
 
@@ -13,19 +13,29 @@ by Charles D. Stolper, Minsuk (Brian) Kahng, Zhiyuan (Jerry) Lin, Florian Foerst
 
 ## How to run the prototype
 
-### To run with Chrome:
-* With command line:
-```
-python -m SimpleHTTPServer 8000 
-(8000 will be your port number. You can use any.)
-```
-* Open Chrome, then connect to the following URL:
+* clone the repository
+
+* On a command line:
+    * cd to the glo root folder
+
+    * Install dependencies
+    ```bower install```
+    (If necessary, install bower first: https://bower.io/)
+
+    * Start a webserver
+
+    Using python 2:
+    ```
+    python -m SimpleHTTPServer 8000 
+    (8000 will be your port number. You can use any.)
+    ```
+    Using python 3:
+    ```python -m http.server 8000```
+
+* Open Chrome, then connect to the following URL (where 8000 is the port number you chose):
 ```
 http://localhost:8000/gui.html
 ```
-
-### To run with Firefox:
-* Just open the file `gui.html` with Firefox.
 
 
 ## How to play with the prototype
@@ -51,13 +61,13 @@ http://localhost:8000/gui.html
     * id: unique identifier for edges
     * weight: weights for edges
 
-* Replace the line 14 of the file `js/les_mis_demo.js` by 
+* Replace the line 14 of the file `v1/les_mis_demo.js` by 
 ```
 var source = “YOUR_DIRECTORY_NAME”
 ```
 
 ## Notes
-* Since all the computations are performed in client-side, we recommend to use graphs up to 1000 nodes.
+* Due to SVG rendering limitations, we recommend to graphs only up to 500 nodes.
 * It only supports pre-defined attributes. Our current prototype does not automatically detect attributes from data.
 
 
