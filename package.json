@@ -1,0 +1,19 @@
+{
+  "name": "glo",
+  "version": "2.0.0",
+  "description": "Graph-Level Operations",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/chadstolper/glo.git"
+  },
+  "author": "Charles D. Stolper",
+  "license": "Apache-2.0",
+  "bugs": {
+    "url": "https://github.com/chadstolper/glo/issues"
+  },
+  "homepage": "https://github.com/chadstolper/glo#readme"
+}
