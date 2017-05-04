@@ -2,7 +2,7 @@
   "name": "glo",
   "version": "2.0.0",
   "description": "Graph-Level Operations",
-  "main": "index.js",
+  "main": "glo.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
@@ -15,5 +15,8 @@
   "bugs": {
     "url": "https://github.com/chadstolper/glo/issues"
   },
-  "homepage": "https://github.com/chadstolper/glo#readme"
+  "homepage": "https://github.com/chadstolper/glo#readme",
+  "scripts": {
+    "build": "cat js/namespace.js js/coordinates.js js/node_group.js js/canvas.js js/node_generation.js js/edge_generation.js js/helpers.js js/glo.js js/api.js js/techniques.js js/figures.js >glo.js"
+  }
 }
