@@ -17,6 +17,7 @@
   },
   "homepage": "https://github.com/chadstolper/glo#readme",
   "dependencies": {
-    "d3": "^3.5.17"
+    "d3": "^3.5.17",
+    "underscore": "^1.8.3"
   }
 }
