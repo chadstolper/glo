@@ -15,7 +15,7 @@ GLO.GLO.prototype.Technique_Force_Directed = function(){
 
 GLO.GLO.prototype.Technique_Matrix_Plot = function(sort_attr,edge_color_attr,label_attr){
 	if(sort_attr==null){
-		delete sort_attr
+    sort_attr = undefined;
 	}
 	this.color_nodes_by_constant()
 	this.size_nodes_by_constant()
@@ -39,7 +39,7 @@ GLO.GLO.prototype.Technique_Matrix_Plot = function(sort_attr,edge_color_attr,lab
 
 GLO.GLO.prototype.Technique_Cluster_Circles = function(group_by_attr, internal_sort_attr){
 	if(typeof internal_sort_attr == "undefined"){
-		delete internal_sort_attr
+    internal_sort_attr = undefined;
 	}
 	this.display_nodes_as_circles()
 	this.show_all_edges()
@@ -204,7 +204,7 @@ GLO.GLO.prototype.Technique_PivotGraph = function(discrete1,discrete2,agg_method
 
 GLO.GLO.prototype.Technique_MatLink = function(sort_attr,edge_color_attr,label_attr){
 	if(sort_attr==null){
-		delete sort_attr
+    sort_attr = undefined;
 	}
 	this.color_nodes_by_constant()
 	this.size_nodes_by_constant()
@@ -234,7 +234,7 @@ GLO.GLO.prototype.Technique_MatLink = function(sort_attr,edge_color_attr,label_a
 
 GLO.GLO.prototype.Technique_ListView = function(discrete1, sort_attr, label_attr){
 	if(sort_attr==null){
-		delete sort_attr
+    sort_attr = undefined;
 	}
 	this.display_nodes_as_labels(label_attr)
 	this.size_nodes_by_constant()
@@ -264,7 +264,7 @@ GLO.GLO.prototype.Techniques_Edge_Label_Centric = function(){
 
 GLO.GLO.prototype.Technique_Honeycomb = function(discretes, agg_method, edge_color_attr, sort_attr){
 	if(sort_attr==null){
-		delete sort_attr
+    sort_attr = undefined;
 	}
 	var edge_agg_array = []
 	if(Array.isArray(discretes)){
@@ -476,7 +476,7 @@ GLO.GLO.prototype.Technique_Scatternet = function(attr1, attr2, color_nodes_attr
 
 GLO.GLO.prototype.Technique_Citevis = function(discrete,color_attr,sort_attr){
 	if(sort_attr==null){
-		delete sort_attr
+    sort_attr = undefined;
 	}
 	this.display_nodes_as_circles()
 	this.hide_edges()
