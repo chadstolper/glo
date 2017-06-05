@@ -1384,7 +1384,7 @@ GLO.NodeGeneration.prototype.aggregate = function(attr, method){
 		new_nodes.set(key, new_node)
 	}
 
-	var new_nodes_arr = [...new_nodes.values()]
+	var new_nodes_arr = [].concat(new_nodes.values())
 
 	var agg_gen = new GLO.NodeGeneration(this.canvas, new_nodes_arr, true)
 	agg_gen.aggregate_node_map = new Map() //(node in this gen,past gen) --> list(nodes in old gen)
@@ -3299,7 +3299,7 @@ GLO.EdgeGeneration.prototype.aggregate = function(attr,method){
 		new_edges.set(key, new_edge)
 	}
 
-	var new_edge_arr = [...new_edges.values()]
+	var new_edge_arr = [].concat(new_edges.values())
 
 	var agg_gen = new GLO.EdgeGeneration(this.canvas, new_edge_arr, true)
 	agg_gen.aggregate_edge_map = new Map() //(edge in this gen,past gen) --> list(nodes in old gen)
