@@ -502,7 +502,7 @@ GLO.EdgeGeneration.prototype.aggregate = function(attr,method){
 		new_edges.set(key, new_edge)
 	}
 
-	var new_edge_arr = [...new_edges.values()]
+	var new_edge_arr = [].concat(new_edges.values())
 
 	var agg_gen = new GLO.EdgeGeneration(this.canvas, new_edge_arr, true)
 	agg_gen.aggregate_edge_map = new Map() //(edge in this gen,past gen) --> list(nodes in old gen)
