@@ -90,8 +90,10 @@ GLO.NodeGeneration.prototype.scale = function(oleft,oright,otop,obottom,nleft,nr
 	self.x_scale.range([nleft,nright])
 	self.y_scale.range([nbottom,ntop])
 
-	for(var group of self.group_by_map.values()){
-		for(var node_group of group.values()){
+	// for(var group of self.group_by_map.values()){
+	self.group_by_map.values().forEach(function (group) {
+		// for(var node_group of group.values()){
+		group.values().forEach(function (node_group) {
 			node_group.coordinates.x(scaler_x(node_group.coordinates.x()))
 			node_group.coordinates.y(scaler_y(node_group.coordinates.y()))
 			node_group.coordinates.width(
@@ -102,8 +104,8 @@ GLO.NodeGeneration.prototype.scale = function(oleft,oright,otop,obottom,nleft,nr
 				scaler_y(node_group.coordinates.bottom())
 				-scaler_y(node_group.coordinates.top())
 				)
-		}
-	}
+		});
+	});
 
 	this.canvas.update_axes()
 	self.update()
@@ -137,13 +139,21 @@ GLO.NodeGeneration.prototype.clone = function(canvas){
 
 	//Clone Groups
 	clone_gen.group_by_map = new Map()
-	for (var [attr, group_map] of self.group_by_map.entries()) {
+	// for (var [attr, group_map] of self.group_by_map.entries()) {
+	self.group_by_map.entries().forEach(function (val) {
+    var attr = val[0];
+    var group_map = val[1];
+
 		var new_group_map = new Map()
-		for (var [val, group] of group_map){
+		// for (var [val, group] of group_map){
+		group_map.forEach(function (val2) {
+      var val = val2[0];
+      var group = val2[1];
+
 			new_group_map.set(val, group.clone(clone_gen))
-		}
+		});
 		clone_gen.group_by_map.set(attr, new_group_map)
-	}
+	});
 
 	if(this.is_aggregated){
 
@@ -153,9 +163,12 @@ GLO.NodeGeneration.prototype.clone = function(canvas){
 		agg_source_clone.has_aggregate = true
 
 		clone_gen.aggregate_node_map = new Map()
-		for(var [n,list] of this.aggregate_node_map){
+		// for(var [n,list] of this.aggregate_node_map){
+		this.aggregate_node_map.forEach(function (val) {
+      var n = val[0];
+      var list = val[1];
 			clone_gen.aggregate_node_map.set(n,list)
-		}
+		});
 	}
 
 
@@ -415,7 +428,11 @@ GLO.NodeGeneration.prototype.update = function(){
 	var self = this
 
 	if(this.is_aggregated){
-		for(var [n,list] of this.aggregate_node_map){
+		// for(var [n,list] of this.aggregate_node_map){
+		this.aggregate_node_map.forEach(function (val) {
+      var n = val[0];
+      var list = val[1];
+
 			n.hover_value = false
 			n.in_hover_value = false
 			n.out_hover_value = false
@@ -432,7 +449,7 @@ GLO.NodeGeneration.prototype.update = function(){
 				n.in_hover_value = n.in_hover_value || d.in_hover_value
 				n.out_hover_value = n.out_hover_value || d.out_hover_value
 			}
-		}
+		});
 
 		this.aggregate_source_generation.x_scale = this.x_scale.copy()
 		this.aggregate_source_generation.y_scale = this.y_scale.copy()
@@ -463,9 +480,10 @@ GLO.NodeGeneration.prototype.update = function(){
 			}
 		})
 
-	for(let edge_gen of this.edge_generation_listeners){
+	// for(let edge_gen of this.edge_generation_listeners){
+	this.edge_generation_listeners.forEach(function (edge_gen) {
 		edge_gen.update()
-	}
+	});
 
 	return this
 }
@@ -532,14 +550,18 @@ GLO.NodeGeneration.prototype.init_props = function(){
 GLO.NodeGeneration.prototype.down_propagate_hover = function(){
 	var self = this
 	if(this.is_aggregated){
-		for(var [n,list] of this.aggregate_node_map){
+		// for(var [n,list] of this.aggregate_node_map){
+		this.aggregate_node_map.forEach(function (val) {
+      var n = val[0];
+      var list = val[1];
+
 			for(var d in list){
 				d = list[d]
 				d.hover_value = n.hover_value
 				// d.out_hover_value = n.out_hover_value
 				// d.in_hover_value = n.in_hover_value
 			}
-		}
+		});
 	}
 	return this
 }
