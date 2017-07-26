@@ -71,13 +71,17 @@ GLO.EdgeGeneration.prototype.update = function(){
 		.domain([0,min_dimension])
 
 	if(this.is_aggregated){
-		for(var [n,list] of this.aggregate_edge_map){
-			for(var d in list){
+		// for(var [n,list] of this.aggregate_edge_map){
+		this.aggregate_edge_map.forEach(function (val) {
+      var n = val[0];
+      var list = val[1];
+			// for(var d in list){
+			list.forEach(function (d) {
 				d = list[d]
 				d.show_mode_list[self.aggregate_source_generation.gen_id] = n.show_mode_list[self.gen_id]
 				d.edge_format_list[self.aggregate_source_generation.gen_id] = n.edge_format_list[self.gen_id]
-			}
-		}
+			});
+		});
 
 		this.aggregate_source_generation.source_generation(this.source_generation())
 		this.aggregate_source_generation.target_generation(this.target_generation())
@@ -369,9 +373,12 @@ GLO.EdgeGeneration.prototype.clone = function(canvas){
 		clone_gen.aggregate_source_generation = agg_source_clone
 
 		clone_gen.aggregate_edge_map = new Map()
-		for(var [n,list] of this.aggregate_edge_map){
+		// for(var [n,list] of this.aggregate_edge_map){
+		this.aggregate_edge_map.forEach(function (val) {
+      var n = val[0];
+      var list = val[1];
 			clone_gen.aggregate_edge_map.set(n,list)
-		}
+		});
 	}
 
 	clone_gen
@@ -495,7 +502,7 @@ GLO.EdgeGeneration.prototype.aggregate = function(attr,method){
 		new_edges.set(key, new_edge)
 	}
 
-	var new_edge_arr = [...new_edges.values()]
+	var new_edge_arr = [].concat(new_edges.values())
 
 	var agg_gen = new GLO.EdgeGeneration(this.canvas, new_edge_arr, true)
 	agg_gen.aggregate_edge_map = new Map() //(edge in this gen,past gen) --> list(nodes in old gen)

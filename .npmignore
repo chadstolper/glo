@@ -1,0 +1,13 @@
+bower_components
+bower.json
+css/
+data/
+demo*.html
+gui.html
+icon.*
+index.html
+scratch.html
+.vscode
+.npmignore
+v1/
+js/
