@@ -140,7 +140,7 @@ GLO.NodeGeneration.prototype.clone = function(canvas){
 	//Clone Groups
 	clone_gen.group_by_map = new Map()
 	// for (var [attr, group_map] of self.group_by_map.entries()) {
-	self.group_by_map.entries().forEach(function (val) {
+	for(var val of self.group_by_map.entries()){//.forEach(function (val) {
     var attr = val[0];
     var group_map = val[1];
 
@@ -153,7 +153,7 @@ GLO.NodeGeneration.prototype.clone = function(canvas){
 			new_group_map.set(val, group.clone(clone_gen))
 		});
 		clone_gen.group_by_map.set(attr, new_group_map)
-	});
+	}//);
 
 	if(this.is_aggregated){
 
