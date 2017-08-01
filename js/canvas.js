@@ -54,9 +54,9 @@ GLO.Canvas.prototype.scale = function(axis,value){
 		this.height(this.height()*value)
 	}
 	// for(var gen of this.node_generations.values()){
-  this.node_generations.values().forEach(function (gen) {
+	for(var gen of this.node_generations.values()){
 		gen.scale(old_left,old_right,old_top,old_bottom,this.left(),this.right(),this.top(),this.bottom())
-	});
+	}
 	// this["_scale_"+axis] *= value
 	// this.redraw()
 	return this
@@ -277,17 +277,17 @@ GLO.Canvas.prototype.clone = function(x_offset, y_offset){
 	var orig_to_clone_map = new Map() //old_gen_id --> new_gen
 	var orig_to_clone_map_edges = new Map()
   // for(var gen of self.node_generations.values()){
-	self.node_generations.values().forEach(function (gen) {
+	for(var gen of self.node_generations.values()){
 		var clone_gen = gen.clone(new_canvas)
 		orig_to_clone_map.set(gen.gen_id, clone_gen)
-	});
+	}
 	// for(var gen of self.edge_generations.values()){
-	self.edge_generations.values().forEach(function (gen) {
+	for(var gen of self.edge_generations.values()){
 		var clone_gen = gen.clone(new_canvas)
 		orig_to_clone_map_edges.set(gen.gen_id, clone_gen)
 		clone_gen.source_generation(orig_to_clone_map.get(clone_gen.source_generation().gen_id))
 		clone_gen.target_generation(orig_to_clone_map.get(clone_gen.target_generation().gen_id))
-	});
+	}
 
 	new_canvas.active_node_generation(orig_to_clone_map.get(self.active_node_generation().gen_id))
 	new_canvas.active_edge_generation(orig_to_clone_map_edges.get(self.active_edge_generation().gen_id))

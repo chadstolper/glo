@@ -91,7 +91,7 @@ GLO.NodeGeneration.prototype.scale = function(oleft,oright,otop,obottom,nleft,nr
 	self.y_scale.range([nbottom,ntop])
 
 	// for(var group of self.group_by_map.values()){
-	self.group_by_map.values().forEach(function (group) {
+	for(var group of self.group_by_map.values()){
 		// for(var node_group of group.values()){
 		group.values().forEach(function (node_group) {
 			node_group.coordinates.x(scaler_x(node_group.coordinates.x()))
@@ -105,7 +105,7 @@ GLO.NodeGeneration.prototype.scale = function(oleft,oright,otop,obottom,nleft,nr
 				-scaler_y(node_group.coordinates.top())
 				)
 		});
-	});
+	}
 
 	this.canvas.update_axes()
 	self.update()
@@ -140,7 +140,7 @@ GLO.NodeGeneration.prototype.clone = function(canvas){
 	//Clone Groups
 	clone_gen.group_by_map = new Map()
 	// for (var [attr, group_map] of self.group_by_map.entries()) {
-	for(var val of self.group_by_map.entries()){//.forEach(function (val) {
+	for(var val of self.group_by_map.entries()){
     var attr = val[0];
     var group_map = val[1];
 
@@ -153,7 +153,7 @@ GLO.NodeGeneration.prototype.clone = function(canvas){
 			new_group_map.set(val, group.clone(clone_gen))
 		});
 		clone_gen.group_by_map.set(attr, new_group_map)
-	}//);
+	}
 
 	if(this.is_aggregated){
 
